@@ -33,3 +33,5 @@ Mira's digital display SDK
 
 ## Emulator
 - Set-up
+
+## UI Guidelines

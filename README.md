@@ -10,6 +10,8 @@ Mira's digital display SDK
 ## App Lifecycle
 - The structure of the app
 - App component
+  - Load from server
+  - Application property types
 - Container components & the root container
 - The main run loop
   - Heartbeat

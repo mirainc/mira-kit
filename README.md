@@ -25,6 +25,7 @@ Mira's digital display SDK
 ## Included APIs
 - Application
   - Root Container
+  - Dynamic container loading (https://www.npmjs.com/package/react-async-script-loader)
 - Container
   - Application Properties
 - `fetch`

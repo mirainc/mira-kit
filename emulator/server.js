@@ -15,4 +15,5 @@ var app = express();
 // MARK: Main
 app.listen(3000, function() {
   console.log("Starting...");
+  console.log(MiraKit);
 });

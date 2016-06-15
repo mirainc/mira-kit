@@ -1,5 +1,3 @@
-class Test {
-
+export default function helloWorld() {
+  console.log("HELLO WORLD")
 }
-
-export default Test

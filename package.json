@@ -1,0 +1,31 @@
+{
+  "name": "mira-kit",
+  "version": "0.1.0",
+  "description": "Mira's digital display SDK",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mirainc/mira-kit.git"
+  },
+  "keywords": [
+    "Mira",
+    "SDK"
+  ],
+  "author": "Patrick Perini",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/mirainc/mira-kit/issues"
+  },
+  "homepage": "https://github.com/mirainc/mira-kit#readme",
+  "dependencies": {
+    "babel-core": "^6.9.1",
+    "babel-loader": "^6.2.4",
+    "babel-preset-react": "^6.5.0",
+    "react": "^15.1.0",
+    "react-dom": "^15.1.0"
+  },
+  "devDependencies": {}
+}

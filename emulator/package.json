@@ -1,0 +1,11 @@
+{
+  "name": "mira-kit-emulator",
+  "version": "0.1.0",
+  "description": "Emulator for MiraKit",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Patrick Perini",
+  "license": "UNLICENSED"
+}

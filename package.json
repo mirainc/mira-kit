@@ -4,7 +4,7 @@
   "description": "Mira's digital display SDK",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "build": "webpack -p"
   },
   "repository": {
     "type": "git",
@@ -23,9 +23,14 @@
   "dependencies": {
     "babel-core": "^6.9.1",
     "babel-loader": "^6.2.4",
+    "babel-plugin-syntax-flow": "^6.8.0",
+    "babel-plugin-transform-class-properties": "^6.9.1",
+    "babel-plugin-typecheck": "^3.9.0",
+    "babel-preset-es2015": "^6.9.0",
     "babel-preset-react": "^6.5.0",
     "react": "^15.1.0",
-    "react-dom": "^15.1.0"
+    "react-dom": "^15.1.0",
+    "webpack": "^1.13.1"
   },
   "devDependencies": {}
 }

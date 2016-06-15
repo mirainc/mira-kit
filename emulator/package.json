@@ -7,5 +7,8 @@
     "test": "test"
   },
   "author": "Patrick Perini",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "dependencies": {
+    "mira-kit": "git+https://github.com/mirainc/mira-kit.git#v0.1.0"
+  }
 }

@@ -15,4 +15,6 @@ app.get('/', function(req, res) {
 // MARK: Main
 app.listen(3000, function() {
   console.log("Starting...");
+  var client = new MiraKit.WebClient();
+  client.get();
 });

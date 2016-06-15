@@ -6,7 +6,7 @@ var BUILD_DIR = path.resolve(__dirname);
 var SDK_DIR = path.resolve(__dirname, 'sdk');
 
 var config = {
-  entry: [SDK_DIR + '/index.jsx'],
+  entry: ['whatwg-fetch', SDK_DIR + '/index.jsx'],
   output: {
     path: BUILD_DIR,
     filename: 'index.js'

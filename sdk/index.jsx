@@ -1,6 +1,6 @@
 function helloWorld() {
-  console.log("HELLO WORLD")
+  console.log("HELLO WORLD 2")
 }
 
 
-exports.helloWorld = helloWorld
+export {helloWorld}

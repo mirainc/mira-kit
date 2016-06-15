@@ -8,12 +8,11 @@ var MiraKit = require('mira-kit');
 var app = express();
 
 // MARK: Routes
-// app.get('/*', function(req, res) {
-//   res.sendFile(path.resolve('static/app.html'));
-// });
+app.get('/', function(req, res) {
+
+});
 
 // MARK: Main
 app.listen(3000, function() {
   console.log("Starting...");
-  console.log(MiraKit);
 });

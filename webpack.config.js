@@ -1,5 +1,6 @@
 var webpack = require('webpack');
 var path = require('path');
+var WrapperPlugin = require('wrapper-webpack-plugin');
 
 var BUILD_DIR = path.resolve(__dirname);
 var SDK_DIR = path.resolve(__dirname, 'sdk');
@@ -23,7 +24,13 @@ var config = {
         }
       }
     ]
-  }
+  },
+
+  plugins: [
+    new WrapperPlugin({
+      header: 'module.exports='
+    })
+  ]
 };
 
 module.exports = config;

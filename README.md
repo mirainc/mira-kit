@@ -14,8 +14,6 @@ Mira apps are primarily responsible for the visual rendering of presentations cr
   - [The Structure of an App](#the-structure-of-an-app)
   - [States for Apps](#states-for-apps)
 3. [Deploying an App](#deploying-an-app)
-  - [Developer Secret](#developer-secret)
-  - [GitHub Webhook](#github-webhook)
 4. [Core APIs](#core-apis)
 
 ## The App Bundle
@@ -111,11 +109,7 @@ Transition between apps typically occurs at the end of a presentation. The MiraL
 However, when a user deploys a new schedule to the device, your app may no longer be the scheduled app, and playback might be interrupted. The system is not currently constructed to allow for any grace period, and in these cases interruption of your app will be immediate. Therefore it's paramount that your app strives for statelessness where possible, and atomic action when not.
 
 ## Deploying an App
-### Developer Secret
-When you register as a Mira developer, you will receive a developer secret. This secret should not be published anywhere, and will be used in conjunction with a webhook to deploy new versions of your app.
-
-### GitHub Webhook
-After registering your app with Mira, you'll receive a webhook endpoint that, when used as post-commit hook in GitHub, will trigger our deploy service to clone and deploy the `HEAD` of your repository. The file structure of this repository must conform to the structure laid out in [the application bundle](#the-app-bundle) section.
+When you register as a Mira developer, you will receive a developer secret. This secret should not be published anywhere, and will be used in conjunction with a webhook to deploy new versions of your app. After registering your app with Mira, you'll receive a webhook endpoint that, when used as post-commit hook in GitHub, will trigger our deploy service to clone and deploy the `HEAD` of your repository. The file structure of this repository must conform to the structure laid out in [the application bundle](#the-app-bundle) section.
 
 ## Core APIs
 _FIXME: Fill out now_

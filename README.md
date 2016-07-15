@@ -10,13 +10,22 @@ Mira apps are primarily responsible for the visual rendering of presentations cr
   - [Localizable Strings](#localizable-strings)
   - [The Executable](#the-executable)
   - [Upload Extensions](#upload-extensions)
-2. [The App Life Cycle](#the-app-life-cycle)
+1. [The App Life Cycle](#the-app-life-cycle)
   - [The Structure of an App](#the-structure-of-an-app)
   - [States for Apps](#states-for-apps)
-3. [Deploying an App](#deploying-an-app)
-4. [Core APIs](#core-apis)
+1. [Deploying an App](#deploying-an-app)
+1. [Core APIs](#core-apis)
 
 ## The App Bundle
+```bash
+/your-app
+  info.json
+  strings.json
+  icon.svg
+  thumbnail.svg
+  your-app.js
+```
+
 ### An Information Dictionary
 The `info.json` file contains metadata about your app, which the system uses to interact with your app. This information primarily includes presentation properties, the values of which are set by your users when creating presentations. The dictionary also includes its presentation type, which is used by the system to identify both your app and which presentations it should be launched with.
 
@@ -50,15 +59,20 @@ Presentation property definitions are dictionaries that require that you specify
 - `link`: A clickable link. Takes no user value.
   - `url`: string, required. The URL to open when clicked.
 
+For example, an Instagram app may have the property `ig_username`:
+```json
+{"name": "ig_username", "type": "string", "secure": false}
+```
+
 The text that is displayed in the dashboard for each property is derived from your app's `strings.json` file.
 
 ### Icons and Thumbnails
-Your app icon is used to represent your app in the Mira dashboard and should be `32pt` square. Its thumbnail is used to represent presentations created for your app and should be `100pt` wide by `50pt` tall. Both files should be either a PNG or an SVG.
+Your app icon is used to represent your app in the Mira dashboard and should be `32pt` square. Its thumbnail is used to represent presentations created for your app and should be `100pt` wide by `50pt` tall. Both files should be SVGs.
 
 _FIXME: Sizes aren't final. Should include Sketch template._
 
 ### Localizable Strings
-Localizable text must be placed in a `strings.json` file. The dictionary should map the ISO 639-1 language abbreviation to a dictionary mapping arbitrary string keys to readable, localized values. For example, an Instagram app may have the property `ig_username`, and should have a `string.json`:
+Localizable text must be placed in a `strings.json` file. The dictionary should map the ISO 639-1 language abbreviation to a dictionary mapping arbitrary string keys to readable, localized values. Using our earlier example, the Instagram app should have a `string.json`:
 
 ```json
 {
@@ -75,7 +89,7 @@ Localizable text must be placed in a `strings.json` file. The dictionary should 
 This file should also include translations of any user-facing text for your app, and will be passed to your app at runtime.
 
 ### The Executable
-The executable file contains your app's transpiled and bundled code. All markup, styling, and logic must be bundled into this file using webpack, Browserify, or some other bundler. The name of this file should be the name of your app with a `js` extension. At its top-most level, the first should export a subclass of `React.Component`.
+The executable file contains your app's transpiled and bundled code. All markup, styling, and logic must be bundled into this file using webpack, Browserify, or some other bundler. The name of this file should be the name of your app with a `js` extension. At its top-most level, the file should export a subclass of `React.Component`.
 
 ### Upload Extensions
 If your app defines a `file` property, it may provide a `webhook` endpoint for mutation of any user-uploaded files. This endpoint points to your server, which should accept HTTP GET requests with the `file` query parameter set to a URL pointing the the uploaded file. This URL will expire, so the likely first thing your server should do in response is download the file.
@@ -112,14 +126,20 @@ However, when a user deploys a new schedule to the device, your app may no longe
 When you register as a Mira developer, you will receive a developer secret. This secret should not be published anywhere, and will be used in conjunction with a webhook to deploy new versions of your app. After registering your app with Mira, you'll receive a webhook endpoint that, when used as post-commit hook in GitHub, will trigger our deploy service to clone and deploy the `HEAD` of your repository. The file structure of this repository must conform to the structure laid out in [the application bundle](#the-app-bundle) section.
 
 ## Core APIs
-_FIXME: Fill out now_
-- HTTP/HTTPS Requests
-- Local Storage
-- File Access
+### [Request]()
+The `Request` class and related classes provide an API for making HTTP and HTTPS requests. Each object represents a request for a specific URL, following redirects if necessary. Requests are limited to allowed domains and file access specified in your app's `info.json` .
 
+### [LocalStorage]()
+The `LocalStorage` class provides an interface for interacting with an on-device key-value store provided to each app. This store is automatically created for each app, and all values stored must be JSON-serializable. The amount of space allowed each app is dynamic and small.
 
-_FIXME: Fill out later_
-- Hardware Access (HDMI, Bluetooth)
-- P2P Communication
-- Location Services
-- Analytics
+### [HDMIAccess]()
+_Coming Soon_
+
+### [BluetoothAccess]()
+_Coming Soon_
+
+### [LocationAccess]()
+_Coming Soon_
+
+### [PeerToPeerConnectivity]()
+_Coming Soon_

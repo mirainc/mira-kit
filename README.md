@@ -107,7 +107,7 @@ Your app is evaluated and imported at runtime, and the exported subclass of `Rea
 
 The `Application` component, your root container, and your entire app will be evaluated, run, and displayed from within a sandboxed context. This sandbox cannot access to the device or browser in which it's presented, and many APIs present in typical browser contexts, such as `XMLHttpRequest`, have been removed in favor of this SDK's [core APIs](#core-apis). These APIs take into account your app's `info.json` configuration and adjusts access accordingly.
 
-_FIXME: Example diagram_
+![](./app_structure_diagram.svg)
 
 ### States for Apps
 Overall, life-cycle of your app will be reflected in the [mounting life-cycle](https://facebook.github.io/react/docs/component-specs.html#lifecycle-methods) of your root component. Your root component may also implement an additional life-cycle method, which will be called periodically by the MiraLink.

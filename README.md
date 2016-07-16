@@ -131,8 +131,8 @@ When you register as a Mira developer, you will receive a developer secret. This
 ### [MiraResource](./request/README.md)
 The `MiraResource` class and related classes provide an API for making HTTP and HTTPS requests. Each object represents a request for a specific URL, following redirects if necessary. Requests are limited to allowed domains and file access specified in your app's `info.json` .
 
-### [MiraLocalStorage](./local_storage/README.md)
-The `MiraLocalStorage` class provides an interface for interacting with an on-device key-value store provided to each app. This store is automatically created for each app, and all values stored must be JSON-serializable. The amount of space allowed each app is dynamic and small. This storage is ephemeral and will be eliminated between launches.
+### MiraLocalStorage
+_Coming Soon_
 
 ### MiraHDMIAccess
 _Coming Soon_

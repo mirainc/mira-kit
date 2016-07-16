@@ -140,8 +140,8 @@ _Coming Soon_
 ### MiraBluetoothAccess
 _Coming Soon_
 
-### [MiraLocationAccess]()
+### MiraLocationAccess
 _Coming Soon_
 
-### [PeerConnectivity]()
+### PeerConnectivity
 _Coming Soon_

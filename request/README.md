@@ -72,6 +72,7 @@ These methods all work identically; only the underlying HTTP method changes.
 | `did_redirect` | `boolean` | Whether or not redirects were followed. |
 | `status_code` | `number` | Responded HTTP status. |
 | `url` | `string` | The final URL of the response. |
+| `raw` | `string` | The raw body of the response. |
 
 
 | Method | Description |

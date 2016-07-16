@@ -1,11 +1,14 @@
-# MiraRequest
+# MiraResource
+`MiraResource` is a generic interface for accessing resources via the web.
 
-The `MiraRequest` class is the canonical way to do HTTP/HTTPS requests in a Mira app. In fact, all other methods of HTTP requesting are disabled within the Mira sandbox. Domains of requested URLs must be listed in the `allowed_request_domains` of the app.
+The `MiraWebResource` class is the canonical way to do HTTP/HTTPS requests in a Mira app. In fact, all other methods of HTTP requesting are disabled within the Mira sandbox. Domains of requested URLs must be listed in the `allowed_request_domains` of the app.
 
-Requests follow a simple object based initialization method and Promise-based response flow.
+The `MiraFileResource` class is a specialized subclass for accessing user-provided files.
+
+Requests for resources follow a simple object based initialization method and Promise-based response flow.
 
 ```js
-const req = new MiraRequest(`https://www.instagram.com/${ig_username}/media/`);
+const req = new MiraWebResource(`https://www.instagram.com/${ig_username}/media/`);
 
 req.get().then((resp) => {
 
@@ -32,19 +35,24 @@ req.get().then((resp) => {
 
 # Table of Contents
 1. [Creating Requests](#creating-requests)
-  - `constructor(url: string, ...options)`
 2. [Executing Requests](#executing-requests)
 3. [Receiving Responses](#receiving-responses)
-  - `MiraResponse`
 
-
-## Creating Requests
-#### `constructor(url: string, ...options)`
+## Creating Resources
+#### `constructor(url: string)`
 Creates and returns a request for the specified URL.
+
+## Executing Requests
+`MiraResource` instances have 5 methods for making the HTTP/HTTPS request; one for each HTTP method.
+
+- `get(...options): Promise`
+- `post(...options): Promise`
+- `put(...options): Promise`
+- `delete(...options): Promise`
+- `head(...options): Promise`
 
 | Parameter | Type | Description |
 | ------ | ---- | ----------- |
-| `url` | `string` | The request URL. Domain must match one in `allowed_request_domains`. |
 | `query_params` | `{string: any}` | Serialized and sent in the query string. |
 | `body_payload` | `{string: any}` | Serialized and sent in the body. |
 | `headers` | `{string: string}` | HTTP headers. |
@@ -52,19 +60,10 @@ Creates and returns a request for the specified URL.
 | `timeout` | `number` | How long to wait for the server before giving up. |
 | `allow_redirects` | `boolean` | Whether or not redirect following is allowed. |
 
-## Executing Requests
-`MiraRequest` instances have 5 methods for making the HTTP/HTTPS request; one for each HTTP method.
-
-- `get(): Promise`
-- `post(): Promise`
-- `put(): Promise`
-- `delete(): Promise`
-- `head(): Promise`
-
-These methods all work identically; only the underlying HTTP method changes.
+With one notable exception, these methods all work identically; only the underlying HTTP method changes. However, `.get()`, `.delete()`, and `.head()` ignore `body_payload`.
 
 ## Receiving Responses
-#### `class MiraResponse`
+#### `class MiraWebResponse`
 
 | Property | Type | Description |
 | -------- | ---- | ----------- |
@@ -72,9 +71,16 @@ These methods all work identically; only the underlying HTTP method changes.
 | `did_redirect` | `boolean` | Whether or not redirects were followed. |
 | `status_code` | `number` | Responded HTTP status. |
 | `url` | `string` | The final URL of the response. |
-| `raw` | `string` | The raw body of the response. |
+| `raw` | `Blob` | The raw body of the response. |
 
 
 | Method | Description |
 | ------ | ----------- |
 | `json(): ?Object` | Returns the json-encoded content of the response, if any. |
+| `text(): ?string` | Returns the UTF8-encoded content of the response, if any. |
+
+#### `class MiraFileResponse extends MiraResponse`
+
+| Property | Type | Description |
+| -------- | ---- | ----------- |
+| `file` | `Blob` | Alias to `raw`. |

@@ -128,16 +128,16 @@ However, when a user deploys a new schedule to the device, your app may no longe
 When you register as a Mira developer, you will receive a developer secret. This secret should not be published anywhere, and will be used in conjunction with a webhook to deploy new versions of your app. After registering your app with Mira, you'll receive a webhook endpoint that, when used as post-commit hook in GitHub, will trigger our deploy service to clone and deploy the `HEAD` of your repository. The file structure of this repository must conform to the structure laid out in [the application bundle](#the-app-bundle) section.
 
 ## Core APIs
-### [MiraRequest]()
-The `Request` class and related classes provide an API for making HTTP and HTTPS requests. Each object represents a request for a specific URL, following redirects if necessary. Requests are limited to allowed domains and file access specified in your app's `info.json` .
+### [MiraRequest](./request/README.md)
+The `MiraRequest` class and related classes provide an API for making HTTP and HTTPS requests. Each object represents a request for a specific URL, following redirects if necessary. Requests are limited to allowed domains and file access specified in your app's `info.json` .
 
-### [MiraLocalStorage]()
-The `LocalStorage` class provides an interface for interacting with an on-device key-value store provided to each app. This store is automatically created for each app, and all values stored must be JSON-serializable. The amount of space allowed each app is dynamic and small. This storage is ephemeral and will be eliminated between launches.
+### [MiraLocalStorage](./local_storage/README.md)
+The `MiraLocalStorage` class provides an interface for interacting with an on-device key-value store provided to each app. This store is automatically created for each app, and all values stored must be JSON-serializable. The amount of space allowed each app is dynamic and small. This storage is ephemeral and will be eliminated between launches.
 
-### [MiraHDMIAccess]()
+### MiraHDMIAccess
 _Coming Soon_
 
-### [MiraBluetoothAccess]()
+### MiraBluetoothAccess
 _Coming Soon_
 
 ### [MiraLocationAccess]()

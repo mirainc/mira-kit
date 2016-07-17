@@ -96,6 +96,8 @@ If your app defines a `file` property, it may provide a `webhook` endpoint for m
 
 The response to this request should set the `Content-Disposition` header to the format `attachment; filename=$FILENAME.EXT`, and return the mutated version of the file as an attachment. Alternatively, your server may respond without an attachment and with a `304` status code, indicating no change. Any other response will be treated as an error.
 
+![Upload Extension](./upload_extension_diagram.png)
+
 ## The App Life Cycle
 ### The Structure of an App
 At the heart of every Mira app is the `Application` component, whose job is to facilitate the interactions between the system and your app. On startup, the system loads the `Application` with the current presentation, the properties of which are loaded into your app.

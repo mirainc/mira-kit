@@ -67,7 +67,7 @@ For example, an Instagram app may have the property `ig_username`:
 The text that is displayed in the dashboard for each property is derived from your app's `strings.json` file.
 
 ### Icons and Thumbnails
-Your app icon is used to represent your app in the Mira dashboard and should be `32pt` square. Its thumbnail is used to represent presentations created for your app and should be `110pt` wide by `60pt` tall. Both files should be SVGs.
+Your app icon is used to represent your app in the Mira dashboard and should be `32pt` square. Its thumbnail is used to represent presentations created for your app and should be `110pt` wide by `62pt` tall. Both files should be SVGs.
 
 _FIXME: Should include Sketch template._
 

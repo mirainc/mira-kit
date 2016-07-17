@@ -143,5 +143,5 @@ _Coming Soon_
 ### MiraLocationAccess
 _Coming Soon_
 
-### PeerConnectivity
+### MiraPeerConnectivity
 _Coming Soon_

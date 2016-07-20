@@ -23,7 +23,7 @@ Mira apps are primarily responsible for the visual rendering of presentations cr
   strings.json
   icon.svg
   thumbnail.svg
-  your-app.js
+  bundle.js
 ```
 
 ### An Information Dictionary
@@ -89,7 +89,7 @@ Localizable text must be placed in a `strings.json` file. The dictionary should 
 This file should also include translations of any user-facing text for your app, and will be passed to your app at runtime.
 
 ### The Executable
-The executable file contains your app's transpiled and bundled code. All markup, styling, and logic must be bundled into this file using webpack, Browserify, or some other bundler. The name of this file should be the name of your app with a `js` extension. At its top-most level, the file should export a subclass of `React.Component`.
+The executable file contains your app's transpiled and bundled code. All markup, styling, and logic must be bundled into this file using webpack, Browserify, or some other bundler. The name of this file should be `bundle.js`. At its top-most level, the file should export a subclass of `React.Component`.
 
 ### Upload Extensions
 If your app defines a `file` property, it may provide a `webhook` endpoint for mutation of any user-uploaded files. This endpoint points to your server, which should accept HTTP GET requests with the `file` query parameter set to a URL pointing the the uploaded file. This URL will expire, so the likely first thing your server should do in response is download the file.

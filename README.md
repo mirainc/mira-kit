@@ -96,7 +96,7 @@ If your app defines a `file` property, it may provide a `webhook` endpoint for m
 
 The response to this request should set the `Content-Disposition` header to the format `attachment; filename=$FILENAME.EXT`, and return the mutated version of the file as an attachment. Alternatively, your server may respond without an attachment and with a `304` status code, indicating no change. Any other response will be treated as an error.
 
-![Upload Extension](./upload_extension_diagram.png)
+![Upload Extension](./upload_extension.png)
 
 ## The App Life Cycle
 ### The Structure of an App
@@ -104,12 +104,13 @@ At the heart of every Mira app is the `Application` component, whose job is to f
 
 Your app is evaluated and imported at runtime, and the exported subclass of `React.Component` is considered your root container, and the entry point into your app. An instance of your root container is created and mounted into the React document with the following properties:
 
-- `presentation_properties`, a list of properties, corresponding to your app's presentation properties, and the values associated with the current presentation.
 - `strings`, a representation of your app's `strings.json` file. To access a readable string, simply render `strings.your_key_name`, and the correct value will be chosen based on the language at runtime.
+
+Additionally, each entry in `presentation_properties` will be passed as a property of your root container. These are the list of properties corresponding to your app's presentation properties, and the values associated with the current presentation.
 
 The `Application` component, your root container, and your entire app will be evaluated, run, and displayed from within a sandboxed context. This sandbox cannot access to the device or browser in which it's presented, and many APIs present in typical browser contexts, such as `XMLHttpRequest`, have been removed in favor of this SDK's [core APIs](#core-apis). These APIs take into account your app's `info.json` configuration and adjusts access accordingly.
 
-![App Structure](./app_structure_diagram.png)
+![App Structure](./app_sandbox.png)
 
 ### States for Apps
 Overall, life-cycle of your app will be reflected in the [mounting life-cycle](https://facebook.github.io/react/docs/component-specs.html#lifecycle-methods) of your root component. Your root component may also implement an additional life-cycle method, which will be called periodically by the MiraLink.

@@ -38,6 +38,7 @@ The `info.json` file contains metadata about your app, which the system uses to 
 | `allowed_request_domains` | `list` | A list of domains your app will need to access via HTTP/HTTPS.
 | `requires_file_access` | `boolean` | Whether or not your app requires access to files uploaded for your app by your users. This value should be `true` for any app with a property of type `file`.
 | `requires_local_store` | `boolean` | Whether or not your app requires access to local storage. Apps are currently limited to a small and variable amount of local storage.
+| `embedded_url_format` | `string` | __Optional.__ A URL format using URL-param syntax: `https://my.service/:some_id?some_flag=:some_flag`. Used for embedded first- and second-party apps only.
 
 #### Property Definitions
 Presentation property definitions are dictionaries that require that you specify the property's `name` and `type`, as well as any optional values that may alter the property's presentation in the Mira dashboard. The possible types of properties are:
@@ -89,7 +90,7 @@ Localizable text must be placed in a `strings.json` file. The dictionary should 
 This file should also include translations of any user-facing text for your app, and will be passed to your app at runtime.
 
 ### The Executable
-The executable file contains your app's transpiled and bundled code. All markup, styling, and logic must be bundled into this file using webpack, Browserify, or some other bundler. The name of this file should be `bundle.js`. At its top-most level, the file should export a subclass of `React.Component`.
+The executable file contains your app's transpiled and bundled code. All markup, styling, and logic must be bundled into this file using webpack, Browserify, or some other bundler. The name of this file should be `bundle.js`. At its top-most level, the file should export a subclass of `React.Component`. If `embedded_url_format` is present in your `info.json`, the runtime will _ignore your `bundle.js`_ and instead fill the format with the presentation's property values and load the result in an iframe-like context. The executable can safely be omitted in this case.
 
 ### Upload Extensions
 If your app defines a `file` property, it may provide a `webhook` endpoint for mutation of any user-uploaded files. This endpoint points to your server, which should accept HTTP GET requests with the `file` query parameter set to a URL pointing the the uploaded file. This URL will expire, so the likely first thing your server should do in response is download the file.

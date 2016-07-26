@@ -87,6 +87,8 @@ Localizable text must be placed in a `strings.json` file. The dictionary should 
 }
 ```
 
+Your app's `strings.json` must include at least one language localization for each property in `presentation_properties`. Additionally, the Mira dashboard will expect your app to define at least one localization for the key `content_type`, which represents the type of data your app handles. For example, the Media Player app's `content_type` in English is "Media", and a restaurant app's `content_type` in English might be "Menu."
+
 This file should also include translations of any user-facing text for your app, and will be passed to your app at runtime.
 
 ### The Executable

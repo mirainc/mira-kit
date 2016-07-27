@@ -1,4 +1,4 @@
-# mira-kit
+# MiraKit
 Mira's digital display SDK. This document will discuss the various components both necessary and optionally available to apps written for MiraLink devices.
 
 Mira apps are primarily responsible for the visual rendering of presentations created by the user. Your app also defines the structure of those presentations, and this structure allows users to create presentations for your app in the Mira dashboard.

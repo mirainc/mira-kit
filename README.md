@@ -33,6 +33,7 @@ The `info.json` file contains metadata about your app, which the system uses to 
 
 | Key Name | Value Type | Description |
 | -------- | ---------- | ----------- |
+| `name` | `string` | The plain-text name of your app. |
 | `presentation_type` | `string` | An identifier in the form of `company.app_name`. This must be unique.
 | `presentation_properties` | `list` | A list of property definitions. The user-defined values constitute a "presentation" and will be passed to your app on launch.
 | `allowed_request_domains` | `list` | A list of domains your app will need to access via HTTP/HTTPS.
@@ -60,7 +61,7 @@ Presentation property definitions are dictionaries that require that you specify
 - `file`: A file upload.
   - `webhook`: string, optional. The URL endpoint of an [upload extension](#upload-extensions).
   - `constraints`: object, optional.
-    - `content-type`: list, optional. A set of HTTP Content-Types that your app supports. Defaults to `*`.
+    - `content-types`: list, optional. A set of HTTP Content-Types that your app supports. Defaults to `*`.
     - `content-length`: int, optional. The maximum file size, in bytes, your app supports. Defaults to `100000000`.
 - `link`: A clickable link. Takes no user value.
   - `url`: string, required. The URL to open when clicked.
@@ -78,7 +79,7 @@ Your app icon is used to represent your app in the Mira dashboard and should be 
 _FIXME: Should include Sketch template._
 
 ### Localizable Strings
-Localizable text must be placed in a `strings.json` file. The dictionary should map the ISO 639-1 language abbreviation to a dictionary mapping arbitrary string keys to readable, localized values. Using our earlier example, the Instagram app should have a `string.json`:
+Localizable text must be placed in a `strings.json` file. The dictionary should map the ISO 639-1 language abbreviation to a dictionary mapping arbitrary string keys to readable, localized values.
 
 ```json
 {
@@ -92,7 +93,12 @@ Localizable text must be placed in a `strings.json` file. The dictionary should 
 }
 ```
 
-Your app's `strings.json` must include at least one language localization for each property in `presentation_properties`. Additionally, the Mira dashboard will expect your app to define at least one localization for the key `content_type`, which represents the type of data your app handles. For example, the Media Player app's `content_type` in English is "Media", and a restaurant app's `content_type` in English might be "Menu."
+Your app's `strings.json` must include at least one language localization for each property in `presentation_properties`.
+
+Additionally, the Mira dashboard will expect your app to define at least one localization for several keys used in describing the app itself.
+
+- `content_type`: The type of data your app handles. For example, the Media Player app's `content_type` in English is "Media", and a restaurant app's `content_type` in English might be "Menu."
+- `description`: The plain-text description of your app and what it does.
 
 This file should also include translations of any user-facing text for your app, and will be passed to your app at runtime.
 

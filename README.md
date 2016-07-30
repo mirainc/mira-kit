@@ -38,6 +38,8 @@ The `info.json` file contains metadata about your app, which the system uses to 
 | `allowed_request_domains` | `list` | A list of domains your app will need to access via HTTP/HTTPS.
 | `requires_file_access` | `boolean` | Whether or not your app requires access to files uploaded for your app by your users. This value should be `true` for any app with a property of type `file`.
 | `requires_local_store` | `boolean` | Whether or not your app requires access to local storage. Apps are currently limited to a small and variable amount of local storage.
+| `default_duration` | `number` | The default duration, in seconds, of your app's presentations.
+| `duration_source_property` | `string` | __Optional.__ The `presentation_property` name from which presentations will derive their durations. This `presentation_property` must have the `file` type.
 | `embedded_url_format` | `string` | __Optional.__ A URL format using URL-param syntax: `https://my.service/:some_id?some_flag=:some_flag`. Used for embedded first- and second-party apps only.
 
 #### Property Definitions
@@ -57,6 +59,9 @@ Presentation property definitions are dictionaries that require that you specify
     - `value`: string, required.
 - `file`: A file upload.
   - `webhook`: string, optional. The URL endpoint of an [upload extension](#upload-extensions).
+  - `constraints`: object, optional.
+    - `content-type`: list, optional. A set of HTTP Content-Types that your app supports. Defaults to `*`.
+    - `content-length`: int, optional. The maximum file size, in bytes, your app supports. Defaults to `100000000`.
 - `link`: A clickable link. Takes no user value.
   - `url`: string, required. The URL to open when clicked.
 

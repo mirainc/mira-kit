@@ -40,7 +40,6 @@ The `info.json` file contains metadata about your app, which the system uses to 
 | `requires_file_access` | `boolean` | Whether or not your app requires access to files uploaded for your app by your users. This value should be `true` for any app with a property of type `file`.
 | `requires_local_store` | `boolean` | Whether or not your app requires access to local storage. Apps are currently limited to a small and variable amount of local storage.
 | `default_duration` | `number` | The default duration, in seconds, of your app's presentations.
-| `duration_source_property` | `string` | __Optional.__ The `presentation_property` name from which presentations will derive their durations. This `presentation_property` must have the `file` type.
 | `embedded_url_format` | `string` | __Optional.__ A URL format using URL-param syntax: `https://my.service/:some_id?some_flag=:some_flag`. Used for embedded first- and second-party apps only.
 
 #### Property Definitions
@@ -111,6 +110,13 @@ If your app defines a `file` property, it may provide a `webhook` endpoint for m
 The response to this request should set the `Content-Disposition` header to the format `attachment; filename=$FILENAME.EXT`, and return the mutated version of the file as an attachment. Alternatively, your server may respond without an attachment and with a `304` status code, indicating no change. Any other response will be treated as an error.
 
 ![Upload Extension](./upload_extension.png)
+
+Additionally, your extension's response may include the following custom HTTP headers.
+
+| Header Name | Description |
+| ----------- | ----------- |
+| `X-Mira-Set-Duration` | An integer, in seconds, representing the new length of the presentation that owns this file.
+| `X-Mira-Add-Duration` | An integer, in seconds, representing additional length for the presentation that owns this file.
 
 ## The App Life Cycle
 ### The Structure of an App

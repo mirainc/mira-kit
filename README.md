@@ -4,6 +4,7 @@ Mira's digital display SDK. This document will discuss the various components bo
 Mira apps are primarily responsible for the visual rendering of presentations created by the user. Your app also defines the structure of those presentations, and this structure allows users to create presentations for your app in the Mira dashboard.
 
 ## Table of Contents
+1. [Getting Started](#getting-started)
 1. [The App Bundle](#the-app-bundle)
   - [An Information Dictionary](#an-information-dictionary)
   - [Icons and Thumbnails](#icons-and-thumbnails)
@@ -15,6 +16,21 @@ Mira apps are primarily responsible for the visual rendering of presentations cr
   - [States for Apps](#states-for-apps)
 1. [Deploying an App](#deploying-an-app)
 1. [Core APIs](#core-apis)
+
+## Getting Started
+
+_FIXME_
+
+`npm install --save-dev git+ssh://git@github.com/mirainc/mira-kit#<VERSION>`
+
+```json
+"scripts": {
+    "sim": "mira-kit-simulator",
+    ...
+}
+```
+
+`npm run sim /path/to/bundle.js`
 
 ## The App Bundle
 ```bash

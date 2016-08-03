@@ -22,13 +22,12 @@ function renderPage(res, source, props) {
   res.write(`
     <html>
       <body>
-        <script src="/static/bundle.js" type="text/javascript">
+        <script src="/static/container.js" type="text/javascript">
         </script>
-
-        <div id="root"></div>
         <script src="/static/simulator/simulator.js" type="text/javascript">
         </script>
 
+        <div id="root"></div>
         <script type="text/javascript">
           window.App.main(
             ${escapedAppSource},

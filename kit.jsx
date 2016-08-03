@@ -1,9 +1,10 @@
 // MARK: Imports
-import App from './apps/app.jsx';
-import MiraWebRequest from './requests/mira_web_request.jsx';
+import MiraWebResource from './requests/mira_web_resource.jsx';
 
 
 // MARK: Exports
-export {
-  MiraWebRequest
-};
+// export default {
+//   MiraWebResource
+// };
+console.log('go fuck yourself');
+module.exports = 'FUCK';

@@ -63,7 +63,7 @@ Creates and returns a request for the specified URL.
 With one notable exception, these methods all work identically; only the underlying HTTP method changes. However, `.get()`, `.delete()`, and `.head()` ignore `body_payload`.
 
 ## Receiving Responses
-#### `class MiraWebResponse`
+#### `class MiraResourceResponse`
 
 | Property | Type | Description |
 | -------- | ---- | ----------- |
@@ -78,9 +78,3 @@ With one notable exception, these methods all work identically; only the underly
 | ------ | ----------- |
 | `json(): ?Object` | Returns the json-encoded content of the response, if any. |
 | `text(): ?string` | Returns the UTF8-encoded content of the response, if any. |
-
-#### `class MiraFileResponse extends MiraResponse`
-
-| Property | Type | Description |
-| -------- | ---- | ----------- |
-| `file` | `Blob` | Alias to `raw`. |

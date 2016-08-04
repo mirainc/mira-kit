@@ -19,7 +19,14 @@ var loaders = [
 module.exports = [
   {
     entry: './kit.jsx',
-    output: { path: __dirname, filename: 'bundle.js' },
+    output: {
+      path: __dirname,
+      filename: 'bundle.js',
+      library: 'MiraKit',
+      libraryTarget: 'umd',
+      umdNamedDefine: true
+    },
+    exclude: /node_modules/,
     target: 'node',
     module: {
       loaders: loaders

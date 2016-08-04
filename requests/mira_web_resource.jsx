@@ -2,7 +2,9 @@
 import MiraResource from './mira_resource.jsx';
 
 
-class MiraWebResource extends MiraResource {}
+class MiraWebResource extends MiraResource {
+  
+}
 
 
 // MARK: Exports

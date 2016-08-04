@@ -127,6 +127,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _uuid2 = _interopRequireDefault(_uuid);
 
+	var _mira_resource_response = __webpack_require__(4);
+
+	var _mira_resource_response2 = _interopRequireDefault(_mira_resource_response);
+
+	var _message_courier = __webpack_require__(5);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -135,6 +141,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	var MiraResource = function () {
 
 	  // MARK: Constructors
+
+	  // MARK: Properties
 	  function MiraResource(url) {
 	    _classCallCheck(this, MiraResource);
 
@@ -146,15 +154,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    this.url = url;
 	    this.resourceId = _uuid2.default.v4();
-
-	    // bind & setup responders
-	    this.onWindowMessage = this.onWindowMessage.bind(this);
-	    window.addEventListener('message', this.onWindowMessage, false);
 	  }
 
 	  // MARK: Fetch Handlers
-
-	  // MARK: Properties
 
 
 	  _createClass(MiraResource, [{
@@ -162,37 +164,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function fetch(method) {
 	      var _this = this;
 
-	      return function (query_params, body_payload, headers, auth, timeout, allow_redirects) {
-	        return new Promise(function (resolve, reject) {
-	          _this.pendingCallbacks = [resolve, reject];
+	      return function (queryParams, bodyPayload, headers, timeout, allowRedirects) {
+	        var messageResponse = _message_courier.defaultCourier.sendMessage('fetch', {
+	          resourceId: _this.resourceId,
+	          method: method,
+	          url: _this.url,
+	          queryParams: queryParams || {},
+	          bodyPayload: bodyPayload || {},
+	          headers: headers || {},
+	          timeout: timeout || 0,
+	          allowRedirects: allowRedirects || false
+	        });
 
-	          window.postMessage({
-	            eventName: 'fetch',
-	            payload: {
-	              resourceId: _this.resourceId,
-	              method: method,
-	              url: _this.url,
-	              query_params: query_params || {},
-	              body_payload: body_payload || {},
-	              headers: headers || {},
-	              auth: auth || null,
-	              timeout: timeout || 0,
-	              allow_redirects: allow_redirects || false
-	            }
-	          }, '*');
+	        return messageResponse.then(function (value) {
+	          return new _mira_resource_response2.default(value.headers, value.didRedirect, value.statusCode, value.url, value.raw);
 	        });
 	      };
-	    }
-
-	    // MARK: Responders
-
-	  }, {
-	    key: 'onWindowMessage',
-	    value: function onWindowMessage(event) {
-	      if (event.data.eventName === 'fetch-response') {
-	        console.log("IN RESOURCE: ", event.data.payload);
-	        window.removeEventListener('message', this.onWindowMessage);
-	      }
 	    }
 	  }]);
 
@@ -243,6 +230,179 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	exports.default = uuid;
+
+/***/ },
+/* 4 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var MiraResourceResponse = function () {
+
+	  // MARK: Constructors
+	  function MiraResourceResponse(headers, didRedirect, statusCode, url, raw) {
+	    _classCallCheck(this, MiraResourceResponse);
+
+	    this.headers = headers;
+	    this.didRedirect = didRedirect;
+	    this.statusCode = statusCode;
+	    this.url = url;
+	    this.raw = raw;
+	  }
+
+	  // MARK: Accessors
+
+	  // MARK: Properties
+
+
+	  _createClass(MiraResourceResponse, [{
+	    key: "text",
+	    value: function text() {
+	      return String.fromCharCode.apply(null, new Uint8Array(this.raw));
+	    }
+	  }, {
+	    key: "json",
+	    value: function json() {
+	      return JSON.parse(this.text());
+	    }
+	  }, {
+	    key: "blob",
+	    value: function blob() {
+	      return new Blob([this.raw], { type: this.headers["content-type"] });
+	    }
+	  }]);
+
+	  return MiraResourceResponse;
+	}();
+
+	// MARK: Exports
+
+
+	exports.default = MiraResourceResponse;
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.defaultCourier = undefined;
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); // MARK: Imports
+
+
+	var _uuid = __webpack_require__(3);
+
+	var _uuid2 = _interopRequireDefault(_uuid);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var MessageCourier = function () {
+
+	  // MARK: Constructor
+	  function MessageCourier(window) {
+	    _classCallCheck(this, MessageCourier);
+
+	    this.pendingResponses = {};
+	    this.subscribers = {};
+
+	    this.window = window;
+
+	    // bind & attach responders
+	    this.onWindowMessage = this.onWindowMessage.bind(this);
+	    this.window.addEventListener('message', this.onWindowMessage, false);
+	  }
+
+	  // MARK: Message Handlers
+
+	  // MARK: Properties
+
+
+	  _createClass(MessageCourier, [{
+	    key: 'subscribeToMessage',
+	    value: function subscribeToMessage(messageName, responder) {
+	      this.subscribers[messageName] = this.subscribers[messageName] || [];
+	      this.subscribers[messageName].push(responder);
+	    }
+	  }, {
+	    key: 'sendMessage',
+	    value: function sendMessage(messageName, payload) {
+	      var _this = this;
+
+	      var requestId = _uuid2.default.v4();
+	      return new Promise(function (resolve, reject) {
+	        _this.pendingResponses[requestId] = [resolve, reject];
+	        console.log(messageName);
+	        _this.window.postMessage({
+	          requestId: requestId,
+	          messageName: messageName,
+	          payload: payload
+	        }, '*');
+	      });
+	    }
+
+	    // MARK: Responders
+
+	  }, {
+	    key: 'onWindowMessage',
+	    value: function onWindowMessage(event) {
+	      var _this2 = this;
+
+	      if (event.data.responseId !== undefined) {
+	        var resolve = this.pendingResponses[event.data.responseId][0];
+	        var reject = this.pendingResponses[event.data.responseId][1];
+
+	        if (event.data.error !== undefined) {
+	          reject(event.data.error);
+	          return;
+	        }
+
+	        resolve(event.data.payload);
+	        return;
+	      } else if (event.data.messageName !== undefined) {
+	        var subscribers = this.subscribers[event.data.messageName];
+	        if (subscribers === undefined) {
+	          return;
+	        }
+
+	        subscribers.forEach(function (responder) {
+	          responder(event.data.payload).then(function (value) {
+	            _this2.window.postMessage({
+	              responseId: event.data.requestId,
+	              payload: value
+	            }, '*');
+	          });
+	        });
+
+	        return;
+	      }
+	    }
+	  }]);
+
+	  return MessageCourier;
+	}();
+
+	// MARK: Constants
+
+
+	var defaultCourier = new MessageCourier(window);
+
+	// MARK: Exports
+	exports.default = MessageCourier;
+	exports.defaultCourier = defaultCourier;
 
 /***/ }
 /******/ ])

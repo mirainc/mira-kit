@@ -7,38 +7,59 @@ function startHeartbeats() {
   var beat = 0;
   setInterval(function() {
     window.postMessage({
-      eventName: 'heartbeat',
+      messageName: 'heartbeat',
       payload: {beat: beat++}
     }, '*');
   }, 100);
 }
 
 
-// MARK: Message Dispatch
-function messageDispatch(event) {
-  if (event.data.eventName === 'heartbeat') {
-    return;
-  } else if (event.data.eventName === 'fetch') {
-    var fetchData = event.data.payload;
-    var responseData = {};
+// MARK: Web Requests
+function webFetch(request, requestId) {
+  var responseData = {};
 
-    simFetch(fetchData.url, fetchData).then(function(response) {
-      if (response.status >= 200 && response.status < 400) {
-        responseData.status_code = response.status;
-        return response.blob();
+  simFetch(request).then(function(response) {
+    if (response.status >= 200 && response.status < 400) {
+      responseData.statusCode = response.status;
+      responseData.didRedirect = response.url !== request.url;
+      responseData.url = response.url;
+
+      responseData.headers = {};
+      for (var entry of response.headers.entries()) {
+        responseData.headers[entry[0]] = entry[1];
       }
 
-      const error = new Error(response.statusText);
-      error.response = response;
-      console.error(error);
-      throw error;
-    }).then(function(responseBlob) {
-      responseData.blob = responseBlob;
-      window.postMessage({
-        eventName: 'fetch-response',
-        payload: responseData
-      }, '*');
+      return response.arrayBuffer();
+    }
+
+    window.postMessage({
+      responseId: requestId,
+      error: {
+        code: response.status,
+        message: response.statusText
+      }
+    }, '*');
+  }).then(function(raw) {
+    responseData.raw = raw;
+    window.postMessage({
+      responseId: requestId,
+      payload: responseData
+    }, '*');
+  });
+}
+
+
+// MARK: Message Dispatch
+function messageDispatch(event) {
+  if (event.data.messageName === 'fetch') {
+    var payload = event.data.payload;
+    var req = new Request(payload.url, {
+      method: payload.method,
+      redirect: payload.allowRedirects ? 'follow' : 'manual',
+      headers: payload.headers
     });
+
+    webFetch(req, event.data.requestId);
   }
 }
 

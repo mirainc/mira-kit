@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 // MARK: Imports
 var program = require('commander');
 var fs = require('fs');
@@ -17,9 +19,7 @@ fs.accessSync(sourceBundle);
 // MARK: Main
 function main(sourceBundle) {
   const props = program.vars || {};
-  fs.readFile(sourceBundle, 'utf8', function(err, source) {
-    runServer(source, props);
-  });
+  runServer(sourceBundle, props);
 }
 
 main(sourceBundle);

@@ -9,7 +9,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "mira-kit-sim": "./simulator/main.js"
+    "mira-kit-simulator": "./simulator/main.js"
   },
   "repository": {
     "type": "git",

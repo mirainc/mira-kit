@@ -17,13 +17,13 @@ req.get().then((resp) => {
 
   return resp.json()['items'];
 
-}).then((ig_items) => {
+}).then((igItems) => {
 
-  const image_urls = ig_items.map((ig_item) =>
-    ig_item.images.standard_resolution.url
+  const imageURLs = igItems.map((igItem) =>
+    igItem.images.standard_resolution.url
   ));
 
-  console.log(image_urls);
+  console.log(imageURLs);
   // [
   //   "https://ig.cdn/13741113_1925952777631716_424018787_n.jpp",
   //   "https://ig.cdn/13721259_1629852643992020_947549713_n.jpg"
@@ -53,14 +53,14 @@ Creates and returns a request for the specified URL.
 
 | Parameter | Type | Description |
 | ------ | ---- | ----------- |
-| `query_params` | `{string: any}` | Serialized and sent in the query string. |
-| `body_payload` | `{string: any}` | Serialized and sent in the body. |
+| `queryParams` | `{string: any}` | Serialized and sent in the query string. |
+| `bodyPayload` | `{string: any}` | Serialized and sent in the body. |
 | `headers` | `{string: string}` | HTTP headers. |
 | `auth` | `[string, string]` | Username and password for basic auth. |
 | `timeout` | `number` | How long to wait for the server before giving up. |
-| `allow_redirects` | `boolean` | Whether or not redirect following is allowed. |
+| `allowRedirects` | `boolean` | Whether or not redirect following is allowed. |
 
-With one notable exception, these methods all work identically; only the underlying HTTP method changes. However, `.get()`, `.delete()`, and `.head()` ignore `body_payload`.
+With one notable exception, these methods all work identically; only the underlying HTTP method changes. However, `.get()`, `.delete()`, and `.head()` ignore `bodyPayload`.
 
 ## Receiving Responses
 #### `class MiraResourceResponse`
@@ -68,13 +68,14 @@ With one notable exception, these methods all work identically; only the underly
 | Property | Type | Description |
 | -------- | ---- | ----------- |
 | `headers` | `{string: string}` | HTTP headers. |
-| `did_redirect` | `boolean` | Whether or not redirects were followed. |
-| `status_code` | `number` | Responded HTTP status. |
+| `didRedirect` | `boolean` | Whether or not redirects were followed. |
+| `statusCode` | `number` | Responded HTTP status. |
 | `url` | `string` | The final URL of the response. |
-| `raw` | `Blob` | The raw body of the response. |
+| `raw` | `ArrayBuffer` | The raw body of the response. |
 
 
 | Method | Description |
 | ------ | ----------- |
 | `json(): ?Object` | Returns the json-encoded content of the response, if any. |
 | `text(): ?string` | Returns the UTF8-encoded content of the response, if any. |
+| `blob(): ?Blob` | Returns a Blob representation of the response contents. |

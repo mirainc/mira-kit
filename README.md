@@ -21,7 +21,7 @@ Mira apps are primarily responsible for the visual rendering of presentations cr
 
 _FIXME_
 
-`npm install --save-dev git+ssh://git@github.com/mirainc/mira-kit#<VERSION>`
+`npm install --save git+ssh://git@github.com/mirainc/mira-kit#<VERSION>`
 
 ```json
 "scripts": {
@@ -118,7 +118,11 @@ Additionally, the Mira dashboard will expect your app to define at least one loc
 This file should also include translations of any user-facing text for your app, and will be passed to your app at runtime.
 
 ### The Executable
-The executable file contains your app's transpiled and bundled code. All markup, styling, and logic must be bundled into this file using webpack, Browserify, or some other bundler. The name of this file should be `bundle.js`. At its top-most level, the file should export a subclass of `React.Component`. If `embedded_url_format` is present in your `info.json`, the runtime will _ignore your `bundle.js`_ and instead fill the format with the presentation's property values and load the result in an iframe-like context. The executable can safely be omitted in this case.
+The executable file contains your app's transpiled and bundled code. All markup, styling, and logic must be bundled into this file using webpack, Browserify, or some other bundler. The name of this file should be `bundle.js`.
+
+At its top-most level, the file should export a subclass of `React.Component`. This component will use the React library present at runtime, and so it is important that you _do not import React into your bundle._
+
+If `embedded_url_format` is present in your `info.json`, the runtime will _ignore your `bundle.js`_ and instead fill the format with the presentation's property values and load the result in an iframe-like context. The executable can safely be omitted in this case.
 
 ### Upload Extensions
 If your app defines a `file` property, it may provide a `webhook` endpoint for mutation of any user-uploaded files. This endpoint points to your server, which should accept HTTP GET requests with the `file` query parameter set to a URL pointing the the uploaded file. This URL will expire, so the likely first thing your server should do in response is download the file.

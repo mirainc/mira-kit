@@ -20,16 +20,13 @@ class MiraResource {
   constructor(url: string) {
     this.url = url;
     this.resourceId = uuid.v4();
+
+    // bind responders
+    this.onResponse = this.onResponse.bind(this);
   }
 
-  // MARK: Fetch Handlers
-  get = this.fetch('GET');
-  post = this.fetch('POST');
-  put = this.fetch('PUT');
-  delete = this.fetch('DELETE');
-  head = this.fetch('HEAD');
-
-  fetch(method: HTTPMethodType): (
+  // MARK: Request Handlers
+  request(method: HTTPMethodType): (
     queryParams?: Object,
     bodyPayload?: Object,
     headers?: Object,
@@ -43,7 +40,7 @@ class MiraResource {
       timeout?: number,
       allowRedirects?: boolean
     ) => {
-      const messageResponse = defaultCourier.sendMessage('fetch', {
+      return defaultCourier.sendMessage('fetch', {
         resourceId: this.resourceId,
         method: method,
         url: this.url,
@@ -52,18 +49,19 @@ class MiraResource {
         headers: headers || {},
         timeout: timeout || 0,
         allowRedirects: allowRedirects || false
-      });
-
-      return messageResponse.then((value: Object) => {
-        return new MiraResourceResponse(
-          value.headers,
-          value.didRedirect,
-          value.statusCode,
-          value.url,
-          value.raw
-        );
-      });
+      }).then(this.onResponse);
     };
+  }
+
+  // MARK: Response Handlers
+  onResponse(value: Object): MiraResourceResponse {
+    return new MiraResourceResponse(
+      value.headers,
+      value.didRedirect,
+      value.statusCode,
+      value.url,
+      value.raw
+    );
   }
 }
 

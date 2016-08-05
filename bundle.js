@@ -59,16 +59,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.MiraWebResource = undefined;
+	exports.MiraFileResource = exports.MiraWebResource = exports.MiraResourceResponse = undefined;
+
+	var _mira_resource_response = __webpack_require__(4);
+
+	var _mira_resource_response2 = _interopRequireDefault(_mira_resource_response);
 
 	var _mira_web_resource = __webpack_require__(1);
 
 	var _mira_web_resource2 = _interopRequireDefault(_mira_web_resource);
 
+	var _mira_file_resource = __webpack_require__(6);
+
+	var _mira_file_resource2 = _interopRequireDefault(_mira_file_resource);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	// MARK: Exports
-	exports.MiraWebResource = _mira_web_resource2.default; // MARK: Imports
+	exports.MiraResourceResponse = _mira_resource_response2.default;
+	exports.MiraWebResource = _mira_web_resource2.default;
+	exports.MiraFileResource = _mira_file_resource2.default; // MARK: Imports
 
 /***/ },
 /* 1 */
@@ -97,10 +107,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _inherits(MiraWebResource, _MiraResource);
 
 	  function MiraWebResource() {
+	    var _Object$getPrototypeO;
+
+	    var _temp, _this, _ret;
+
 	    _classCallCheck(this, MiraWebResource);
 
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(MiraWebResource).apply(this, arguments));
+	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	      args[_key] = arguments[_key];
+	    }
+
+	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(MiraWebResource)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.get = _this.request('GET'), _this.post = _this.request('POST'), _this.put = _this.request('PUT'), _this.delete = _this.request('DELETE'), _this.head = _this.request('HEAD'), _temp), _possibleConstructorReturn(_this, _ret);
 	  }
+	  // MARK: Fetch Handlers
+
 
 	  return MiraWebResource;
 	}(_mira_resource2.default);
@@ -146,26 +166,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function MiraResource(url) {
 	    _classCallCheck(this, MiraResource);
 
-	    this.get = this.fetch('GET');
-	    this.post = this.fetch('POST');
-	    this.put = this.fetch('PUT');
-	    this.delete = this.fetch('DELETE');
-	    this.head = this.fetch('HEAD');
-
 	    this.url = url;
 	    this.resourceId = _uuid2.default.v4();
+
+	    // bind responders
+	    this.onResponse = this.onResponse.bind(this);
 	  }
 
-	  // MARK: Fetch Handlers
+	  // MARK: Request Handlers
 
 
 	  _createClass(MiraResource, [{
-	    key: 'fetch',
-	    value: function fetch(method) {
+	    key: 'request',
+	    value: function request(method) {
 	      var _this = this;
 
 	      return function (queryParams, bodyPayload, headers, timeout, allowRedirects) {
-	        var messageResponse = _message_courier.defaultCourier.sendMessage('fetch', {
+	        return _message_courier.defaultCourier.sendMessage('fetch', {
 	          resourceId: _this.resourceId,
 	          method: method,
 	          url: _this.url,
@@ -174,12 +191,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	          headers: headers || {},
 	          timeout: timeout || 0,
 	          allowRedirects: allowRedirects || false
-	        });
-
-	        return messageResponse.then(function (value) {
-	          return new _mira_resource_response2.default(value.headers, value.didRedirect, value.statusCode, value.url, value.raw);
-	        });
+	        }).then(_this.onResponse);
 	      };
+	    }
+
+	    // MARK: Response Handlers
+
+	  }, {
+	    key: 'onResponse',
+	    value: function onResponse(value) {
+	      return new _mira_resource_response2.default(value.headers, value.didRedirect, value.statusCode, value.url, value.raw);
 	    }
 	  }]);
 
@@ -310,6 +331,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+	// MARK: Types
 	var MessageCourier = function () {
 
 	  // MARK: Constructor
@@ -345,7 +367,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var requestId = _uuid2.default.v4();
 	      return new Promise(function (resolve, reject) {
 	        _this.pendingResponses[requestId] = [resolve, reject];
-	        console.log(messageName);
 	        _this.window.postMessage({
 	          requestId: requestId,
 	          messageName: messageName,
@@ -362,6 +383,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var _this2 = this;
 
 	      if (event.data.responseId !== undefined) {
+	        if (this.pendingResponses[event.data.responseId] === undefined) {
+	          return;
+	        }
+
 	        var resolve = this.pendingResponses[event.data.responseId][0];
 	        var reject = this.pendingResponses[event.data.responseId][1];
 
@@ -379,7 +404,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 
 	        subscribers.forEach(function (responder) {
-	          responder(event.data.payload).then(function (value) {
+	          var promise = responder(event.data.payload);
+	          if (promise === undefined) {
+	            _this2.window.postMessage({
+	              responseId: event.data.requestId
+	            }, '*');
+	            return;
+	          }
+
+	          promise.then(function (payload) {
 	            _this2.window.postMessage({
 	              responseId: event.data.requestId,
 	              payload: value
@@ -403,6 +436,68 @@ return /******/ (function(modules) { // webpackBootstrap
 	// MARK: Exports
 	exports.default = MessageCourier;
 	exports.defaultCourier = defaultCourier;
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _mira_resource = __webpack_require__(2);
+
+	var _mira_resource2 = _interopRequireDefault(_mira_resource);
+
+	var _message_courier = __webpack_require__(5);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // MARK: Imports
+
+
+	var MiraFileResource = function (_MiraResource) {
+	  _inherits(MiraFileResource, _MiraResource);
+
+	  // MARK: Constructors
+	  function MiraFileResource(propertyName) {
+	    _classCallCheck(this, MiraFileResource);
+
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(MiraFileResource).call(this, ''));
+
+	    _this.propertyName = propertyName;
+	    return _this;
+	  }
+
+	  // MARK: Fetch Handlers
+
+
+	  _createClass(MiraFileResource, [{
+	    key: 'get',
+	    value: function get() {
+	      return _message_courier.defaultCourier.sendMessage('fetch-file', {
+	        resourceId: this.resourceId,
+	        method: 'GET',
+	        propertyName: this.propertyName
+	      }).then(this.onResponse);
+	    }
+	  }]);
+
+	  return MiraFileResource;
+	}(_mira_resource2.default);
+
+	// MARK: Exports
+
+
+	exports.default = MiraFileResource;
 
 /***/ }
 /******/ ])

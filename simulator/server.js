@@ -24,6 +24,11 @@ function renderPage(res, sourceBundle, props) {
     res.writeHead(200, {'Content-Type': 'text/html'});
     res.write(`
       <html>
+        <head>
+          <style>
+            body, #root { margin: 0; }
+          </style>
+        </head>
         <body>
           <script src="/static/container.js" type="text/javascript">
           </script>

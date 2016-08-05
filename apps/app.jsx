@@ -1,6 +1,7 @@
 // MARK: Imports
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { defaultCourier } from '../foundation/message_courier.jsx';
 
 
 class App extends React.Component {
@@ -25,7 +26,8 @@ class App extends React.Component {
     this.state = state;
 
     // bind responders
-    this.onWindowMessage = this.onWindowMessage.bind(this);
+    this.onHeartbeat = this.onHeartbeat.bind(this);
+    defaultCourier.subscribeToMessage('heartbeat', this.onHeartbeat);
   }
 
   // MARK: Rendering
@@ -58,34 +60,34 @@ class App extends React.Component {
   }
 
   // MARK: Responders
-  onWindowMessage(event: Event) {
-    // this method is restricted to message dispatch
-    // for possible dispatched message schemas, please see README.md
-
-    if (event.data.eventName === 'heartbeat') {
-      this.componentDidReceiveHeartbeat(event.data.payload.beat);
-    }
+  onHeartbeat(payload: Object) {
+    this.componentDidReceiveHeartbeat(payload.beat);
   }
 
   // MARK: Main
   static main(source: string, applicationVariables: Object) {
     // unset sandbox values
-    if (window.parent !== undefined) {
-      window.parent = this.captureSandboxFailure('parent');
-    }
+    // if (window.parent !== undefined) {
+    //   window.parent = this.captureSandboxFailure('parent');
+    // }
+    //
+    // if (window.XMLHttpRequest !== undefined) {
+    //   window.XMLHttpRequest = this.captureSandboxFailure(
+    //     'XMLHttpRequest',
+    //     'mira-kit.MiraResource'
+    //   );
+    // }
+    //
+    // if (window.fetch !== undefined) {
+    //   fetch = this.captureSandboxFailure(
+    //     'fetch',
+    //     'mira-kit.MiraResource'
+    //   );
+    // }
 
-    if (window.XMLHttpRequest !== undefined) {
-      window.XMLHttpRequest = this.captureSandboxFailure(
-        'XMLHttpRequest',
-        'mira-kit.MiraResource'
-      );
-    }
-
-    if (window.fetch !== undefined) {
-      fetch = this.captureSandboxFailure(
-        'fetch',
-        'mira-kit.MiraResource'
-      );
+    // set sandbox values
+    if (window.React === undefined) {
+      window.React = React;
     }
 
     ReactDOM.render(

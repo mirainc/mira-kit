@@ -60,6 +60,15 @@ function messageDispatch(event) {
     });
 
     webFetch(req, event.data.requestId);
+  } else if (event.data.messageName === 'fetch-file') {
+    var payload = event.data.payload;
+    var url = "https://dl.dropboxusercontent.com/u/2338382/DECK.pdf";
+
+    var req = new Request(url, {
+      method: payload.method
+    });
+
+    webFetch(req, event.data.requestId);
   }
 }
 

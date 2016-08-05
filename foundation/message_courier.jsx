@@ -2,11 +2,15 @@
 import uuid from './uuid.jsx';
 
 
+// MARK: Types
+type MessageResponderType = (payload: Object) => (Promise<Object> | void);
+
+
 class MessageCourier {
   // MARK: Properties
   window: Object
-  pendingResponses: {[key: string]: [Function, Function]} = {}
-  subscribers: {string: Array<(value: Object) => Promise<Object>>} = {}
+  pendingResponses: { [key: string]: [Function, Function] } = {}
+  subscribers: { string: Array<MessageResponderType> } = {}
 
   // MARK: Constructor
   constructor(window: Object) {
@@ -18,10 +22,7 @@ class MessageCourier {
   }
 
   // MARK: Message Handlers
-  subscribeToMessage(
-    messageName: string,
-    responder: (value: Object) => Promise<Object>
-  ) {
+  subscribeToMessage(messageName: string, responder: MessageResponderType) {
     this.subscribers[messageName] = this.subscribers[messageName] || [];
     this.subscribers[messageName].push(responder);
   }
@@ -30,7 +31,6 @@ class MessageCourier {
     const requestId = uuid.v4();
     return new Promise((resolve: Function, reject: Function) => {
       this.pendingResponses[requestId] = [resolve, reject];
-      console.log(messageName);
       this.window.postMessage({
         requestId: requestId,
         messageName: messageName,
@@ -42,6 +42,10 @@ class MessageCourier {
   // MARK: Responders
   onWindowMessage(event: Event) {
     if (event.data.responseId !== undefined) {
+      if (this.pendingResponses[event.data.responseId] === undefined) {
+        return;
+      }
+
       const resolve = this.pendingResponses[event.data.responseId][0];
       const reject = this.pendingResponses[event.data.responseId][1];
 
@@ -58,8 +62,16 @@ class MessageCourier {
         return;
       }
 
-      subscribers.forEach((responder: (value: Object) => Promise<Object>) => {
-        responder(event.data.payload).then((value: Object) => {
+      subscribers.forEach((responder: MessageResponderType) => {
+        const promise = responder(event.data.payload);
+        if (promise === undefined) {
+          this.window.postMessage({
+            responseId: event.data.requestId
+          }, '*');
+          return;
+        }
+
+        promise.then((payload: Object) => {
           this.window.postMessage({
             responseId: event.data.requestId,
             payload: value

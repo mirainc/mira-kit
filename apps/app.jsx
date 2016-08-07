@@ -2,6 +2,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import MessageCourier from '../foundation/message_courier.jsx';
+import LocalizedStrings from 'react-localization';
 
 
 class App extends React.Component {
@@ -37,6 +38,7 @@ class App extends React.Component {
   render(): any {
     return React.createElement(this.state.rootContainerClass, {
       ref: 'rootContainer',
+      strings: new LocalizedStrings(this.props.strings),
       ...this.props.appVariables
     });
   }
@@ -68,25 +70,21 @@ class App extends React.Component {
   }
 
   // MARK: Main
-  static main(source: string, applicationVariables: Object) {
+  static main(source: string, applicationVariables: Object, strings: Object) {
     // unset sandbox values
-    // if (window.parent !== undefined) {
-    //   window.parent = this.captureSandboxFailure('parent');
-    // }
-    //
-    // if (window.XMLHttpRequest !== undefined) {
-    //   window.XMLHttpRequest = this.captureSandboxFailure(
-    //     'XMLHttpRequest',
-    //     'mira-kit.MiraResource'
-    //   );
-    // }
-    //
-    // if (window.fetch !== undefined) {
-    //   fetch = this.captureSandboxFailure(
-    //     'fetch',
-    //     'mira-kit.MiraResource'
-    //   );
-    // }
+    if (window.XMLHttpRequest !== undefined) {
+      window.XMLHttpRequest = this.captureSandboxFailure(
+        'XMLHttpRequest',
+        'mira-kit.MiraResource'
+      );
+    }
+
+    if (window.fetch !== undefined) {
+      fetch = this.captureSandboxFailure(
+        'fetch',
+        'mira-kit.MiraResource'
+      );
+    }
 
     // set sandbox values
     if (window.React === undefined) {
@@ -94,7 +92,11 @@ class App extends React.Component {
     }
 
     ReactDOM.render(
-      <App source={source} appVariables={applicationVariables}/>,
+      <App
+        source={source}
+        appVariables={applicationVariables}
+        strings={strings}
+      />,
       document.getElementById('root')
     );
   }
@@ -106,6 +108,7 @@ class App extends React.Component {
         reason += ` Use ${fallback} instead.`;
       }
 
+      console.warn(new Error().stack);
       console.warn(reason);
       return undefined;
     };

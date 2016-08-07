@@ -77,15 +77,23 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _message_courier2 = _interopRequireDefault(_message_courier);
 
+	var _url = __webpack_require__(7);
+
+	var _url2 = _interopRequireDefault(_url);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	// MARK: Constants
-	// MARK: Imports
+
+
+	// internal
 	var Internal = {
-	  MessageCourier: _message_courier2.default
+	  MessageCourier: _message_courier2.default,
+	  URL: _url2.default
 	};
 
 	// MARK: Exports
+	// MARK: Imports
 	exports.MiraResourceResponse = _mira_resource_response2.default;
 	exports.MiraWebResource = _mira_web_resource2.default;
 	exports.MiraFileResource = _mira_file_resource2.default;
@@ -402,6 +410,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        var resolve = this.pendingResponses[event.data.responseId][0];
 	        var reject = this.pendingResponses[event.data.responseId][1];
+	        this.pendingResponses[event.data.responseId] = undefined;
 
 	        if (event.data.error !== undefined) {
 	          reject(event.data.error);
@@ -420,7 +429,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	          var promise = responder(event.data.payload);
 	          if (promise === undefined) {
 	            _this2.remoteWindow.postMessage({
-	              responseId: event.data.requestId
+	              responseId: event.data.requestId,
+	              payload: {}
 	            }, '*');
 	            return;
 	          }
@@ -518,6 +528,43 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	exports.default = MiraFileResource;
+
+/***/ },
+/* 7 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var URL =
+
+	// MARK: Constructors
+
+	// MARK: Properties
+	function URL(url) {
+	  _classCallCheck(this, URL);
+
+	  this._urlString = url;
+	  var domElement = document.createElement('a');
+
+	  this.protocol = domElement.protocol;
+	  this.hostname = domElement.hostname;
+	  this.port = domElement.port;
+	  this.pathname = domElement.pathname;
+	  this.query = domElement.search;
+	  this.hash = domElement.hash;
+	  this.host = domElement.host;
+	};
+
+	// MARK: Exports
+
+
+	exports.default = URL;
 
 /***/ }
 /******/ ])

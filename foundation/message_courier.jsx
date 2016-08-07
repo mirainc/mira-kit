@@ -64,6 +64,7 @@ class MessageCourier {
 
       const resolve = this.pendingResponses[event.data.responseId][0];
       const reject = this.pendingResponses[event.data.responseId][1];
+      this.pendingResponses[event.data.responseId] = undefined;
 
       if (event.data.error !== undefined) {
         reject(event.data.error);
@@ -82,7 +83,8 @@ class MessageCourier {
         const promise = responder(event.data.payload);
         if (promise === undefined) {
           this.remoteWindow.postMessage({
-            responseId: event.data.requestId
+            responseId: event.data.requestId,
+            payload: {}
           }, '*');
           return;
         }

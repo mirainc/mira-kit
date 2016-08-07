@@ -64,6 +64,8 @@
 
 	var _message_courier = __webpack_require__(175);
 
+	var _message_courier2 = _interopRequireDefault(_message_courier);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -92,7 +94,7 @@
 
 	    // bind responders
 	    _this.onHeartbeat = _this.onHeartbeat.bind(_this);
-	    _message_courier.defaultCourier.subscribeToMessage('heartbeat', _this.onHeartbeat);
+	    _message_courier2.default.defaultCourier().subscribeToMessage('heartbeat', _this.onHeartbeat);
 	    return _this;
 	  }
 
@@ -21620,7 +21622,6 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.defaultCourier = undefined;
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); // MARK: Imports
 
@@ -21636,27 +21637,28 @@
 	// MARK: Types
 	var MessageCourier = function () {
 
-	  // MARK: Constructor
-	  function MessageCourier(window) {
+	  // MARK: Constructors
+	  function MessageCourier(localWindow, remoteWindow) {
 	    _classCallCheck(this, MessageCourier);
 
 	    this.pendingResponses = {};
 	    this.subscribers = {};
 
-	    this.window = window;
+	    this.localWindow = localWindow;
+	    this.remoteWindow = remoteWindow;
 
 	    // bind & attach responders
 	    this.onWindowMessage = this.onWindowMessage.bind(this);
-	    this.window.addEventListener('message', this.onWindowMessage, false);
+	    this.localWindow.addEventListener('message', this.onWindowMessage, false);
 	  }
-
-	  // MARK: Message Handlers
-
 	  // MARK: Properties
 
 
 	  _createClass(MessageCourier, [{
 	    key: 'subscribeToMessage',
+
+
+	    // MARK: Message Handlers
 	    value: function subscribeToMessage(messageName, responder) {
 	      this.subscribers[messageName] = this.subscribers[messageName] || [];
 	      this.subscribers[messageName].push(responder);
@@ -21669,7 +21671,7 @@
 	      var requestId = _uuid2.default.v4();
 	      return new Promise(function (resolve, reject) {
 	        _this.pendingResponses[requestId] = [resolve, reject];
-	        _this.window.postMessage({
+	        _this.remoteWindow.postMessage({
 	          requestId: requestId,
 	          messageName: messageName,
 	          payload: payload
@@ -21708,16 +21710,16 @@
 	        subscribers.forEach(function (responder) {
 	          var promise = responder(event.data.payload);
 	          if (promise === undefined) {
-	            _this2.window.postMessage({
+	            _this2.remoteWindow.postMessage({
 	              responseId: event.data.requestId
 	            }, '*');
 	            return;
 	          }
 
 	          promise.then(function (payload) {
-	            _this2.window.postMessage({
+	            _this2.remoteWindow.postMessage({
 	              responseId: event.data.requestId,
-	              payload: value
+	              payload: payload
 	            }, '*');
 	          });
 	        });
@@ -21725,19 +21727,24 @@
 	        return;
 	      }
 	    }
+	  }], [{
+	    key: 'defaultCourier',
+	    value: function defaultCourier() {
+	      if (MessageCourier.__defaultCourier === undefined) {
+	        MessageCourier.__defaultCourier = new MessageCourier(window, window.parent);
+	      }
+
+	      return MessageCourier.__defaultCourier;
+	    }
 	  }]);
 
 	  return MessageCourier;
 	}();
 
-	// MARK: Constants
-
-
-	var defaultCourier = new MessageCourier(window);
-
 	// MARK: Exports
+
+
 	exports.default = MessageCourier;
-	exports.defaultCourier = defaultCourier;
 
 /***/ },
 /* 176 */

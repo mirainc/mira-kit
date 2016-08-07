@@ -8,17 +8,33 @@ type MessageResponderType = (payload: Object) => (Promise<Object> | void);
 
 class MessageCourier {
   // MARK: Properties
-  window: Object
+  localWindow: Window
+  remoteWindow: Window
+
   pendingResponses: { [key: string]: [Function, Function] } = {}
   subscribers: { string: Array<MessageResponderType> } = {}
 
-  // MARK: Constructor
-  constructor(window: Object) {
-    this.window = window;
+  static __defaultCourier: MessageCourier
+
+  // MARK: Constructors
+  constructor(localWindow: Window, remoteWindow: Window) {
+    this.localWindow = localWindow;
+    this.remoteWindow = remoteWindow;
 
     // bind & attach responders
     this.onWindowMessage = this.onWindowMessage.bind(this);
-    this.window.addEventListener('message', this.onWindowMessage, false);
+    this.localWindow.addEventListener('message', this.onWindowMessage, false);
+  }
+
+  static defaultCourier() {
+    if (MessageCourier.__defaultCourier === undefined) {
+      MessageCourier.__defaultCourier = new MessageCourier(
+        window,
+        window.parent
+      );
+    }
+
+    return MessageCourier.__defaultCourier;
   }
 
   // MARK: Message Handlers
@@ -31,7 +47,7 @@ class MessageCourier {
     const requestId = uuid.v4();
     return new Promise((resolve: Function, reject: Function) => {
       this.pendingResponses[requestId] = [resolve, reject];
-      this.window.postMessage({
+      this.remoteWindow.postMessage({
         requestId: requestId,
         messageName: messageName,
         payload: payload
@@ -65,16 +81,16 @@ class MessageCourier {
       subscribers.forEach((responder: MessageResponderType) => {
         const promise = responder(event.data.payload);
         if (promise === undefined) {
-          this.window.postMessage({
+          this.remoteWindow.postMessage({
             responseId: event.data.requestId
           }, '*');
           return;
         }
 
         promise.then((payload: Object) => {
-          this.window.postMessage({
+          this.remoteWindow.postMessage({
             responseId: event.data.requestId,
-            payload: value
+            payload: payload
           }, '*');
         });
       });
@@ -85,12 +101,5 @@ class MessageCourier {
 }
 
 
-// MARK: Constants
-const defaultCourier = new MessageCourier(window);
-
-
 // MARK: Exports
 export default MessageCourier;
-export {
-  defaultCourier
-};

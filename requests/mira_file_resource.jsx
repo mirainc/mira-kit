@@ -1,6 +1,6 @@
 // MARK: Imports
 import MiraResource from './mira_resource.jsx';
-import { defaultCourier } from '../foundation/message_courier.jsx';
+import MessageCourier from '../foundation/message_courier.jsx';
 
 
 class MiraFileResource extends MiraResource {
@@ -12,7 +12,7 @@ class MiraFileResource extends MiraResource {
 
   // MARK: Fetch Handlers
   get() {
-    return defaultCourier.sendMessage('fetch-file', {
+    return MessageCourier.defaultCourier().sendMessage('fetch-file', {
       resourceId: this.resourceId,
       method: 'GET',
       propertyName: this.propertyName

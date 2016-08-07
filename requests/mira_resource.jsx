@@ -1,7 +1,7 @@
 // MARK: Imports
 import uuid from '../foundation/uuid.jsx';
 import MiraResourceResponse from './mira_resource_response.jsx';
-import { defaultCourier } from '../foundation/message_courier.jsx';
+import MessageCourier from '../foundation/message_courier.jsx';
 
 
 // MARK: Types
@@ -40,7 +40,7 @@ class MiraResource {
       timeout?: number,
       allowRedirects?: boolean
     ) => {
-      return defaultCourier.sendMessage('fetch', {
+      return MessageCourier.defaultCourier().sendMessage('fetch', {
         resourceId: this.resourceId,
         method: method,
         url: this.url,

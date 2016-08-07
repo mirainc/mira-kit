@@ -1,7 +1,7 @@
 // MARK: Imports
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { defaultCourier } from '../foundation/message_courier.jsx';
+import MessageCourier from '../foundation/message_courier.jsx';
 
 
 class App extends React.Component {
@@ -27,7 +27,10 @@ class App extends React.Component {
 
     // bind responders
     this.onHeartbeat = this.onHeartbeat.bind(this);
-    defaultCourier.subscribeToMessage('heartbeat', this.onHeartbeat);
+    MessageCourier.defaultCourier().subscribeToMessage(
+      'heartbeat',
+      this.onHeartbeat
+    );
   }
 
   // MARK: Rendering

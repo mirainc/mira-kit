@@ -32,37 +32,42 @@ req.get().then((resp) => {
 });
 ```
 
-
 # Table of Contents
-1. [Creating Requests](#creating-requests)
-2. [Executing Requests](#executing-requests)
-3. [Receiving Responses](#receiving-responses)
 
-## Creating Resources
+1. [Web Resources](#web-requests)
+1. [File Resources](#file-resources)
+1. [Responses](#responses)
+
+## Web Resources
 #### `constructor(url: string)`
-Creates and returns a request for the specified URL.
+Creates and returns a resource located at the specified URL.
 
-## Executing Requests
-`MiraResource` instances have 5 methods for making the HTTP/HTTPS request; one for each HTTP method.
+#### `request(...options): Promise<MiraResourceResponse>`
+`MiraWebResource` instances have 5 methods for requesting via HTTP/HTTPS; one for each HTTP method.
 
-- `get(...options): Promise`
-- `post(...options): Promise`
-- `put(...options): Promise`
-- `delete(...options): Promise`
-- `head(...options): Promise`
+- `get`
+- `post`
+- `put`
+- `delete`
+- `head`
 
-| Parameter | Type | Description |
-| ------ | ---- | ----------- |
-| `queryParams` | `{string: any}` | Serialized and sent in the query string. |
-| `bodyPayload` | `{string: any}` | Serialized and sent in the body. |
-| `headers` | `{string: string}` | HTTP headers. |
-| `auth` | `[string, string]` | Username and password for basic auth. |
-| `timeout` | `number` | How long to wait for the server before giving up. |
-| `allowRedirects` | `boolean` | Whether or not redirect following is allowed. |
+Each method takes any of several options:
 
-With one notable exception, these methods all work identically; only the underlying HTTP method changes. However, `.get()`, `.delete()`, and `.head()` ignore `bodyPayload`.
+| Option | Type | Methods | Description |
+| ------ | ---- | ------- | ----------- |
+| `queryParams` | `{string: any}` | All | Serialized and sent in the query string. |
+| `bodyPayload` | `{string: any}` | PUT, POST | Serialized and sent in the body. |
+| `headers` | `{string: string}` | All | HTTP headers. |
+| `allowRedirects` | `boolean` | All | Whether or not redirect following is allowed. |
 
-## Receiving Responses
+## File Resources
+#### `constructor(propertyName: string)`
+Creates and returns a user-uploaded file resource. The `propertyName` refers to the `file` type presentation property you wish to retrieve. The file represented by the resource will be specific to the current version of the current presentation.
+
+#### `get(): Promise<MiraResourceResponse>`
+Performs an HTTPS GET request to fetch the file.
+
+## Responses
 #### `class MiraResourceResponse`
 
 | Property | Type | Description |
@@ -72,10 +77,3 @@ With one notable exception, these methods all work identically; only the underly
 | `statusCode` | `number` | Responded HTTP status. |
 | `url` | `string` | The final URL of the response. |
 | `raw` | `ArrayBuffer` | The raw body of the response. |
-
-
-| Method | Description |
-| ------ | ----------- |
-| `json(): ?Object` | Returns the json-encoded content of the response, if any. |
-| `text(): ?string` | Returns the UTF8-encoded content of the response, if any. |
-| `blob(): ?Blob` | Returns a Blob representation of the response contents. |

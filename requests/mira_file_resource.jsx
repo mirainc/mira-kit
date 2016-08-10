@@ -11,7 +11,7 @@ class MiraFileResource extends MiraResource {
   }
 
   // MARK: Fetch Handlers
-  get() {
+  get(): Promise<MiraResourceResponse> {
     return MessageCourier.defaultCourier().sendMessage('fetch-file', {
       resourceId: this.resourceId,
       method: 'GET',

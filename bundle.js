@@ -267,7 +267,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	          queryParams: queryParams || {},
 	          bodyPayload: bodyPayload || {},
 	          headers: headers || {},
-	          timeout: timeout || 0,
 	          allowRedirects: allowRedirects || false
 	        }).then(_this.onResponse);
 	      };

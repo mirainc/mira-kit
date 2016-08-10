@@ -6,9 +6,6 @@ import MessageCourier from '../foundation/message_courier.jsx';
 
 // MARK: Types
 type HTTPMethodType = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'HEAD';
-type HTTPEventType = (
-  'fetch' // payload: {resourceId: string, ...options} (see README.md)
-);
 
 
 class MiraResource {
@@ -30,7 +27,6 @@ class MiraResource {
     queryParams?: Object,
     bodyPayload?: Object,
     headers?: Object,
-    timeout?: number,
     allowRedirects?: boolean
   ) => Promise<MiraResourceResponse> {
     return (
@@ -47,7 +43,6 @@ class MiraResource {
         queryParams: queryParams || {},
         bodyPayload: bodyPayload || {},
         headers: headers || {},
-        timeout: timeout || 0,
         allowRedirects: allowRedirects || false
       }).then(this.onResponse);
     };

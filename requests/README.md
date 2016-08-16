@@ -77,3 +77,10 @@ Performs an HTTPS GET request to fetch the file.
 | `statusCode` | `number` | Responded HTTP status. |
 | `url` | `string` | The final URL of the response. |
 | `raw` | `ArrayBuffer` | The raw body of the response. |
+
+
+| Method | Description |
+| ------ | ----------- |
+| `json(): ?Object` | Returns the json-encoded content of the response, if any. |
+| `text(): ?string` | Returns the UTF8-encoded content of the response, if any. |
+| `blob(): ?Blob` | Returns a Blob representation of the response contents. | -->

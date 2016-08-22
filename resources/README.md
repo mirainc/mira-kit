@@ -67,6 +67,9 @@ Creates and returns a user-uploaded file resource. The `propertyName` refers to 
 #### `get(): Promise<MiraResourceResponse>`
 Performs an HTTPS GET request to fetch the file.
 
+#### `head(): Promise<MiraResourceResponse>`
+Performs an HTTPS HEAD request to fetch the file's metadata.
+
 ## Responses
 #### `class MiraResourceResponse`
 

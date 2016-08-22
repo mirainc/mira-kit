@@ -18,6 +18,14 @@ class MiraFileResource extends MiraResource {
       propertyName: this.propertyName
     }).then(this.onResponse);
   }
+
+  head(): Promise<MiraResourceResponse> {
+    return MessageCourier.defaultCourier().sendMessage('fetch-file', {
+      resourceId: this.resourceId,
+      method: 'HEAD',
+      propertyName: this.propertyName
+    }).then(this.onResponse);
+  }
 }
 
 

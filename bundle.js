@@ -64,15 +64,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	exports.Internal = exports.MiraFileResource = exports.MiraWebResource = exports.MiraResourceResponse = undefined;
 	
-	var _mira_resource_response = __webpack_require__(/*! ./requests/mira_resource_response.jsx */ 1);
+	var _mira_resource_response = __webpack_require__(/*! ./resources/mira_resource_response.jsx */ 1);
 	
 	var _mira_resource_response2 = _interopRequireDefault(_mira_resource_response);
 	
-	var _mira_web_resource = __webpack_require__(/*! ./requests/mira_web_resource.jsx */ 2);
+	var _mira_web_resource = __webpack_require__(/*! ./resources/mira_web_resource.jsx */ 2);
 	
 	var _mira_web_resource2 = _interopRequireDefault(_mira_web_resource);
 	
-	var _mira_file_resource = __webpack_require__(/*! ./requests/mira_file_resource.jsx */ 6);
+	var _mira_file_resource = __webpack_require__(/*! ./resources/mira_file_resource.jsx */ 6);
 	
 	var _mira_file_resource2 = _interopRequireDefault(_mira_file_resource);
 	
@@ -104,9 +104,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 1 */
-/*!*********************************************!*\
-  !*** ./requests/mira_resource_response.jsx ***!
-  \*********************************************/
+/*!**********************************************!*\
+  !*** ./resources/mira_resource_response.jsx ***!
+  \**********************************************/
 /***/ function(module, exports) {
 
 	"use strict";
@@ -164,9 +164,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 2 */
-/*!****************************************!*\
-  !*** ./requests/mira_web_resource.jsx ***!
-  \****************************************/
+/*!*****************************************!*\
+  !*** ./resources/mira_web_resource.jsx ***!
+  \*****************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -217,9 +217,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 3 */
-/*!************************************!*\
-  !*** ./requests/mira_resource.jsx ***!
-  \************************************/
+/*!*************************************!*\
+  !*** ./resources/mira_resource.jsx ***!
+  \*************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -484,9 +484,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 6 */
-/*!*****************************************!*\
-  !*** ./requests/mira_file_resource.jsx ***!
-  \*****************************************/
+/*!******************************************!*\
+  !*** ./resources/mira_file_resource.jsx ***!
+  \******************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -536,6 +536,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return _message_courier2.default.defaultCourier().sendMessage('fetch-file', {
 	        resourceId: this.resourceId,
 	        method: 'GET',
+	        propertyName: this.propertyName
+	      }).then(this.onResponse);
+	    }
+	  }, {
+	    key: 'head',
+	    value: function head() {
+	      return _message_courier2.default.defaultCourier().sendMessage('fetch-file', {
+	        resourceId: this.resourceId,
+	        method: 'HEAD',
 	        propertyName: this.propertyName
 	      }).then(this.onResponse);
 	    }

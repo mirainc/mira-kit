@@ -169,7 +169,7 @@ However, when a user deploys a new schedule to the device, your app may no longe
 When you register as a Mira developer, you will receive a developer secret. This secret should not be published anywhere, and will be used in conjunction with a webhook to deploy new versions of your app. After registering your app with Mira, you'll receive a webhook endpoint that, when used as post-commit hook in GitHub, will trigger our deploy service to clone and deploy the `HEAD` of your repository. The file structure of this repository must conform to the structure laid out in [the application bundle](#the-app-bundle) section.
 
 ## Core APIs
-### [MiraResource](./requests/README.md)
+### [MiraResource](./resources/README.md)
 The `MiraResource` class and related classes provide an API for making HTTP and HTTPS requests. Each object represents a request for a specific URL, following redirects if necessary. Requests are limited to allowed domains and file access specified in your app's `info.json` .
 
 ### MiraLocalStorage

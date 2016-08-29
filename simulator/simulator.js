@@ -1,6 +1,6 @@
 // MARK: Globals
-window.simFetch = fetch;
-
+if (!fetch) { console.error("MiraKit Simulator only works in Chrome."); }
+window._fetch = fetch;
 
 // MARK: Heartbeats
 function startHeartbeats() {
@@ -10,15 +10,15 @@ function startHeartbeats() {
       messageName: 'heartbeat',
       payload: {beat: beat++}
     }, '*');
-  }, 100);
+  }, 10);
 }
 
 
 // MARK: Web Requests
-function webFetch(request, requestId) {
+function _simFetch(request, requestId) {
   var responseData = {};
 
-  simFetch(request).then(function(response) {
+  window._fetch(request).then(function(response) {
     if (response.status >= 200 && response.status < 400) {
       responseData.statusCode = response.status;
       responseData.didRedirect = response.url !== request.url;
@@ -59,16 +59,16 @@ function messageDispatch(event) {
       headers: payload.headers
     });
 
-    webFetch(req, event.data.requestId);
+    _simFetch(req, event.data.requestId);
   } else if (event.data.messageName === 'fetch-file') {
     var payload = event.data.payload;
-    var url = "https://dl.dropboxusercontent.com/u/2338382/DECK.pdf";
+    var url = window.fileSource + '/' + event.data.payload.propertyName;
 
     var req = new Request(url, {
       method: payload.method
     });
 
-    webFetch(req, event.data.requestId);
+    _simFetch(req, event.data.requestId);
   }
 }
 

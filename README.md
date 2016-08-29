@@ -30,7 +30,9 @@ To use the simulator, add the `sim` command to your `package.json` and run the c
 }
 ```
 
-`npm run sim /path/to/bundle.js`
+The simulator also requires any application vars to be defined as JSON in the `--vars` parameter.
+
+`npm run sim -- --vars '{"duration": "60", "ig_username": "test_user"}'`
 
 ## The App Bundle
 ```bash

@@ -57,6 +57,7 @@ The `info.json` file contains metadata about your app, which the system uses to 
 | `allowed_request_domains` | `list` | A list of domains your app will need to access via HTTP/HTTPS.
 | `requires_file_access` | `boolean` | Whether or not your app requires access to files uploaded for your app by your users. This value should be `true` for any app with a property of type `file`.
 | `requires_local_store` | `boolean` | Whether or not your app requires access to local storage. Apps are currently limited to a small and variable amount of local storage.
+| `configurable_duration` | `boolean` | Whether or not users can configure the duration of each presentation for your application. Defaults to `true`.
 | `default_duration` | `number` | The default duration, in seconds, of your app's presentations.
 | `embedded_url_format` | `string` | __Optional.__ A URL format using URL-param syntax: `https://my.service/:some_id?some_flag=:some_flag`. Used for embedded first- and second-party apps only.
 

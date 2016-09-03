@@ -22183,10 +22183,15 @@
 	
 	
 	  _createClass(MessageCourier, [{
-	    key: 'subscribeToMessage',
-	
+	    key: 'deconstruct',
+	    value: function deconstruct() {
+	      this.localWindow.removeEventListener('message', this.onWindowMessage);
+	    }
 	
 	    // MARK: Message Handlers
+	
+	  }, {
+	    key: 'subscribeToMessage',
 	    value: function subscribeToMessage(messageName, responder) {
 	      this.subscribers[messageName] = this.subscribers[messageName] || [];
 	      this.subscribers[messageName].push(responder);

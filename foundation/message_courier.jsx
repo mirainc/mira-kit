@@ -37,6 +37,10 @@ class MessageCourier {
     return MessageCourier.__defaultCourier;
   }
 
+  deconstruct() {
+    this.localWindow.removeEventListener('message', this.onWindowMessage);
+  }
+
   // MARK: Message Handlers
   subscribeToMessage(messageName: string, responder: MessageResponderType) {
     this.subscribers[messageName] = this.subscribers[messageName] || [];

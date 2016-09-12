@@ -146,13 +146,13 @@ Additionally, your extension's response may include the following custom HTTP he
 ### Thumbnail Extensions
 _Coming Soon_
 
-If your app that defines a `thumbnail_webhook` endpoint, you will receive a request for a thumbnail representing each presentation created for your app. The endpoint points to your server, which should accept an HTTP GET request with several `prop` query parameters; each a JSON blob with the following schema:
+If your app that defines a `thumbnail_webhook` endpoint, you will receive a request for a thumbnail representing each presentation created for your app. The endpoint points to your server, which should accept an HTTP GET request with a query parameter for each presentation property in the form of a JSON blob with the following schema:
 
 ```json
-{
+"prop_name": {
     "type": "string; the property's type",
     "value": "any; the application_var value",
-    "url": "optional string; a resource URL for file-type properies"
+    "url": "optional string; a resource URL for file-type properties"
 }
 ```
 

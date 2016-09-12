@@ -11,6 +11,7 @@ Mira apps are primarily responsible for the visual rendering of presentations cr
   - [Localizable Strings](#localizable-strings)
   - [The Executable](#the-executable)
   - [Upload Extensions](#upload-extensions)
+  - [Thumbnail Extension](#thumbnail-extensions)
 1. [The App Life Cycle](#the-app-life-cycle)
   - [The Structure of an App](#the-structure-of-an-app)
   - [States for Apps](#states-for-apps)
@@ -59,6 +60,7 @@ The `info.json` file contains metadata about your app, which the system uses to 
 | `requires_local_store` | `boolean` | Whether or not your app requires access to local storage. Apps are currently limited to a small and variable amount of local storage.
 | `configurable_duration` | `boolean` | Whether or not users can configure the duration of each presentation for your application. Defaults to `true`.
 | `default_duration` | `number` | The default duration, in seconds, of your app's presentations.
+| `thumbnail_webhook` | `string` | __Optional.__ The URL endpoint for a [thumbnail extension](#thumbnail-extensions).
 | `embedded_url_format` | `string` | __Optional.__ A URL format using URL-param syntax: `https://my.service/:some_id?some_flag=:some_flag`. Used for embedded first- and second-party apps only.
 
 #### Property Definitions
@@ -140,6 +142,22 @@ Additionally, your extension's response may include the following custom HTTP he
 | ----------- | ----------- |
 | `X-Mira-Set-Duration` | An integer, in seconds, representing the new length of the presentation that owns this file.
 | `X-Mira-Add-Duration` | An integer, in seconds, representing additional length for the presentation that owns this file.
+
+### Thumbnail Extensions
+If your app that defines a `thumbnail_webhook` endpoint, you will receive a request for a thumbnail representing each presentation created for your app. The endpoint points to your server, which should accept an HTTP GET request with several `prop` query parameters; each a JSON blob with the following schema:
+
+```json
+{
+    "type": "string; the property's type",
+    "value": "any; the application_var value",
+    "url": "optional string; a resource URL for file-type properies"
+}
+```
+
+![Thumbnail Extension](./thumbnail_extension.png)
+
+The response to this request should set the `Content-Disposition` to  `attachment`, and return the thumbnail image as a PNG, at `110pt` × `62pt`. Unlike with upload extensions, which may optionally return a `304` indicating no mutation, any app defining a thumbnail extension _must return a valid thumbnail for each presentation._
+
 
 ## The App Life Cycle
 ### The Structure of an App

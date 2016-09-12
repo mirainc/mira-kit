@@ -144,6 +144,8 @@ Additionally, your extension's response may include the following custom HTTP he
 | `X-Mira-Add-Duration` | An integer, in seconds, representing additional length for the presentation that owns this file.
 
 ### Thumbnail Extensions
+_Coming Soon_
+
 If your app that defines a `thumbnail_webhook` endpoint, you will receive a request for a thumbnail representing each presentation created for your app. The endpoint points to your server, which should accept an HTTP GET request with several `prop` query parameters; each a JSON blob with the following schema:
 
 ```json

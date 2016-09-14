@@ -39,6 +39,21 @@ function appContents(appDir) {
   };
 }
 
+function validateVars(appVars, info) {
+  return info.presentation_properties
+    .concat({name: 'duration', type: 'int'})
+    .every(function(prop) {
+      if (!Object.keys(appVars).includes(prop.name)) {
+        console.log(
+          prop.name + ' not in vars (' + JSON.stringify(appVars) + ')'
+        );
+        return false;
+      }
+
+      return true;
+    });
+}
+
 function openChrome() {
   exec(
     '/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome ' +
@@ -55,8 +70,18 @@ function main() {
   var appVars = program.vars || {};
   var fileSource = program.filesource || 'http://localhost:3000/static';
 
-  runServer(app, appVars, fileSource);
-  openChrome();
+  if (!program.vars && !program.filesource) {
+    console.log(
+      'No command-line arguments found. ' +
+      'Ensure that npm is passing arguments through:\n' +
+      'npm run sim -- --vars \'{"duration": 60, ...}\'\n'
+    );
+  }
+
+  if (validateVars(appVars, app.info)) {
+    runServer(app, appVars, fileSource);
+    openChrome();
+  }
 }
 
 main();

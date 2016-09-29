@@ -80,9 +80,16 @@ class App extends React.Component {
     }
 
     if (window.fetch !== undefined) {
-      fetch = this.captureSandboxFailure(
+      window.fetch = this.captureSandboxFailure(
         'fetch',
         'mira-kit.MiraResource'
+      );
+    }
+
+    if (window.localStorage !== undefined) {
+      window.localStorage = this.captureSandboxFailure(
+        'localStorage',
+        null
       );
     }
 

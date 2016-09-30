@@ -159,8 +159,6 @@
 	
 	      window.fetch = this.captureSandboxFailure('fetch', 'mira-kit.MiraResource');
 	
-	      window.localStorage = this.captureSandboxFailure('localStorage', null);
-	
 	      // set sandbox values
 	      if (window.React === undefined) {
 	        window.React = _react2.default;

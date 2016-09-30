@@ -81,12 +81,7 @@ class App extends React.Component {
       'fetch',
       'mira-kit.MiraResource'
     );
-
-    window.localStorage = this.captureSandboxFailure(
-      'localStorage',
-      null
-    );
-
+    
     // set sandbox values
     if (window.React === undefined) {
       window.React = React;

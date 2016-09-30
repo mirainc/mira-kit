@@ -14,6 +14,7 @@ class URL {
   constructor(url: string) {
     this._urlString = url;
     const domElement = document.createElement('a');
+    domElement.href = this._urlString;
 
     this.protocol = domElement.protocol;
     this.hostname = domElement.hostname;

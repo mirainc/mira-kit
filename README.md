@@ -81,7 +81,7 @@ Presentation property definitions are dictionaries that require that you specify
   - `options`: list, required.
     - `name`: string, required.
     - `value`: string, required.
-  - `default`: string, required. The `value` of the default.
+  - `default`: string. The `value` of the default. Required if `exclusive`.
 - `file`: A file upload.
   - `webhook`: string, optional. The URL endpoint of an [upload extension](#upload-extensions).
   - `constraints`: object, optional.

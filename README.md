@@ -66,16 +66,22 @@ Presentation property definitions are dictionaries that require that you specify
 
 - `string`: A short-form string.
   - `secure`: boolean, optional. Secure strings are displayed as password-style inputs.
+  - `default`: string, optional. The default value for the string.
 - `text`: A long-form string.
+  - `default`: string, optional. The default value for the text.
 - `datetime`: A date and time.
   - `format`: string, required. A [Moment.js](http://momentjs.com/docs/#/parsing/string-format/)-style format string.
+  - `default`: string, optional. The default value in the given format.
 - `boolean`: A true or false value.
+  - `default`: boolean. Defaults to `false`.
 - `number`: A numerical value.
+  - `default`: number, optional. Defaults to `0`.
 - `selection`: A series of options.
   - `exclusive`: boolean, optional. Prevents multiple selection.
   - `options`: list, required.
     - `name`: string, required.
     - `value`: string, required.
+  - `default`: string, required. The `value` of the default.
 - `file`: A file upload.
   - `webhook`: string, optional. The URL endpoint of an [upload extension](#upload-extensions).
   - `constraints`: object, optional.

@@ -73,9 +73,9 @@ Presentation property definitions are dictionaries that require that you specify
   - `format`: string, required. A [Moment.js](http://momentjs.com/docs/#/parsing/string-format/)-style format string.
   - `default`: string, optional. The default value in the given format.
 - `boolean`: A true or false value.
-  - `default`: boolean. Defaults to `false`.
+  - `default`: boolean, optional. The default value for the boolean.
 - `number`: A numerical value.
-  - `default`: number, optional. Defaults to `0`.
+  - `default`: number, optional. The default value for the number.
 - `selection`: A series of options.
   - `exclusive`: boolean, optional. Prevents multiple selection.
   - `options`: list, required.

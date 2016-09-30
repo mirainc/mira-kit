@@ -155,17 +155,11 @@
 	    key: 'main',
 	    value: function main(source, applicationVariables, strings) {
 	      // unset sandbox values
-	      if (window.XMLHttpRequest !== undefined) {
-	        window.XMLHttpRequest = this.captureSandboxFailure('XMLHttpRequest', 'mira-kit.MiraResource');
-	      }
+	      window.XMLHttpRequest = this.captureSandboxFailure('XMLHttpRequest', 'mira-kit.MiraResource');
 	
-	      if (window.fetch !== undefined) {
-	        window.fetch = this.captureSandboxFailure('fetch', 'mira-kit.MiraResource');
-	      }
+	      window.fetch = this.captureSandboxFailure('fetch', 'mira-kit.MiraResource');
 	
-	      if (window.localStorage !== undefined) {
-	        window.localStorage = this.captureSandboxFailure('localStorage', null);
-	      }
+	      window.localStorage = this.captureSandboxFailure('localStorage', null);
 	
 	      // set sandbox values
 	      if (window.React === undefined) {

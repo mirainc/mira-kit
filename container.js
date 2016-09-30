@@ -160,7 +160,11 @@
 	      }
 	
 	      if (window.fetch !== undefined) {
-	        fetch = this.captureSandboxFailure('fetch', 'mira-kit.MiraResource');
+	        window.fetch = this.captureSandboxFailure('fetch', 'mira-kit.MiraResource');
+	      }
+	
+	      if (window.localStorage !== undefined) {
+	        window.localStorage = this.captureSandboxFailure('localStorage', null);
 	      }
 	
 	      // set sandbox values

@@ -588,6 +588,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	  this._urlString = url;
 	  var domElement = document.createElement('a');
+	  domElement.href = this._urlString;
 	
 	  this.protocol = domElement.protocol;
 	  this.hostname = domElement.hostname;

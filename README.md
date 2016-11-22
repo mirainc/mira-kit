@@ -19,7 +19,10 @@ Mira apps are primarily responsible for the visual rendering of presentations cr
 
 ## Getting Started
 
-Currently, MiraKit is only available as a direct-from-GitHub package. To install, use: `npm install --save git+ssh://git@github.com/mirainc/mira-kit#<VERSION>` (For local development, see [`npm link`](https://docs.npmjs.com/cli/link).)
+Currently, MiraKit is available on the npm registry.
+
+From the npm registry: (Most likely to be stable)
+To install, use: `npm install --save mira-kit`
 
 To use the simulator, add the `sim` command to your `package.json` and run the command against your app bundle. (_Note: The simulator is still under heavy development, and is subject to frequent breaking changes._)
 

@@ -8,7 +8,8 @@
     "lint": "front-end-tools-lint",
     "report": "front-end-tools-report",
     "dev": "front-end-tools-build --dev",
-    "build": "front-end-tools-build"
+    "build": "front-end-tools-build",
+    "prepublish": "npm run build"
   },
   "bin": {
     "mira-kit-simulator": "./simulator/main.js"

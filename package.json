@@ -1,6 +1,6 @@
 {
   "name": "mira-kit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Mira SDK",
   "main": "bundle.js",
   "scripts": {
@@ -18,7 +18,7 @@
     "type": "git",
     "url": "git+https://github.com/mirainc/mira-kit.git"
   },
-  "author": "",
+  "author": "Mira",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/mirainc/mira-kit/issues"

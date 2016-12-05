@@ -1,7 +1,12 @@
 .devtools.yml
 kit.jsx
 webpack.config.js
+codeship-services.yml
+codeship-steps.yml
 
 resources
 foundation
 apps
+docker
+.git
+.github

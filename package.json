@@ -1,6 +1,7 @@
 {
   "name": "mira-kit",
-  "version": "0.1.1",
+  "version": "0.1.4",
+  "revision": "1",
   "description": "Mira SDK",
   "main": "bundle.js",
   "scripts": {
@@ -32,7 +33,7 @@
     "babel-plugin-transform-object-rest-spread": "^6.8.0",
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-react": "^6.11.1",
-    "front-end-tools": "git+ssh://git@github.com/mirainc/front-end-tools.git#v0.1.0",
+    "front-end-tools": "git://github.com/mirainc/front-end-tools.git#production",
     "webpack": "^1.13.1"
   },
   "dependencies": {

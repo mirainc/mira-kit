@@ -11,31 +11,32 @@ var exec = require('child_process').exec;
 program.version('0.0.1')
   .usage('[options]')
   .option('--vars [vars]', 'Application variables', JSON.parse)
+  .option('--varfile [varfile]', 'Application variables source file')
   .option('--filesource [source]', 'File source')
   .parse(process.argv);
 
 
 // MARK: Functions
-function appContents(appDir) {
-  function fileContents(appFile, mutator) {
-    if (mutator === undefined) {
-      mutator = function(contents) { return contents; };
-    }
-
-    try {
-      var path = appDir + '/' + appFile;
-      var value = mutator(fs.readFileSync(path));
-      return value;
-    } catch (e) {
-      console.error(appFile + ' does not exist.');
-      throw e;
-    }
+function fileContents(dir, file, mutator) {
+  if (mutator === undefined) {
+    mutator = function(contents) { return contents; };
   }
 
+  try {
+    var path = dir + '/' + file;
+    var value = mutator(fs.readFileSync(path));
+    return value;
+  } catch (e) {
+    console.error(path + ' does not exist.');
+    throw e;
+  }
+}
+
+function appContents(appDir) {
   return {
-    info: fileContents('info.json', JSON.parse),
-    strings: fileContents('strings.json', JSON.parse),
-    bundle: !!fileContents('bundle.js') ? appDir + '/bundle.js' : null
+    info: fileContents(appDir, 'info.json', JSON.parse),
+    strings: fileContents(appDir, 'strings.json', JSON.parse),
+    bundle: !!fileContents(appDir, 'bundle.js') ? appDir + '/bundle.js' : null
   };
 }
 
@@ -67,7 +68,7 @@ function openChrome() {
 function main() {
   var app = appContents('.');
 
-  var appVars = program.vars || {};
+  var appVars = program.vars || fileContents('.', program.varfile, JSON.parse) || {};
   var fileSource = program.filesource || 'http://localhost:3000/static';
 
   if (!program.vars && !program.filesource) {

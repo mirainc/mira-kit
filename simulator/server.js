@@ -77,6 +77,7 @@ function renderPage(res, sourceBundle, embeddedURLFormat, props, strings, fileSo
     }
 
     res.write(`
+      <!DOCTYPE html>
       <html>
         <head>
           <script>window.fileSource = '${fileSource}';</script>

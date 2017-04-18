@@ -60,9 +60,10 @@ The `info.json` file contains metadata about your app, which the system uses to 
 | `allowed_request_domains` | `list` | A list of domains your app will need to access via HTTP/HTTPS.
 | `requires_file_access` | `boolean` | Whether or not your app requires access to files uploaded for your app by your users. This value should be `true` for any app with a property of type `file`.
 | `requires_local_store` | `boolean` | Whether or not your app requires access to local storage. Apps are currently limited to a small and variable amount of local storage.
-| `configurable_duration` | `boolean` | Whether or not users can configure the duration of each presentation for your application. Defaults to `true`.
+| `configurable_duration` | `boolean` | Whether or not users can configure the duration of each presentation for your application. Defaults to `true`. Set to `false` if your application has a dynamic duration defined by lifecycle_events. Please see [MiraEvents](./events/README.md) for more details.
 | `default_duration` | `number` | The default duration, in seconds, of your app's presentations.
 | `embedded_url_format` | `string` | __Optional.__ A URL format using URL-param syntax: `https://my.service/:some_id?some_flag=:some_flag`. Used for embedded first- and second-party apps only.
+| `lifecycle_events` | `list` | __Optional.__ A list of the events that your application triggers via `MiraEvents`. The main runtime will only listen for events specified here. Please see [MiraEvents](./events/README.md) for more details.
 
 #### Property Definitions
 Presentation property definitions are dictionaries that require that you specify the property's `name` and `type`, as well as any optional values that may alter the property's presentation in the Mira dashboard. The possible types of properties are:
@@ -183,6 +184,9 @@ When you register as a Mira developer, you will receive a developer secret. This
 ## Core APIs
 ### [MiraResource](./resources/README.md)
 The `MiraResource` class and related classes provide an API for making HTTP and HTTPS requests. Each object represents a request for a specific URL, following redirects if necessary. Requests are limited to allowed domains and file access specified in your app's `info.json` .
+
+### [MiraEvents](./events/README.md)
+MiraEvents is an EventEmitter that provides an API for communication between applications and the main runtime.
 
 ### MiraLocalStorage
 _Coming Soon_

@@ -1,10 +1,10 @@
 class MiraResourceResponse {
   // MARK: Properties
-  headers: Object
-  didRedirect: boolean
-  statusCode: number
-  url: string
-  raw: ArrayBuffer
+  headers: Object;
+  didRedirect: boolean;
+  statusCode: number;
+  url: string;
+  raw: ArrayBuffer;
 
   // MARK: Constructors
   constructor(
@@ -12,7 +12,7 @@ class MiraResourceResponse {
     didRedirect: boolean,
     statusCode: number,
     url: string,
-    raw: ArrayBuffer
+    raw: ArrayBuffer,
   ) {
     this.headers = headers;
     this.didRedirect = didRedirect;
@@ -23,7 +23,7 @@ class MiraResourceResponse {
 
   // MARK: Accessors
   text(): ?string {
-    return String.fromCharCode.apply(null, new Uint8Array(this.raw));
+    return new TextDecoder('utf-8').decode(new Uint8Array(this.raw));
   }
 
   json(): ?Object {
@@ -31,10 +31,9 @@ class MiraResourceResponse {
   }
 
   blob(): ?Blob {
-    return new Blob([this.raw], {type: this.headers["content-type"]});
+    return new Blob([this.raw], { type: this.headers['content-type'] });
   }
 }
-
 
 // MARK: Exports
 export default MiraResourceResponse;

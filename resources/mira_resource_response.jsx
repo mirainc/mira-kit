@@ -26,6 +26,10 @@ class MiraResourceResponse {
     return new TextDecoder('utf-8').decode(new Uint8Array(this.raw));
   }
 
+  binary(): ?string {
+    return String.fromCharCode.apply(null, new Uint8Array(this.raw));
+  }
+
   json(): ?Object {
     return JSON.parse(this.text());
   }

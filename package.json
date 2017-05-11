@@ -1,6 +1,6 @@
 {
   "name": "mira-kit",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "revision": "1",
   "description": "Mira SDK",
   "main": "bundle.js",

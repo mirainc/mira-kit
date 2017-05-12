@@ -53,10 +53,11 @@ function validateVars(appVars, info) {
 }
 
 function openChrome() {
+  // prettier-ignore
   exec(
     '/Applications/Google\\ Chrome.app/Contents/MacOS/Google\\ Chrome ' +
       '--auto-open-devtools-for-tabs ' +
-      'http://localhost:3000',
+      'http://localhost:3000'
   );
 }
 
@@ -69,10 +70,11 @@ function main() {
   var fileSource = program.filesource || 'http://localhost:3000/static';
 
   if (!program.vars && !program.filesource) {
+    // prettier-ignore
     console.log(
       'No command-line arguments found. ' +
         'Ensure that npm is passing arguments through:\n' +
-        'npm run sim -- --vars \'{"duration": 60, ...}\'\n',
+        'npm run sim -- --vars \'{"duration": 60, ...}\'\n'
     );
   }
 

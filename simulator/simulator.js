@@ -92,10 +92,7 @@ function messageDispatch(event) {
 
     _simFetch(req, event.data.requestId);
   } else if (event.data.event) {
-    if (
-      event.data.event === 'presentation_ready' ||
-      event.data.event === 'presentation_complete'
-    ) {
+    if (event.data.event === 'presentation_complete') {
       triggerPlay();
     }
   }
@@ -104,3 +101,4 @@ function messageDispatch(event) {
 // MARK: Main
 startHeartbeats();
 window.addEventListener('message', messageDispatch, false);
+triggerPlay();

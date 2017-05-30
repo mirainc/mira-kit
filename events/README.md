@@ -24,7 +24,7 @@ MiraEvents.trigger('presentation_complete');
 A `presentation_ready` event will inform the main runtime that the presentation is ready to be displayed on the screen.
 
 ### Play
-A `play` event will be triggered by the maintime and can be subscribed to by applications to ensure timely playback.
+A `play` event will be triggered by the main runtime and can be subscribed to by applications to ensure timely playback.
 
 ### Presentation Complete
 A `presentation_complete` event will inform the main runtime that it the the presentation has completed and can be transitioned away from.

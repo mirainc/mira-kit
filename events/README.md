@@ -10,8 +10,11 @@ import { MiraEvents } from 'mira-kit';
 
 MiraEvents.trigger('presentation_ready');
 
-// Presentation playthrough
+MiraEvents.on('play', () => {
+  // Play application
+});
 
+// Presentation playthrough
 MiraEvents.trigger('presentation_complete');
 ```
 
@@ -20,8 +23,12 @@ MiraEvents.trigger('presentation_complete');
 ### Presentation Ready
 A `presentation_ready` event will inform the main runtime that the presentation is ready to be displayed on the screen.
 
+### Play
+A `play` event will be triggered by the main runtime and can be subscribed to by applications to ensure timely playback.
+
 ### Presentation Complete
 A `presentation_complete` event will inform the main runtime that it the the presentation has completed and can be transitioned away from.
+
 
 ## Registering Lifecycle Events
 To register your lifecycle events, include the events that your application uses in your info.json. Events not registered here will be ignored by the main runtime.

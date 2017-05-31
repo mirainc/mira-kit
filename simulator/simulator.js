@@ -63,12 +63,15 @@ function _simFetch(request, requestId) {
 
 // MARK: Trigger play event
 function triggerPlay() {
-  window.postMessage(
-    {
-      eventType: 'play',
-    },
-    '*',
-  );
+  // NOTE: Artificial timeout to accentuate the transition stuff
+  setTimeout(() => {
+    window.postMessage(
+      {
+        eventType: 'play',
+      },
+      '*',
+    );
+  }, 1000);
 }
 
 // MARK: Message Dispatch

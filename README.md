@@ -1,15 +1,16 @@
 # MiraKit
-Mira's digital display SDK. This document will discuss the various components both necessary and optionally available to apps written for MiraLink devices.
+Mira's digital display SDK.
 
-Mira Apps are primarily responsible for the visual rendering of presentations created by the user. Your app also defines the structure of those presentations, and this structure allows users to create presentations for your app in the Mira Dashboard.
+This document discusses the various components available to apps written for MiraLink devices.
+
+Mira Apps are responsible for the rendering of presentations created by the user, and define the parameters of those presentations in the Mira Dashboard.
 
 ## Table of Contents
 1. [Getting Started](#getting-started)
 1. [The App Bundle](#the-app-bundle)
-  - [An Information Dictionary](#an-information-dictionary)
-  - [Icons and Thumbnails](#icons-and-thumbnails)
-  - [Localizable Strings](#localizable-strings)
-  - [The Executable](#the-executable)
+  - [definition.json](#defintion)
+  - [Icons And Thumbnails](#icons-and-thumbnails)
+  - [bundle](#the-executable)
   - [Upload Extensions](#upload-extensions)
 1. [The App Life Cycle](#the-app-life-cycle)
   - [The Structure of an App](#the-structure-of-an-app)
@@ -18,51 +19,57 @@ Mira Apps are primarily responsible for the visual rendering of presentations cr
 1. [Core APIs](#core-apis)
 
 ## Getting Started
-Currently, MiraKit is available on the npm registry.
+MiraKit is available on the npm registry.
 
-From the npm registry: (Most likely to be stable)
 To install, use: `npm install --save mira-kit`
 
-To use the simulator, add the `sim` command to your `package.json` and run the command against your app bundle. (_Note: The simulator is still under heavy development, and is subject to frequent breaking changes._)
-
-```json
-"scripts": {
-    "sim": "mira-kit-simulator",
-    ...
-}
-```
-
-The simulator also requires any application vars to be defined as JSON in the `--vars` parameter.
-
-`npm run sim -- --vars '{"duration": "60", "ig_username": "test_user"}'`
-
 ## The App Bundle
+_CONSOLIDATE INFO & APP_
 ```bash
 /your-app
-  info.json
-  strings.json
+  definition.json
   icon.svg
   thumbnail.svg
   bundle.js
 ```
 
-### An Information Dictionary
-The `info.json` file contains metadata about your app, which the system uses to interact with your app. This information primarily includes presentation properties, the values of which are set by your users when creating presentations. The dictionary also includes its presentation type, which is used by the system to identify both your app and which presentations it should be launched with.
+### Definition
+* The `definition.json` file contains metadata that defines how the Mira Platform interacts with your app.
+* This information includes presentation properties which can be set by your users.
+* The dictionary also includes its presentation type, which is used by the system to identify both your app and which presentations it should be launched with.
 
-#### `info.json` Keys
-
-| Key Name | Value Type | Description |
-| -------- | ---------- | ----------- |
-| `name` | `string` | The plain-text name of your app. |
-| `presentation_type` | `string` | An identifier in the form of `company.app_name`. This must be unique.
-| `presentation_properties` | `list` | A list of property definitions. The user-defined values constitute a "presentation" and will be passed to your app on launch.
-| `allowed_request_domains` | `list` | A list of domains your app will need to access via HTTP/HTTPS.
-| `requires_file_access` | `boolean` | Whether or not your app requires access to files uploaded for your app by your users. This value should be `true` for any app with a property of type `file`.
-| `requires_local_store` | `boolean` | Whether or not your app requires access to local storage. Apps are currently limited to a small and variable amount of local storage.
-| `configurable_duration` | `boolean` | Whether or not users can configure the duration of each presentation for your application. Defaults to `true`. Set to `false` if your application has a dynamic duration defined by lifecycle_events. Please see [MiraEvents](./events/README.md) for more details.
-| `default_duration` | `number` | The default duration, in seconds, of your app's presentations.
-| `embedded_url_format` | `string` | __Optional.__ A URL format using URL-param syntax: `https://my.service/:some_id?some_flag=:some_flag`. Used for embedded first- and second-party apps only.
-| `lifecycle_events` | `list` | __Optional.__ A list of the events that your application triggers via `MiraEvents`. The main runtime will only listen for events specified here. Please see [MiraEvents](./events/README.md) for more details.
+#### `definition.json` Keys
+* `name`
+  * type: `string`
+  * The plain-text name of your app.
+* `presentation_type`
+  * type `string`
+  * An identifier in the form of `company.app_name`. This must be unique.
+* `presentation_properties`
+  * type: `list`
+  * A list of property definitions. The user-defined values constitute a "presentation" and will be passed to your app on launch.
+* `allowed_request_domains` 
+  * type: `list`
+  * A list of domains your app will need to access via HTTP/HTTPS.
+* `requires_file_access` 
+  * type: `boolean`
+  * Whether or not your app requires access to files uploaded for your app by your users. This value should be `true` for any app with a property of type `file`.
+* `requires_local_store`
+  * type: `boolean`
+  * Whether or not your app requires access to local storage. Apps are currently limited to a small and variable amount of local storage.
+* `configurable_duration`
+  * type: `boolean`
+  * Whether or not users can configure the duration of each presentation for your application. Defaults to `true`. Set to `false` if your application has a dynamic duration defined by lifecycle_events. Please see [MiraEvents](./events/README.md) for more details.
+* `default_duration`
+  * type: `number`
+  * The default duration, in seconds, of your app's presentations.
+* `embedded_url_format`
+  * type: `string`
+  * __Optional.__ A URL format using URL-param syntax: `https://my.service/:some_id?some_flag=:some_flag`. Used for embedded first- and second-party apps only.
+* `lifecycle_events`
+  * type: `list`
+  * __Optional.__ A list of the events that your application triggers via `MiraEvents`. The main runtime will only listen for events specified here. Please see [MiraEvents](./events/README.md) for more details.
+* `strings`
 
 #### Property Definitions
 Presentation property definitions are dictionaries that require that you specify the property's `name` and `type`, as well as any optional values that may alter the property's presentation in the Mira dashboard. The possible types of properties are:
@@ -97,15 +104,10 @@ For example, an Instagram app may have the property `ig_username`:
 {"name": "ig_username", "type": "string", "secure": false}
 ```
 
-The text that is displayed in the dashboard for each property is derived from your app's `strings.json` file.
+The text that is displayed in the dashboard for each property is derived from your app's `strings` defined in the `definition.json` file.
 
-### Icons and Thumbnails
-Your app icon is used to represent your app in the Mira dashboard and should be `32pt` square. Its thumbnail is used to represent presentations created for your app and should be `110pt` wide by `62pt` tall. Both files should be SVGs.
-
-_FIXME: Should include Sketch template._
-
-### Localizable Strings
-Localizable text must be placed in a `strings.json` file. The dictionary should map the ISO 639-1 language abbreviation to a dictionary mapping arbitrary string keys to readable, localized values.
+#### Localizable Strings
+Localizable text must be placed in the `strings` dictionary. The dictionary should map the ISO 639-1 language abbreviation to a dictionary mapping arbitrary string keys to readable, localized values.
 
 ```json
 {
@@ -119,51 +121,37 @@ Localizable text must be placed in a `strings.json` file. The dictionary should 
 }
 ```
 
-Your app's `strings.json` must include at least one language localization for each property in `presentation_properties`.
+Your app's `strings` must include at least one language localization for each property in `presentation_properties`.
 
 Additionally, the Mira dashboard will expect your app to define at least one localization for several keys used in describing the app itself.
 
-- `content_type`: The type of data your app handles. For example, the Media Player app's `content_type` in English is "Media", and a restaurant app's `content_type` in English might be "Menu."
+- `content_type`: The type of data your app handles. For example, the Video Player app's `content_type` in English is "Video", and a restaurant app's `content_type` in English might be "Menu."
 - `description`: The plain-text description of your app and what it does.
 
 This file should also include translations of any user-facing text for your app, and will be passed to your app at runtime.
+
+### Icons and Thumbnails
+Your app icon is used to represent your app in the Mira dashboard and should be `32pt` square. Its thumbnail is used to represent presentations created for your app and should be `110pt` wide by `62pt` tall. Both files should be SVGs.
 
 ### The Executable
 The executable file contains your app's transpiled and bundled code. All markup, styling, and logic must be bundled into this file using webpack, Browserify, or some other bundler. The name of this file should be `bundle.js`.
 
 At its top-most level, the file should export a subclass of `React.Component`. This component will use the React library present at runtime, and so it is important that you _do not import React into your bundle._
 
-If `embedded_url_format` is present in your `info.json`, the runtime will _ignore your `bundle.js`_ and instead fill the format with the presentation's property values and load the result in an iframe-like context. The executable can safely be omitted in this case.
-
-### Upload Extensions
-If your app defines a `file` property, it may provide a `webhook` endpoint for mutation of any user-uploaded files. This endpoint points to your server, which should accept HTTP GET requests with the `file` query parameter set to a URL pointing the the uploaded file. This URL will expire, so the likely first thing your server should do in response is download the file.
-
-The response to this request should set the `Content-Disposition` header to the format `attachment; filename=$FILENAME.EXT`, and return the mutated version of the file as an attachment. Alternatively, your server may respond without an attachment and with a `304` status code, indicating no change. Any other response will be treated as an error.
-
-![Upload Extension](./upload_extension.png)
-
-Additionally, your extension's response may include the following custom HTTP headers.
-
-| Header Name | Description |
-| ----------- | ----------- |
-| `X-Mira-Set-Duration` | An integer, in seconds, representing the new length of the presentation that owns this file.
-| `X-Mira-Add-Duration` | An integer, in seconds, representing additional length for the presentation that owns this file.
-
 ## The App Life Cycle
 ### The Structure of an App
-At the heart of every Mira app is the `Application` component, whose job is to facilitate the interactions between the system and your app. On startup, the system loads the `Application` with the current presentation, the properties of which are loaded into your app.
+_NEEDS TO BE RE-WRITTEN TO DISCUSS LIFECYCLE EVENTS_
+Every Mira app is rendered in the context of the `Adapter` component, whose job is to facilitate the interactions between the Mira Platform and your app.
 
-Your app is evaluated and imported at runtime, and the exported subclass of `React.Component` is considered your root container, and the entry point into your app. An instance of your root container is created and mounted into the React document with the following properties:
-
+On startup, the system loads creates an `Adapter`, in which, your application will be rendered. The adapter passes the following resources to your Application as props:
+- `instanceVariables` - each entry in the users configured presentation properties.
 - `strings`, a representation of your app's `strings.json` file. To access a readable string, simply render `strings.your_key_name`, and the correct value will be chosen based on the language at runtime.
-
-Additionally, each entry in `presentation_properties` will be passed as a property of your root container. These are the list of properties corresponding to your app's presentation properties, and the values associated with the current presentation.
-
-The `Application` component, your root container, and your entire app will be evaluated, run, and displayed from within a sandboxed context. This sandbox cannot access to the device or browser in which it's presented, and many APIs present in typical browser contexts, such as `XMLHttpRequest`, have been removed in favor of this SDK's [core APIs](#core-apis). These APIs take into account your app's `info.json` configuration and adjusts access accordingly.
-
-![App Structure](./app_sandbox.png)
+- `requestProxy` - The `Application` component, your root container, and your entire app will be evaluated, run, and displayed from within a sandboxed context. This sandbox cannot access to the device or browser in which it's presented, and many APIs present in typical browser contexts, such as `XMLHttpRequest`, have been removed in favor of this SDK's [core APIs](#core-apis). These APIs take into account your app's `info.json` configuration and adjusts access accordingly.
+- `eventEmitter`
 
 ### States for Apps
+_TODO: Remove reference to componentDidReceiveHeartbeat & add references to render life cycle photon_
+
 Overall, life-cycle of your app will be reflected in the [mounting life-cycle](https://facebook.github.io/react/docs/component-specs.html#lifecycle-methods) of your root component. Your root component may also implement an additional life-cycle method, which will be called periodically by the MiraLink.
 
 ```js

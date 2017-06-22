@@ -1,7 +1,7 @@
 # MiraKit
 Mira's digital display SDK. This document will discuss the various components both necessary and optionally available to apps written for MiraLink devices.
 
-Mira apps are primarily responsible for the visual rendering of presentations created by the user. Your app also defines the structure of those presentations, and this structure allows users to create presentations for your app in the Mira dashboard.
+Mira Apps are primarily responsible for the visual rendering of presentations created by the user. Your app also defines the structure of those presentations, and this structure allows users to create presentations for your app in the Mira Dashboard.
 
 ## Table of Contents
 1. [Getting Started](#getting-started)
@@ -18,7 +18,6 @@ Mira apps are primarily responsible for the visual rendering of presentations cr
 1. [Core APIs](#core-apis)
 
 ## Getting Started
-
 Currently, MiraKit is available on the npm registry.
 
 From the npm registry: (Most likely to be stable)
@@ -87,7 +86,6 @@ Presentation property definitions are dictionaries that require that you specify
     - `value`: string, required.
   - `default`: string. The `value` of the default. Required if `exclusive`.
 - `file`: A file upload.
-  - `webhook`: string, optional. The URL endpoint of an [upload extension](#upload-extensions).
   - `constraints`: object, optional.
     - `content-types`: list, optional. A set of HTTP Content-Types that your app supports. Defaults to `*`.
     - `content-length`: int, optional. The maximum file size, in bytes, your app supports. Defaults to `100000000`.

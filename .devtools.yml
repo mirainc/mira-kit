@@ -1,4 +1,0 @@
-# Configuration Options for Front-End Tools
-
-js_files_to_lint: './**/!(*tests).{jsx}'
-js_test_files: '**/*.tests.{js,jsx}'

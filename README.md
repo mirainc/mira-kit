@@ -37,6 +37,8 @@ The simulator also requires any application vars to be defined as JSON in the `-
 
 `npm run sim -- --vars '{"duration": "60", "ig_username": "test_user"}'`
 
+*NOTE* Add `--filesource=` param documentation
+
 ## The App Bundle
 ```bash
 /your-app
@@ -87,7 +89,7 @@ Presentation property definitions are dictionaries that require that you specify
     - `value`: string, required.
   - `default`: string. The `value` of the default. Required if `exclusive`.
 - `file`: A file upload.
-  - `webhook`: string, optional. The URL endpoint of an [upload extension](#upload-extensions).
+  - `webhook`: string, optional. The URL endpoint of an [upload extension](#upload-extensions). *NOTE No longer supported*
   - `constraints`: object, optional.
     - `content-types`: list, optional. A set of HTTP Content-Types that your app supports. Defaults to `*`.
     - `content-length`: int, optional. The maximum file size, in bytes, your app supports. Defaults to `100000000`.
@@ -138,9 +140,10 @@ At its top-most level, the file should export a subclass of `React.Component`. T
 If `embedded_url_format` is present in your `info.json`, the runtime will _ignore your `bundle.js`_ and instead fill the format with the presentation's property values and load the result in an iframe-like context. The executable can safely be omitted in this case.
 
 ### Upload Extensions
+*NOTE No longer supported*
 If your app defines a `file` property, it may provide a `webhook` endpoint for mutation of any user-uploaded files. This endpoint points to your server, which should accept HTTP GET requests with the `file` query parameter set to a URL pointing the the uploaded file. This URL will expire, so the likely first thing your server should do in response is download the file.
 
-The response to this request should set the `Content-Disposition` header to the format `attachment; filename=$FILENAME.EXT`, and return the mutated version of the file as an attachment. Alternatively, your server may respond without an attachment and with a `304` status code, indicating no change. Any other response will be treated as an error.
+The response to this request should set the `Content-Disposition` header to the format `attachment; filename=$FILENAME.EXT`, and return the mutated version of the file as an attachment. Alternatively, your server may respond without an attachment and with a `304` *Note: Errors should be some kind of 4xx* status code, indicating no change. Any other response will be treated as an error.
 
 ![Upload Extension](./upload_extension.png)
 

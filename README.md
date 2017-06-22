@@ -48,10 +48,10 @@ _CONSOLIDATE INFO & APP_
 * `presentation_properties`
   * type: `list`
   * A list of property definitions. The user-defined values constitute a "presentation" and will be passed to your app on launch.
-* `allowed_request_domains` 
+* `allowed_request_domains`
   * type: `list`
   * A list of domains your app will need to access via HTTP/HTTPS.
-* `requires_file_access` 
+* `requires_file_access`
   * type: `boolean`
   * Whether or not your app requires access to files uploaded for your app by your users. This value should be `true` for any app with a property of type `file`.
 * `requires_local_store`
@@ -152,17 +152,14 @@ On startup, the system loads creates an `Adapter`, in which, your application wi
 ### States for Apps
 _TODO: Remove reference to componentDidReceiveHeartbeat & add references to render life cycle photon_
 
-Overall, life-cycle of your app will be reflected in the [mounting life-cycle](https://facebook.github.io/react/docs/component-specs.html#lifecycle-methods) of your root component. Your root component may also implement an additional life-cycle method, which will be called periodically by the MiraLink.
+Mira applications trigger lifecycle events which enable the application and the Mira platform to communicate between each other.
 
-```js
-void componentDidReceiveHeartbeat()
-```
+- The `presentation_ready` event is triggered by an application when it is ready to start playback on the Mira platform.
+ - The Mira platform will respond to the application with a `play` event to indicate the application should begin playback.
+- The `presentation_complete` event is triggered by an application when playback on the application is complete. This notifies the Mira platform that it can move to the next presentation.
+ - If there is no subsequent application the platform will trigger another play event to loop the current application.
 
-This method may be used to trigger content or layout updates.
-
-Transition between apps typically occurs at the end of a presentation. The MiraLink uses the deployed schedule and playlist to determine which presentation should be shown next, and the app in which to present it. The MiraLink will also make a best effort to pre-cache your app's source to increase launch performance.
-
-However, when a user deploys a new schedule to the device, your app may no longer be the scheduled app, and playback might be interrupted. The system is not currently constructed to allow for any grace period, and in these cases interruption of your app will be immediate. Therefore it's paramount that your app strives for statelessness where possible, and atomic action when not.
+_NOTE: If a duration field is present in application variables, these events will be managed for you and triggered based on the duration set by the user._
 
 ## Deploying an App
 When you register as a Mira developer, you will receive a developer secret. This secret should not be published anywhere, and will be used in conjunction with a webhook to deploy new versions of your app. After registering your app with Mira, you'll receive a webhook endpoint that, when used as post-commit hook in GitHub, will trigger our deploy service to clone and deploy the `HEAD` of your repository. The file structure of this repository must conform to the structure laid out in [the application bundle](#the-app-bundle) section.

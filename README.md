@@ -11,20 +11,20 @@ Mira Apps are responsible for the rendering of presentations created by the user
   - [definition.json](#defintion)
   - [Icons And Thumbnails](#icons-and-thumbnails)
   - [bundle](#the-executable)
-  - [Upload Extensions](#upload-extensions)
 1. [The App Life Cycle](#the-app-life-cycle)
   - [The Structure of an App](#the-structure-of-an-app)
   - [States for Apps](#states-for-apps)
-1. [Deploying an App](#deploying-an-app)
 1. [Core APIs](#core-apis)
+1. [Testing Your Application](#testing-your-application)
+1. [Deploying an App](#deploying-an-app)
 
 ## Getting Started
 MiraKit is available on the npm registry.
 
-To install, use: `npm install --save mira-kit`
+To install, use: `npm install --save-dev mira-kit`
 
 ## The App Bundle
-_CONSOLIDATE INFO & APP_
+
 ```bash
 /your-app
   definition.json
@@ -124,7 +124,6 @@ Localizable text must be placed in the `strings` dictionary. The dictionary shou
 Your app's `strings` must include at least one language localization for each property in `presentation_properties`.
 
 Additionally, the Mira dashboard will expect your app to define at least one localization for several keys used in describing the app itself.
-
 - `content_type`: The type of data your app handles. For example, the Video Player app's `content_type` in English is "Video", and a restaurant app's `content_type` in English might be "Menu."
 - `description`: The plain-text description of your app and what it does.
 
@@ -134,24 +133,23 @@ This file should also include translations of any user-facing text for your app,
 Your app icon is used to represent your app in the Mira dashboard and should be `32pt` square. Its thumbnail is used to represent presentations created for your app and should be `110pt` wide by `62pt` tall. Both files should be SVGs.
 
 ### The Executable
+_TODO: Add explicit script to create executeable_
 The executable file contains your app's transpiled and bundled code. All markup, styling, and logic must be bundled into this file using webpack, Browserify, or some other bundler. The name of this file should be `bundle.js`.
 
-At its top-most level, the file should export a subclass of `React.Component`. This component will use the React library present at runtime, and so it is important that you _do not import React into your bundle._
+At its top-most level, the file should export a subclass of `React.Component`.
 
 ## The App Life Cycle
 ### The Structure of an App
 _NEEDS TO BE RE-WRITTEN TO DISCUSS LIFECYCLE EVENTS_
-Every Mira app is rendered in the context of the `Adapter` component, whose job is to facilitate the interactions between the Mira Platform and your app.
+Every Mira app is rendered in the context defined by the Mira Platform.
 
-On startup, the system loads creates an `Adapter`, in which, your application will be rendered. The adapter passes the following resources to your Application as props:
+On startup, the system loads creates the resources that will be available to your application and passed in as props:
 - `instanceVariables` - each entry in the users configured presentation properties.
 - `strings`, a representation of your app's `strings.json` file. To access a readable string, simply render `strings.your_key_name`, and the correct value will be chosen based on the language at runtime.
-- `requestProxy` - The `Application` component, your root container, and your entire app will be evaluated, run, and displayed from within a sandboxed context. This sandbox cannot access to the device or browser in which it's presented, and many APIs present in typical browser contexts, such as `XMLHttpRequest`, have been removed in favor of this SDK's [core APIs](#core-apis). These APIs take into account your app's `info.json` configuration and adjusts access accordingly.
-- `eventEmitter`
+- `miraRequestProxy` - The `Application` component, your root container, and your entire app will be evaluated, run, and displayed from within a sandboxed context. This sandbox cannot access to the device or browser in which it's presented, and many APIs present in typical browser contexts, such as `XMLHttpRequest`, have been removed in favor of this SDK's [core APIs](#core-apis). These APIs take into account your app's `info.json` configuration and adjusts access accordingly.
+- `miraEvents` - 
 
 ### States for Apps
-_TODO: Remove reference to componentDidReceiveHeartbeat & add references to render life cycle photon_
-
 Mira applications trigger lifecycle events which enable the application and the Mira platform to communicate between each other.
 
 - The `presentation_ready` event is triggered by an application when it is ready to start playback on the Mira platform.
@@ -161,27 +159,44 @@ Mira applications trigger lifecycle events which enable the application and the 
 
 _NOTE: If a duration field is present in application variables, these events will be managed for you and triggered based on the duration set by the user._
 
-## Deploying an App
-When you register as a Mira developer, you will receive a developer secret. This secret should not be published anywhere, and will be used in conjunction with a webhook to deploy new versions of your app. After registering your app with Mira, you'll receive a webhook endpoint that, when used as post-commit hook in GitHub, will trigger our deploy service to clone and deploy the `HEAD` of your repository. The file structure of this repository must conform to the structure laid out in [the application bundle](#the-app-bundle) section.
-
 ## Core APIs
-### [MiraResource](./resources/README.md)
-The `MiraResource` class and related classes provide an API for making HTTP and HTTPS requests. Each object represents a request for a specific URL, following redirects if necessary. Requests are limited to allowed domains and file access specified in your app's `info.json` .
+### miraRequestProxy
+The `miraRequestProxy` prop provides an API for making HTTP and HTTPS requests. Requests are limited to allowed domains and file access specified in your app's `info.json` .
 
-### [MiraEvents](./events/README.md)
-MiraEvents is an EventEmitter that provides an API for communication between applications and the main runtime.
+The `miraRequestProxy` has an identical API to the [whatwg-fetch specification](https://github.github.io/fetch/).
 
-### MiraLocalStorage
-_Coming Soon_
 
-### MiraHDMIAccess
-_Coming Soon_
+### miraEvents
+The `miraEvents` prop is an EventEmitter that provides an API for communication between applications and the main runtime.
 
-### MiraBluetoothAccess
-_Coming Soon_
+#### API
+Once your application has registered the lifecycle events that it utilizes, see [registering lifecycle events](#registering-lifecycle-events), you can use MiraEvents like below:
 
-### MiraLocationAccess
-_Coming Soon_
+Usage:
+```js
 
-### MiraPeerConnectivity
-_Coming Soon_
+this.props.miraEvents.trigger('presentation_ready');
+
+this.props.miraEvents.on('play', () => {
+  // Play application
+});
+
+// Presentation playthrough
+this.props.miraEvents.trigger('presentation_complete');
+```
+
+#### Event Types
+* Presentation Ready
+  * A `presentation_ready` event will inform the main runtime that the presentation is ready to be displayed on the screen.
+* Play
+  * A `play` event will be triggered by the main runtime and can be subscribed to by applications to ensure timely playback.
+* Presentation Complete
+  * A `presentation_complete` event will inform the main runtime that it the the presentation has completed and can be transitioned away from.
+
+#### Registering Lifecycle Events
+To register your lifecycle events, include the events that your application uses in your info.json. Events not registered here will be ignored by the main runtime.
+
+## Testing Your App
+
+## Deploying an App
+*TBD*

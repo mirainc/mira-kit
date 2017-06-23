@@ -13,5 +13,8 @@
   "bugs": {
     "url": "https://github.com/mirainc/mira-kit/issues"
   },
-  "homepage": "https://github.com/mirainc/mira-kit#readme"
+  "homepage": "https://github.com/mirainc/mira-kit#readme",
+  "dependencies": {
+    "react-scripts": "^1.0.7"
+  }
 }

@@ -7,4 +7,4 @@ const main = (App, definition) => {
   ReactDOM.render(<Simulator App={app} definition={definition} />, root);
 };
 
-export default main;
+module.exports = main;

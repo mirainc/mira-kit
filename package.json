@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "revision": "0",
   "description": "Mira SDK",
-  "main": "./bundle.js",
+  "main": "./dist/bundle.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mirainc/mira-kit.git"

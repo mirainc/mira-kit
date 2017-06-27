@@ -3,13 +3,13 @@
   "version": "1.0.0",
   "revision": "0",
   "description": "Mira SDK",
-  "main": "dist/bundle.js",
+  "main": "./bundle.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mirainc/mira-kit.git"
   },
   "scripts": {
-    "build": "webpack --config ./webpack.config.js",
+    "build": "webpack",
     "prepublish": "npm run build"
   },
   "author": "Mira",

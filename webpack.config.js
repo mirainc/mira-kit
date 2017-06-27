@@ -1,5 +1,5 @@
 module.exports = options => ({
-  entry: './src',
+  entry: './src/index.js',
   output: {
     filename: './dist/bundle.js',
   },

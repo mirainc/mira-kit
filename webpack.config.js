@@ -1,7 +1,12 @@
+const path = require('path');
+
 module.exports = options => ({
   entry: './src/index.js',
   output: {
-    filename: './dist/bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'mira-kit.js',
+    library: 'miraKit',
+    libraryTarget: 'umd',
   },
   module: {
     rules: [
@@ -19,5 +24,4 @@ module.exports = options => ({
       },
     ],
   },
-  target: 'node',
 });

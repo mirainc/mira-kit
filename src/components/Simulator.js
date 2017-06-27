@@ -45,7 +45,7 @@ class Simulator extends React.Component {
   }
 
   render() {
-    const App = this.props.app;
+    const { App } = this.props;
     if (this.state.submit) {
       return (
         <div className="simulator">

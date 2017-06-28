@@ -5,7 +5,6 @@ module.exports = options => ({
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'mira-kit.js',
-    library: 'miraKit',
     libraryTarget: 'umd',
   },
   module: {

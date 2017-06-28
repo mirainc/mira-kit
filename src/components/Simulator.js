@@ -1,19 +1,27 @@
 import React from 'react';
 import Inspector from './Inspector';
+import PropTypes from 'prop-types';
 
 const inspectorStyle = {
-  float: 'right',
-  width: '24.5%',
   height: '100vh',
+  width: '25%',
 };
+
+const simulatorStyle = {
+  display: 'flex',
+}
 
 const appStyle = {
   borderSize: '1px',
   borderStyle: 'solid',
   borderColor: 'black',
-  float: 'left',
-  width: '75%',
   height: '100vh',
+  width: '75%',
+};
+
+const propTypes = {
+  definition: PropTypes.object.isRequired,
+  App: PropTypes.func.isRequired,
 };
 
 class Simulator extends React.Component {
@@ -48,7 +56,7 @@ class Simulator extends React.Component {
     const { App } = this.props;
     if (this.state.submit) {
       return (
-        <div className="simulator">
+        <div className="simulator" style={simulatorStyle}>
           <div className="app" style={appStyle}>
             <App {...this.state.applicationVariables} />
           </div>
@@ -64,7 +72,7 @@ class Simulator extends React.Component {
       );
     } else {
       return (
-        <div className="simulator">
+        <div className="simulator" style={simulatorStyle}>
           <div className="app" style={appStyle}>
             placeholder for app
           </div>
@@ -82,9 +90,6 @@ class Simulator extends React.Component {
   }
 }
 
-Simulator.propTypes = {
-  definition: React.PropTypes.object.isRequired,
-  app: React.PropTypes.func.isRequired,
-};
+Simulator.propTypes = propTypes;
 
 export default Simulator;

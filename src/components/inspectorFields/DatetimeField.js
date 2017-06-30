@@ -6,7 +6,7 @@ import Datetime from 'react-datetime';
 const propTypes = {
   presentationProperty: PropTypes.object.isRequired,
   updateAppVar: PropTypes.func.isRequired,
-  value: PropTypes.any.isRequired,
+  value: PropTypes.string.isRequired,
 };
 
 class DatetimeField extends React.Component {

@@ -58,10 +58,12 @@ class Inspector extends React.Component {
         <div>
           {presentationProperties.map(presentationProperty => {
             const name = presentationProperty.name;
-            const value = name in applicationVariables
-              ? applicationVariables[name]
-              : '';
-
+            let value = '';
+            if (name in applicationVariables) {
+              value = applicationVariables[name];
+            } else if (presentationProperty.default) {
+              value = presentationProperty.default;
+            }
             return (
               <div key={presentationProperty.name}>
                 {`${presentationProperty.name}: `}

@@ -5,14 +5,13 @@ import ToggleButton from 'react-toggle-button';
 const propTypes = {
   presentationProperty: PropTypes.object.isRequired,
   updateAppVar: PropTypes.func.isRequired,
-  value: PropTypes.any.isRequired,
+  value: PropTypes.bool.isRequired,
 };
 
 class BooleanField extends React.Component {
   handleChange(e) {
     const name = this.props.presentationProperty.name;
-    console.log(e);
-    // this.props.updateAppVar(name, e.target.value);
+    this.props.updateAppVar(name, !e);
   }
 
   render() {
@@ -22,7 +21,7 @@ class BooleanField extends React.Component {
     return (
       <ToggleButton
         value={value}
-        onToggle={e => handleChange(e)}
+        onToggle={e => this.handleChange(e)}
       />
     );
   }

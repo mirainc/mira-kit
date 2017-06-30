@@ -5,6 +5,7 @@ import DatetimeField from './DatetimeField';
 import StringField from './StringField';
 import TextField from './TextField';
 import NumberField from './NumberField';
+import BooleanField from './BooleanField';
 
 const propTypes = {
   presentationProperty: PropTypes.object.isRequired,
@@ -48,7 +49,15 @@ class InspectorField extends React.Component {
         );
       }
       case 'boolean': {
-        return <input name="bool" onChange={() => 'blahh'} value="bool" />;
+        const boolVal = value ? true : false;
+        console.log(this.props);
+        return (
+          <BooleanField
+            presentationProperty={presentationProperty}
+            updateAppVar={updateAppVar}
+            value={boolVal}
+          />
+        );
       }
 
       case 'datetime': {

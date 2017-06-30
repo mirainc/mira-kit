@@ -23,7 +23,6 @@ class StringField extends React.Component {
         name={presentationProperty.name}
         onChange={e => this.handleChange(e)}
         value={value}
-        placeholder={presentationProperty.defaultValue}
       />
     );
   }

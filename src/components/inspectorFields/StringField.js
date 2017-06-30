@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const propTypes = {
   presentationProperty: PropTypes.object.isRequired,
   updateAppVar: PropTypes.func.isRequired,
-  value: PropTypes.any.isRequired,
+  value: PropTypes.string.isRequired,
 };
 
 class StringField extends React.Component {
@@ -25,7 +25,7 @@ class StringField extends React.Component {
         name={presentationProperty.name}
         onChange={e => this.handleChange(e)}
         value={value}
-        placeholder={presentationProperty.default}
+        placeholder={presentationProperty.placeholder}
         type={type}
       />
     );

@@ -77,8 +77,10 @@ Presentation property definitions are dictionaries that require that you specify
 - `string`: A short-form string.
   - `secure`: boolean, optional. Secure strings are displayed as password-style inputs.
   - `default`: string, optional. The default value for the string.
+  - `placeholder`: string, optional. An optional placeholder for when no text is entered.
 - `text`: A long-form string.
   - `default`: string, optional. The default value for the text.
+  - `placeholder`: string, optional. An optional placeholder for when no text is entered.
 - `datetime`: A date and time. The expected format of the datetime is ISO 8601 (example: `2000-02-01T09:00:00.000Z` is February 1st, 2000 at 9AM UTC)
   - `default`: UTC ISO string, optional. This value will be rendered in the simulator to local time, but passed to the application in UTC.
 - `boolean`: A true or false value.

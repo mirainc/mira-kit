@@ -79,9 +79,8 @@ Presentation property definitions are dictionaries that require that you specify
   - `default`: string, optional. The default value for the string.
 - `text`: A long-form string.
   - `default`: string, optional. The default value for the text.
-- `datetime`: A date and time.
-  - `format`: string, required. A [Moment.js](http://momentjs.com/docs/#/parsing/string-format/)-style format string.
-  - `default`: string, optional. The default value in the given format.
+- `datetime`: A date and time. The expected format of the datetime is ISO 8601 (example: `2000-02-01T09:00:00.000Z` is February 1st, 2000 at 9AM UTC)
+  - `default`: UTC ISO string, optional. This value will be rendered in the simulator to local time, but passed to the application in UTC.
 - `boolean`: A true or false value.
   - `default`: boolean, optional. The default value for the boolean.
 - `number`: A numerical value.
@@ -147,7 +146,7 @@ On startup, the system loads creates the resources that will be available to you
 - `instanceVariables` - each entry in the users configured presentation properties.
 - `strings`, a representation of your app's `strings.json` file. To access a readable string, simply render `strings.your_key_name`, and the correct value will be chosen based on the language at runtime.
 - `miraRequestProxy` - The `Application` component, your root container, and your entire app will be evaluated, run, and displayed from within a sandboxed context. This sandbox cannot access to the device or browser in which it's presented, and many APIs present in typical browser contexts, such as `XMLHttpRequest`, have been removed in favor of this SDK's [core APIs](#core-apis). These APIs take into account your app's `info.json` configuration and adjusts access accordingly.
-- `miraEvents` - 
+- `miraEvents` -
 
 ### States for Apps
 Mira applications trigger lifecycle events which enable the application and the Mira platform to communicate between each other.

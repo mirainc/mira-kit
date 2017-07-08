@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Moment from 'moment';
 import Datetime from 'react-datetime';
+import { parseISOString } from '../../helpers';
 
 const propTypes = {
   presentationProperty: PropTypes.object.isRequired,
@@ -10,20 +11,12 @@ const propTypes = {
 };
 
 class DatetimeField extends React.Component {
-
   handleChange(e) {
-    if (e.isValid()) {
+    if (typeof e.isValid === 'function' && e.isValid()) {
       const name = this.props.presentationProperty.name;
       const isoString = e.toDate().toISOString();
       this.props.updateAppVar(name, isoString);
     }
-  }
-
-  // used to convert iso string to local date object
-  parseISOString(s) {
-    const b = s.split(/\D+/);
-    return new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]));
-
   }
 
   render() {
@@ -34,10 +27,9 @@ class DatetimeField extends React.Component {
     const dateVal = value;
     const defaultDateVal = presentationProperty.default;
     if (dateVal) {
-      date = this.parseISOString(dateVal);
+      date = parseISOString(dateVal);
     } else if (defaultDateVal) {
-      date = this.parseISOString(defaultDateVal);
-
+      date = parseISOString(defaultDateVal);
     }
     return (
       <Datetime

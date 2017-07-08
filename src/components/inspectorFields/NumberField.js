@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 const propTypes = {
   presentationProperty: PropTypes.object.isRequired,
   updateAppVar: PropTypes.func.isRequired,
-  value: PropTypes.any.isRequired,
+  value: PropTypes.any,
 };
 
-class StringField extends React.Component {
+class NumberField extends React.Component {
   handleChange(e) {
     e.preventDefault();
     const name = this.props.presentationProperty.name;
@@ -28,6 +28,6 @@ class StringField extends React.Component {
   }
 }
 
-StringField.propTypes = propTypes;
+NumberField.propTypes = propTypes;
 
-export default StringField;
+export default NumberField;

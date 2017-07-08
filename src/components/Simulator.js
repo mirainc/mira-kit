@@ -1,22 +1,29 @@
 import React from 'react';
 import Inspector from './Inspector';
 import PropTypes from 'prop-types';
+import { valAppVars, initAppVars } from '../helpers';
 
 const inspectorStyle = {
   height: '100vh',
   width: '25%',
+  borderWidth: '10px',
+  borderStyle: 'solid',
+  borderColor: 'white',
 };
 
 const simulatorStyle = {
   display: 'flex',
-}
+};
 
-const appStyle = {
-  borderSize: '1px',
-  borderStyle: 'solid',
-  borderColor: 'black',
+const loadedAppStyle = {
   height: '100vh',
   width: '75%',
+};
+
+const unLoadedAppStyle = {
+  height: '100vh',
+  width: '75%',
+  background: 'black',
 };
 
 const propTypes = {
@@ -25,31 +32,42 @@ const propTypes = {
 };
 
 class Simulator extends React.Component {
-  constructor() {
+  constructor(props) {
     super();
     //getInitialState
+    const initVals = initAppVars(props.definition.presentation_properties);
+    // console.log(initVals);
     this.state = {
       submit: false,
-      applicationVariables: {},
+      presPropToAppVarMap: initVals.presPropToAppVarMap,
+      unPublishedApplicationVariables: initVals.defaultAppVars,
+      publishedApplicationVariables: {},
     };
     this.submitAppVars = this.submitAppVars.bind(this);
     this.updateAppVar = this.updateAppVar.bind(this);
   }
 
   updateAppVar(name, value) {
-    const newAppVars = { ...this.state.applicationVariables };
+    const newAppVars = { ...this.state.unPublishedApplicationVariables };
     newAppVars[name] = value;
     this.setState({
-      applicationVariables: newAppVars,
+      unPublishedApplicationVariables: newAppVars,
     });
   }
 
-  submitAppVars(appVars) {
+  // On submit, set the app vars passed in by the simulator to the ones in the Inspector
+  submitAppVars() {
+    const presProps = this.props.definition.presentation_properties;
+    const presToAppMap = this.state.presPropToAppVarMap;
     // set state
+    const newAppVars = { ...this.state.unPublishedApplicationVariables };
+    valAppVars(newAppVars, presProps, presToAppMap);
     this.setState({
+      ...this.state,
       submit: true,
-      applicationVariables: appVars,
+      publishedApplicationVariables: newAppVars,
     });
+    console.log(this.state);
   }
 
   render() {
@@ -57,15 +75,15 @@ class Simulator extends React.Component {
     if (this.state.submit) {
       return (
         <div className="simulator" style={simulatorStyle}>
-          <div className="app" style={appStyle}>
-            <App {...this.state.applicationVariables} />
+          <div className="app" style={loadedAppStyle}>
+            <App {...this.state.publishedApplicationVariables} />
           </div>
           <div className="Inspector" style={inspectorStyle}>
             <Inspector
               submitAppVars={this.submitAppVars}
               definition={this.props.definition}
               updateAppVar={this.updateAppVar}
-              applicationVariables={this.state.applicationVariables}
+              applicationVariables={this.state.unPublishedApplicationVariables}
             />
           </div>
         </div>
@@ -73,15 +91,13 @@ class Simulator extends React.Component {
     } else {
       return (
         <div className="simulator" style={simulatorStyle}>
-          <div className="app" style={appStyle}>
-            placeholder for app
-          </div>
+          <div className="app" style={unLoadedAppStyle} />
           <div className="Inspector" style={inspectorStyle}>
             <Inspector
               submitAppVars={this.submitAppVars}
               definition={this.props.definition}
               updateAppVar={this.updateAppVar}
-              applicationVariables={this.state.applicationVariables}
+              applicationVariables={this.state.unPublishedApplicationVariables}
             />
           </div>
         </div>

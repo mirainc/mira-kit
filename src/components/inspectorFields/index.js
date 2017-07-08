@@ -6,6 +6,7 @@ import StringField from './StringField';
 import TextField from './TextField';
 import NumberField from './NumberField';
 import BooleanField from './BooleanField';
+import SelectionField from './SelectionField';
 
 const propTypes = {
   presentationProperty: PropTypes.object.isRequired,
@@ -50,7 +51,6 @@ class InspectorField extends React.Component {
       }
       case 'boolean': {
         const boolVal = value ? true : false;
-        console.log(this.props);
         return (
           <BooleanField
             presentationProperty={presentationProperty}
@@ -71,7 +71,11 @@ class InspectorField extends React.Component {
       }
       case 'selection': {
         return (
-          <input name="selection" onChange={() => 'blahh'} value="selection" />
+          <SelectionField
+            presentationProperty={presentationProperty}
+            updateAppVar={updateAppVar}
+            value={value}
+          />
         );
       }
 

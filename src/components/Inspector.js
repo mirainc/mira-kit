@@ -20,16 +20,18 @@ class Inspector extends React.Component {
     const updateAppVar = this.props.updateAppVar;
     const submitAppVars = this.props.submitAppVars;
     const definition = this.props.definition;
-
     if (definition.configurable_duration) {
-      const duration = applicationVariables.duration
-        ? applicationVariables.duration
-        : definition.default_duration;
       const durationProp = {
         type: 'number',
         name: 'duration',
-        value: duration,
+        default: definition.default_duration,
       };
+      let value = '';
+      if ('duration' in applicationVariables) {
+        value = applicationVariables.duration;
+      } else if (definition.default_duration) {
+        value = definition.default_duration;
+      }
       return (
         <div key="duration">
           {'Duration: '}
@@ -37,7 +39,7 @@ class Inspector extends React.Component {
             presentationProperty={durationProp}
             key="duration"
             updateAppVar={updateAppVar}
-            value={duration}
+            value={value}
           />
         </div>
       );

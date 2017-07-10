@@ -1,4 +1,5 @@
 // This file contains a list of helper functions
+import validUrl from 'valid-url';
 
 // Convert UTC ISO String to local time
 export function parseISOString(s) {
@@ -13,8 +14,10 @@ export function initAppVars(presProps) {
   for (let i = 0; i < presProps.length; i++) {
     const presProp = presProps[i];
     const name = presProp.name;
-    defaultAppVars[name] = presProp.default ? presProp.default : '';
-    presPropToAppVarMap[name] = i;
+    if (presProp.type !== 'link') {
+      defaultAppVars[name] = presProp.default ? presProp.default : '';
+      presPropToAppVarMap[name] = i;
+    }
   }
   return { defaultAppVars, presPropToAppVarMap };
 }
@@ -56,15 +59,15 @@ function valAppVar(appVar, presProp) {
         );
       }, true);
     }
-
-    case 'label': {
-      return typeof appVar === 'string';
-    }
-    case 'group': {
-    }
     case 'link': {
+      // not used in application
+      return true;
     }
     case 'file': {
+      if (validUrl.isUri(appVar.url)) {
+        return true;
+      }
+      return false;
     }
     default: {
       return false;

@@ -7,7 +7,7 @@ import Select from 'react-select';
 const propTypes = {
   presentationProperty: PropTypes.object.isRequired,
   updateAppVar: PropTypes.func.isRequired,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.any.isRequired,
 };
 
 class SelectionField extends React.Component {
@@ -24,7 +24,6 @@ class SelectionField extends React.Component {
 
   render() {
     const presentationProperty = this.props.presentationProperty;
-    const applicationVariables = this.props.applicationVariables;
     const name = presentationProperty.name;
     const value = this.props.value;
     const options = this.fetchOptions(presentationProperty.options);

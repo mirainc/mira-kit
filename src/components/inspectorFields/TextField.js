@@ -16,7 +16,6 @@ class TextField extends React.Component {
 
   render() {
     const presentationProperty = this.props.presentationProperty;
-    const applicationVariables = this.props.applicationVariables;
     const name = presentationProperty.name;
     const value = this.props.value;
     return (

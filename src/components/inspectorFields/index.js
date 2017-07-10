@@ -7,6 +7,8 @@ import TextField from './TextField';
 import NumberField from './NumberField';
 import BooleanField from './BooleanField';
 import SelectionField from './SelectionField';
+import LinkField from './LinkField';
+import FileField from './FileField';
 
 const propTypes = {
   presentationProperty: PropTypes.object.isRequired,
@@ -78,18 +80,17 @@ class InspectorField extends React.Component {
           />
         );
       }
-
-      case 'label': {
-        return <input name="label" onChange={() => 'blahh'} value="label" />;
-      }
-      case 'group': {
-        return <input name="group" onChange={() => 'blahh'} value="group" />;
-      }
       case 'link': {
-        return <input name="link" onChange={() => 'blahh'} value="link" />;
+        return <LinkField presentationProperty={presentationProperty} />;
       }
       case 'file': {
-        return <input name="file" onChange={() => 'blahh'} value="file" />;
+        return (
+          <FileField
+            presentationProperty={presentationProperty}
+            updateAppVar={updateAppVar}
+            value={value}
+          />
+        );
       }
       default: {
         return null;

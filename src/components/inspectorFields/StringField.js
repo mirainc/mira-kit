@@ -16,7 +16,6 @@ class StringField extends React.Component {
 
   render() {
     const presentationProperty = this.props.presentationProperty;
-    const applicationVariables = this.props.applicationVariables;
     const name = presentationProperty.name;
     const value = this.props.value;
     const type = presentationProperty.secure ? 'password' : 'text';

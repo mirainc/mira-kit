@@ -1,5 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Select from 'react-select';
+//Include styles
+//import 'react-select/dist/react-select.css';
 
 const propTypes = {
   presentationProperty: PropTypes.object.isRequired,
@@ -9,8 +12,14 @@ const propTypes = {
 
 class SelectionField extends React.Component {
   handleChange(e) {
-    e.preventDefault();
-    console.log(e);
+    const name = this.props.presentationProperty.name;
+    this.props.updateAppVar(name, e);
+  }
+
+  fetchOptions(options) {
+    return Object.keys(options).map(option => {
+      return { value: options[option], label: option };
+    });
   }
 
   render() {
@@ -18,21 +27,16 @@ class SelectionField extends React.Component {
     const applicationVariables = this.props.applicationVariables;
     const name = presentationProperty.name;
     const value = this.props.value;
-    const options = presentationProperty.options;
-    console.log(presentationProperty);
-    console.log(options);
+    const options = this.fetchOptions(presentationProperty.options);
+    const multi = !presentationProperty.exclusive;
     return (
-      <select
-          name={name}
-          onChange={this.handleChange}
-          value={value}>
-          {Object.keys(options).map(option => {
-            (<option
-              key={option}
-              value={options[option]}
-            />)
-          })}
-        </select>
+      <Select
+        name={name}
+        value={value}
+        options={options}
+        onChange={e => this.handleChange(e)}
+         multi={multi}
+      />
     );
   }
 }

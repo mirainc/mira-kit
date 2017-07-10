@@ -18,6 +18,7 @@ const simulatorStyle = {
 const loadedAppStyle = {
   height: '100vh',
   width: '75%',
+  background: 'black',
 };
 
 const unLoadedAppStyle = {
@@ -67,7 +68,6 @@ class Simulator extends React.Component {
       submit: true,
       publishedApplicationVariables: newAppVars,
     });
-    console.log(this.state);
   }
 
   render() {

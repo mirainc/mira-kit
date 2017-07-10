@@ -1,7 +1,7 @@
 import React from 'react';
 import Inspector from './Inspector';
 import PropTypes from 'prop-types';
-import { valAppVars, initAppVars } from '../helpers';
+import { valAppVars, initAppVars, valDuration } from '../helpers';
 
 const inspectorStyle = {
   height: '100vh',
@@ -43,9 +43,18 @@ class Simulator extends React.Component {
       presPropToAppVarMap: initVals.presPropToAppVarMap,
       unPublishedApplicationVariables: initVals.defaultAppVars,
       publishedApplicationVariables: {},
+      duration: props.definition.default_duration,
     };
     this.submitAppVars = this.submitAppVars.bind(this);
     this.updateAppVar = this.updateAppVar.bind(this);
+    this.updateDuration = this.updateDuration.bind(this);
+  }
+
+  // takes name because it reused number inspectorField
+  updateDuration(name, duration) {
+    this.setState({
+      duration,
+    });
   }
 
   updateAppVar(name, value) {
@@ -56,18 +65,56 @@ class Simulator extends React.Component {
     });
   }
 
+  renderInspector() {
+    return (
+      <div className="Inspector" style={inspectorStyle}>
+        <Inspector
+          submitAppVars={this.submitAppVars}
+          definition={this.props.definition}
+          updateAppVar={this.updateAppVar}
+          applicationVariables={this.state.unPublishedApplicationVariables}
+          duration={this.state.duration}
+          updateDuration={this.updateDuration}
+        />
+      </div>
+    );
+  }
+
+  simulatorDefaults() {
+    return (
+      <div className="simulator" style={simulatorStyle}>
+        <div className="app" style={unLoadedAppStyle} />
+        {this.renderInspector()}
+      </div>
+    );
+  }
+
   // On submit, set the app vars passed in by the simulator to the ones in the Inspector
   submitAppVars() {
     const presProps = this.props.definition.presentation_properties;
     const presToAppMap = this.state.presPropToAppVarMap;
+    const configDuration = this.props.definition.configurable_duration;
     // set state
     const newAppVars = { ...this.state.unPublishedApplicationVariables };
+    // valiate everything
+    valDuration(this.state.duration, configDuration);
     valAppVars(newAppVars, presProps, presToAppMap);
+    console.log(this.state);
     this.setState({
       ...this.state,
       submit: true,
       publishedApplicationVariables: newAppVars,
     });
+    if (configDuration) {
+      // Set timeout for duration to flip submit to false
+      const dur = new Number(this.state.duration);
+      setTimeout(() => {
+        this.setState({
+          ...this.state,
+          submit: false,
+        });
+      }, dur * 1000);
+    }
   }
 
   render() {
@@ -78,30 +125,11 @@ class Simulator extends React.Component {
           <div className="app" style={loadedAppStyle}>
             <App {...this.state.publishedApplicationVariables} />
           </div>
-          <div className="Inspector" style={inspectorStyle}>
-            <Inspector
-              submitAppVars={this.submitAppVars}
-              definition={this.props.definition}
-              updateAppVar={this.updateAppVar}
-              applicationVariables={this.state.unPublishedApplicationVariables}
-            />
-          </div>
+          {this.renderInspector()}
         </div>
       );
     } else {
-      return (
-        <div className="simulator" style={simulatorStyle}>
-          <div className="app" style={unLoadedAppStyle} />
-          <div className="Inspector" style={inspectorStyle}>
-            <Inspector
-              submitAppVars={this.submitAppVars}
-              definition={this.props.definition}
-              updateAppVar={this.updateAppVar}
-              applicationVariables={this.state.unPublishedApplicationVariables}
-            />
-          </div>
-        </div>
-      );
+      return this.simulatorDefaults();
     }
   }
 }

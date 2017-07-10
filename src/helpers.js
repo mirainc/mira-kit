@@ -86,3 +86,10 @@ export function valAppVars(appVars, presProps, presToAppMap) {
     return { appVar: key, valid };
   });
 }
+
+export function valDuration(value, isConfigurableDuration) {
+  const duration = new Number(value);
+  if (isConfigurableDuration && (isNaN(duration) || value === '')) {
+    throw new Error(`Invalid Duration ${value}`);
+  }
+}

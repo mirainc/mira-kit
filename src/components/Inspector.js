@@ -7,6 +7,8 @@ const propTypes = {
   submitAppVars: PropTypes.func.isRequired,
   updateAppVar: PropTypes.func.isRequired,
   applicationVariables: PropTypes.object.isRequired,
+  updateDuration: PropTypes.func.isRequired,
+  duration: PropTypes.any,
 };
 
 class Inspector extends React.Component {
@@ -16,30 +18,21 @@ class Inspector extends React.Component {
   }
 
   renderDuration() {
-    const applicationVariables = this.props.applicationVariables;
-    const updateAppVar = this.props.updateAppVar;
-    const submitAppVars = this.props.submitAppVars;
     const definition = this.props.definition;
     if (definition.configurable_duration) {
+      const duration = this.props.duration;
       const durationProp = {
         type: 'number',
         name: 'duration',
-        default: definition.default_duration,
       };
-      let value = '';
-      if ('duration' in applicationVariables) {
-        value = applicationVariables.duration;
-      } else if (definition.default_duration) {
-        value = definition.default_duration;
-      }
       return (
         <div key="duration">
           {'Duration: '}
           <InspectorField
             presentationProperty={durationProp}
             key="duration"
-            updateAppVar={updateAppVar}
-            value={value}
+            updateAppVar={this.props.updateDuration}
+            value={duration}
           />
         </div>
       );

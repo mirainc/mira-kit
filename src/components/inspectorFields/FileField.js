@@ -5,7 +5,7 @@ import Dropzone from 'react-dropzone';
 const propTypes = {
   presentationProperty: PropTypes.object.isRequired,
   updateAppVar: PropTypes.func.isRequired,
-  value: PropTypes.any.isRequired,
+  value: PropTypes.any,
 };
 
 class FileField extends React.Component {

@@ -22,6 +22,7 @@ export function initAppVars(presProps) {
   return { defaultAppVars, presPropToAppVarMap };
 }
 
+// function used to validate an individual application variable
 function valAppVar(appVar, presProp) {
   switch (presProp.type) {
     case 'string': {
@@ -92,4 +93,5 @@ export function valDuration(value, isConfigurableDuration) {
   if (isConfigurableDuration && (isNaN(duration) || value === '')) {
     throw new Error(`Invalid Duration ${value}`);
   }
+  return duration;
 }

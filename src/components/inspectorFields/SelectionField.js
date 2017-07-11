@@ -7,7 +7,7 @@ import Select from 'react-select';
 const propTypes = {
   presentationProperty: PropTypes.object.isRequired,
   updateAppVar: PropTypes.func.isRequired,
-  value: PropTypes.any.isRequired,
+  value: PropTypes.any,
 };
 
 class SelectionField extends React.Component {

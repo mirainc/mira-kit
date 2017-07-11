@@ -16,6 +16,7 @@ class Inspector extends React.Component {
   constructor() {
     super();
     this.renderDuration = this.renderDuration.bind(this);
+    this.submitApp = this.submitApp.bind(this);
   }
 
   renderDuration() {
@@ -38,6 +39,12 @@ class Inspector extends React.Component {
         </div>
       );
     }
+  }
+
+  submitApp () {
+    const applicationVariables = this.props.applicationVariables;
+    const submitAppVars = this.props.submitAppVars;
+    submitAppVars(applicationVariables)
   }
 
   render() {
@@ -75,7 +82,7 @@ class Inspector extends React.Component {
         </div>
         <button
           disabled={this.props.submit}
-          onClick={() => submitAppVars(applicationVariables)}>
+          onClick={this.submitApp}>
           Submit
         </button>
       </div>

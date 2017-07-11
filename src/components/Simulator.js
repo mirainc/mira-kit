@@ -38,7 +38,6 @@ class Simulator extends React.Component {
     const initVals = initAppVars(props.definition.presentation_properties);
     this.state = {
       submit: false,
-      isPlaying: false,
       presPropToAppVarMap: initVals.presPropToAppVarMap,
       unPublishedApplicationVariables: initVals.defaultAppVars,
       publishedApplicationVariables: {},
@@ -61,7 +60,6 @@ class Simulator extends React.Component {
       clearTimeout(this.timeout);
     }
     this.setState({
-      isPlaying: false,
       submit: false,
     });
   }
@@ -78,20 +76,14 @@ class Simulator extends React.Component {
   initEventEmitter() {
     // re-initialize all listeners
     this.eventEmitter.on('presentation_ready', () => {
-      console.log('Application ready to show');
-      console.log('Emitting play');
       this.eventEmitter.emit('play');
     });
     this.eventEmitter.on('presentation_complete', () => {
-      console.log('Presentation completed');
-      console.log('Clearing presentation');
       this.clearApp();
     });
   }
 
   runApplication(appVars, configDuration, duration) {
-    // clear app if running
-    if (this.state.isPlaying === true) this.clearApp();
     // setup event emitter and timeout
     this.initEventEmitter();
     if (configDuration) this.createTimeout(duration);
@@ -152,11 +144,10 @@ class Simulator extends React.Component {
 
   render() {
     const { App } = this.props;
-    const { publishedApplicationVariables, submit, isPlaying } = this.state;
+    const { publishedApplicationVariables, submit } = this.state;
     const eventEmitter = this.eventEmitter;
     // show on submit or if playing
-    if (submit || isPlaying) {
-      console.log(this.state);
+    if (submit) {
       return (
         <div className="simulator" style={simulatorStyle}>
           <div className="app" style={appStyle}>

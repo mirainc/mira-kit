@@ -51,7 +51,6 @@ class Simulator extends React.Component {
     this.createTimeout = this.createTimeout.bind(this);
     this.initEventEmitter = this.initEventEmitter.bind(this);
     this.runApplication = this.runApplication.bind(this);
-    this.markPlaying = this.markPlaying.bind(this);
   }
 
   // clear simulator
@@ -87,14 +86,6 @@ class Simulator extends React.Component {
       console.log('Presentation completed');
       console.log('Clearing presentation');
       this.clearApp();
-    });
-  }
-
-  markPlaying() {
-    // Mark as playing and no longer submitting
-    this.setState({
-      submit: false,
-      isPlaying: true,
     });
   }
 
@@ -136,6 +127,7 @@ class Simulator extends React.Component {
           applicationVariables={this.state.unPublishedApplicationVariables}
           duration={this.state.duration}
           updateDuration={this.updateDuration}
+          submit={this.state.submit}
         />
       </div>
     );
@@ -162,9 +154,9 @@ class Simulator extends React.Component {
     const { App } = this.props;
     const { publishedApplicationVariables, submit, isPlaying } = this.state;
     const eventEmitter = this.eventEmitter;
-    const markPlaying = this.markPlaying;
     // show on submit or if playing
     if (submit || isPlaying) {
+      console.log(this.state);
       return (
         <div className="simulator" style={simulatorStyle}>
           <div className="app" style={appStyle}>
@@ -173,7 +165,6 @@ class Simulator extends React.Component {
               eventEmitter={eventEmitter}
               App={App}
               submit={submit}
-              markPlaying={markPlaying}
             />
           </div>
           {this.renderInspector()}

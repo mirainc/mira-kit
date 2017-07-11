@@ -9,6 +9,7 @@ const propTypes = {
   applicationVariables: PropTypes.object.isRequired,
   updateDuration: PropTypes.func.isRequired,
   duration: PropTypes.any,
+  submit: PropTypes.bool.isRequired,
 };
 
 class Inspector extends React.Component {
@@ -72,7 +73,9 @@ class Inspector extends React.Component {
           })}
           {this.renderDuration()}
         </div>
-        <button onClick={() => submitAppVars(applicationVariables)}>
+        <button
+          disabled={this.props.submit}
+          onClick={() => submitAppVars(applicationVariables)}>
           Submit
         </button>
       </div>

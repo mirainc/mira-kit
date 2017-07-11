@@ -14,9 +14,9 @@ export function initAppVars(presProps) {
   for (let i = 0; i < presProps.length; i++) {
     const presProp = presProps[i];
     const name = presProp.name;
-    if (presProp.type !== 'link') {
-      defaultAppVars[name] = presProp.default ? presProp.default : '';
-      presPropToAppVarMap[name] = i;
+    presPropToAppVarMap[name] = i;
+    if (presProp.type !== 'link' && presProp.default) {
+      defaultAppVars[name] = presProp.default;
     }
   }
   return { defaultAppVars, presPropToAppVarMap };
@@ -78,6 +78,7 @@ function valAppVar(appVar, presProp) {
 
 export function valAppVars(appVars, presProps, presToAppMap) {
   const validatedAppVars = Object.keys(appVars).map(key => {
+    console.log(key);
     const valid = valAppVar(appVars[key], presProps[presToAppMap[key]]);
     if (!valid) {
       throw new Error(

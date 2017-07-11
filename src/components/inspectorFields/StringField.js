@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const propTypes = {
   presentationProperty: PropTypes.object.isRequired,
   updateAppVar: PropTypes.func.isRequired,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.string,
 };
 
 class StringField extends React.Component {

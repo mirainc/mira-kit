@@ -5,7 +5,7 @@ import ToggleButton from 'react-toggle-button';
 const propTypes = {
   presentationProperty: PropTypes.object.isRequired,
   updateAppVar: PropTypes.func.isRequired,
-  value: PropTypes.bool.isRequired,
+  value: PropTypes.bool,
 };
 
 class BooleanField extends React.Component {

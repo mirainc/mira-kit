@@ -7,7 +7,7 @@ import { parseISOString } from '../../helpers';
 const propTypes = {
   presentationProperty: PropTypes.object.isRequired,
   updateAppVar: PropTypes.func.isRequired,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.string,
 };
 
 class DatetimeField extends React.Component {

@@ -17,6 +17,20 @@
   "bugs": {
     "url": "https://github.com/mirainc/mira-kit/issues"
   },
+  "prettier": {
+    "trailingComma": "all",
+    "singleQuote": true
+  },
+  "eslintConfig": {
+    "extends": "airbnb",
+    "rules": {
+      "arrow-parens": ["error", "as-needed"],
+      "react/jsx-filename-extension": [
+        1,
+        { "extensions": [".js", ".jsx"] }
+      ]
+    }
+  },
   "homepage": "https://github.com/mirainc/mira-kit#readme",
   "dependencies": {
     "babel-runtime": "^6.23.0",

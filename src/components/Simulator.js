@@ -54,7 +54,7 @@ class Simulator extends React.Component {
 
   // clear simulator
   clearApp() {
-    // clear any listeners and timeouts
+    // clear any listeners and timeouts for application and simulator
     this.eventEmitter.removeAllListeners();
     if (this.timeout) {
       clearTimeout(this.timeout);
@@ -75,11 +75,21 @@ class Simulator extends React.Component {
   // sets up the event emitter for the simulator
   initEventEmitter() {
     // re-initialize all listeners
-    this.eventEmitter.on('presentation_ready', () => {
-      this.eventEmitter.emit('play');
-    });
-    this.eventEmitter.on('presentation_complete', () => {
-      this.clearApp();
+    const lifeCycleEvents = this.props.definition.lifecycle_events;
+    lifeCycleEvents.map(e => {
+      if (e === 'presentation_ready') {
+        this.eventEmitter.on(e, () => {
+          this.eventEmitter.emit('play');
+        });
+      } else if (e === 'presentation_complete') {
+        this.eventEmitter.on(e, () => {
+          this.clearApp();
+        });
+      } else {
+        this.eventEmitter.on(e, () => {
+          console.log(`Application Emitted ${e}`);
+        });
+      }
     });
   }
 

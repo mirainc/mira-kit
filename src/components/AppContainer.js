@@ -12,13 +12,12 @@ const propTypes = {
 };
 
 class AppContainer extends React.Component {
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate(nextProps) {
     // Only re-render application on submit change
     const shouldRender =
       this.props.submit === false && nextProps.submit === true;
     return shouldRender;
   }
-
 
   render() {
     const { App, eventEmitter, applicationVariables } = this.props;

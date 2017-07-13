@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const propTypes = {
   presentationProperty: PropTypes.object.isRequired,
   updateAppVar: PropTypes.func.isRequired,
-  value: PropTypes.string,
+  value: PropTypes.string.isRequired,
 };
 
 class StringField extends React.Component {
@@ -15,13 +15,12 @@ class StringField extends React.Component {
   }
 
   render() {
-    const presentationProperty = this.props.presentationProperty;
-    const name = presentationProperty.name;
-    const value = this.props.value;
+    const { presentationProperty, value } = this.props;
+    const { name } = presentationProperty;
     const type = presentationProperty.secure ? 'password' : 'text';
     return (
       <input
-        name={presentationProperty.name}
+        name={name}
         onChange={e => this.handleChange(e)}
         value={value}
         placeholder={presentationProperty.placeholder}

@@ -1,9 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import events from 'events';
 import Inspector from './Inspector';
 import AppContainer from './AppContainer';
-import PropTypes from 'prop-types';
 import { valAppVars, initAppVars, valDuration } from '../helpers';
-import events from 'events';
 
 const inspectorStyle = {
   height: '100vh',
@@ -34,7 +34,7 @@ class Simulator extends React.Component {
     // set initial variables
     this.eventEmitter = new events.EventEmitter();
     this.timeout = null;
-    //getInitialState
+    // getInitialState
     const initVals = initAppVars(props.definition.presentation_properties);
     this.state = {
       submit: false,
@@ -76,7 +76,7 @@ class Simulator extends React.Component {
   initEventEmitter() {
     // re-initialize all listeners
     const lifeCycleEvents = this.props.definition.lifecycle_events;
-    lifeCycleEvents.map(e => {
+    lifeCycleEvents.forEach(e => {
       if (e === 'presentation_ready') {
         this.eventEmitter.on(e, () => {
           this.eventEmitter.emit('play');
@@ -87,6 +87,7 @@ class Simulator extends React.Component {
         });
       } else {
         this.eventEmitter.on(e, () => {
+          // eslint-disable-next-line
           console.log(`Application Emitted ${e}`);
         });
       }
@@ -127,22 +128,6 @@ class Simulator extends React.Component {
     });
   }
 
-  renderInspector() {
-    return (
-      <div className="Inspector" style={inspectorStyle}>
-        <Inspector
-          submitAppVars={this.submitAppVars}
-          definition={this.props.definition}
-          updateAppVar={this.updateAppVar}
-          applicationVariables={this.state.unPublishedApplicationVariables}
-          duration={this.state.duration}
-          updateDuration={this.updateDuration}
-          submit={this.state.submit}
-        />
-      </div>
-    );
-  }
-
   // On submit, set the app vars passed in by the simulator to the ones in the Inspector
   submitAppVars() {
     const presProps = this.props.definition.presentation_properties;
@@ -160,6 +145,21 @@ class Simulator extends React.Component {
     this.runApplication(newAppVars, configDuration, duration);
   }
 
+  renderInspector() {
+    return (
+      <div className="Inspector" style={inspectorStyle}>
+        <Inspector
+          submitAppVars={this.submitAppVars}
+          definition={this.props.definition}
+          updateAppVar={this.updateAppVar}
+          applicationVariables={this.state.unPublishedApplicationVariables}
+          duration={this.state.duration}
+          updateDuration={this.updateDuration}
+          submit={this.state.submit}
+        />
+      </div>
+    );
+  }
   render() {
     const { App } = this.props;
     const { publishedApplicationVariables, submit } = this.state;
@@ -179,14 +179,13 @@ class Simulator extends React.Component {
           {this.renderInspector()}
         </div>
       );
-    } else {
-      return (
-        <div className="simulator" style={simulatorStyle}>
-          <div className="app" style={appStyle} />
-          {this.renderInspector()}
-        </div>
-      );
     }
+    return (
+      <div className="simulator" style={simulatorStyle}>
+        <div className="app" style={appStyle} />
+        {this.renderInspector()}
+      </div>
+    );
   }
 }
 

@@ -1,53 +1,92 @@
 import React from 'react';
-import InspectorField from './InspectorField';
+import PropTypes from 'prop-types';
+import InspectorField from './inspectorFields';
+
+const propTypes = {
+  definition: PropTypes.object.isRequired,
+  submitAppVars: PropTypes.func.isRequired,
+  updateAppVar: PropTypes.func.isRequired,
+  applicationVariables: PropTypes.object.isRequired,
+  updateDuration: PropTypes.func.isRequired,
+  duration: PropTypes.any,
+  submit: PropTypes.bool.isRequired,
+};
+
+const defaultProps = {
+  duration: 0,
+};
 
 class Inspector extends React.Component {
   constructor() {
     super();
-    this.renderDuration = this.renderDuration.bind(this);
+    this.submitApp = this.submitApp.bind(this);
   }
 
-  renderDuration(definition) {
+  submitApp() {
+    const { applicationVariables, submitAppVars } = this.props;
+    submitAppVars(applicationVariables);
+  }
+
+  renderDuration() {
+    const { definition, updateDuration } = this.props;
     if (definition.configurable_duration) {
+      const { duration } = this.props;
+      const durationProp = {
+        type: 'number',
+        name: 'duration',
+      };
       return (
         <div key="duration">
+          {'Duration: '}
           <InspectorField
-            type="number"
-            name="duration"
+            presentationProperty={durationProp}
             key="duration"
-            defaultValue={definition.default_duration}
-            updateAppVar={this.props.updateAppVar}
-            value={this.props.applicationVariables.duration}
+            updateAppVar={updateDuration}
+            value={duration}
           />
         </div>
       );
     }
+    return null;
   }
-
   render() {
+    const {
+      submit,
+      applicationVariables,
+      updateAppVar,
+      definition,
+    } = this.props;
+    const { presentationProperties } = definition;
+
     return (
       <div className="Inspector">
         <h1>Application Inputs</h1>
-        <h2>Application Name: {this.props.definition.name}</h2>
+        <h2>
+          Application Name: {definition.name}
+        </h2>
         <div>
-          {this.props.definition.presentation_properties.map(presProp => {
+          {presentationProperties.map(presentationProperty => {
+            const name = presentationProperty.name;
+            let value = '';
+            if (name in applicationVariables) {
+              value = applicationVariables[name];
+            } else if (presentationProperty.default) {
+              value = presentationProperty.default;
+            }
             return (
-              <div key={presProp.name}>
+              <div key={presentationProperty.name}>
+                {`${presentationProperty.name}: `}
                 <InspectorField
-                  type={presProp.type}
-                  name={presProp.name}
-                  key={presProp.name}
-                  updateAppVar={this.props.updateAppVar}
-                  value={this.props.applicationVariables[presProp.name]}
+                  updateAppVar={updateAppVar}
+                  presentationProperty={presentationProperty}
+                  value={value}
                 />
               </div>
             );
           })}
-          {this.renderDuration(this.props.definition)}
+          {this.renderDuration()}
         </div>
-        <button
-          onClick={() =>
-            this.props.submitAppVars(this.props.applicationVariables)}>
+        <button disabled={submit} onClick={this.submitApp}>
           Submit
         </button>
       </div>
@@ -55,11 +94,7 @@ class Inspector extends React.Component {
   }
 }
 
-Inspector.propTypes = {
-  definition: React.PropTypes.object.isRequired,
-  submitAppVars: React.PropTypes.func.isRequired,
-  updateAppVar: React.PropTypes.func.isRequired,
-  applicationVariables: React.PropTypes.object.isRequired,
-};
+Inspector.propTypes = propTypes;
+Inspector.defaultProps = defaultProps;
 
 export default Inspector;

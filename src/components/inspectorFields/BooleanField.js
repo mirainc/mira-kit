@@ -15,15 +15,8 @@ class BooleanField extends React.Component {
   }
 
   render() {
-    const presentationProperty = this.props.presentationProperty;
-    const name = presentationProperty.name;
-    const value = this.props.value;
-    return (
-      <ToggleButton
-        value={value}
-        onToggle={e => this.handleChange(e)}
-      />
-    );
+    const { value } = this.props;
+    return <ToggleButton value={value} onToggle={e => this.handleChange(e)} />;
   }
 }
 

@@ -1,9 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import events from 'events';
 import Inspector from './Inspector';
 import AppContainer from './AppContainer';
-import PropTypes from 'prop-types';
 import { valAppVars, initAppVars, valDuration } from '../helpers';
-import events from 'events';
 
 const inspectorStyle = {
   height: '100vh',
@@ -34,11 +34,10 @@ class Simulator extends React.Component {
     // set initial variables
     this.eventEmitter = new events.EventEmitter();
     this.timeout = null;
-    //getInitialState
+    // getInitialState
     const initVals = initAppVars(props.definition.presentation_properties);
     this.state = {
       submit: false,
-      isPlaying: false,
       presPropToAppVarMap: initVals.presPropToAppVarMap,
       unPublishedApplicationVariables: initVals.defaultAppVars,
       publishedApplicationVariables: {},
@@ -51,18 +50,16 @@ class Simulator extends React.Component {
     this.createTimeout = this.createTimeout.bind(this);
     this.initEventEmitter = this.initEventEmitter.bind(this);
     this.runApplication = this.runApplication.bind(this);
-    this.markPlaying = this.markPlaying.bind(this);
   }
 
   // clear simulator
   clearApp() {
-    // clear any listeners and timeouts
+    // clear any listeners and timeouts for application and simulator
     this.eventEmitter.removeAllListeners();
     if (this.timeout) {
       clearTimeout(this.timeout);
     }
     this.setState({
-      isPlaying: false,
       submit: false,
     });
   }
@@ -78,29 +75,26 @@ class Simulator extends React.Component {
   // sets up the event emitter for the simulator
   initEventEmitter() {
     // re-initialize all listeners
-    this.eventEmitter.on('presentation_ready', () => {
-      console.log('Application ready to show');
-      console.log('Emitting play');
-      this.eventEmitter.emit('play');
-    });
-    this.eventEmitter.on('presentation_complete', () => {
-      console.log('Presentation completed');
-      console.log('Clearing presentation');
-      this.clearApp();
-    });
-  }
-
-  markPlaying() {
-    // Mark as playing and no longer submitting
-    this.setState({
-      submit: false,
-      isPlaying: true,
+    const lifeCycleEvents = this.props.definition.lifecycle_events;
+    lifeCycleEvents.forEach(e => {
+      if (e === 'presentation_ready') {
+        this.eventEmitter.on(e, () => {
+          this.eventEmitter.emit('play');
+        });
+      } else if (e === 'presentation_complete') {
+        this.eventEmitter.on(e, () => {
+          this.clearApp();
+        });
+      } else {
+        this.eventEmitter.on(e, () => {
+          // eslint-disable-next-line
+          console.log(`Application Emitted ${e}`);
+        });
+      }
     });
   }
 
   runApplication(appVars, configDuration, duration) {
-    // clear app if running
-    if (this.state.isPlaying === true) this.clearApp();
     // setup event emitter and timeout
     this.initEventEmitter();
     if (configDuration) this.createTimeout(duration);
@@ -120,25 +114,18 @@ class Simulator extends React.Component {
 
   updateAppVar(name, value) {
     const newAppVars = { ...this.state.unPublishedApplicationVariables };
-    newAppVars[name] = value;
+    if (value) {
+      newAppVars[name] = value;
+    } else {
+      // if the value is removed then remove key from app vars
+      delete newAppVars[name];
+    }
+    console.log(name);
+    console.log(value);
+    console.log(newAppVars);
     this.setState({
       unPublishedApplicationVariables: newAppVars,
     });
-  }
-
-  renderInspector() {
-    return (
-      <div className="Inspector" style={inspectorStyle}>
-        <Inspector
-          submitAppVars={this.submitAppVars}
-          definition={this.props.definition}
-          updateAppVar={this.updateAppVar}
-          applicationVariables={this.state.unPublishedApplicationVariables}
-          duration={this.state.duration}
-          updateDuration={this.updateDuration}
-        />
-      </div>
-    );
   }
 
   // On submit, set the app vars passed in by the simulator to the ones in the Inspector
@@ -158,13 +145,27 @@ class Simulator extends React.Component {
     this.runApplication(newAppVars, configDuration, duration);
   }
 
+  renderInspector() {
+    return (
+      <div className="Inspector" style={inspectorStyle}>
+        <Inspector
+          submitAppVars={this.submitAppVars}
+          definition={this.props.definition}
+          updateAppVar={this.updateAppVar}
+          applicationVariables={this.state.unPublishedApplicationVariables}
+          duration={this.state.duration}
+          updateDuration={this.updateDuration}
+          submit={this.state.submit}
+        />
+      </div>
+    );
+  }
   render() {
     const { App } = this.props;
-    const { publishedApplicationVariables, submit, isPlaying } = this.state;
+    const { publishedApplicationVariables, submit } = this.state;
     const eventEmitter = this.eventEmitter;
-    const markPlaying = this.markPlaying;
     // show on submit or if playing
-    if (submit || isPlaying) {
+    if (submit) {
       return (
         <div className="simulator" style={simulatorStyle}>
           <div className="app" style={appStyle}>
@@ -173,20 +174,18 @@ class Simulator extends React.Component {
               eventEmitter={eventEmitter}
               App={App}
               submit={submit}
-              markPlaying={markPlaying}
             />
           </div>
           {this.renderInspector()}
         </div>
       );
-    } else {
-      return (
-        <div className="simulator" style={simulatorStyle}>
-          <div className="app" style={appStyle} />
-          {this.renderInspector()}
-        </div>
-      );
     }
+    return (
+      <div className="simulator" style={simulatorStyle}>
+        <div className="app" style={appStyle} />
+        {this.renderInspector()}
+      </div>
+    );
   }
 }
 

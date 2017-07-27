@@ -1,13 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
-//Include styles
-//import 'react-select/dist/react-select.css';
+// Include styles
+// import 'react-select/dist/react-select.css';
 
 const propTypes = {
   presentationProperty: PropTypes.object.isRequired,
   updateAppVar: PropTypes.func.isRequired,
   value: PropTypes.any,
+};
+
+const defaultProps = {
+  value: null,
 };
 
 class SelectionField extends React.Component {
@@ -16,17 +20,14 @@ class SelectionField extends React.Component {
     this.props.updateAppVar(name, e);
   }
 
-  fetchOptions(options) {
-    return Object.keys(options).map(option => {
-      return { value: options[option], label: option };
-    });
-  }
-
   render() {
     const presentationProperty = this.props.presentationProperty;
     const name = presentationProperty.name;
     const value = this.props.value;
-    const options = this.fetchOptions(presentationProperty.options);
+    const options = Object.keys(presentationProperty.options).map(option => ({
+      value: options[option],
+      label: option,
+    }));
     const multi = !presentationProperty.exclusive;
     return (
       <Select
@@ -34,12 +35,13 @@ class SelectionField extends React.Component {
         value={value}
         options={options}
         onChange={e => this.handleChange(e)}
-         multi={multi}
+        multi={multi}
       />
     );
   }
 }
 
 SelectionField.propTypes = propTypes;
+SelectionField.defaultProps = defaultProps;
 
 export default SelectionField;

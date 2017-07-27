@@ -6,23 +6,19 @@ const propTypes = {
   presentationProperty: PropTypes.object.isRequired,
 };
 
-class LinkField extends React.Component {
-  render() {
-    const presentationProperty = this.props.presentationProperty;
-    const name = presentationProperty.name;
-    const url = presentationProperty.url
-    if (validUrl.isUri(url)){
-      return (
-        <a href={url} target="_blank">
-          {name}
-        </a>
-      );
-    }
-    throw new Error(
-      `Invalid URL: ${url} is not a valid url`,
+const LinkField = props => {
+  const presentationProperty = props.presentationProperty;
+  const name = presentationProperty.name;
+  const url = presentationProperty.url;
+  if (validUrl.isUri(url)) {
+    return (
+      <a href={url} target="_blank">
+        {name}
+      </a>
     );
   }
-}
+  throw new Error(`Invalid URL: ${url} is not a valid url`);
+};
 
 LinkField.propTypes = propTypes;
 

@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Moment from 'moment';
 import Datetime from 'react-datetime';
 import { parseISOString } from '../../helpers';
 
@@ -20,9 +19,8 @@ class DatetimeField extends React.Component {
   }
 
   render() {
-    const presentationProperty = this.props.presentationProperty;
-    const name = presentationProperty.name;
-    const value = this.props.value;
+    const { value, presentationProperty } = this.props;
+    const { name } = presentationProperty;
     let date = new Date();
     const dateVal = value;
     const defaultDateVal = presentationProperty.default;
@@ -32,11 +30,7 @@ class DatetimeField extends React.Component {
       date = parseISOString(defaultDateVal);
     }
     return (
-      <Datetime
-        name={presentationProperty.name}
-        onChange={e => this.handleChange(e)}
-        value={date}
-      />
+      <Datetime name={name} onChange={e => this.handleChange(e)} value={date} />
     );
   }
 }

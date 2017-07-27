@@ -4,7 +4,11 @@ import PropTypes from 'prop-types';
 const propTypes = {
   presentationProperty: PropTypes.object.isRequired,
   updateAppVar: PropTypes.func.isRequired,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.string,
+};
+
+const defaultProps = {
+  value: '',
 };
 
 class TextField extends React.Component {
@@ -15,12 +19,12 @@ class TextField extends React.Component {
   }
 
   render() {
-    const presentationProperty = this.props.presentationProperty;
-    const name = presentationProperty.name;
+    const { presentationProperty } = this.props;
+    const { name } = presentationProperty;
     const value = this.props.value;
     return (
       <textarea
-        name={presentationProperty.name}
+        name={name}
         onChange={e => this.handleChange(e)}
         rows="4"
         cols="40"
@@ -32,5 +36,6 @@ class TextField extends React.Component {
 }
 
 TextField.propTypes = propTypes;
+TextField.defaultProps = defaultProps;
 
 export default TextField;

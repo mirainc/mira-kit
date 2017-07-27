@@ -4,6 +4,7 @@ import validUrl from 'valid-url';
 // Convert UTC ISO String to local time
 export function parseISOString(s) {
   const b = s.split(/\D+/);
+  // eslint-disable-next-line
   return new Date(Date.UTC(b[0], --b[1], b[2], b[3], b[4], b[5], b[6]));
 }
 
@@ -11,12 +12,12 @@ export function parseISOString(s) {
 export function initAppVars(presProps) {
   const defaultAppVars = {};
   const presPropToAppVarMap = {};
-  for (let i = 0; i < presProps.length; i++) {
+  for (let i = 0; i < presProps.length; i += 1) {
     const presProp = presProps[i];
     const name = presProp.name;
-    if (presProp.type !== 'link') {
-      defaultAppVars[name] = presProp.default ? presProp.default : '';
-      presPropToAppVarMap[name] = i;
+    presPropToAppVarMap[name] = i;
+    if (presProp.type !== 'link' && presProp.default) {
+      defaultAppVars[name] = presProp.default;
     }
   }
   return { defaultAppVars, presPropToAppVarMap };
@@ -32,7 +33,7 @@ function valAppVar(appVar, presProp) {
       return typeof appVar === 'string';
     }
     case 'number': {
-      const parsedNumber = new Number(appVar);
+      const parsedNumber = parseInt(appVar, 10);
       return !isNaN(parsedNumber) && appVar !== '';
     }
     case 'boolean': {
@@ -52,13 +53,13 @@ function valAppVar(appVar, presProp) {
         );
       }
       // if not exclusive check each selection is valid
-      return appVar.reduce((isValid, selection) => {
-        return (
+      return appVar.reduce(
+        (isValid, selection) =>
           isValid &&
           selection.label in options &&
-          selection.value === options[selection.label]
-        );
-      }, true);
+          selection.value === options[selection.label],
+        true,
+      );
     }
     case 'link': {
       // not used in application
@@ -77,19 +78,18 @@ function valAppVar(appVar, presProp) {
 }
 
 export function valAppVars(appVars, presProps, presToAppMap) {
-  const validatedAppVars = Object.keys(appVars).map(key => {
+  Object.keys(appVars).forEach(key => {
     const valid = valAppVar(appVars[key], presProps[presToAppMap[key]]);
     if (!valid) {
       throw new Error(
         `Invalid Application Variable ${key} with value ${appVars[key]}`,
       );
     }
-    return { appVar: key, valid };
   });
 }
 
 export function valDuration(value, isConfigurableDuration) {
-  const duration = new Number(value);
+  const duration = parseInt(value, 10);
   if (isConfigurableDuration && (isNaN(duration) || value === '')) {
     throw new Error(`Invalid Duration ${value}`);
   }

@@ -9,29 +9,23 @@ const propTypes = {
   applicationVariables: PropTypes.object.isRequired,
   App: PropTypes.func.isRequired,
   submit: PropTypes.bool.isRequired,
-  markPlaying: PropTypes.func.isRequired,
 };
 
 class AppContainer extends React.Component {
-  shouldComponentUpdate(nextProps, nextState) {
-    // Only re-render application on submit change from false to true
-    console.log(`Next submit: ${nextProps.submit}`);
-    console.log(`Current submit: ${this.props.submit}`);
+  shouldComponentUpdate(nextProps) {
+    // Only re-render application on submit change
     const shouldRender =
       this.props.submit === false && nextProps.submit === true;
-    console.log(`Should render: ${shouldRender}`);
     return shouldRender;
   }
 
-  componentDidMount() {
-    // mark that the app rendered and is playing
-    this.props.markPlaying();
-  }
-
   render() {
-    console.log('calling render');
     const { App, eventEmitter, applicationVariables } = this.props;
-    return <App {...applicationVariables} eventEmitter={eventEmitter} />;
+    // Give app a unique key
+    const key = new Date().getTime();
+    return (
+      <App {...applicationVariables} eventEmitter={eventEmitter} key={key} />
+    );
   }
 }
 

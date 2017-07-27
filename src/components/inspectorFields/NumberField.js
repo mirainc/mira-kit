@@ -7,6 +7,10 @@ const propTypes = {
   value: PropTypes.any,
 };
 
+const defaultProps = {
+  value: 0,
+};
+
 class NumberField extends React.Component {
   handleChange(e) {
     e.preventDefault();
@@ -15,19 +19,16 @@ class NumberField extends React.Component {
   }
 
   render() {
-    const presentationProperty = this.props.presentationProperty;
-    const name = presentationProperty.name;
+    const { presentationProperty } = this.props;
+    const { name } = presentationProperty;
     const value = this.props.value;
     return (
-      <input
-        name={presentationProperty.name}
-        onChange={e => this.handleChange(e)}
-        value={value}
-      />
+      <input name={name} onChange={e => this.handleChange(e)} value={value} />
     );
   }
 }
 
 NumberField.propTypes = propTypes;
+NumberField.defaultProps = defaultProps;
 
 export default NumberField;

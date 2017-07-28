@@ -70,8 +70,6 @@ class Inspector extends React.Component {
             let value = '';
             if (name in applicationVariables) {
               value = applicationVariables[name];
-            } else if (presentationProperty.default) {
-              value = presentationProperty.default;
             }
             return (
               <div key={presentationProperty.name}>

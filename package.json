@@ -24,10 +24,18 @@
   "eslintConfig": {
     "extends": "airbnb",
     "rules": {
-      "arrow-parens": ["error", "as-needed"],
+      "arrow-parens": [
+        "error",
+        "as-needed"
+      ],
       "react/jsx-filename-extension": [
         1,
-        { "extensions": [".js", ".jsx"] }
+        {
+          "extensions": [
+            ".js",
+            ".jsx"
+          ]
+        }
       ]
     }
   },
@@ -35,6 +43,7 @@
   "dependencies": {
     "babel-runtime": "^6.23.0",
     "moment": "^2.18.1",
+    "parse-domain": "^1.1.0",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
     "react-datetime": "^2.8.10",

@@ -4,6 +4,7 @@ import events from 'events';
 import Inspector from './Inspector';
 import AppContainer from './AppContainer';
 import { valAppVars, initAppVars, valDuration } from '../helpers';
+import miraRequestProxy from '../requestProxy';
 
 const inspectorStyle = {
   height: '100vh',
@@ -34,8 +35,18 @@ class Simulator extends React.Component {
     // set initial variables
     this.eventEmitter = new events.EventEmitter();
     this.timeout = null;
+    const {
+      presentation_properties,
+      allowed_request_domains,
+    } = props.definition;
     // getInitialState
-    const initVals = initAppVars(props.definition.presentation_properties);
+    const initVals = initAppVars(presentation_properties);
+
+    // create the request proxy
+    const requestProxy = miraRequestProxy(allowed_request_domains);
+    this.MiraRequestResource = requestProxy.MiraRequestResource;
+    this.MiraFileRequestResource = requestProxy.MiraFileRequestResource;
+
     this.state = {
       submit: false,
       presPropToAppVarMap: initVals.presPropToAppVarMap,
@@ -120,9 +131,6 @@ class Simulator extends React.Component {
       // if the value is removed then remove key from app vars
       delete newAppVars[name];
     }
-    console.log(name);
-    console.log(value);
-    console.log(newAppVars);
     this.setState({
       unPublishedApplicationVariables: newAppVars,
     });
@@ -174,6 +182,8 @@ class Simulator extends React.Component {
               eventEmitter={eventEmitter}
               App={App}
               submit={submit}
+              MiraRequestResource={this.MiraRequestResource}
+              MiraFileRequestResource={this.MiraFileRequestResource}
             />
           </div>
           {this.renderInspector()}

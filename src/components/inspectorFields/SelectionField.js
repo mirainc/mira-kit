@@ -25,7 +25,7 @@ class SelectionField extends React.Component {
     const name = presentationProperty.name;
     const value = this.props.value;
     const options = Object.keys(presentationProperty.options).map(option => ({
-      value: options[option],
+      value: presentationProperty.options[option],
       label: option,
     }));
     const multi = !presentationProperty.exclusive;

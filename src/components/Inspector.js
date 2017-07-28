@@ -56,7 +56,7 @@ class Inspector extends React.Component {
       updateAppVar,
       definition,
     } = this.props;
-    const { presentationProperties } = definition;
+    const presentationProperties = definition.presentation_properties;
 
     return (
       <div className="Inspector">

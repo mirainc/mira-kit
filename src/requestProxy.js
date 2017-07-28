@@ -25,18 +25,16 @@ fetch = captureSandboxFailure('fetch', 'MiraRequestResource');
 
 // allowed request domains validation
 function inAllowedRequestDomains(allowedRequestDomains, url) {
-  let inAllowedRequestDomains = false;
-  allowedRequestDomains.forEach(domain => {
+  const pUrl = parseDomain(url);
+  return allowedRequestDomains.some(domain => {
     const pDomain = parseDomain(domain);
-    const pUrl = parseDomain(url);
     // if it is true set it to true, else set it to itself
-    inAllowedRequestDomains = pDomain.domain === pUrl.domain &&
+    return (
+      pDomain.domain === pUrl.domain &&
       pDomain.subdomain === pUrl.subdomain &&
       pDomain.tld === pUrl.tld
-      ? true
-      : inAllowedRequestDomains;
+    );
   });
-  return inAllowedRequestDomains;
 }
 
 // constructor for MiraRequestResources

@@ -10,10 +10,6 @@ const propTypes = {
   value: PropTypes.any,
 };
 
-const defaultProps = {
-  value: null,
-};
-
 class SelectionField extends React.Component {
   handleChange(e) {
     const name = this.props.presentationProperty.name;
@@ -24,16 +20,12 @@ class SelectionField extends React.Component {
     const presentationProperty = this.props.presentationProperty;
     const name = presentationProperty.name;
     const value = this.props.value;
-    const options = Object.keys(presentationProperty.options).map(option => ({
-      value: presentationProperty.options[option],
-      label: option,
-    }));
     const multi = !presentationProperty.exclusive;
     return (
       <Select
         name={name}
         value={value}
-        options={options}
+        options={presentationProperty.options}
         onChange={e => this.handleChange(e)}
         multi={multi}
       />
@@ -42,6 +34,5 @@ class SelectionField extends React.Component {
 }
 
 SelectionField.propTypes = propTypes;
-SelectionField.defaultProps = defaultProps;
 
 export default SelectionField;

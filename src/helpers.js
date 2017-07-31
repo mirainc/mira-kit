@@ -48,18 +48,22 @@ function valAppVar(appVar, presProp) {
       const options = presProp.options;
       // if it is exclusive make sure value is a valid selection from pres props
       if (presProp.exclusive) {
-        return (
-          appVar.label in options && appVar.value === options[appVar.label]
-        );
+        return options.some(option => {
+          return appVar.label === option.label && appVar.value === option.value;
+        });
       }
       // if not exclusive check each selection is valid
-      return appVar.reduce(
-        (isValid, selection) =>
+      return appVar.reduce((isValid, selection) => {
+        return (
           isValid &&
-          selection.label in options &&
-          selection.value === options[selection.label],
-        true,
-      );
+          options.some(option => {
+            return (
+              selection.label === option.label &&
+              selection.value === option.value
+            );
+          })
+        );
+      }, true);
     }
     case 'link': {
       // not used in application

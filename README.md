@@ -90,7 +90,7 @@ Presentation property definitions are dictionaries that require that you specify
 - `selection`: A series of options.
   - `exclusive`: boolean, optional. Prevents multiple selection.
   - `options`: list, required.
-    - `name`: string, required.
+    - `label`: string, required.
     - `value`: string, required.
   - `default`: string. The `value` of the default. Required if `exclusive`.
 - `file`: A file upload.

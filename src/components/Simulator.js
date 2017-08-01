@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import events from 'events';
+import LocalizedStrings from 'react-localization';
 import Inspector from './Inspector';
 import AppContainer from './AppContainer';
 import { valAppVars, initAppVars, valDuration } from '../helpers';
@@ -38,7 +39,12 @@ class Simulator extends React.Component {
     const {
       presentation_properties,
       allowed_request_domains,
+      strings,
     } = props.definition;
+
+    // Note: Create localized strings only need to run this at start
+    this.strings = new LocalizedStrings(strings);
+    
     // getInitialState
     const initVals = initAppVars(presentation_properties);
 
@@ -184,6 +190,7 @@ class Simulator extends React.Component {
               submit={submit}
               MiraRequestResource={this.MiraRequestResource}
               MiraFileRequestResource={this.MiraFileRequestResource}
+              strings={this.strings}
             />
           </div>
           {this.renderInspector()}

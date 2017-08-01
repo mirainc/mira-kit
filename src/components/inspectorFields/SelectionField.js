@@ -10,30 +10,36 @@ const propTypes = {
   value: PropTypes.any,
 };
 
-const defaultProps = {
-  value: null,
-};
-
 class SelectionField extends React.Component {
   handleChange(e) {
-    const name = this.props.presentationProperty.name;
-    this.props.updateAppVar(name, e);
+    const { presentationProperty, updateAppVar } = this.props;
+    const { name, exclusive } = presentationProperty;
+    /*
+     * NOTE: If exclusie the value will be an object.
+     * If it is not, it will be an array of objects.
+    */
+    if (exclusive) {
+      updateAppVar(name, e.value);
+    } else {
+      const vals = e.map(val => val.value);
+      updateAppVar(name, vals);
+    }
   }
 
   render() {
-    const presentationProperty = this.props.presentationProperty;
-    const name = presentationProperty.name;
-    const value = this.props.value;
-    const options = Object.keys(presentationProperty.options).map(option => ({
-      value: presentationProperty.options[option],
-      label: option,
+    const { presentationProperty, value } = this.props;
+    const { name, options, exclusive } = presentationProperty;
+    // maps options to react selection options
+    const selOptions = options.map(option => ({
+      label: option.name,
+      value: option.value,
     }));
-    const multi = !presentationProperty.exclusive;
+    const multi = !exclusive;
     return (
       <Select
         name={name}
         value={value}
-        options={options}
+        options={selOptions}
         onChange={e => this.handleChange(e)}
         multi={multi}
       />
@@ -42,6 +48,5 @@ class SelectionField extends React.Component {
 }
 
 SelectionField.propTypes = propTypes;
-SelectionField.defaultProps = defaultProps;
 
 export default SelectionField;

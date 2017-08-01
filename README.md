@@ -92,7 +92,7 @@ Presentation property definitions are dictionaries that require that you specify
   - `options`: list, required.
     - `name`: string, required.
     - `value`: string, required.
-  - `default`: string. The `value` of the default. Required if `exclusive`.
+  - `default`: string, if `exclusive`, or array of strings. The `value` of the default. Required if `exclusive`.
 - `file`: A file upload.
   - `constraints`: object, optional.
     - `content-types`: list, optional. A set of HTTP Content-Types that your app supports. Defaults to `*`.
@@ -108,7 +108,7 @@ For example, an Instagram app may have the property `ig_username`:
 The text that is displayed in the dashboard for each property is derived from your app's `strings` defined in the `definition.json` file.
 
 #### Localizable Strings
-Localizable text must be placed in the `strings` dictionary. The dictionary should map the ISO 639-1 language abbreviation to a dictionary mapping arbitrary string keys to readable, localized values.
+Localizable text must be placed in the `strings` dictionary inside `definition.json`. The dictionary should map the ISO 639-1 language abbreviation to a dictionary mapping arbitrary string keys to readable, localized values.
 
 ```json
 {
@@ -166,6 +166,7 @@ The `miraRequestProxy` prop provides an API for making HTTP and HTTPS requests. 
 
 The `miraRequestProxy` has an identical API to the [whatwg-fetch specification](https://github.github.io/fetch/).
 
+The `miraFileRequestProxy` prop provides an API to fetch a file that has been uploaded to the Mira platform. This API takes `application variable` for the file you want to request, and the http `method` you want to use to request the object.
 
 ### miraEvents
 The `miraEvents` prop is an EventEmitter that provides an API for communication between applications and the main runtime.

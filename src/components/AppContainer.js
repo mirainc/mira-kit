@@ -11,6 +11,7 @@ const propTypes = {
   submit: PropTypes.bool.isRequired,
   MiraRequestResource: PropTypes.func.isRequired,
   MiraFileRequestResource: PropTypes.func.isRequired,
+  strings: PropTypes.object.isRequired,
 };
 
 class AppContainer extends React.Component {
@@ -28,6 +29,7 @@ class AppContainer extends React.Component {
       applicationVariables,
       MiraFileRequestResource,
       MiraRequestResource,
+      strings,
     } = this.props;
     // Give app a unique key
     const key = new Date().getTime();
@@ -38,6 +40,7 @@ class AppContainer extends React.Component {
         MiraRequestResource={MiraRequestResource}
         MiraFileRequestResource={MiraFileRequestResource}
         key={key}
+        strings={strings}
       />
     );
   }

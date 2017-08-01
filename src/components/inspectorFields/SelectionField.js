@@ -17,15 +17,14 @@ class SelectionField extends React.Component {
   }
 
   render() {
-    const presentationProperty = this.props.presentationProperty;
-    const name = presentationProperty.name;
-    const value = this.props.value;
+    const { presentationProperty, value } = this.props;
+    const { name, options } = presentationProperty;
     const multi = !presentationProperty.exclusive;
     return (
       <Select
         name={name}
         value={value}
-        options={presentationProperty.options}
+        options={options}
         onChange={e => this.handleChange(e)}
         multi={multi}
       />

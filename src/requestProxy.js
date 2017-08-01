@@ -40,11 +40,10 @@ function inAllowedRequestDomains(allowedRequestDomains, url) {
 // constructor for MiraRequestResources
 export default allowedRequestDomains => {
   // Create request resource
-  const MiraRequestResource = (url, method, payload = {}) => {
+  const MiraRequestResource = (url, payload) => {
     const requestPayload = {
-      method,
-      cache: 'default',
       ...payload,
+      cache: 'default',
     };
     if (!inAllowedRequestDomains(allowedRequestDomains, url)) {
       throw new Error(

@@ -15,7 +15,7 @@ Mira Apps are responsible for the rendering of presentations created by the user
   - [The Structure of an App](#the-structure-of-an-app)
   - [States for Apps](#states-for-apps)
 1. [Core APIs](#core-apis)
-1. [Testing Your Application](#testing-your-application)
+1. [Testing Your Application With the Simulator](#testing-your-application)
 1. [Deploying an App](#deploying-an-app)
 
 ## Getting Started
@@ -91,6 +91,7 @@ Presentation property definitions are dictionaries that require that you specify
   - `constraints`: object, optional.
     - `content-types`: list, optional. A set of HTTP Content-Types that your app supports. Defaults to `*`.
     - `content-length`: int, optional. The maximum file size, in bytes, your app supports. Defaults to `100000000`.
+    - `url` the url of where the file is stored in s3.
 - `link`: A clickable link that will load into the `dashboard`. Takes no user value and is not passed in as a prop to your application.
   - `url`: string, required. The URL to open when clicked.
 

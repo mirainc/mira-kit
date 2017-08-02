@@ -131,7 +131,8 @@ class Simulator extends React.Component {
 
   updateAppVar(name, value) {
     const newAppVars = { ...this.state.unPublishedApplicationVariables };
-    if (value) {
+    // only empty strings delete value
+    if (value !== '') {
       newAppVars[name] = value;
     } else {
       // if the value is removed then remove key from app vars

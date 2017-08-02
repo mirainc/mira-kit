@@ -9,26 +9,23 @@ const propTypes = {
   value: PropTypes.string.isRequired,
 };
 
+/* NOTE: Empty value for this component renders 'invalid date'.
+ * This is not stored in application variables because the value is ''.
+ */
 class DatetimeField extends React.Component {
   handleChange(e) {
+    const { updateAppVar, presentationProperty } = this.props;
+    const { name } = presentationProperty;
     if (typeof e.isValid === 'function' && e.isValid()) {
-      const name = this.props.presentationProperty.name;
       const isoString = e.toDate().toISOString();
-      this.props.updateAppVar(name, isoString);
+      updateAppVar(name, isoString);
     }
   }
 
   render() {
     const { value, presentationProperty } = this.props;
     const { name } = presentationProperty;
-    let date = new Date();
-    const dateVal = value;
-    const defaultDateVal = presentationProperty.default;
-    if (dateVal) {
-      date = parseISOString(dateVal);
-    } else if (defaultDateVal) {
-      date = parseISOString(defaultDateVal);
-    }
+    const date = parseISOString(value);
     return (
       <Datetime name={name} onChange={e => this.handleChange(e)} value={date} />
     );

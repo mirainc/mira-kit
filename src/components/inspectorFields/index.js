@@ -17,7 +17,8 @@ const propTypes = {
 
 const InspectorField = props => {
   const { presentationProperty, value, updateAppVar } = props;
-  switch (presentationProperty.type) {
+  const { type } = presentationProperty;
+  switch (type) {
     case 'string': {
       return (
         <StringField
@@ -48,6 +49,7 @@ const InspectorField = props => {
       );
     }
     case 'boolean': {
+      // set value to bool
       const boolVal = !!value;
       return (
         <BooleanField

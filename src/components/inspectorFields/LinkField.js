@@ -7,9 +7,8 @@ const propTypes = {
 };
 
 const LinkField = props => {
-  const presentationProperty = props.presentationProperty;
-  const name = presentationProperty.name;
-  const url = presentationProperty.url;
+  const { presentationProperty } = props;
+  const { name, url } = presentationProperty;
   if (validUrl.isUri(url)) {
     return (
       <a href={url} target="_blank">

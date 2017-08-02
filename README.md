@@ -79,7 +79,7 @@ Presentation property definitions are dictionaries that require that you specify
   - `default`: UTC ISO string, optional. This value will be rendered in the simulator to local time, but passed to the application in UTC.
 - `boolean`: A true or false value.
   - `default`: boolean, optional. The default value for the boolean.
-- `number`: A numerical value.
+- `number`: An `integer` value.
   - `default`: number, optional. The default value for the number.
 - `selection`: A series of options.
   - `exclusive`: boolean, optional. Prevents multiple selection.
@@ -191,7 +191,7 @@ this.props.miraEvents.trigger('presentation_complete');
   * A `presentation_complete` event will inform the main runtime that it the the presentation has completed and can be transitioned away from.
 
 #### Registering Lifecycle Events
-To register your lifecycle events, include the events that your application uses in your info.json. Events not registered here will be ignored by the main runtime.
+To register your lifecycle events, include the events that your application uses in your `definition.json`. Events not registered here will be ignored by the main runtime.
 
 ## Testing Your App
 

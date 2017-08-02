@@ -19,9 +19,13 @@ class SelectionField extends React.Component {
      * If it is not, it will be an array of objects.
     */
     if (exclusive) {
-      updateAppVar(name, e.value);
+      // if null set to empty string and updateAppVar will clear it
+      const val = e ? e.value : '';
+      updateAppVar(name, val);
     } else {
-      const vals = e.map(val => val.value);
+      const values = e.map(val => val.value);
+      // if empty array set to empty string and updateAppVar will clear it
+      const vals = values.length > 0 ? values : '';
       updateAppVar(name, vals);
     }
   }

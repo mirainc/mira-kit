@@ -58,7 +58,7 @@ function valAppVar(appVar, presProp) {
       );
     }
     case 'link': {
-      // not used in application
+      // not used in application only in dashboard
       return true;
     }
     case 'file': {

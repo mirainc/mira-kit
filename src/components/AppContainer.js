@@ -5,7 +5,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const propTypes = {
-  eventEmitter: PropTypes.object.isRequired,
+  miraEvents: PropTypes.object.isRequired,
   applicationVariables: PropTypes.object.isRequired,
   App: PropTypes.func.isRequired,
   submit: PropTypes.bool.isRequired,
@@ -25,7 +25,7 @@ class AppContainer extends React.Component {
   render() {
     const {
       App,
-      eventEmitter,
+      miraEvents,
       applicationVariables,
       miraFileResource,
       miraRequestResource,
@@ -36,7 +36,7 @@ class AppContainer extends React.Component {
     return (
       <App
         {...applicationVariables}
-        eventEmitter={eventEmitter}
+        miraEvents={miraEvents}
         miraRequestResource={miraRequestResource}
         miraFileResource={miraFileResource}
         key={key}

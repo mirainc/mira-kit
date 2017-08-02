@@ -34,7 +34,7 @@ class Simulator extends React.Component {
   constructor(props) {
     super();
     // set initial variables
-    this.eventEmitter = new events.EventEmitter();
+    this.miraEvents = new events.EventEmitter();
     this.timeout = null;
     const {
       presentation_properties,
@@ -72,7 +72,7 @@ class Simulator extends React.Component {
   // clear simulator
   clearApp() {
     // clear any listeners and timeouts for application and simulator
-    this.eventEmitter.removeAllListeners();
+    this.miraEvents.removeAllListeners();
     if (this.timeout) {
       clearTimeout(this.timeout);
     }
@@ -95,15 +95,15 @@ class Simulator extends React.Component {
     const lifeCycleEvents = this.props.definition.lifecycle_events;
     lifeCycleEvents.forEach(e => {
       if (e === 'presentation_ready') {
-        this.eventEmitter.on(e, () => {
-          this.eventEmitter.emit('play');
+        this.miraEvents.on(e, () => {
+          this.miraEvents.emit('play');
         });
       } else if (e === 'presentation_complete') {
-        this.eventEmitter.on(e, () => {
+        this.miraEvents.on(e, () => {
           this.clearApp();
         });
       } else {
-        this.eventEmitter.on(e, () => {
+        this.miraEvents.on(e, () => {
           // eslint-disable-next-line
           console.log(`Application Emitted ${e}`);
         });
@@ -177,7 +177,7 @@ class Simulator extends React.Component {
   render() {
     const { App } = this.props;
     const { publishedApplicationVariables, submit } = this.state;
-    const eventEmitter = this.eventEmitter;
+    const miraEvents = this.miraEvents;
     // show on submit or if playing
     if (submit) {
       return (
@@ -185,7 +185,7 @@ class Simulator extends React.Component {
           <div className="app" style={appStyle}>
             <AppContainer
               applicationVariables={publishedApplicationVariables}
-              eventEmitter={eventEmitter}
+              miraEvents={miraEvents}
               App={App}
               submit={submit}
               miraRequestResource={this.miraRequestResource}

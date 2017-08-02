@@ -201,8 +201,8 @@ You can test your application using the MiraKit simulator.
 To set this up you will need to:
 
 1. `npm install mira-kit`
-1. Create a `sim` folder in your project directory.
-1. Create an `index.html` file to load the simulator. Example below:
+1. Create a `sim` folder in your project root directory.
+1. Create an `index.html` file in the `sim` directory. This is used to load the simulator. Example below:
 ``` html
 <!DOCTYPE html>
 <html lang="en">
@@ -212,16 +212,22 @@ To set this up you will need to:
 </head>
 <body>
   <div id="root"></div>
+  <!--This should point to where your webpack config points-->
   <script src="dist/bundle.js"></script>
 </body>
 </html>
 ```
-1. Create a `webpack.sim.config` to use for the simulator. Example below:
+1. Create a `webpack.sim.config` in your project's root directory to use for the simulator. Example below:
 ``` js
 var userConfig = require('./webpack.config.js');
 module.exports = options => {
+  /* if your project contains externals like React, you can override the
+   * value of externals so all dependencies are included in the simulator.
+   * React will be available on the Mira Link.
+   */
   return Object.assign(userConfig, {
     entry: './sim/main.js',
+    externals: {},
   });
 };
 ```

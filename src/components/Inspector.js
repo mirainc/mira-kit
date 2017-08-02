@@ -12,10 +12,6 @@ const propTypes = {
   submit: PropTypes.bool.isRequired,
 };
 
-const defaultProps = {
-  duration: 0,
-};
-
 class Inspector extends React.Component {
   constructor() {
     super();
@@ -28,9 +24,9 @@ class Inspector extends React.Component {
   }
 
   renderDuration() {
-    const { definition, updateDuration } = this.props;
-    if (definition.configurable_duration) {
-      const { duration } = this.props;
+    const { definition, updateDuration, duration } = this.props;
+    const { configurable_duration: configurableDuration } = definition;
+    if (configurableDuration) {
       const durationProp = {
         type: 'number',
         name: 'duration',
@@ -56,24 +52,24 @@ class Inspector extends React.Component {
       updateAppVar,
       definition,
     } = this.props;
-    const presentationProperties = definition.presentation_properties;
+    const { presentation_properties: presentationProperties } = definition;
+    const { appName } = definition;
 
     return (
       <div className="Inspector">
         <h1>Application Inputs</h1>
         <h2>
-          Application Name: {definition.name}
+          Application Name: {appName}
         </h2>
         <div>
           {presentationProperties.map(presentationProperty => {
-            const name = presentationProperty.name;
-            let value = '';
-            if (name in applicationVariables) {
-              value = applicationVariables[name];
-            }
+            const { name } = presentationProperty;
+            const value = name in applicationVariables
+              ? applicationVariables[name]
+              : '';
             return (
-              <div key={presentationProperty.name}>
-                {`${presentationProperty.name}: `}
+              <div key={name}>
+                {`${name}: `}
                 <InspectorField
                   updateAppVar={updateAppVar}
                   presentationProperty={presentationProperty}
@@ -93,6 +89,5 @@ class Inspector extends React.Component {
 }
 
 Inspector.propTypes = propTypes;
-Inspector.defaultProps = defaultProps;
 
 export default Inspector;

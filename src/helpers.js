@@ -89,5 +89,4 @@ export function valDuration(value, isConfigurableDuration) {
   if (isConfigurableDuration && (isNaN(duration) || value === '')) {
     throw new Error(`Invalid Duration ${value}`);
   }
-  return duration;
 }

@@ -6,24 +6,7 @@ import Inspector from './Inspector';
 import AppContainer from './AppContainer';
 import { valAppVars, initAppVars, valDuration } from '../helpers';
 import requestProxy from '../requestProxy';
-
-const inspectorStyle = {
-  height: '100vh',
-  width: '25%',
-  borderWidth: '10px',
-  borderStyle: 'solid',
-  borderColor: 'white',
-};
-
-const simulatorStyle = {
-  display: 'flex',
-};
-
-const appStyle = {
-  height: '100vh',
-  width: '75%',
-  background: 'black',
-};
+import { inspectorStyle, simulatorStyle, appStyle } from '../styles';
 
 const propTypes = {
   definition: PropTypes.object.isRequired,
@@ -37,19 +20,20 @@ class Simulator extends React.Component {
     this.miraEvents = new events.EventEmitter();
     this.timeout = null;
     const {
-      presentation_properties,
-      allowed_request_domains,
+      presentation_properties: presentationProperties,
+      allowed_request_domains: allowedRequestDomains,
       strings,
+      default_duration: defaultDuration,
     } = props.definition;
 
     // Note: Create localized strings only need to run this at start
     this.strings = new LocalizedStrings(strings);
 
     // getInitialState
-    const initVals = initAppVars(presentation_properties);
+    const initVals = initAppVars(presentationProperties);
 
     // create the request proxy
-    const rProxy = requestProxy(allowed_request_domains);
+    const rProxy = requestProxy(allowedRequestDomains);
     this.miraRequestResource = rProxy.miraRequestResource;
     this.miraFileResource = rProxy.miraFileResource;
 
@@ -58,7 +42,7 @@ class Simulator extends React.Component {
       presPropToAppVarMap: initVals.presPropToAppVarMap,
       unPublishedApplicationVariables: initVals.defaultAppVars,
       publishedApplicationVariables: {},
-      duration: props.definition.default_duration,
+      duration: defaultDuration,
     };
     this.submitAppVars = this.submitAppVars.bind(this);
     this.updateAppVar = this.updateAppVar.bind(this);
@@ -67,14 +51,16 @@ class Simulator extends React.Component {
     this.createTimeout = this.createTimeout.bind(this);
     this.initEventEmitter = this.initEventEmitter.bind(this);
     this.runApplication = this.runApplication.bind(this);
+    this.renderInspector = this.renderInspector.bind(this);
   }
 
   // clear simulator
   clearApp() {
+    const { miraEvents, timeout} = this;
     // clear any listeners and timeouts for application and simulator
-    this.miraEvents.removeAllListeners();
-    if (this.timeout) {
-      clearTimeout(this.timeout);
+    miraEvents.removeAllListeners();
+    if (timeout) {
+      clearTimeout(timeout);
     }
     this.setState({
       submit: false,
@@ -92,15 +78,16 @@ class Simulator extends React.Component {
   // sets up the event emitter for the simulator
   initEventEmitter() {
     // re-initialize all listeners
-    const lifeCycleEvents = this.props.definition.lifecycle_events;
+    const { props, miraEvents, clearApp } = this;
+    const { lifecycle_events: lifeCycleEvents } = props.definition;
     lifeCycleEvents.forEach(e => {
       if (e === 'presentation_ready') {
-        this.miraEvents.on(e, () => {
-          this.miraEvents.emit('play');
+        miraEvents.on(e, () => {
+          miraEvents.emit('play');
         });
       } else if (e === 'presentation_complete') {
-        this.miraEvents.on(e, () => {
-          this.clearApp();
+        miraEvents.on(e, () => {
+          clearApp();
         });
       } else {
         this.miraEvents.on(e, () => {
@@ -145,40 +132,58 @@ class Simulator extends React.Component {
 
   // On submit, set the app vars passed in by the simulator to the ones in the Inspector
   submitAppVars() {
-    const presProps = this.props.definition.presentation_properties;
-    const presToAppMap = this.state.presPropToAppVarMap;
-    const configDuration = this.props.definition.configurable_duration;
+    const { props, state, runApplication } = this;
+    const {
+      configurable_duration: configurableDuration,
+      presentation_properties: presentationProperties,
+    } = props.definition;
+    const {
+      presPropToAppVarMap,
+      unPublishedApplicationVariables,
+      duration,
+    } = state;
 
     // set state
-    const newAppVars = { ...this.state.unPublishedApplicationVariables };
+    const newAppVars = { ...unPublishedApplicationVariables };
 
     // valiate everything
-    const duration = valDuration(this.state.duration, configDuration);
-    valAppVars(newAppVars, presProps, presToAppMap);
+    valDuration(duration, configurableDuration);
+    valAppVars(newAppVars, presentationProperties, presPropToAppVarMap);
 
     // run application
-    this.runApplication(newAppVars, configDuration, duration);
+    runApplication(newAppVars, configurableDuration, duration);
   }
 
   renderInspector() {
+    const { submitAppVars, updateAppVar, props, state, updateDuration } = this;
+    const { definition } = props;
+    const { unPublishedApplicationVariables, duration, submit } = state;
     return (
       <div className="Inspector" style={inspectorStyle}>
         <Inspector
-          submitAppVars={this.submitAppVars}
-          definition={this.props.definition}
-          updateAppVar={this.updateAppVar}
-          applicationVariables={this.state.unPublishedApplicationVariables}
-          duration={this.state.duration}
-          updateDuration={this.updateDuration}
-          submit={this.state.submit}
+          submitAppVars={submitAppVars}
+          definition={definition}
+          updateAppVar={updateAppVar}
+          applicationVariables={unPublishedApplicationVariables}
+          duration={duration}
+          updateDuration={updateDuration}
+          submit={submit}
         />
       </div>
     );
   }
   render() {
-    const { App } = this.props;
-    const { publishedApplicationVariables, submit } = this.state;
-    const miraEvents = this.miraEvents;
+    const {
+      props,
+      state,
+      miraEvents,
+      miraFileResource,
+      miraRequestResource,
+      strings,
+      renderInspector,
+    } = this;
+    const { App } = props;
+    const { publishedApplicationVariables, submit } = state;
     // show on submit or if playing
     if (submit) {
       return (
@@ -189,19 +194,19 @@ class Simulator extends React.Component {
               miraEvents={miraEvents}
               App={App}
               submit={submit}
-              miraRequestResource={this.miraRequestResource}
-              miraFileResource={this.miraFileResource}
-              strings={this.strings}
+              miraRequestResource={miraRequestResource}
+              miraFileResource={miraFileResource}
+              strings={strings}
             />
           </div>
-          {this.renderInspector()}
+          {renderInspector()}
         </div>
       );
     }
     return (
       <div className="simulator" style={simulatorStyle}>
         <div className="app" style={appStyle} />
-        {this.renderInspector()}
+        {renderInspector()}
       </div>
     );
   }

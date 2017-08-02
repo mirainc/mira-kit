@@ -161,6 +161,7 @@ The `miraRequestResource` prop provides an API for making HTTP and HTTPS request
 
 The `miraRequestResource` has an identical API to the [whatwg-fetch specification](https://github.github.io/fetch/).
 
+### miraFileResource
 The `miraFileResource` prop provides an API to fetch a file that has been uploaded to the Mira platform. This API takes `application variable` for the file you want to request, and the http `method` you want to use to request the object.
 
 ### miraEvents
@@ -194,6 +195,50 @@ this.props.miraEvents.trigger('presentation_complete');
 To register your lifecycle events, include the events that your application uses in your `definition.json`. Events not registered here will be ignored by the main runtime.
 
 ## Testing Your App
+You can test your application using the MiraKit simulator.
+
+To set this up you will need to:
+
+1. `npm install mira-kit`
+1. Create a `sim` folder in your project directory.
+1. Create an `index.html` file to load the simulator. Example below:
+``` html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  <div id="root"></div>
+  <script src="dist/bundle.js"></script>
+</body>
+</html>
+```
+1. Create a `webpack.sim.config` to use for the simulator. Example below:
+``` js
+var userConfig = require('./webpack.config.js');
+module.exports = options => {
+  return Object.assign(userConfig, {
+    entry: './sim/main.js',
+  });
+};
+```
+1. Create a `main.js` for the simulator in the `sim` directory. Example below:
+``` js
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from '../src';
+import definition from '../src/definition.json';
+import { simulator } from 'mira-kit';
+// END: Done by User
+simulator(App, definition);
+```
+1. Add the following npm script to your `package.json` to run the simulator.
+``` json
+"sim": "webpack-dev-server --config ./webpack.sim.config --content-base ./sim --env.dev"
+```
+1. `npm run sim`
 
 ## Deploying an App
 *TBD*

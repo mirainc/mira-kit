@@ -5,7 +5,7 @@ import LocalizedStrings from 'react-localization';
 import Inspector from './Inspector';
 import AppContainer from './AppContainer';
 import { valAppVars, initAppVars, valDuration } from '../helpers';
-import miraRequestProxy from '../requestProxy';
+import requestProxy from '../requestProxy';
 
 const inspectorStyle = {
   height: '100vh',
@@ -44,14 +44,14 @@ class Simulator extends React.Component {
 
     // Note: Create localized strings only need to run this at start
     this.strings = new LocalizedStrings(strings);
-    
+
     // getInitialState
     const initVals = initAppVars(presentation_properties);
 
     // create the request proxy
-    const requestProxy = miraRequestProxy(allowed_request_domains);
-    this.MiraRequestResource = requestProxy.MiraRequestResource;
-    this.MiraFileRequestResource = requestProxy.MiraFileRequestResource;
+    const rProxy = requestProxy(allowed_request_domains);
+    this.miraRequestResource = rProxy.miraRequestResource;
+    this.miraFileResource = rProxy.miraFileResource;
 
     this.state = {
       submit: false,
@@ -188,8 +188,8 @@ class Simulator extends React.Component {
               eventEmitter={eventEmitter}
               App={App}
               submit={submit}
-              MiraRequestResource={this.MiraRequestResource}
-              MiraFileRequestResource={this.MiraFileRequestResource}
+              miraRequestResource={this.miraRequestResource}
+              miraFileResource={this.miraFileResource}
               strings={this.strings}
             />
           </div>

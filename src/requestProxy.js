@@ -17,10 +17,10 @@ const captureSandboxFailure = (value, fallback) => () => {
   console.warn(reason);
 };
 
-// Clobber XMLHttpRequest
+// Clobber XMLHttpRequest because it is not available on MiraLinks
 XMLHttpRequest = captureSandboxFailure('XMLHttpRequest', 'MiraRequestResource');
 
-// Clobber fetch
+// Clobber fetch because it is not available on MiraLinks
 fetch = captureSandboxFailure('fetch', 'MiraRequestResource');
 
 // allowed request domains validation
@@ -37,10 +37,10 @@ function inAllowedRequestDomains(allowedRequestDomains, url) {
   });
 }
 
-// constructor for MiraRequestResources
+// constructor for miraResources
 export default allowedRequestDomains => {
   // Create request resource
-  const MiraRequestResource = (url, payload) => {
+  const miraRequestResource = (url, payload) => {
     const requestPayload = {
       ...payload,
       cache: 'default',
@@ -54,7 +54,12 @@ export default allowedRequestDomains => {
   };
 
   // Create file request resource
-  const MiraFileRequestResource = (fileProp, method) => {
+  const miraFileResource = (fileProp, method) => {
+    if (method !== 'GET' && method !== 'HEAD') {
+      throw new Error(
+        `Invalid method ${method}, we only support "GET" and "HEAD" for miraFileResource`,
+      );
+    }
     const requestPayload = {
       method,
     };
@@ -63,7 +68,7 @@ export default allowedRequestDomains => {
   };
 
   return {
-    MiraRequestResource,
-    MiraFileRequestResource,
+    miraRequestResource,
+    miraFileResource,
   };
 };

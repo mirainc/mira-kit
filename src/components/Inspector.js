@@ -10,6 +10,7 @@ const propTypes = {
   updateDuration: PropTypes.func.isRequired,
   duration: PropTypes.any,
   submit: PropTypes.bool.isRequired,
+  strings: PropTypes.object.isRequired,
 };
 
 class Inspector extends React.Component {
@@ -24,7 +25,7 @@ class Inspector extends React.Component {
   }
 
   renderDuration() {
-    const { definition, updateDuration, duration } = this.props;
+    const { definition, updateDuration, duration, strings } = this.props;
     const { configurable_duration: configurableDuration } = definition;
     if (configurableDuration) {
       const durationProp = {
@@ -39,6 +40,7 @@ class Inspector extends React.Component {
             key="duration"
             updateAppVar={updateDuration}
             value={duration}
+            strings={strings}
           />
         </div>
       );
@@ -51,6 +53,7 @@ class Inspector extends React.Component {
       applicationVariables,
       updateAppVar,
       definition,
+      strings,
     } = this.props;
     const { presentation_properties: presentationProperties } = definition;
     const { appName } = definition;
@@ -69,11 +72,12 @@ class Inspector extends React.Component {
               : '';
             return (
               <div key={name}>
-                {`${name}: `}
+                {`${strings[name]}: `}
                 <InspectorField
                   updateAppVar={updateAppVar}
                   presentationProperty={presentationProperty}
                   value={value}
+                  strings={strings}
                 />
               </div>
             );

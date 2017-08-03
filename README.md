@@ -119,6 +119,8 @@ Localizable text must be placed in the `strings` dictionary inside `definition.j
 
 Your app's `strings` must include at least one language localization for each property in `presentation_properties`.
 
+For `presentation_properties` of type `selection`, you will also need to include a string in `strings` for each `name` in your list of selectable items.
+
 Additionally, the Mira dashboard will expect your app to define at least one localization for several keys used in describing the app itself.
 - `content_type`: The type of data your app handles. For example, the Video Player app's `content_type` in English is "Video", and a restaurant app's `content_type` in English might be "Menu."
 - `description`: The plain-text description of your app and what it does.

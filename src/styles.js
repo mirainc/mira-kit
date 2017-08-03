@@ -10,8 +10,14 @@ export const simulatorStyle = {
   display: 'flex',
 };
 
-export const appStyle = {
+export const unRenderedAppStyle = {
   height: '100vh',
   width: '75%',
+  background: 'black',
+};
+
+export const appStyle = {
+  height: '100vh',
+  width: '100%',
   background: 'black',
 };

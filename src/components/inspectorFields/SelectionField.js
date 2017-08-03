@@ -6,6 +6,7 @@ const propTypes = {
   presentationProperty: PropTypes.object.isRequired,
   updateAppVar: PropTypes.func.isRequired,
   value: PropTypes.any,
+  strings: PropTypes.object.isRequired,
 };
 
 class SelectionField extends React.Component {
@@ -29,11 +30,11 @@ class SelectionField extends React.Component {
   }
 
   render() {
-    const { presentationProperty, value } = this.props;
+    const { presentationProperty, value, strings } = this.props;
     const { name, options, exclusive } = presentationProperty;
     // maps options to react selection options
     const selOptions = options.map(option => ({
-      label: option.name,
+      label: strings[option.name],
       value: option.value,
     }));
     const multi = !exclusive;

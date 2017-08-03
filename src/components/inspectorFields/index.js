@@ -13,10 +13,11 @@ const propTypes = {
   presentationProperty: PropTypes.object.isRequired,
   updateAppVar: PropTypes.func.isRequired,
   value: PropTypes.any.isRequired,
+  strings: PropTypes.object.isRequired,
 };
 
 const InspectorField = props => {
-  const { presentationProperty, value, updateAppVar } = props;
+  const { presentationProperty, value, updateAppVar, strings } = props;
   const { type } = presentationProperty;
   switch (type) {
     case 'string': {
@@ -75,11 +76,17 @@ const InspectorField = props => {
           presentationProperty={presentationProperty}
           updateAppVar={updateAppVar}
           value={value}
+          strings={strings}
         />
       );
     }
     case 'link': {
-      return <LinkField presentationProperty={presentationProperty} />;
+      return (
+        <LinkField
+          presentationProperty={presentationProperty}
+          strings={strings}
+        />
+      );
     }
     case 'file': {
       return (

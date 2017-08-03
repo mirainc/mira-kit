@@ -6,7 +6,12 @@ import Inspector from './Inspector';
 import AppContainer from './AppContainer';
 import { valAppVars, initAppVars, valDuration } from '../helpers';
 import requestProxy from '../requestProxy';
-import { inspectorStyle, simulatorStyle, appStyle } from '../styles';
+import {
+  inspectorStyle,
+  simulatorStyle,
+  appStyle,
+  unRenderedAppStyle,
+} from '../styles';
 
 const propTypes = {
   definition: PropTypes.object.isRequired,
@@ -56,7 +61,7 @@ class Simulator extends React.Component {
 
   // clear simulator
   clearApp() {
-    const { miraEvents, timeout} = this;
+    const { miraEvents, timeout } = this;
     // clear any listeners and timeouts for application and simulator
     miraEvents.removeAllListeners();
     if (timeout) {
@@ -155,7 +160,14 @@ class Simulator extends React.Component {
   }
 
   renderInspector() {
-    const { submitAppVars, updateAppVar, props, state, updateDuration } = this;
+    const {
+      submitAppVars,
+      updateAppVar,
+      props,
+      state,
+      updateDuration,
+      strings,
+    } = this;
     const { definition } = props;
     const { unPublishedApplicationVariables, duration, submit } = state;
     return (
@@ -168,6 +180,7 @@ class Simulator extends React.Component {
           duration={duration}
           updateDuration={updateDuration}
           submit={submit}
+          strings={strings}
         />
       </div>
     );
@@ -199,13 +212,12 @@ class Simulator extends React.Component {
               strings={strings}
             />
           </div>
-          {renderInspector()}
         </div>
       );
     }
     return (
       <div className="simulator" style={simulatorStyle}>
-        <div className="app" style={appStyle} />
+        <div className="app" style={unRenderedAppStyle} />
         {renderInspector()}
       </div>
     );

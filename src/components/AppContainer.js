@@ -5,10 +5,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const propTypes = {
-  eventEmitter: PropTypes.object.isRequired,
+  miraEvents: PropTypes.object.isRequired,
   applicationVariables: PropTypes.object.isRequired,
   App: PropTypes.func.isRequired,
   submit: PropTypes.bool.isRequired,
+  miraRequestResource: PropTypes.func.isRequired,
+  miraFileResource: PropTypes.func.isRequired,
+  strings: PropTypes.object.isRequired,
 };
 
 class AppContainer extends React.Component {
@@ -20,11 +23,25 @@ class AppContainer extends React.Component {
   }
 
   render() {
-    const { App, eventEmitter, applicationVariables } = this.props;
+    const {
+      App,
+      miraEvents,
+      applicationVariables,
+      miraFileResource,
+      miraRequestResource,
+      strings,
+    } = this.props;
     // Give app a unique key
     const key = new Date().getTime();
     return (
-      <App {...applicationVariables} eventEmitter={eventEmitter} key={key} />
+      <App
+        {...applicationVariables}
+        miraEvents={miraEvents}
+        miraRequestResource={miraRequestResource}
+        miraFileResource={miraFileResource}
+        key={key}
+        strings={strings}
+      />
     );
   }
 }

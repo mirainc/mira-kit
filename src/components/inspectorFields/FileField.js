@@ -8,24 +8,19 @@ const propTypes = {
   value: PropTypes.any,
 };
 
-const defaultProps = {
-  value: null,
-};
-
 class FileField extends React.Component {
   handleChange(e) {
     const file = e[0];
-    const fileName = file.name;
-    const fileUrl = file.preview;
-    const value = { name: fileName, url: fileUrl };
-    const name = this.props.presentationProperty.name;
-    this.props.updateAppVar(name, value);
+    const value = { name: file.name, url: file.preview };
+    const { updateAppVar, presentationProperty } = this.props;
+    const { name } = presentationProperty;
+    updateAppVar(name, value);
   }
 
   render() {
-    const { presentationProperty } = this.props;
+    const { presentationProperty, value } = this.props;
     const { constraints } = presentationProperty;
-    const value = this.props.value.name || 'Select a File';
+    const fileVal = value.name || 'Select a File';
     const accept = constraints['content-types'].toString() || false;
     const maxSize = constraints['content-length'] || Infinity;
     return (
@@ -33,15 +28,13 @@ class FileField extends React.Component {
         className="form-control input-like-button"
         accept={accept}
         maxSize={maxSize}
-        onDropAccepted={e => this.handleChange(e)}
-      >
-        {value}
+        onDropAccepted={e => this.handleChange(e)}>
+        {fileVal}
       </Dropzone>
     );
   }
 }
 
 FileField.propTypes = propTypes;
-FileField.defaultProps = defaultProps;
 
 export default FileField;

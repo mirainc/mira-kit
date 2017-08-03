@@ -14,21 +14,21 @@ const defaultProps = {
 class TextField extends React.Component {
   handleChange(e) {
     e.preventDefault();
-    const name = this.props.presentationProperty.name;
-    this.props.updateAppVar(name, e.target.value);
+    const { presentationProperty, updateAppVar } = this.props;
+    const { name } = presentationProperty;
+    updateAppVar(name, e.target.value);
   }
 
   render() {
-    const { presentationProperty } = this.props;
-    const { name } = presentationProperty;
-    const value = this.props.value;
+    const { presentationProperty, value } = this.props;
+    const { name, placeholder } = presentationProperty;
     return (
       <textarea
         name={name}
         onChange={e => this.handleChange(e)}
         rows="4"
         cols="40"
-        placeholder={presentationProperty.placeholder}
+        placeholder={placeholder}
         value={value}
       />
     );

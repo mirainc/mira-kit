@@ -10,8 +10,9 @@ const propTypes = {
 
 class BooleanField extends React.Component {
   handleChange(e) {
-    const name = this.props.presentationProperty.name;
-    this.props.updateAppVar(name, !e);
+    const { presentationProperty, updateAppVar } = this.props;
+    const { name } = presentationProperty;
+    updateAppVar(name, !e);
   }
 
   render() {

@@ -10,10 +10,7 @@ const propTypes = {
   updateDuration: PropTypes.func.isRequired,
   duration: PropTypes.any,
   submit: PropTypes.bool.isRequired,
-};
-
-const defaultProps = {
-  duration: 0,
+  strings: PropTypes.object.isRequired,
 };
 
 class Inspector extends React.Component {
@@ -28,9 +25,9 @@ class Inspector extends React.Component {
   }
 
   renderDuration() {
-    const { definition, updateDuration } = this.props;
-    if (definition.configurable_duration) {
-      const { duration } = this.props;
+    const { definition, updateDuration, duration, strings } = this.props;
+    const { configurable_duration: configurableDuration } = definition;
+    if (configurableDuration) {
       const durationProp = {
         type: 'number',
         name: 'duration',
@@ -43,6 +40,7 @@ class Inspector extends React.Component {
             key="duration"
             updateAppVar={updateDuration}
             value={duration}
+            strings={strings}
           />
         </div>
       );
@@ -55,31 +53,31 @@ class Inspector extends React.Component {
       applicationVariables,
       updateAppVar,
       definition,
+      strings,
     } = this.props;
-    const { presentationProperties } = definition;
+    const { presentation_properties: presentationProperties } = definition;
+    const { appName } = definition;
 
     return (
       <div className="Inspector">
         <h1>Application Inputs</h1>
         <h2>
-          Application Name: {definition.name}
+          Application Name: {appName}
         </h2>
         <div>
           {presentationProperties.map(presentationProperty => {
-            const name = presentationProperty.name;
-            let value = '';
-            if (name in applicationVariables) {
-              value = applicationVariables[name];
-            } else if (presentationProperty.default) {
-              value = presentationProperty.default;
-            }
+            const { name } = presentationProperty;
+            const value = name in applicationVariables
+              ? applicationVariables[name]
+              : '';
             return (
-              <div key={presentationProperty.name}>
-                {`${presentationProperty.name}: `}
+              <div key={name}>
+                {`${strings[name]}: `}
                 <InspectorField
                   updateAppVar={updateAppVar}
                   presentationProperty={presentationProperty}
                   value={value}
+                  strings={strings}
                 />
               </div>
             );
@@ -95,6 +93,5 @@ class Inspector extends React.Component {
 }
 
 Inspector.propTypes = propTypes;
-Inspector.defaultProps = defaultProps;
 
 export default Inspector;

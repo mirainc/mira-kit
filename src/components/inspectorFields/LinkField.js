@@ -4,16 +4,16 @@ import validUrl from 'valid-url';
 
 const propTypes = {
   presentationProperty: PropTypes.object.isRequired,
+  strings: PropTypes.object.isRequired,
 };
 
 const LinkField = props => {
-  const presentationProperty = props.presentationProperty;
-  const name = presentationProperty.name;
-  const url = presentationProperty.url;
+  const { presentationProperty, strings } = props;
+  const { name, url } = presentationProperty;
   if (validUrl.isUri(url)) {
     return (
       <a href={url} target="_blank">
-        {name}
+        {strings[name]}
       </a>
     );
   }

@@ -15,7 +15,7 @@ Mira Apps are responsible for the rendering of presentations created by the user
   - [The Structure of an App](#the-structure-of-an-app)
   - [States for Apps](#states-for-apps)
 1. [Core APIs](#core-apis)
-1. [Testing Your Application](#testing-your-application)
+1. [Testing Your Application With the Simulator](#testing-your-application)
 1. [Deploying an App](#deploying-an-app)
 
 ## Getting Started
@@ -47,19 +47,13 @@ To install, use: `npm install --save-dev mira-kit`
   * An identifier in the form of `company.app_name`. This must be unique.
 * `presentation_properties`
   * type: `list`
-  * A list of property definitions. The user-defined values constitute a "presentation" and will be passed to your app on launch.
+  * A list of property definitions. The user-defined values constitute a "presentation" and will be passed to your app as props on launch.
 * `allowed_request_domains`
   * type: `list`
   * A list of domains your app will need to access via HTTP/HTTPS.
-* `requires_file_access`
-  * type: `boolean`
-  * Whether or not your app requires access to files uploaded for your app by your users. This value should be `true` for any app with a property of type `file`.
-* `requires_local_store`
-  * type: `boolean`
-  * Whether or not your app requires access to local storage. Apps are currently limited to a small and variable amount of local storage.
 * `configurable_duration`
   * type: `boolean`
-  * Whether or not users can configure the duration of each presentation for your application. Defaults to `true`. Set to `false` if your application has a dynamic duration defined by lifecycle_events. Please see [MiraEvents](./events/README.md) for more details.
+  * Whether or not users can configure the duration of each presentation for your application. Defaults to `true`. Set to `false` if your application has a dynamic duration defined by lifecycle_events.
 * `default_duration`
   * type: `number`
   * The default duration, in seconds, of your app's presentations.
@@ -68,7 +62,7 @@ To install, use: `npm install --save-dev mira-kit`
   * __Optional.__ A URL format using URL-param syntax: `https://my.service/:some_id?some_flag=:some_flag`. Used for embedded first- and second-party apps only.
 * `lifecycle_events`
   * type: `list`
-  * __Optional.__ A list of the events that your application triggers via `MiraEvents`. The main runtime will only listen for events specified here. Please see [MiraEvents](./events/README.md) for more details.
+  * __Optional.__ A list of the events that your application triggers via `miraEvents`. The main runtime will only listen for events specified here.
 * `strings`
 
 #### Property Definitions
@@ -85,19 +79,20 @@ Presentation property definitions are dictionaries that require that you specify
   - `default`: UTC ISO string, optional. This value will be rendered in the simulator to local time, but passed to the application in UTC.
 - `boolean`: A true or false value.
   - `default`: boolean, optional. The default value for the boolean.
-- `number`: A numerical value.
+- `number`: An `integer` value.
   - `default`: number, optional. The default value for the number.
 - `selection`: A series of options.
   - `exclusive`: boolean, optional. Prevents multiple selection.
   - `options`: list, required.
     - `name`: string, required.
     - `value`: string, required.
-  - `default`: string. The `value` of the default. Required if `exclusive`.
+  - `default`: string, if `exclusive`, or array of strings. The `value` of the default.
 - `file`: A file upload.
   - `constraints`: object, optional.
     - `content-types`: list, optional. A set of HTTP Content-Types that your app supports. Defaults to `*`.
     - `content-length`: int, optional. The maximum file size, in bytes, your app supports. Defaults to `100000000`.
-- `link`: A clickable link. Takes no user value.
+    - `url` the url of where the file is stored in s3.
+- `link`: A clickable link that will load into the `dashboard`. Takes no user value and is not passed in as a prop to your application.
   - `url`: string, required. The URL to open when clicked.
 
 For example, an Instagram app may have the property `ig_username`:
@@ -108,7 +103,7 @@ For example, an Instagram app may have the property `ig_username`:
 The text that is displayed in the dashboard for each property is derived from your app's `strings` defined in the `definition.json` file.
 
 #### Localizable Strings
-Localizable text must be placed in the `strings` dictionary. The dictionary should map the ISO 639-1 language abbreviation to a dictionary mapping arbitrary string keys to readable, localized values.
+Localizable text must be placed in the `strings` dictionary inside `definition.json`. The dictionary should map the ISO 639-1 language abbreviation to a dictionary mapping arbitrary string keys to readable, localized values.
 
 ```json
 {
@@ -123,6 +118,8 @@ Localizable text must be placed in the `strings` dictionary. The dictionary shou
 ```
 
 Your app's `strings` must include at least one language localization for each property in `presentation_properties`.
+
+For `presentation_properties` of type `selection`, you will also need to include a string in `strings` for each `name` in your list of selectable items.
 
 Additionally, the Mira dashboard will expect your app to define at least one localization for several keys used in describing the app itself.
 - `content_type`: The type of data your app handles. For example, the Video Player app's `content_type` in English is "Video", and a restaurant app's `content_type` in English might be "Menu."
@@ -145,9 +142,10 @@ _NEEDS TO BE RE-WRITTEN TO DISCUSS LIFECYCLE EVENTS_
 Every Mira app is rendered in the context defined by the Mira Platform.
 
 On startup, the system loads creates the resources that will be available to your application and passed in as props:
-- `instanceVariables` - each entry in the users configured presentation properties.
-- `strings`, a representation of your app's `strings.json` file. To access a readable string, simply render `strings.your_key_name`, and the correct value will be chosen based on the language at runtime.
-- `miraRequestProxy` - The `Application` component, your root container, and your entire app will be evaluated, run, and displayed from within a sandboxed context. This sandbox cannot access to the device or browser in which it's presented, and many APIs present in typical browser contexts, such as `XMLHttpRequest`, have been removed in favor of this SDK's [core APIs](#core-apis). These APIs take into account your app's `info.json` configuration and adjusts access accordingly.
+- `applicationVariables` - each `presentation_property` that is filled in, when creating a presentation in the dashboard, will have a corresponding `application_variable` value. This value is passed in as a prop to the application with the prop name identical to its corresponding `presentation_property`.
+- `strings`, a representation of your app's `definition strings`. To access a readable string, simply render `strings.your_key_name`, and the correct value will be chosen based on the language at runtime.
+- `miraRequestResource` - Your application will have a `miraRequestResource` prop passed in. This prop is a function that is API equivalent to `fetch`. We enforce using this over regular `fetch` and `XMLHttpRequest` in order to optimize requests from MiraLinks and ensure `fetch` requests are made to domains the application has specified are allowed in `allowed_request_domains`.
+- `miraFileResource` - Your application will have a `miraFileResource` prop passed in. This function is used to fetch files from the Mira Platform. You simply need to pass in the value of a `file` type presentation property to this function with the request method you would like to use. We support `GET` and `HEAD` as methods. The response of this function is API equivalent to the `fetch` API response.
 - `miraEvents` -
 
 ### States for Apps
@@ -161,11 +159,13 @@ Mira applications trigger lifecycle events which enable the application and the 
 _NOTE: If a duration field is present in application variables, these events will be managed for you and triggered based on the duration set by the user._
 
 ## Core APIs
-### miraRequestProxy
-The `miraRequestProxy` prop provides an API for making HTTP and HTTPS requests. Requests are limited to allowed domains and file access specified in your app's `info.json` .
+### miraRequestResource
+The `miraRequestResource` prop provides an API for making HTTP and HTTPS requests. Requests are limited to allowed domains and file access specified in your app's `info.json` .
 
-The `miraRequestProxy` has an identical API to the [whatwg-fetch specification](https://github.github.io/fetch/).
+The `miraRequestResource` has an identical API to the [whatwg-fetch specification](https://github.github.io/fetch/).
 
+### miraFileResource
+The `miraFileResource` prop provides an API to fetch a file that has been uploaded to the Mira platform. This API takes `application variable` for the file you want to request, and the http `method` you want to use to request the object.
 
 ### miraEvents
 The `miraEvents` prop is an EventEmitter that provides an API for communication between applications and the main runtime.
@@ -195,9 +195,59 @@ this.props.miraEvents.trigger('presentation_complete');
   * A `presentation_complete` event will inform the main runtime that it the the presentation has completed and can be transitioned away from.
 
 #### Registering Lifecycle Events
-To register your lifecycle events, include the events that your application uses in your info.json. Events not registered here will be ignored by the main runtime.
+To register your lifecycle events, include the events that your application uses in your `definition.json`. Events not registered here will be ignored by the main runtime.
 
 ## Testing Your App
+You can test your application using the MiraKit simulator.
+
+To set this up you will need to:
+
+1. `npm install mira-kit`
+1. Create a `sim` folder in your project root directory.
+1. Create an `index.html` file in the `sim` directory. This is used to load the simulator. Example below:
+``` html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  <div id="root"></div>
+  <!--This should point to where your webpack config points-->
+  <script src="dist/bundle.js"></script>
+</body>
+</html>
+```
+1. Create a `webpack.sim.config` in your project's root directory to use for the simulator. Example below:
+``` js
+var userConfig = require('./webpack.config.js');
+module.exports = options => {
+  /* if your project contains externals like React, you can override the
+   * value of externals so all dependencies are included in the simulator.
+   * React will be available on the Mira Link.
+   */
+  return Object.assign(userConfig, {
+    entry: './sim/main.js',
+    externals: {},
+  });
+};
+```
+1. Create a `main.js` for the simulator in the `sim` directory. Example below:
+``` js
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from '../src';
+import definition from '../src/definition.json';
+import { simulator } from 'mira-kit';
+// END: Done by User
+simulator(App, definition);
+```
+1. Add the following npm script to your `package.json` to run the simulator.
+``` json
+"sim": "webpack-dev-server --config ./webpack.sim.config --content-base ./sim --env.dev"
+```
+1. `npm run sim`
 
 ## Deploying an App
 *TBD*

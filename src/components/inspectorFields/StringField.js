@@ -10,20 +10,21 @@ const propTypes = {
 class StringField extends React.Component {
   handleChange(e) {
     e.preventDefault();
-    const name = this.props.presentationProperty.name;
-    this.props.updateAppVar(name, e.target.value);
+    const { presentationProperty, updateAppVar } = this.props;
+    const { name } = presentationProperty;
+    updateAppVar(name, e.target.value);
   }
 
   render() {
     const { presentationProperty, value } = this.props;
-    const { name } = presentationProperty;
-    const type = presentationProperty.secure ? 'password' : 'text';
+    const { name, secure, placeholder } = presentationProperty;
+    const type = secure ? 'password' : 'text';
     return (
       <input
         name={name}
         onChange={e => this.handleChange(e)}
         value={value}
-        placeholder={presentationProperty.placeholder}
+        placeholder={placeholder}
         type={type}
       />
     );

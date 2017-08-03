@@ -13,11 +13,13 @@ const propTypes = {
   presentationProperty: PropTypes.object.isRequired,
   updateAppVar: PropTypes.func.isRequired,
   value: PropTypes.any.isRequired,
+  strings: PropTypes.object.isRequired,
 };
 
 const InspectorField = props => {
-  const { presentationProperty, value, updateAppVar } = props;
-  switch (presentationProperty.type) {
+  const { presentationProperty, value, updateAppVar, strings } = props;
+  const { type } = presentationProperty;
+  switch (type) {
     case 'string': {
       return (
         <StringField
@@ -48,6 +50,7 @@ const InspectorField = props => {
       );
     }
     case 'boolean': {
+      // set value to bool
       const boolVal = !!value;
       return (
         <BooleanField
@@ -73,11 +76,17 @@ const InspectorField = props => {
           presentationProperty={presentationProperty}
           updateAppVar={updateAppVar}
           value={value}
+          strings={strings}
         />
       );
     }
     case 'link': {
-      return <LinkField presentationProperty={presentationProperty} />;
+      return (
+        <LinkField
+          presentationProperty={presentationProperty}
+          strings={strings}
+        />
+      );
     }
     case 'file': {
       return (

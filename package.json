@@ -8,6 +8,9 @@
     "type": "git",
     "url": "git+https://github.com/mirainc/mira-kit.git"
   },
+  "bin": {
+    "mira-kit-deploy": "./scripts/deploy.js"
+  },
   "scripts": {
     "build": "webpack",
     "prepublish": "npm run build"

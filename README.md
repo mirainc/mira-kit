@@ -37,6 +37,7 @@ To install, use: `npm install --save-dev mira-kit`
 * The `definition.json` file contains metadata that defines how the Mira Platform interacts with your app.
 * This information includes presentation properties which can be set by your users.
 * The dictionary also includes its presentation type, which is used by the system to identify both your app and which presentations it should be launched with.
+* **NOTE** We expect that `definition.json` is stored at the root directory of the project. This is where our deploy scripts look for the file.
 
 #### `definition.json` Keys
 * `name`
@@ -238,7 +239,7 @@ module.exports = options => {
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from '../src';
-import definition from '../src/definition.json';
+import definition from '../definition.json';
 import { simulator } from 'mira-kit';
 // END: Done by User
 simulator(App, definition);

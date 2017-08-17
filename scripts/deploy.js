@@ -2,32 +2,13 @@
 
 const path = require('path');
 const fs = require('fs');
-const fetch = require('isomorphic-fetch');
-const request = require('request');
+const request = require('request-promise');
 
 // Create file upload function
 function uploadPresentationFile(fileUri, presignedUrl) {
   console.log(`Uploading ${fileUri}`);
-  return new Promise((resolve,reject) => {
-    fs.readFile(fileUri, (err, data) => {
-      if(err){
-        console.log(err);
-        reject(err);
-      }
-      request({
-        method: "PUT",
-        url: presignedUrl,
-        body: data
-      }, function(err, res, body){
-        if(err){
-          console.log(err);
-          reject(err);
-        }
-        console.log(`Successfully uploaded ${fileUri} to Mira`);
-        resolve(res);
-      });
-    });
-  });
+  const file = fs.readFileSync(fileUri);
+  return request({method: 'PUT', url: presignedUrl, body: file });
 }
 
 // load in consts from envs
@@ -35,7 +16,6 @@ const apiUrl = process.env.MIRA_API_URL || 'https://api.getmira.com';
 const userName = process.env.MIRA_USER_NAME;
 const userPassword = process.env.MIRA_USER_PASSWORD;
 const appId = process.env.MIRA_APP_ID;
-const authorId = process.env.MIRA_AUTHOR_ID;
 
 // Get directory where deploy is running from
 const processDir = process.cwd();
@@ -55,52 +35,57 @@ const definition = require(definitionPath);
 const packageJson = require(packagePath);
 
 // assume optional files exist, but if they don't save they don't.
-let thumbnailExists = true;
-let iconExists = true;
+const distExists = fs.existsSync(distDir);
+const bundleExists = fs.existsSync(bundlePath);
+const thumbnailExists = fs.existsSync(thumbnailPath);
+const iconExists = fs.existsSync(iconPath);
 
 //  NOTE: dist dir is required
-if (!fs.existsSync(distDir)) {
+if (!distExists) {
   throw new Error('directory dist/ is not found in your current project');
 }
 
 //  NOTE: bundle.js is required
-if (!fs.existsSync(bundlePath)) {
-  throw new Error('bundle.js is not found in your current project dist/ directory');
+if (!bundleExists) {
+  throw new Error(
+    'bundle.js is not found in your current project dist/ directory'
+  );
 }
 
 // NOTE: icon.svg is optional
-if (!fs.existsSync(iconPath)) {
-  iconExists = false;
+if (!iconExists) {
   console.warn('WARNING: no icon.svg found for project');
 }
 
 // NOTE: thumbnail.svg is optional
-if (!fs.existsSync(thumbnailPath)) {
-  thumbnailExists = false;
+if (!thumbnailExists) {
   console.warn('WARNING: no thumbnail.svg found for project');
 }
 
 // Get app version and definition properties
-const  { version } = packageJson;
+const { version } = packageJson;
 const { strings, lifecycle_events, presentation_properties, name } = definition;
 
 // Presigned URL declarations
 let iconUrl, thumbnailUrl, sourceUrl;
 
 // Make requests to API
-fetch(`${apiUrl}/users/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-      body: JSON.stringify({
-    		username: userName,
-    		password: userPassword
-    	})
-}).then(response => response.json()
-).then(result => {
-  const apiToken = result.Token;
+request({
+  url: `${apiUrl}/users/login`,
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  credentials: 'include',
+  body: JSON.stringify({
+    username: userName,
+    password: userPassword
+  })
+})
+.then(response => {
+  const apiToken = JSON.parse(response).Token;
+  console.log(apiToken);
   console.log('Logged in, publishing application');
-  return fetch(`${apiUrl}/applications/${appId}/actions/publish`, {
+  return request({
+    url: `${apiUrl}/applications/${appId}/actions/publish`,
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -109,18 +94,17 @@ fetch(`${apiUrl}/users/login`, {
     credentials: 'include',
     body: JSON.stringify({
       version,
-      author_id: authorId,
       name,
       presentation_properties,
-      strings})
-  })
-}).then(response => {
-    return response.json();
-}
-).then(response => {
+      strings
+    })
+  });
+})
+.then(res => {
+  const response = JSON.parse(res);
   const { deployment_id: deploymentId } = response;
   if (!deploymentId) {
-    throw new Error(JSON.stringify(response));
+    throw new Error(response);
   }
   iconUrl = response.icon_url;
   sourceUrl = response.source_url;
@@ -139,7 +123,8 @@ fetch(`${apiUrl}/users/login`, {
   }
   console.warn('WARNING: No thumbnail was uploaded');
   return;
-}).then(() => uploadPresentationFile(bundlePath, sourceUrl)
-).catch(err => {
-	console.log(err);
+})
+.then(() => uploadPresentationFile(bundlePath, sourceUrl))
+.catch(err => {
+  throw new Error(err);
 });

@@ -7,6 +7,7 @@ const request = require('request');
 
 // Create file upload function
 function uploadPresentationFile(fileUri, presignedUrl) {
+  console.log(`Uploading ${fileUri}`);
   return new Promise((resolve,reject) => {
     fs.readFile(fileUri, (err, data) => {
       if(err){
@@ -22,6 +23,7 @@ function uploadPresentationFile(fileUri, presignedUrl) {
           console.log(err);
           reject(err);
         }
+        console.log(`Successfully uploaded ${fileUri} to Mira`);
         resolve(res);
       });
     });
@@ -33,7 +35,6 @@ const apiUrl = process.env.MIRA_API_URL || 'https://api.getmira.com';
 const userName = process.env.MIRA_USER_NAME;
 const userPassword = process.env.MIRA_USER_PASSWORD;
 const appId = process.env.MIRA_APP_ID;
-const authorId = process.env.MIRA_AUTHOR_ID;
 
 // Get directory where deploy is running from
 const processDir = process.cwd();
@@ -56,25 +57,33 @@ const packageJson = require(packagePath);
 let thumbnailExists = true;
 let iconExists = true;
 
+//  NOTE: dist dir is required
 if (!fs.existsSync(distDir)) {
   throw new Error('directory dist/ is not found in your current project');
 }
+
+//  NOTE: bundle.js is required
 if (!fs.existsSync(bundlePath)) {
   throw new Error('bundle.js is not found in your current project dist/ directory');
 }
-// NOTE: Need to decide if these need enforced.
+
+// NOTE: icon.svg is optional
 if (!fs.existsSync(iconPath)) {
   iconExists = false;
   console.warn('WARNING: no icon.svg found for project');
 }
+
+// NOTE: thumbnail.svg is optional
 if (!fs.existsSync(thumbnailPath)) {
   thumbnailExists = false;
   console.warn('WARNING: no thumbnail.svg found for project');
 }
 
-// Need to decide if this should live in definition or package.json
+// Get app version and definition properties
 const  { version } = packageJson;
 const { strings, lifecycle_events, presentation_properties, name } = definition;
+
+// Presigned URL declarations
 let iconUrl, thumbnailUrl, sourceUrl;
 
 // Make requests to API
@@ -99,7 +108,6 @@ fetch(`${apiUrl}/users/login`, {
     credentials: 'include',
     body: JSON.stringify({
       version,
-      author_id: authorId,
       name,
       presentation_properties,
       strings})
@@ -112,14 +120,9 @@ fetch(`${apiUrl}/users/login`, {
   if (!deploymentId) {
     throw new Error(JSON.stringify(response));
   }
-  console.log(response);
   iconUrl = response.icon_url;
   sourceUrl = response.source_url;
   thumbnailUrl = response.thumbnail_url;
-  console.log(deploymentId);
-  console.log(iconUrl);
-  console.log(sourceUrl);
-  console.log(thumbnailUrl)
 })
 .then(() => {
   if (iconExists) {

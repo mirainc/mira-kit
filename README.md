@@ -251,4 +251,27 @@ simulator(App, definition);
 1. `npm run sim`
 
 ## Deploying an App
-*TBD*
+MiraKit comes with a deploy script to help publish your application to the Mira Platform. Once published to our platform you can test you application on one of your Mira Links to see it running live on a device.
+
+In order to publish an application you must do the following.
+
+1. Retrieve an application identifier from Mira. To do this, contact the Mira representative you are working with to build your application.
+1. Build your application into a `bundle.js` and store it in a `dist/` directory at the root of the project. The following is the file structure MiraKit's deploy script expects after your project is built.
+  ```
+  # Expected project directory structure
+  - root directory of project
+    - package.json
+    - definition.json
+    - dist/
+      - bundle.js # Required: built src of your project.
+      - icon.svg # Optional: icon image used in dashboard for your application.
+      - thumbnail.svg # Optional: thumbnail imaged used in dashboard for presentations made from your application.
+    - all other project files
+  ```
+1. Configure `package.json` to have a `deploy` npm script. Exmaple below:
+  ``` json
+  "scripts": {
+    "deploy": "mira-kit-deploy"
+  }
+  ```
+1. Run the MiraKit deploy script. `MIRA_USER_NAME='username' MIRA_USER_PASSWORD='password' MIRA_APP_ID='ApplicationId' npm run deploy`

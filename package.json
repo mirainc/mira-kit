@@ -8,6 +8,9 @@
     "type": "git",
     "url": "git+https://github.com/mirainc/mira-kit.git"
   },
+  "bin": {
+    "mira-kit-deploy": "./scripts/deploy.js"
+  },
   "scripts": {
     "build": "webpack",
     "prepublish": "npm run build"
@@ -52,6 +55,8 @@
     "react-localization": "^0.1.1",
     "react-select": "^1.0.0-rc.5",
     "react-toggle-button": "^2.1.0",
+    "request": "^2.81.0",
+    "request-promise": "^4.2.1",
     "valid-url": "^1.0.9"
   },
   "devDependencies": {

@@ -35,6 +35,7 @@ const apiUrl = process.env.MIRA_API_URL || 'https://api.getmira.com';
 const userName = process.env.MIRA_USER_NAME;
 const userPassword = process.env.MIRA_USER_PASSWORD;
 const appId = process.env.MIRA_APP_ID;
+const authorId = process.env.MIRA_AUTHOR_ID;
 
 // Get directory where deploy is running from
 const processDir = process.cwd();
@@ -108,6 +109,7 @@ fetch(`${apiUrl}/users/login`, {
     credentials: 'include',
     body: JSON.stringify({
       version,
+      author_id: authorId,
       name,
       presentation_properties,
       strings})

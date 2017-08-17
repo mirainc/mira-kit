@@ -241,7 +241,6 @@ To set this up you will need to:
    import App from '../src';
    import definition from '../definition.json';
    import { simulator } from 'mira-kit';
-   // END: Done by User
    simulator(App, definition);
    ```
 1. Add the following npm script to your `package.json` to run the simulator.

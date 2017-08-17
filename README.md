@@ -8,12 +8,12 @@ Mira Apps are responsible for the rendering of presentations created by the user
 ## Table of Contents
 1. [Getting Started](#getting-started)
 1. [The App Bundle](#the-app-bundle)
-  - [definition.json](#defintion)
-  - [Icons And Thumbnails](#icons-and-thumbnails)
-  - [bundle](#the-executable)
+   - [definition.json](#defintion)
+   - [Icons And Thumbnails](#icons-and-thumbnails)
+   - [bundle](#the-executable)
 1. [The App Life Cycle](#the-app-life-cycle)
-  - [The Structure of an App](#the-structure-of-an-app)
-  - [States for Apps](#states-for-apps)
+   - [The Structure of an App](#the-structure-of-an-app)
+   - [States for Apps](#states-for-apps)
 1. [Core APIs](#core-apis)
 1. [Testing Your Application With the Simulator](#testing-your-application)
 1. [Deploying an App](#deploying-an-app)
@@ -206,48 +206,48 @@ To set this up you will need to:
 1. `npm install mira-kit`
 1. Create a `sim` folder in your project root directory.
 1. Create an `index.html` file in the `sim` directory. This is used to load the simulator. Example below:
-``` html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Document</title>
-</head>
-<body>
-  <div id="root"></div>
-  <!--This should point to where your webpack config points-->
-  <script src="dist/bundle.js"></script>
-</body>
-</html>
-```
+   ``` html
+   <!DOCTYPE html>
+   <html lang="en">
+   <head>
+     <meta charset="UTF-8">
+     <title>Document</title>
+   </head>
+   <body>
+     <div id="root"></div>
+     <!--This should point to where your webpack config points-->
+     <script src="dist/bundle.js"></script>
+   </body>
+   </html>
+   ```
 1. Create a `webpack.sim.config` in your project's root directory to use for the simulator. Example below:
-``` js
-var userConfig = require('./webpack.config.js');
-module.exports = options => {
-  /* if your project contains externals like React, you can override the
-   * value of externals so all dependencies are included in the simulator.
-   * React will be available on the Mira Link.
-   */
-  return Object.assign(userConfig, {
-    entry: './sim/main.js',
-    externals: {},
-  });
-};
-```
+   ``` js
+   var userConfig = require('./webpack.config.js');
+   module.exports = options => {
+     /* if your project contains externals like React, you can override the
+     * value of externals so all dependencies are included in the simulator.
+     * React will be available on the Mira Link.
+     */
+     return Object.assign(userConfig, {
+      entry: './sim/main.js',
+      externals: {},
+     });
+   };
+   ```
 1. Create a `main.js` for the simulator in the `sim` directory. Example below:
-``` js
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from '../src';
-import definition from '../definition.json';
-import { simulator } from 'mira-kit';
-// END: Done by User
-simulator(App, definition);
-```
+   ``` js
+   import React from 'react';
+   import ReactDOM from 'react-dom';
+   import App from '../src';
+   import definition from '../definition.json';
+   import { simulator } from 'mira-kit';
+   // END: Done by User
+   simulator(App, definition);
+   ```
 1. Add the following npm script to your `package.json` to run the simulator.
-``` json
-"sim": "webpack-dev-server --config ./webpack.sim.config --content-base ./sim --env.dev"
-```
+   ``` json
+   "sim": "webpack-dev-server --config ./webpack.sim.config --content-base ./sim --env.dev"
+   ```
 1. `npm run sim`
 
 ## Deploying an App
@@ -257,21 +257,21 @@ In order to publish an application you must do the following.
 
 1. Retrieve an application identifier from Mira. To do this, contact the Mira representative you are working with to build your application.
 1. Build your application into a `bundle.js` and store it in a `dist/` directory at the root of the project. The following is the file structure MiraKit's deploy script expects after your project is built.
-  ```
-  # Expected project directory structure
-  - root directory of project
-    - package.json
-    - definition.json
-    - dist/
-      - bundle.js # Required: built src of your project.
-      - icon.svg # Optional: icon image used in dashboard for your application.
-      - thumbnail.svg # Optional: thumbnail imaged used in dashboard for presentations made from your application.
-    - all other project files
-  ```
+   ```
+   # Expected project directory structure
+   - root directory of project
+     - package.json
+     - definition.json
+     - dist/
+       - bundle.js # Required: built src of your project.
+       - icon.svg # Optional: icon image used in dashboard for your application.
+       - thumbnail.svg # Optional: thumbnail imaged used in dashboard for presentations made from your application.
+     - all other project files
+   ```
 1. Configure `package.json` to have a `deploy` npm script. Exmaple below:
-  ``` json
-  "scripts": {
-    "deploy": "mira-kit-deploy"
-  }
-  ```
+   ``` json
+   "scripts": {
+     "deploy": "mira-kit-deploy"
+   }
+   ```
 1. Run the MiraKit deploy script. `MIRA_USER_NAME='username' MIRA_USER_PASSWORD='password' MIRA_APP_ID='ApplicationId' npm run deploy`

@@ -8,7 +8,6 @@
     steps:
       - command: npm run lint
       - command: echo "Test Some Stuff"
-      - command: npm run prepublish
   - type: serial
     tag: ^(production)
     service: mirakit

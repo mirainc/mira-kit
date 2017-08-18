@@ -13,6 +13,10 @@ const propTypes = {
   strings: PropTypes.object.isRequired,
 };
 
+const defaultProps = {
+  duration: null,
+};
+
 class Inspector extends React.Component {
   constructor() {
     super();
@@ -93,5 +97,6 @@ class Inspector extends React.Component {
 }
 
 Inspector.propTypes = propTypes;
+Inspector.defaultProps = defaultProps;
 
 export default Inspector;

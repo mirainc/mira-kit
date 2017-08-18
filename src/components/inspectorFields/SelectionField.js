@@ -9,6 +9,10 @@ const propTypes = {
   strings: PropTypes.object.isRequired,
 };
 
+const defaultProps = {
+  value: null,
+};
+
 class SelectionField extends React.Component {
   handleChange(e) {
     const { presentationProperty, updateAppVar } = this.props;
@@ -51,5 +55,6 @@ class SelectionField extends React.Component {
 }
 
 SelectionField.propTypes = propTypes;
+SelectionField.defaultProps = defaultProps;
 
 export default SelectionField;

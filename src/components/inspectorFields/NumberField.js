@@ -7,6 +7,10 @@ const propTypes = {
   value: PropTypes.any,
 };
 
+const defaultProps = {
+  value: null,
+};
+
 class NumberField extends React.Component {
   handleChange(e) {
     e.preventDefault();
@@ -25,5 +29,5 @@ class NumberField extends React.Component {
 }
 
 NumberField.propTypes = propTypes;
-
+NumberField.defaultProps = defaultProps;
 export default NumberField;

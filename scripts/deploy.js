@@ -82,7 +82,6 @@ request({
 })
 .then(response => {
   const apiToken = JSON.parse(response).Token;
-  console.log(apiToken);
   console.log('Logged in, publishing application');
   return request({
     url: `${apiUrl}/applications/${appId}/actions/publish`,

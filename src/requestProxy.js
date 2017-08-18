@@ -6,6 +6,7 @@
 import parseDomain from 'parse-domain';
 
 // Clobbering time
+// eslint-disable-next-line
 const privateFetch = fetch;
 
 const captureSandboxFailure = (value, fallback) => () => {
@@ -18,9 +19,11 @@ const captureSandboxFailure = (value, fallback) => () => {
 };
 
 // Clobber XMLHttpRequest because it is not available on MiraLinks
+// eslint-disable-next-line
 XMLHttpRequest = captureSandboxFailure('XMLHttpRequest', 'MiraRequestResource');
 
 // Clobber fetch because it is not available on MiraLinks
+// eslint-disable-next-line
 fetch = captureSandboxFailure('fetch', 'MiraRequestResource');
 
 // allowed request domains validation
@@ -63,7 +66,6 @@ export default allowedRequestDomains => {
     const requestPayload = {
       method,
     };
-    const responsePayload = {};
     return privateFetch(fileProp.url, requestPayload);
   };
 

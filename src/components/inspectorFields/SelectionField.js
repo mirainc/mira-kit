@@ -9,7 +9,17 @@ const propTypes = {
   strings: PropTypes.object.isRequired,
 };
 
+const defaultProps = {
+  value: null,
+};
+
 class SelectionField extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+
+    this.handleChange = this.handleChange.bind(this);
+  }
+
   handleChange(e) {
     const { presentationProperty, updateAppVar } = this.props;
     const { name, exclusive } = presentationProperty;
@@ -43,7 +53,7 @@ class SelectionField extends React.Component {
         name={name}
         value={value}
         options={selOptions}
-        onChange={e => this.handleChange(e)}
+        onChange={this.handleChange}
         multi={multi}
       />
     );
@@ -51,5 +61,6 @@ class SelectionField extends React.Component {
 }
 
 SelectionField.propTypes = propTypes;
+SelectionField.defaultProps = defaultProps;
 
 export default SelectionField;

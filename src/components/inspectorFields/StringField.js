@@ -8,6 +8,12 @@ const propTypes = {
 };
 
 class StringField extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+
+    this.handleChange = this.handleChange.bind(this);
+  }
+
   handleChange(e) {
     e.preventDefault();
     const { presentationProperty, updateAppVar } = this.props;
@@ -22,7 +28,7 @@ class StringField extends React.Component {
     return (
       <input
         name={name}
-        onChange={e => this.handleChange(e)}
+        onChange={this.handleChange}
         value={value}
         placeholder={placeholder}
         type={type}

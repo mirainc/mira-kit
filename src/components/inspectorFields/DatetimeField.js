@@ -13,6 +13,12 @@ const propTypes = {
  * This is not stored in application variables because the value is ''.
  */
 class DatetimeField extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+
+    this.handleChange = this.handleChange.bind(this);
+  }
+
   handleChange(e) {
     const { updateAppVar, presentationProperty } = this.props;
     const { name } = presentationProperty;
@@ -27,7 +33,7 @@ class DatetimeField extends React.Component {
     const { name } = presentationProperty;
     const date = parseISOString(value);
     return (
-      <Datetime name={name} onChange={e => this.handleChange(e)} value={date} />
+      <Datetime name={name} onChange={this.handleChange} value={date} />
     );
   }
 }

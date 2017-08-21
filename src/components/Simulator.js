@@ -187,7 +187,6 @@ class Simulator extends React.Component {
   }
   render() {
     const {
-      props,
       state,
       miraEvents,
       miraFileResource,
@@ -195,7 +194,7 @@ class Simulator extends React.Component {
       strings,
       renderInspector,
     } = this;
-    const { App } = props;
+    const { App } = this.props;
     const { publishedApplicationVariables, submit } = state;
     // show on submit or if playing
     if (submit) {

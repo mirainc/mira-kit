@@ -9,6 +9,12 @@ const propTypes = {
 };
 
 class BooleanField extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+
+    this.handleChange = this.handleChange.bind(this);
+  }
+
   handleChange(e) {
     const { presentationProperty, updateAppVar } = this.props;
     const { name } = presentationProperty;
@@ -17,7 +23,7 @@ class BooleanField extends React.Component {
 
   render() {
     const { value } = this.props;
-    return <ToggleButton value={value} onToggle={e => this.handleChange(e)} />;
+    return <ToggleButton value={value} onToggle={this.handleChange} />;
   }
 }
 

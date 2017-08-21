@@ -12,6 +12,12 @@ const defaultProps = {
 };
 
 class TextField extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+
+    this.handleChange = this.handleChange.bind(this);
+  }
+
   handleChange(e) {
     e.preventDefault();
     const { presentationProperty, updateAppVar } = this.props;
@@ -25,7 +31,7 @@ class TextField extends React.Component {
     return (
       <textarea
         name={name}
-        onChange={e => this.handleChange(e)}
+        onChange={this.handleChange}
         rows="4"
         cols="40"
         placeholder={placeholder}

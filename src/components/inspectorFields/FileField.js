@@ -13,6 +13,12 @@ const defaultProps = {
 };
 
 class FileField extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+
+    this.handleChange = this.handleChange.bind(this);
+  }
+
   handleChange(e) {
     const file = e[0];
     const value = { name: file.name, url: file.preview };
@@ -32,7 +38,7 @@ class FileField extends React.Component {
         className="form-control input-like-button"
         accept={accept}
         maxSize={maxSize}
-        onDropAccepted={e => this.handleChange(e)}
+        onDropAccepted={this.handleChange}
       >
         {fileVal}
       </Dropzone>

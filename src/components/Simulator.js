@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import events from 'events';
+import Frame from 'react-frame-component';
 import LocalizedStrings from 'react-localization';
 import Inspector from './Inspector';
 import AppContainer from './AppContainer';
@@ -171,7 +172,7 @@ class Simulator extends React.Component {
     const { definition } = props;
     const { unPublishedApplicationVariables, duration, submit } = state;
     return (
-      <div className="Inspector" style={inspectorStyle}>
+      <Frame className="Inspector" style={inspectorStyle}>
         <Inspector
           submitAppVars={submitAppVars}
           definition={definition}
@@ -182,7 +183,7 @@ class Simulator extends React.Component {
           submit={submit}
           strings={strings}
         />
-      </div>
+      </Frame>
     );
   }
   render() {

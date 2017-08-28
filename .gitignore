@@ -48,3 +48,6 @@ jspm_packages
 # docker
 docker/mirainc-mira-kit.aes
 docker/deploy.env
+
+# vscode config
+.vscode

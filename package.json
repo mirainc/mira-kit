@@ -40,7 +40,8 @@
             ".jsx"
           ]
         }
-      ]
+      ],
+      "react/forbid-prop-types": [1]
     }
   },
   "homepage": "https://github.com/mirainc/mira-kit#readme",

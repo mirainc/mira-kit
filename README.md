@@ -68,7 +68,7 @@ To install, use: `npm install --save-dev mira-kit`
   - __Optional.__ A URL format using URL-param syntax: `https://my.service/:some_id?some_flag=:some_flag`. Used for embedded first- and second-party apps only.
 - `lifecycle_events`
   - type: `list`
-  - __Optional.__ A list of the events that your application triggers via `miraEvents`. The main runtime will only listen for events specified here.
+  - __Optional.__ A list of the events that your application emits via `miraEvents`. The main runtime will only listen for events specified here.
 - `strings`
 
 #### Property Definitions
@@ -160,18 +160,18 @@ On startup, the system loads creates the resources that will be available to you
 - `strings`, a representation of your app's `definition strings`. To access a readable string, simply render `strings.your_key_name`, and the correct value will be chosen based on the language at runtime.
 - `miraRequestResource` - Your application will have a `miraRequestResource` prop passed in. This prop is a function that is API equivalent to `fetch`. We enforce using this over regular `fetch` and `XMLHttpRequest` in order to optimize requests from MiraLinks and ensure `fetch` requests are made to domains the application has specified are allowed in `allowed_request_domains`.
 - `miraFileResource` - Your application will have a `miraFileResource` prop passed in. This function is used to fetch files from the Mira Platform. You simply need to pass in the value of a `file` type presentation property to this function with the request method you would like to use. We support `GET` and `HEAD` as methods. The response of this function is API equivalent to the `fetch` API response.
-- `miraEvents` - Your application will have an eventEmitter passed into it. You can subscribe to `miraEvents` to receive events from the platform running your application, and emit events back to the platform. The events which the platform will listen to are defined in `definition.json` as `lifecycle_events`.
+- `miraEvents` - Your application will have an eventEmitter passed into it. You can subscribe to `miraEvents` to receive events from the platform running your application, and emits events back to the platform. The events which the platform will listen to are defined in `definition.json` as `lifecycle_events`.
 
 ### States for Apps
 
-Mira applications trigger lifecycle events which enable the application and the Mira platform to communicate between each other.
+Mira applications emit lifecycle events which enable the application and the Mira platform to communicate between each other.
 
-- The `presentation_ready` event is triggered by an application when it is ready to start playback on the Mira platform.
+- The `presentation_ready` event is emitted by an application when it is ready to start playback on the Mira platform.
   - The Mira platform will respond to the application with a `play` event to indicate the application should begin playback.
-- The `presentation_complete` event is triggered by an application when playback on the application is complete. This notifies the Mira platform that it can move to the next presentation.
-  - If there is no subsequent application the platform will trigger another play event to loop the current application.
+- The `presentation_complete` event is emitted by an application when playback on the application is complete. This notifies the Mira platform that it can move to the next presentation.
+  - If there is no subsequent application the platform will emit another play event to loop the current application.
 
-_NOTE: If a duration field is present in application variables, these events will be managed for you and triggered based on the duration set by the user._
+_NOTE: If a duration field is present in application variables, these events will be managed for you and emitted based on the duration set by the user._
 
 ## Core APIs
 
@@ -197,14 +197,14 @@ Usage:
 
 ```js
 
-this.props.miraEvents.trigger('presentation_ready');
+this.props.miraEvents.emit('presentation_ready');
 
 this.props.miraEvents.on('play', () => {
   // Play application
 });
 
 // Presentation playthrough
-this.props.miraEvents.trigger('presentation_complete');
+this.props.miraEvents.emit('presentation_complete');
 ```
 
 #### Event Types
@@ -212,7 +212,7 @@ this.props.miraEvents.trigger('presentation_complete');
 - Presentation Ready
   - A `presentation_ready` event will inform the main runtime that the presentation is ready to be displayed on the screen.
 - Play
-  - A `play` event will be triggered by the main runtime and can be subscribed to by applications to ensure timely playback.
+  - A `play` event will be emitted by the main runtime and can be subscribed to by applications to ensure timely playback.
 - Presentation Complete
   - A `presentation_complete` event will inform the main runtime that it the the presentation has completed and can be transitioned away from.
 

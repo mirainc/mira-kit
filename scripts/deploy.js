@@ -64,7 +64,7 @@ if (!thumbnailExists) {
 
 // Get app version and definition properties
 const { version } = packageJson;
-const { strings, lifecycle_events, presentation_properties, name } = definition;
+const { strings, lifecycle_events, presentation_properties, name, configurable_duration } = definition;
 
 // Presigned URL declarations
 let iconUrl, thumbnailUrl, sourceUrl;
@@ -95,7 +95,9 @@ request({
       version,
       name,
       presentation_properties,
-      strings
+      strings,
+      lifecycle_events,
+      configurable_duration
     })
   });
 })

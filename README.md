@@ -59,7 +59,7 @@ To install, use: `npm install --save-dev mira-kit`
   - A list of domains your app will need to access via HTTP/HTTPS.
 - `configurable_duration`
   - type: `boolean`
-  - Whether or not users can configure the duration of each presentation for your application. Defaults to `true`. Set to `false` if your application has a dynamic duration defined by lifecycle_events.
+  - Whether or not users can configure the duration of each presentation for your application. Defaults to `false`. Set to `false` if your application has a dynamic duration defined by lifecycle_events. Set to `true` to use a set time duration.
 - `default_duration`
   - type: `number`
   - The default duration, in seconds, of your app's presentations.

@@ -1,6 +1,6 @@
 {
   "name": "mira-kit",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "revision": "0",
   "description": "Mira SDK",
   "main": "./dist/mira-kit.js",

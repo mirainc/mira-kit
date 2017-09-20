@@ -89,10 +89,12 @@ class Simulator extends React.Component {
     lifeCycleEvents.forEach(e => {
       if (e === 'presentation_ready') {
         miraEvents.on(e, () => {
+          console.log('Mira Kit received presentation_ready, emitting play');
           miraEvents.emit('play');
         });
       } else if (e === 'presentation_complete') {
         miraEvents.on(e, () => {
+          console.log('Mira Kit received presentation_complete');
           clearApp();
         });
       } else {

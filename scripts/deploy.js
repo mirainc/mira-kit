@@ -5,10 +5,17 @@ const fs = require('fs');
 const request = require('request-promise');
 
 // Create file upload function
-function uploadPresentationFile(fileUri, presignedUrl) {
+function uploadPresentationFile(fileUri, presignedUrl, type) {
   console.log(`Uploading ${fileUri}`);
   const file = fs.readFileSync(fileUri);
-  return request({method: 'PUT', url: presignedUrl, body: file });
+  return request({
+    method: 'PUT',
+    url: presignedUrl,
+    body: file,
+    headers: {
+      'Content-Type': type
+    }
+  });
 }
 
 // load in consts from envs
@@ -114,19 +121,19 @@ request({
 })
 .then(() => {
   if (iconExists) {
-    return uploadPresentationFile(iconPath, iconUrl);
+    return uploadPresentationFile(iconPath, iconUrl, 'image/svg+xml');
   }
   console.warn('WARNING: No icon was uploaded');
   return;
 })
 .then(() => {
   if (thumbnailExists) {
-    return uploadPresentationFile(thumbnailPath, thumbnailUrl);
+    return uploadPresentationFile(thumbnailPath, thumbnailUrl, 'image/svg+xml');
   }
   console.warn('WARNING: No thumbnail was uploaded');
   return;
 })
-.then(() => uploadPresentationFile(bundlePath, sourceUrl))
+.then(() => uploadPresentationFile(bundlePath, sourceUrl, 'binary/octet-stream'))
 .catch(err => {
   throw new Error(err);
 });

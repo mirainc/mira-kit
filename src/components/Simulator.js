@@ -5,7 +5,7 @@ import Frame from 'react-frame-component';
 import LocalizedStrings from 'react-localization';
 import Inspector from './Inspector';
 import AppContainer from './AppContainer';
-import { valAppVars, initAppVars, valDuration } from '../helpers';
+import { valAppVars, initAppVars, valDuration, valStrings } from '../helpers';
 import requestProxy from '../requestProxy';
 import {
   inspectorStyle,
@@ -35,6 +35,8 @@ class Simulator extends React.Component {
     // Note: Create localized strings only need to run this at start
     this.strings = new LocalizedStrings(strings);
 
+    // Validate required strings values exist
+    valStrings(this.strings);
     // getInitialState
     const initVals = initAppVars(presentationProperties);
 

@@ -69,7 +69,7 @@ To install, use: `npm install --save-dev mira-kit`
 - `lifecycle_events`
   - type: `list`
   - __Optional.__ A list of the events that your application emits via `miraEvents`. The main runtime will only listen for events specified here.
-- `strings`
+- `strings` **See [Localizable Strings](#localizable-strings)**
 
 #### Property Definitions
 
@@ -114,13 +114,21 @@ The text that is displayed in the dashboard for each property is derived from yo
 
 Localizable text must be placed in the `strings` dictionary inside `definition.json`. The dictionary should map the ISO 639-1 language abbreviation to a dictionary mapping arbitrary string keys to readable, localized values.
 
+Example of the `strings` JSON is below.
+
 ```json
 {
   "en": {
+    "callToAction": "Load an Instagram Feed",
+    "content_type": "Image",
+    "description": "This is an Instagram application for plaything through photos.",
     "ig_username": "Instagram Username"
   },
 
   "fr": {
+    "callToAction": "Sélectionnez votre Instagram",
+    "content_type": "Image",
+    "description": "Ceci est une application Instagram pour jouer à travers des photos.",
     "ig_username": "Nom d'Utilisateur Instagram"
   }
 }
@@ -132,10 +140,16 @@ For `presentation_properties` of type `selection`, you will also need to include
 
 Additionally, the Mira dashboard will expect your app to define at least one localization for several keys used in describing the app itself.
 
+**The following are required strings for every application.**
+
 - `content_type`: The type of data your app handles. For example, the Video Player app's `content_type` in English is "Video", and a restaurant app's `content_type` in English might be "Menu."
 - `description`: The plain-text description of your app and what it does.
+- `callToAction`: The call to action you want for your application in the dashboard.
 
 This file should also include translations of any user-facing text for your app, and will be passed to your app at runtime.
+
+An example of how these values load into the dashboard is below:
+![callToAction.png](/media/callToAction.png)
 
 ### Icons and Thumbnails
 

@@ -1,6 +1,9 @@
 // This file contains a list of helper functions
 import validUrl from 'valid-url';
 
+// Strings that need validated for each app
+const REQUIRED_STRING_PROPERTIES = ['description', 'callToAction', 'content_type'];
+
 // Convert UTC ISO String to local time
 export function parseISOString(s) {
   const b = s.split(/\D+/);
@@ -89,4 +92,13 @@ export function valDuration(value, isConfigurableDuration) {
   if (isConfigurableDuration && (isNaN(duration) || value === '')) {
     throw new Error(`Invalid Duration ${value}`);
   }
+}
+
+// Validate dashboard fields exist in strings
+export function valStrings(strings) {
+  REQUIRED_STRING_PROPERTIES.forEach(p => {
+    if (!strings[p]) {
+      throw new Error(`No ${p} value set in strings`);
+    }
+  });
 }

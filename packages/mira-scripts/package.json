@@ -1,0 +1,11 @@
+{
+  "name": "mira-scripts",
+  "version": "0.0.0",
+  "bin": {
+    "react-scripts": "./bin/react-scripts.js"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "commander": "^2.15.0"
+  }
+}

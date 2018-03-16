@@ -30,6 +30,10 @@ const program = new commander.Command(packageJson.name)
     '--scripts-version <alternative-package>',
     'use an older or non-standard version of mira-scripts',
   )
+  .option(
+    '--kit-version <alternative-package>',
+    'use an older or non-standard version of mira-kit',
+  )
   .allowUnknownOption()
   .on('--help', () => {
     console.log();
@@ -54,6 +58,7 @@ createMiraApp(
   rootAppPath,
   appName,
   program.scriptsVersion,
+  program.kitVersion,
   program.verbose,
   program.useNpm,
 ).then(null, handleCLIError);

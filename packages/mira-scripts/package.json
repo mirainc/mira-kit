@@ -2,9 +2,14 @@
   "name": "mira-scripts",
   "version": "0.0.0",
   "bin": {
-    "react-scripts": "./bin/react-scripts.js"
+    "mira-scripts": "./bin/mira-scripts.js"
   },
-  "dependencies": {},
+  "dependencies": {
+    "chalk": "^2.3.2",
+    "cross-spawn": "^6.0.5",
+    "fs-extra": "^5.0.0",
+    "get-port": "^3.2.0"
+  },
   "devDependencies": {
     "commander": "^2.15.0"
   }

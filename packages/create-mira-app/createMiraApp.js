@@ -12,6 +12,7 @@ module.exports = async (
   appPath,
   appName,
   scriptsVersion,
+  kitVersion,
   verbose,
   useNpm,
 ) => {
@@ -41,23 +42,26 @@ module.exports = async (
   // Change working direction to app root.
   process.chdir(appPath);
 
-  const packageToInstall = getInstallPackage(scriptsVersion, originalDirectory);
-  const packageName = getPackageName(packageToInstall);
-  console.log(`Installing ${packageToInstall}...`);
+  // TODO: Also install mira-kit here. Optionally set with --kit-version
+  const scriptsPackage = getInstallPackage(scriptsVersion, originalDirectory);
+  const scriptsPackageName = getPackageName(scriptsPackage);
+  const kitPackage = getInstallPackage(kitVersion, originalDirectory);
+  const kitPackageName = getPackageName(kitPackage);
+  console.log(`Installing ${scriptsPackageName}, ${kitPackageName}...`);
   console.log();
 
-  await install(appPath, useYarn, [packageToInstall], verbose);
+  await install(appPath, useYarn, [scriptsPackage, kitPackage], verbose);
 
   const scriptsPath = path.resolve(
     process.cwd(),
     'node_modules',
-    packageName,
+    scriptsPackageName,
     'scripts',
     'init.js',
   );
 
   const init = require(scriptsPath);
-  init(appPath, appName, verbose);
+  init(appPath, appName, verbose, originalDirectory);
 };
 
 function isYarnAvailable() {

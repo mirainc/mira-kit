@@ -6,7 +6,8 @@
   "repository": "git@github.com:mirainc/mira-kit.git",
   "scripts": {
     "lint": "eslint .",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "bootstrap": "lerna bootstrap"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -40,7 +41,7 @@
     "extends": ["react-app", "prettier"],
     "plugins": ["prettier"]
   },
-  "eslintIgnore": ["**/node_modules/*"],
+  "eslintIgnore": ["**/node_modules/*", "**/build/*", "**/lib/*"],
   "env": {
     "browser": true,
     "jest": true

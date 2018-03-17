@@ -30,6 +30,7 @@ dist/
 # builds
 build/
 dist/
+lib/
 
 # dependencies
 node_modules/

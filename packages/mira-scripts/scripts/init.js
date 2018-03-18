@@ -94,6 +94,9 @@ module.exports = (appPath, appName, verbose, originalDirectory) => {
   console.log(chalk.cyan(`  ${displayedCommand} start`));
   console.log('    Starts the Mira app simulator for development.');
   console.log();
+  console.log(chalk.cyan(`  ${displayedCommand} build`));
+  console.log('    Will build the app to for deployment.');
+  console.log();
   console.log(chalk.cyan(`  ${displayedCommand} deploy`));
   console.log('    Will deploy the app to your Mira account.');
   console.log();

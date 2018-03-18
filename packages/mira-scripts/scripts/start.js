@@ -31,7 +31,6 @@ const isInteractive = process.stdout.isTTY;
 async function start() {
   const appName = require(paths.appPackageJson).name;
   const port = await choosePort(host, defaultPort);
-  // TODO: Figure out what this is does.
   const urls = prepareUrls(protocol, host, port);
   const compiler = createCompiler(
     webpack,

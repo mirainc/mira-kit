@@ -13,6 +13,8 @@ module.exports = {
   appIndexJs: resolveApp('src/index.js'),
   appNodeModules: resolveApp('node_modules'),
   appPackageJson: resolveApp('package.json'),
+  appIcon: resolveApp('icon.svg'),
+  appThumbnail: resolveApp('thumbnail.svg'),
 };
 
 module.exports.useYarn = fs.existsSync(

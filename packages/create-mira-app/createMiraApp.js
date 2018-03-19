@@ -47,7 +47,7 @@ module.exports = async (
   const scriptsPackageName = getPackageName(scriptsPackage);
   const kitPackage = getInstallPackage(kitVersion, originalDirectory);
   const kitPackageName = getPackageName(kitPackage);
-  console.log(`Installing ${scriptsPackageName}, ${kitPackageName}...`);
+  console.log(`Installing ${scriptsPackageName} and ${kitPackageName}...`);
   console.log();
 
   await install(appPath, useYarn, [scriptsPackage, kitPackage], verbose);

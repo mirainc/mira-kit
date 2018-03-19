@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="110px" height="62px" viewBox="0 0 110 62" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="background: #FFFFFF;">
-    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <!-- Generator: Sketch 49.1 (51147) - http://www.bohemiancoding.com/sketch -->
     <title>thumbnail</title>
     <desc>Created with Sketch.</desc>
     <defs></defs>
-    <g id="assets" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="thumbnail" fill="#20202A">
-            <rect id="Rectangle" x="0" y="0" width="110" height="62"></rect>
-        </g>
+    <g id="thumbnail" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="Rectangle" fill="#16161D" x="0" y="0" width="110" height="62"></rect>
+        <path d="M47,23 L63,23 C64.1045695,23 65,23.8954305 65,25 L65,37 C65,38.1045695 64.1045695,39 63,39 L47,39 C45.8954305,39 45,38.1045695 45,37 L45,25 C45,23.8954305 45.8954305,23 47,23 Z M47,25 L47,37 L63,37 L63,25 L47,25 Z M55,29.5 C55.8284271,29.5 56.5,30.1715729 56.5,31 C56.5,31.8284271 55.8284271,32.5 55,32.5 C54.1715729,32.5 53.5,31.8284271 53.5,31 C53.5,30.1715729 54.1715729,29.5 55,29.5 Z" id="Shape" fill="#FFFFFF" fill-rule="nonzero"></path>
     </g>
 </svg>

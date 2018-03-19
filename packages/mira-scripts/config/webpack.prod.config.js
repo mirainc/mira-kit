@@ -1,6 +1,7 @@
-const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ImageminPlugin = require('imagemin-webpack-plugin').default;
+const path = require('path');
+const webpack = require('webpack');
 const paths = require('./paths');
 const common = require('./webpack.common');
 
@@ -28,6 +29,12 @@ module.exports = {
     ...common.module,
   },
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+        // TODO: Pass in any env vars prefixed with MIRA_APP_*
+      },
+    }),
     new CopyWebpackPlugin([paths.appIcon, paths.appThumbnail]),
     // Compresses icon.svg, thumbnail.svg.
     new ImageminPlugin({ test: /\.(jpe?g|png|gif|svg)$/i }),

@@ -41,7 +41,9 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-        MIRA_SIMULATOR_APP_PATH: JSON.stringify(paths.appIndexJs),
+        MIRA_SIMULATOR_APP_INDEX_PATH: JSON.stringify(paths.appIndexJs),
+        MIRA_SIMULATOR_APP_ICON_PATH: JSON.stringify(paths.appIcon),
+        MIRA_SIMULATOR_APP_CONFIG_PATH: JSON.stringify(paths.appConfig),
         // TODO: Pass in any env vars prefixed with MIRA_APP_*
       },
     }),

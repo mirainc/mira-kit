@@ -5,16 +5,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Simulator from './Simulator';
 
-if (!process.env.MIRA_SIMULATOR_APP_PATH) {
+if (!process.env.MIRA_SIMULATOR_APP_INDEX_PATH) {
   throw new Error(
-    `Simulator is missing environment variable: MIRA_SIMULATOR_APP_PATH`,
+    `Simulator is missing environment variable: MIRA_SIMULATOR_APP_INDEX_PATH`,
   );
 }
 
 const requireApp = () => {
   try {
     // For webpack dynamic require to work, we need to pass the env var directly to require.
-    const app = require(process.env.MIRA_SIMULATOR_APP_PATH);
+    const app = require(process.env.MIRA_SIMULATOR_APP_INDEX_PATH);
     // Support ES and CommondJS modules.
     return app && typeof app === 'object' && app.__esModule ? app.default : app;
   } catch (err) {
@@ -27,12 +27,62 @@ const App = requireApp();
 if (!App) {
   throw new Error(
     `Simulator failed to load app at path: ${
-      process.env.MIRA_SIMULATOR_APP_PATH
+      process.env.MIRA_SIMULATOR_APP_INDEX_PATH
+    }`,
+  );
+}
+
+if (!process.env.MIRA_SIMULATOR_APP_ICON_PATH) {
+  throw new Error(
+    `Simulator is missing environment variable: MIRA_SIMULATOR_APP_ICON_PATH`,
+  );
+}
+
+const requireIcon = () => {
+  try {
+    return require(process.env.MIRA_SIMULATOR_APP_ICON_PATH);
+  } catch (err) {
+    console.error(err.message);
+    return false;
+  }
+};
+
+const icon = requireIcon();
+if (!icon) {
+  throw new Error(
+    `Simulator failed to load icon at path: ${
+      process.env.MIRA_SIMULATOR_APP_ICON_PATH
+    }`,
+  );
+}
+
+if (!process.env.MIRA_SIMULATOR_APP_ICON_PATH) {
+  throw new Error(
+    `Simulator is missing environment variable: MIRA_SIMULATOR_APP_ICON_PATH`,
+  );
+}
+
+const requireConfig = () => {
+  try {
+    return require(process.env.MIRA_SIMULATOR_APP_CONFIG_PATH);
+  } catch (err) {
+    console.error(err.message);
+    return false;
+  }
+};
+
+const config = requireConfig();
+if (!config) {
+  throw new Error(
+    `Simulator failed to load config at path: ${
+      process.env.MIRA_SIMULATOR_APP_CONFIG_PATH
     }`,
   );
 }
 
 ReactDOM.render(
-  <Simulator>{props => <App {...props} />}</Simulator>,
+  <Simulator icon={icon} config={config}>
+    {props => <App {...props} />}
+  </Simulator>,
   document.getElementById('react-root'),
 );

@@ -29,7 +29,7 @@
     "fs-extra": "^5.0.0",
     "html-webpack-plugin": "2.30.1",
     "imagemin-webpack-plugin": "^2.1.0",
-    "mira-simulator": "file:../mira-simulator",
+    "mira-simulator": "0.0.0",
     "react-dev-utils": "^5.0.0",
     "url-loader": "0.6.2",
     "util.promisify": "^1.0.0",

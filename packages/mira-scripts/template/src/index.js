@@ -1,4 +1,5 @@
 import React from 'react';
+import { withMiraApp } from 'mira-kit';
 
 const App = () => {
   return (
@@ -51,4 +52,4 @@ const styles = {
   },
 };
 
-export default App;
+export default withMiraApp(App);

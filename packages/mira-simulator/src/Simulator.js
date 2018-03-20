@@ -1,3 +1,4 @@
+import EventEmitter from 'eventemitter3';
 import {
   ThemeProvider,
   Container,
@@ -30,6 +31,10 @@ class MiraAppSimulator extends Component {
     },
   };
 
+  miraEvents = new EventEmitter();
+  miraFileResource = prop => (prop ? fetch(prop.url) : Promise.resolve());
+  miraWebResource = fetch.bind(window);
+
   componentDidMount() {
     const initialState = localStorage.getItem(STORE_KEY);
     if (initialState) {
@@ -44,7 +49,12 @@ class MiraAppSimulator extends Component {
   render() {
     const { icon, config, children } = this.props;
     const { store } = this.state;
-    const App = children();
+
+    const App = children({
+      miraEvents: this.miraEvents,
+      miraFileResource: this.miraFileResource,
+      miraWebResource: this.miraWebResource,
+    });
 
     if (store.fullScreen) {
       return <div style={styles.container}>{App}</div>;
@@ -64,37 +74,41 @@ class MiraAppSimulator extends Component {
     };
 
     return (
-      <ThemeProvider theme="light">
-        <Container style={styles.container}>
-          <div style={styles.form}>
-            <PresentationBuilderForm
-              presentation={presentation}
+      <div style={styles.container}>
+        <ThemeProvider theme="light">
+          <Container style={styles.builder}>
+            <div style={styles.form}>
+              <PresentationBuilderForm
+                presentation={presentation}
+                application={application}
+                onChange={console.log}
+                onSubmit={console.log}
+              />
+            </div>
+            <PresentationBuilderPreview
               application={application}
-              onChange={console.log}
-              onSubmit={console.log}
-            />
-          </div>
-          <PresentationBuilderPreview
-            application={application}
-            previewMode={store.previewMode}
-            onPreviewModeChange={previewMode => this.setStore({ previewMode })}
-          >
-            <Frame
-              head={
-                <style>{`
+              previewMode={store.previewMode}
+              onPreviewModeChange={previewMode =>
+                this.setStore({ previewMode })
+              }
+            >
+              <Frame
+                head={
+                  <style>{`
                   html, body, .frame-root, .frame-content { 
                     height: 100%; 
                     margin: 0;
                   }
                 `}</style>
-              }
-              style={styles.frame}
-            >
-              {App}
-            </Frame>
-          </PresentationBuilderPreview>
-        </Container>
-      </ThemeProvider>
+                }
+                style={styles.frame}
+              >
+                {App}
+              </Frame>
+            </PresentationBuilderPreview>
+          </Container>
+        </ThemeProvider>
+      </div>
     );
   }
 
@@ -110,6 +124,9 @@ class MiraAppSimulator extends Component {
 
 const styles = {
   container: {
+    height: '100%',
+  },
+  builder: {
     display: 'flex',
     flexDirection: 'row',
     height: '100%',

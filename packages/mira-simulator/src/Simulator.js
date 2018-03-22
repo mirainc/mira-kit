@@ -4,6 +4,7 @@ import {
   PresentationBuilderForm,
   PresentationBuilderPreview,
 } from 'mira-elements';
+import { extractProperties } from 'mira-kit/prop-types';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Frame from 'react-frame-component';
@@ -40,9 +41,12 @@ class MiraAppSimulator extends Component {
     localStorage.setItem(STORE_KEY, JSON.stringify(this.state.store));
   }
 
-  renderApp(allowedRequestDomains = []) {
+  renderApp(appVars, allowedRequestDomains = []) {
     return (
-      <AppLoader allowedRequestDomains={allowedRequestDomains}>
+      <AppLoader
+        appVars={appVars}
+        allowedRequestDomains={allowedRequestDomains}
+      >
         {this.props.children}
       </AppLoader>
     );
@@ -51,11 +55,26 @@ class MiraAppSimulator extends Component {
   render() {
     const { icon, config } = this.props;
     const { store } = this.state;
+    const { properties, strings } = extractProperties(
+      config.presentationProperties || {},
+    );
+    const appVarName = Object.keys(config.applicationVariables || {})[0];
+    const appVars = config.applicationVariables[appVarName] || {};
+
+    // Merge in defaults.
+    properties.forEach(prop => {
+      if (
+        typeof prop.default !== 'undefined' &&
+        typeof appVars[prop.name] === 'undefined'
+      ) {
+        appVars[prop.name] = prop.default;
+      }
+    });
 
     if (store.fullScreen) {
       return (
         <div style={styles.container}>
-          {this.renderApp(config.allowedRequestDomains)}
+          {this.renderApp(appVars, config.allowedRequestDomains)}
         </div>
       );
     }
@@ -63,14 +82,16 @@ class MiraAppSimulator extends Component {
     const application = {
       icon_url: icon,
       name: config.name,
+      presentation_properties: properties,
       strings: {
         description: '',
+        ...strings,
       },
-      presentation_properties: [],
     };
 
     const presentation = {
-      name: config.name,
+      name: appVarName || config.name,
+      application_vars: appVars,
     };
 
     return (
@@ -92,7 +113,7 @@ class MiraAppSimulator extends Component {
                 this.setStore({ previewMode })
               }
             >
-              {this.renderApp(config.allowedRequestDomains)}
+              {this.renderApp(appVars, config.allowedRequestDomains)}
             </PresentationBuilderPreview>
           </Container>
         </ThemeProvider>

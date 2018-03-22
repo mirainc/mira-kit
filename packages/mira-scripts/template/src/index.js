@@ -7,11 +7,13 @@ const propTypes = {
   onReady: PropTypes.func.isRequired,
   onComplete: PropTypes.func.isRequired,
   onError: PropTypes.func.isRequired,
+  // App-specific props
+  duration: PropTypes.number.isRequired,
 };
 
 class App extends Component {
   componentDidMount() {
-    // Immediately call onReady, typically you would do this after
+    // Trigger onReady on mount, typically you would do this after
     // performing any required setup before your app becomes visible
     // (ie. fetching remote data or buffering a video).
     this.props.onReady();
@@ -19,11 +21,12 @@ class App extends Component {
 
   componentWillUpdate(nextProps) {
     // The app is visible or should loop when play changes from false to true.
-    if (nextProps.play && !this.props.play) {
-      // We are triggering onComplete after 5 seconds. You most likely
-      // want to expose this as a duration prop in mira.config.js or
-      // automatically fire it based on an event (ie. video ended).
-      this.timeout = setTimeout(this.props.onComplete, 5000);
+    if (nextProps.shouldPlay && !this.props.shouldPlay) {
+      // Trigger onComplete after a user-defined amount of time.
+      this.timeout = setTimeout(
+        nextProps.onComplete,
+        nextProps.duration * 1000,
+      );
     }
   }
 

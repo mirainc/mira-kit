@@ -64,7 +64,11 @@ if (!process.env.MIRA_SIMULATOR_APP_ICON_PATH) {
 
 const requireConfig = () => {
   try {
-    return require(process.env.MIRA_SIMULATOR_APP_CONFIG_PATH);
+    const config = require(process.env.MIRA_SIMULATOR_APP_CONFIG_PATH);
+    // Support ES and CommondJS modules.
+    return config && typeof config === 'object' && config.__esModule
+      ? config.default
+      : config;
   } catch (err) {
     console.error(err.message);
     return false;

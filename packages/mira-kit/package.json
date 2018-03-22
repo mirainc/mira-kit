@@ -2,6 +2,7 @@
   "name": "mira-kit",
   "version": "0.0.0",
   "main": "lib/index.js",
+  "typings": "typings.d.ts",
   "scripts": {
     "build": "NODE_ENV=production BABEL_ENV=production babel src --out-dir lib",
     "test": "jest src --env=jsdom"

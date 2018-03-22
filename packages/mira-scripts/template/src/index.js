@@ -1,26 +1,57 @@
-import React from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { withMiraApp } from 'mira-kit';
 
-const App = () => {
-  return (
-    <div style={styles.container}>
-      <div style={styles.title}>MiraKit</div>
-      <div style={styles.subtitle}>Screen signage SDK</div>
-      <br />
-      <div>
-        For documentation and examples check out{' '}
-        <a
-          style={styles.anchor}
-          href="https://github.com/mirainc/mira-kit"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          github.com/mirainc/mira-kit
-        </a>.
-      </div>
-    </div>
-  );
+const propTypes = {
+  play: PropTypes.bool.isRequired,
+  onReady: PropTypes.func.isRequired,
+  onComplete: PropTypes.func.isRequired,
+  onError: PropTypes.func.isRequired,
 };
+
+class App extends Component {
+  componentDidMount() {
+    // Immediately call onReady, typically you would do this after
+    // performing any required setup before your app becomes visible
+    // (ie. fetching remote data or buffering a video).
+    this.props.onReady();
+  }
+
+  componentWillUpdate(nextProps) {
+    // The app is visible or should loop when play changes from false to true.
+    if (nextProps.play && !this.props.play) {
+      // We are triggering onComplete after 5 seconds. You most likely
+      // want to expose this as a duration prop in mira.config.js or
+      // automatically fire it based on an event (ie. video ended).
+      this.timeout = setTimeout(this.props.onComplete, 5000);
+    }
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.timeout);
+  }
+
+  render() {
+    return (
+      <div style={styles.container}>
+        <div style={styles.title}>MiraKit</div>
+        <div style={styles.subtitle}>Screen signage SDK</div>
+        <br />
+        <div>
+          For documentation and examples check out{' '}
+          <a
+            style={styles.anchor}
+            href="https://github.com/mirainc/mira-kit"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            github.com/mirainc/mira-kit
+          </a>.
+        </div>
+      </div>
+    );
+  }
+}
 
 const styles = {
   container: {
@@ -51,5 +82,7 @@ const styles = {
     textDecoration: 'none',
   },
 };
+
+App.propTypes = propTypes;
 
 export default withMiraApp(App);

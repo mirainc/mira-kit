@@ -41,3 +41,6 @@ docker/deploy.env
 
 # vscode config
 .vscode/
+
+# This repo should be used with yarn
+package-lock.json

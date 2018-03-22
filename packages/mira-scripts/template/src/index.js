@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withMiraApp } from 'mira-kit';
 
 const propTypes = {
-  play: PropTypes.bool.isRequired,
+  shouldPlay: PropTypes.bool.isRequired,
   onReady: PropTypes.func.isRequired,
   onComplete: PropTypes.func.isRequired,
   onError: PropTypes.func.isRequired,

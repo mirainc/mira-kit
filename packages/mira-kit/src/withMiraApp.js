@@ -113,7 +113,7 @@ export default App => {
       return (
         <App
           {...appProps}
-          play={didReceivePlay}
+          shouldPlay={didReceivePlay}
           onReady={this.handlePresentationReady}
           onComplete={this.handlePresentationComplete}
           onError={this.handlePresentationError}

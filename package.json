@@ -16,7 +16,6 @@
   },
   "devDependencies": {
     "@babel/core": "7.0.0-beta.41",
-    "@babel/plugin-proposal-class-properties": "^7.0.0-beta.42",
     "@babel/runtime": "7.0.0-beta.41",
     "babel-eslint": "^7.2.3",
     "babel-preset-react-app": "^3.1.0",
@@ -41,8 +40,7 @@
     "trailingComma": "all"
   },
   "babel": {
-    "presets": ["react-app"],
-    "plugins": ["@babel/plugin-proposal-class-properties"]
+    "presets": ["react-app"]
   },
   "eslintConfig": {
     "parser": "babel-eslint",

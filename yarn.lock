@@ -24,12 +24,6 @@
   dependencies:
     "@babel/highlight" "7.0.0-beta.41"
 
-"@babel/code-frame@7.0.0-beta.42":
-  version "7.0.0-beta.42"
-  resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.0.0-beta.42.tgz#a9c83233fa7cd06b39dc77adbb908616ff4f1962"
-  dependencies:
-    "@babel/highlight" "7.0.0-beta.42"
-
 "@babel/core@7.0.0-beta.38":
   version "7.0.0-beta.38"
   resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.0.0-beta.38.tgz#f669abfd5ca918a53cfef45eb57d9efd8d8eac5b"
@@ -156,14 +150,6 @@
     "@babel/template" "7.0.0-beta.41"
     "@babel/types" "7.0.0-beta.41"
 
-"@babel/helper-function-name@7.0.0-beta.42":
-  version "7.0.0-beta.42"
-  resolved "https://registry.yarnpkg.com/@babel/helper-function-name/-/helper-function-name-7.0.0-beta.42.tgz#b38b8f4f85168d1812c543dd700b5d549b0c4658"
-  dependencies:
-    "@babel/helper-get-function-arity" "7.0.0-beta.42"
-    "@babel/template" "7.0.0-beta.42"
-    "@babel/types" "7.0.0-beta.42"
-
 "@babel/helper-get-function-arity@7.0.0-beta.36":
   version "7.0.0-beta.36"
   resolved "https://registry.yarnpkg.com/@babel/helper-get-function-arity/-/helper-get-function-arity-7.0.0-beta.36.tgz#f5383bac9a96b274828b10d98900e84ee43e32b8"
@@ -181,12 +167,6 @@
   resolved "https://registry.yarnpkg.com/@babel/helper-get-function-arity/-/helper-get-function-arity-7.0.0-beta.41.tgz#04b9e89d783f6c2223fbb81e11e59235a7781713"
   dependencies:
     "@babel/types" "7.0.0-beta.41"
-
-"@babel/helper-get-function-arity@7.0.0-beta.42":
-  version "7.0.0-beta.42"
-  resolved "https://registry.yarnpkg.com/@babel/helper-get-function-arity/-/helper-get-function-arity-7.0.0-beta.42.tgz#ad072e32f912c033053fc80478169aeadc22191e"
-  dependencies:
-    "@babel/types" "7.0.0-beta.42"
 
 "@babel/helper-hoist-variables@7.0.0-beta.38":
   version "7.0.0-beta.38"
@@ -216,10 +196,6 @@
   resolved "https://registry.yarnpkg.com/@babel/helper-optimise-call-expression/-/helper-optimise-call-expression-7.0.0-beta.38.tgz#b71cd35565f3396a7a122ee1d6bf04444e864406"
   dependencies:
     "@babel/types" "7.0.0-beta.38"
-
-"@babel/helper-plugin-utils@7.0.0-beta.42":
-  version "7.0.0-beta.42"
-  resolved "https://registry.yarnpkg.com/@babel/helper-plugin-utils/-/helper-plugin-utils-7.0.0-beta.42.tgz#9aa8b3e5dc72abea6b4f686712a7363cb29ea057"
 
 "@babel/helper-regex@7.0.0-beta.38":
   version "7.0.0-beta.38"
@@ -293,14 +269,6 @@
     esutils "^2.0.2"
     js-tokens "^3.0.0"
 
-"@babel/highlight@7.0.0-beta.42":
-  version "7.0.0-beta.42"
-  resolved "https://registry.yarnpkg.com/@babel/highlight/-/highlight-7.0.0-beta.42.tgz#a502a1c0d6f99b2b0e81d468a1b0c0e81e3f3623"
-  dependencies:
-    chalk "^2.0.0"
-    esutils "^2.0.2"
-    js-tokens "^3.0.0"
-
 "@babel/plugin-check-constants@7.0.0-beta.38":
   version "7.0.0-beta.38"
   resolved "https://registry.yarnpkg.com/@babel/plugin-check-constants/-/plugin-check-constants-7.0.0-beta.38.tgz#bbda6306d45a4f097ccb416c0b52d6503f6502cf"
@@ -318,14 +286,6 @@
   dependencies:
     "@babel/helper-function-name" "7.0.0-beta.38"
     "@babel/plugin-syntax-class-properties" "7.0.0-beta.38"
-
-"@babel/plugin-proposal-class-properties@^7.0.0-beta.42":
-  version "7.0.0-beta.42"
-  resolved "https://registry.yarnpkg.com/@babel/plugin-proposal-class-properties/-/plugin-proposal-class-properties-7.0.0-beta.42.tgz#2cd29050ab997567071b65896f92afc08a620748"
-  dependencies:
-    "@babel/helper-function-name" "7.0.0-beta.42"
-    "@babel/helper-plugin-utils" "7.0.0-beta.42"
-    "@babel/plugin-syntax-class-properties" "7.0.0-beta.42"
 
 "@babel/plugin-proposal-object-rest-spread@7.0.0-beta.38":
   version "7.0.0-beta.38"
@@ -353,12 +313,6 @@
 "@babel/plugin-syntax-class-properties@7.0.0-beta.38":
   version "7.0.0-beta.38"
   resolved "https://registry.yarnpkg.com/@babel/plugin-syntax-class-properties/-/plugin-syntax-class-properties-7.0.0-beta.38.tgz#e06a9bf6446611d78dfc71f84cddfe9219fb2829"
-
-"@babel/plugin-syntax-class-properties@7.0.0-beta.42":
-  version "7.0.0-beta.42"
-  resolved "https://registry.yarnpkg.com/@babel/plugin-syntax-class-properties/-/plugin-syntax-class-properties-7.0.0-beta.42.tgz#80ccce27907f22d0ffb49721e9d2cde311b41459"
-  dependencies:
-    "@babel/helper-plugin-utils" "7.0.0-beta.42"
 
 "@babel/plugin-syntax-dynamic-import@7.0.0-beta.34":
   version "7.0.0-beta.34"
@@ -666,15 +620,6 @@
     babylon "7.0.0-beta.41"
     lodash "^4.2.0"
 
-"@babel/template@7.0.0-beta.42":
-  version "7.0.0-beta.42"
-  resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.0.0-beta.42.tgz#7186d4e70d44cdec975049ba0a73bdaf5cdee052"
-  dependencies:
-    "@babel/code-frame" "7.0.0-beta.42"
-    "@babel/types" "7.0.0-beta.42"
-    babylon "7.0.0-beta.42"
-    lodash "^4.2.0"
-
 "@babel/traverse@7.0.0-beta.36":
   version "7.0.0-beta.36"
   resolved "https://registry.yarnpkg.com/@babel/traverse/-/traverse-7.0.0-beta.36.tgz#1dc6f8750e89b6b979de5fe44aa993b1a2192261"
@@ -736,14 +681,6 @@
 "@babel/types@7.0.0-beta.41":
   version "7.0.0-beta.41"
   resolved "https://registry.yarnpkg.com/@babel/types/-/types-7.0.0-beta.41.tgz#776e6ec154fb8ec11da697be35b705c6eeb00e75"
-  dependencies:
-    esutils "^2.0.2"
-    lodash "^4.2.0"
-    to-fast-properties "^2.0.0"
-
-"@babel/types@7.0.0-beta.42":
-  version "7.0.0-beta.42"
-  resolved "https://registry.yarnpkg.com/@babel/types/-/types-7.0.0-beta.42.tgz#1e2118767684880f6963801b272fd2b3348efacc"
   dependencies:
     esutils "^2.0.2"
     lodash "^4.2.0"
@@ -1896,10 +1833,6 @@ babylon@7.0.0-beta.38:
 babylon@7.0.0-beta.41:
   version "7.0.0-beta.41"
   resolved "https://registry.yarnpkg.com/babylon/-/babylon-7.0.0-beta.41.tgz#e1b208d53a7a05ede2cf96cbecd86f5ed47f584f"
-
-babylon@7.0.0-beta.42:
-  version "7.0.0-beta.42"
-  resolved "https://registry.yarnpkg.com/babylon/-/babylon-7.0.0-beta.42.tgz#67cfabcd4f3ec82999d29031ccdea89d0ba99657"
 
 babylon@^6.17.0, babylon@^6.18.0:
   version "6.18.0"
@@ -7196,6 +7129,24 @@ mira-elements@^0.26.3:
     react-datepicker "^0.58.0"
     react-dom "^15.6.1"
     react-style-proptype "^3.0.0"
+
+"mira-kit@file:packages/mira-kit":
+  version "0.0.0"
+  dependencies:
+    prop-types "^15.6.1"
+    react "^15.6.0"
+    react-dom "^15.6.0"
+
+"mira-simulator@file:packages/mira-simulator":
+  version "0.0.0"
+  dependencies:
+    eventemitter3 "^3.0.1"
+    mira-elements "^0.26.3"
+    mira-kit "file:../../Library/Caches/Yarn/v1/mira-kit"
+    prop-types "^15.6.1"
+    react "^15.6.0"
+    react-dom "^15.6.0"
+    react-frame-component "^2.0.2"
 
 mississippi@^2.0.0:
   version "2.0.0"

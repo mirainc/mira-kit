@@ -6,7 +6,6 @@
   },
   "dependencies": {
     "@babel/core": "7.0.0-beta.41",
-    "@babel/plugin-proposal-class-properties": "^7.0.0-beta.42",
     "@babel/runtime": "7.0.0-beta.41",
     "babel-eslint": "8.2.1",
     "babel-jest": "22.1.0",
@@ -36,7 +35,6 @@
     "webpack-dev-server": "2.11.0"
   },
   "babel": {
-    "presets": ["react-app"],
-    "plugins": ["@babel/plugin-proposal-class-properties"]
+    "presets": ["react-app"]
   }
 }

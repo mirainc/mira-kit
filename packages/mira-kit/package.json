@@ -7,7 +7,6 @@
     "test": "jest src"
   },
   "dependencies": {
-    "jest": "^22.4.2",
     "prop-types": "^15.6.1",
     "react": "^15.6.0",
     "react-dom": "^15.6.0"

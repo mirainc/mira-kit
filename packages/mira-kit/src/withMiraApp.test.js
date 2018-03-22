@@ -23,7 +23,7 @@ test('Should render app', () => {
   const appProps = app.props();
   expect(Object.keys(appProps).length).toEqual(8);
   expect(appProps.appProp).toEqual(props.appProp);
-  expect(appProps.play).toEqual(false);
+  expect(appProps.shouldPlay).toEqual(false);
   expect(typeof appProps.onReady).toEqual('function');
   expect(typeof appProps.onComplete).toEqual('function');
   expect(typeof appProps.onError).toEqual('function');
@@ -74,7 +74,7 @@ test('Should pass play to App on play event', () => {
   const wrapper = shallow(<MiraApp {...props} />);
   props.miraEvents.emit('play');
   wrapper.update();
-  expect(wrapper.find(App).props().play).toEqual(true);
+  expect(wrapper.find(App).props().shouldPlay).toEqual(true);
 });
 
 test('Should fire presentation_complete with timeout on error BEFORE play', () => {
@@ -126,14 +126,14 @@ test('Should toggle play if play already received', () => {
   const MiraApp = withMiraApp(mockApp);
   mount(<MiraApp {...props} />);
   expect(mockApp).toHaveBeenCalledTimes(1);
-  expect(mockApp.mock.calls[0][0].play).toEqual(false);
+  expect(mockApp.mock.calls[0][0].shouldPlay).toEqual(false);
   props.miraEvents.emit('play');
   expect(mockApp).toHaveBeenCalledTimes(2);
-  expect(mockApp.mock.calls[1][0].play).toEqual(true);
+  expect(mockApp.mock.calls[1][0].shouldPlay).toEqual(true);
   props.miraEvents.emit('play');
   expect(mockApp).toHaveBeenCalledTimes(4);
-  expect(mockApp.mock.calls[2][0].play).toEqual(false);
-  expect(mockApp.mock.calls[3][0].play).toEqual(true);
+  expect(mockApp.mock.calls[2][0].shouldPlay).toEqual(false);
+  expect(mockApp.mock.calls[3][0].shouldPlay).toEqual(true);
 });
 
 test('Should return true for valid Mira app', () => {

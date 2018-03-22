@@ -69,7 +69,7 @@ module.exports = (appPath, appName, verbose, originalDirectory) => {
     }
   }
 
-  const dependencies = ['react@^15.6.0', 'react-dom@^15.6.0'];
+  const dependencies = ['react@^15.6.0', 'react-dom@^15.6.0', 'prop-types'];
   installDeps(dependencies, useYarn, verbose);
 
   if (tryGitInit(appPath)) {

@@ -1,4 +1,3 @@
-import EventEmitter from 'eventemitter3';
 import {
   ThemeProvider,
   Container,
@@ -9,6 +8,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Frame from 'react-frame-component';
 import packageJson from '../package.json';
+import AppLoader from './AppLoader';
 
 const STORE_KEY = `${packageJson.name}:store`;
 
@@ -21,8 +21,6 @@ class MiraAppSimulator extends Component {
     }).isRequired,
   };
 
-  static defaultProps = {};
-
   state = {
     // Everything in store will be saved to localStorage.
     store: {
@@ -30,10 +28,6 @@ class MiraAppSimulator extends Component {
       fullScreen: false,
     },
   };
-
-  miraEvents = new EventEmitter();
-  miraFileResource = prop => (prop ? fetch(prop.url) : Promise.resolve());
-  miraWebResource = fetch.bind(window);
 
   componentDidMount() {
     const initialState = localStorage.getItem(STORE_KEY);
@@ -46,18 +40,16 @@ class MiraAppSimulator extends Component {
     localStorage.setItem(STORE_KEY, JSON.stringify(this.state.store));
   }
 
+  renderApp() {
+    return <AppLoader>{this.props.children}</AppLoader>;
+  }
+
   render() {
-    const { icon, config, children } = this.props;
+    const { icon, config } = this.props;
     const { store } = this.state;
 
-    const App = children({
-      miraEvents: this.miraEvents,
-      miraFileResource: this.miraFileResource,
-      miraWebResource: this.miraWebResource,
-    });
-
     if (store.fullScreen) {
-      return <div style={styles.container}>{App}</div>;
+      return <div style={styles.container}>{this.renderApp()}</div>;
     }
 
     const application = {
@@ -92,19 +84,7 @@ class MiraAppSimulator extends Component {
                 this.setStore({ previewMode })
               }
             >
-              <Frame
-                head={
-                  <style>{`
-                  html, body, .frame-root, .frame-content { 
-                    height: 100%; 
-                    margin: 0;
-                  }
-                `}</style>
-                }
-                style={styles.frame}
-              >
-                {App}
-              </Frame>
+              {this.renderApp()}
             </PresentationBuilderPreview>
           </Container>
         </ThemeProvider>

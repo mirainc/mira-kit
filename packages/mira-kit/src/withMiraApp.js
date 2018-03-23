@@ -19,7 +19,7 @@ export default App => {
         emit: PropTypes.func.isRequired,
       }).isRequired,
       miraFileResource: PropTypes.func.isRequired,
-      miraWebResource: PropTypes.func.isRequired,
+      miraRequestResource: PropTypes.func.isRequired,
       strings: PropTypes.object,
     };
 
@@ -105,7 +105,7 @@ export default App => {
       const {
         miraEvents,
         miraFileResource,
-        miraWebResource,
+        miraRequestResource,
         strings,
         ...appProps
       } = this.props;
@@ -118,7 +118,7 @@ export default App => {
           onComplete={this.handlePresentationComplete}
           onError={this.handlePresentationError}
           miraFileResource={miraFileResource}
-          miraWebResource={miraWebResource}
+          miraRequestResource={miraRequestResource}
           strings={strings}
         />
       );

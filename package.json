@@ -5,6 +5,7 @@
   "workspaces": [
     "packages/create-mira-app",
     "packages/mira-kit",
+    "packages/mira-resources",
     "packages/mira-scripts",
     "packages/mira-simulator"
   ],

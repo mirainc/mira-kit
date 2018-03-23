@@ -1,5 +1,6 @@
 import EventEmitter from 'eventemitter3';
 import PropTypes from 'prop-types';
+import { createFileResource, createRequestResource } from 'mira-resources';
 import React, { Component } from 'react';
 import Frame from 'react-frame-component';
 
@@ -23,12 +24,12 @@ html, body, .frame-root, .frame-content {
 
 class AppLoader extends Component {
   static propTypes = {
+    allowedRequestDomains: PropTypes.arrayOf(PropTypes.string).isRequired,
     children: PropTypes.func.isRequired,
   };
 
   miraEvents = new EventEmitter();
-  miraFileResource = prop => (prop ? fetch(prop.url) : Promise.resolve());
-  miraWebResource = fetch.bind(window);
+  miraFileResource = createFileResource(window);
 
   state = {
     didReceiveReady: false,
@@ -56,7 +57,10 @@ class AppLoader extends Component {
           {this.props.children({
             miraEvents: this.miraEvents,
             miraFileResource: this.miraFileResource,
-            miraWebResource: this.miraWebResource,
+            miraRequestResource: createRequestResource(
+              window,
+              this.props.allowedRequestDomains,
+            ),
           })}
         </Frame>
       </div>

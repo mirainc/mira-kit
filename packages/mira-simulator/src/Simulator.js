@@ -6,7 +6,6 @@ import {
 } from 'mira-elements';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import Frame from 'react-frame-component';
 import packageJson from '../package.json';
 import AppLoader from './AppLoader';
 

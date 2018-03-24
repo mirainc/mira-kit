@@ -8,7 +8,7 @@
   "dependencies": {
     "eventemitter3": "^3.0.1",
     "mira-elements": "^0.26.3",
-    "mira-kit": "0.0.0",
+    "mira-kit": "file:../mira-kit",
     "prop-types": "^15.6.1",
     "react": "^15.6.0",
     "react-dom": "^15.6.0",
@@ -17,7 +17,7 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
-    "babel-preset-react-app": "^3.1.1"
+    "babel-preset-react-app": "next"
   },
   "babel": {
     "presets": ["es2015", "react-app"]

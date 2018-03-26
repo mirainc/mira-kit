@@ -4,6 +4,13 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const webpack = require('webpack');
 const paths = require('./paths');
 const common = require('./webpack.common');
+const getClientEnvironment = require('./env');
+
+const env = getClientEnvironment({
+  MIRA_SIMULATOR_APP_INDEX_PATH: paths.appIndexJs,
+  MIRA_SIMULATOR_APP_ICON_PATH: paths.appIcon,
+  MIRA_SIMULATOR_APP_CONFIG_PATH: paths.appConfig,
+});
 
 module.exports = {
   devtool: 'cheap-module-source-map',
@@ -27,16 +34,8 @@ module.exports = {
       inject: true,
       template: require.resolve('mira-simulator/index.html'),
     }),
-    // Makes some environment variables available to the JS code, for example:
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-        MIRA_SIMULATOR_APP_INDEX_PATH: JSON.stringify(paths.appIndexJs),
-        MIRA_SIMULATOR_APP_ICON_PATH: JSON.stringify(paths.appIcon),
-        MIRA_SIMULATOR_APP_CONFIG_PATH: JSON.stringify(paths.appConfig),
-        // TODO: Pass in any env vars prefixed with MIRA_APP_*
-      },
-    }),
+    // Makes some environment variables available to the JS code.
+    new webpack.DefinePlugin(env.stringified),
     ...common.plugins,
     // Minify.
     new UglifyJsPlugin({

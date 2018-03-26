@@ -4,6 +4,9 @@ const path = require('path');
 const webpack = require('webpack');
 const paths = require('./paths');
 const common = require('./webpack.common');
+const getClientEnvironment = require('./env');
+
+const env = getClientEnvironment();
 
 module.exports = {
   // Don't attempt to continue if there are any errors.
@@ -29,12 +32,7 @@ module.exports = {
     ...common.module,
   },
   plugins: [
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-        // TODO: Pass in any env vars prefixed with MIRA_APP_*
-      },
-    }),
+    new webpack.DefinePlugin(env.stringified),
     new CopyWebpackPlugin([paths.appIcon, paths.appThumbnail]),
     // Compresses icon.svg, thumbnail.svg.
     new ImageminPlugin({ test: /\.(jpe?g|png|gif|svg)$/i }),

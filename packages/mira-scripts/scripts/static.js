@@ -11,10 +11,6 @@ process.on('unhandledRejection', err => {
 
 const chalk = require('chalk');
 const fs = require('fs-extra');
-const {
-  measureFileSizesBeforeBuild,
-  printFileSizesAfterBuild,
-} = require('react-dev-utils/FileSizeReporter');
 const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
 const printBuildError = require('react-dev-utils/printBuildError');
 const promisify = require('util.promisify');

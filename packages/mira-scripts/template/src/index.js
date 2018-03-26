@@ -2,16 +2,16 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withMiraApp } from 'mira-kit';
 
-const propTypes = {
-  shouldPlay: PropTypes.bool.isRequired,
-  onReady: PropTypes.func.isRequired,
-  onComplete: PropTypes.func.isRequired,
-  onError: PropTypes.func.isRequired,
-  // App-specific props
-  duration: PropTypes.number.isRequired,
-};
-
 class App extends Component {
+  static propTypes = {
+    shouldPlay: PropTypes.bool.isRequired,
+    onReady: PropTypes.func.isRequired,
+    onComplete: PropTypes.func.isRequired,
+    onError: PropTypes.func.isRequired,
+    // App-specific props.
+    duration: PropTypes.number.isRequired,
+  };
+
   componentDidMount() {
     // Trigger onReady on mount, typically you would do this after
     // performing any required setup before your app becomes visible
@@ -85,7 +85,5 @@ const styles = {
     textDecoration: 'none',
   },
 };
-
-App.propTypes = propTypes;
 
 export default withMiraApp(App);

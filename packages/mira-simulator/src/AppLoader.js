@@ -25,6 +25,7 @@ html, body, .frame-root, .frame-content {
 class AppLoader extends Component {
   static propTypes = {
     allowedRequestDomains: PropTypes.arrayOf(PropTypes.string).isRequired,
+    appVars: PropTypes.object.isRequired,
     children: PropTypes.func.isRequired,
   };
 
@@ -55,6 +56,7 @@ class AppLoader extends Component {
         {shouldShowOverlay && <div style={styles.overlay} />}
         <Frame head={<style>{runtimeCss}</style>} style={styles.frame}>
           {this.props.children({
+            ...this.props.appVars,
             miraEvents: this.miraEvents,
             miraFileResource: this.miraFileResource,
             miraRequestResource: createRequestResource(

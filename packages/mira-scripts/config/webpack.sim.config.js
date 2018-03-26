@@ -9,6 +9,8 @@ const common = require('./webpack.common');
 module.exports = {
   devtool: 'cheap-module-source-map',
   entry: [
+    // Development polyfills (mainly for promise rejection tracking).
+    require.resolve('./polyfills'),
     // Enables auto reload.
     require.resolve('react-dev-utils/webpackHotDevClient'),
     // The simulator entry, the app path to load is set with

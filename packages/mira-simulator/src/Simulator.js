@@ -40,8 +40,12 @@ class MiraAppSimulator extends Component {
     localStorage.setItem(STORE_KEY, JSON.stringify(this.state.store));
   }
 
-  renderApp() {
-    return <AppLoader>{this.props.children}</AppLoader>;
+  renderApp(allowedRequestDomains = []) {
+    return (
+      <AppLoader allowedRequestDomains={allowedRequestDomains}>
+        {this.props.children}
+      </AppLoader>
+    );
   }
 
   render() {
@@ -49,7 +53,11 @@ class MiraAppSimulator extends Component {
     const { store } = this.state;
 
     if (store.fullScreen) {
-      return <div style={styles.container}>{this.renderApp()}</div>;
+      return (
+        <div style={styles.container}>
+          {this.renderApp(config.allowedRequestDomains)}
+        </div>
+      );
     }
 
     const application = {
@@ -84,7 +92,7 @@ class MiraAppSimulator extends Component {
                 this.setStore({ previewMode })
               }
             >
-              {this.renderApp()}
+              {this.renderApp(config.allowedRequestDomains)}
             </PresentationBuilderPreview>
           </Container>
         </ThemeProvider>

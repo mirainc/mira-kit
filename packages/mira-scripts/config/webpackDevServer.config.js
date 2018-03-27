@@ -1,5 +1,6 @@
-const paths = require('./paths');
+const express = require('express');
 const errorOverlayMiddleware = require('react-dev-utils/errorOverlayMiddleware');
+const paths = require('./paths');
 
 const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
 const host = process.env.HOST || '0.0.0.0';
@@ -29,5 +30,7 @@ module.exports = allowedHost => ({
   before(app) {
     // This lets us open files from the runtime error overlay.
     app.use(errorOverlayMiddleware());
+    // Serve local files from the app's files directory.
+    app.use('/', express.static(paths.appFiles));
   },
 });

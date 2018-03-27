@@ -12,6 +12,7 @@ module.exports = {
   appBuild: resolveApp('build'),
   appStatic: resolveApp('static'),
   appSrc: resolveApp('src'),
+  appFiles: resolveApp('files'),
   appIndexJs: resolveApp('src/index.js'),
   appNodeModules: resolveApp('node_modules'),
   appPackageJson: resolveApp('package.json'),

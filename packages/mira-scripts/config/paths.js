@@ -18,7 +18,7 @@ module.exports = {
   appPackageJson: resolveApp('package.json'),
   appIcon: resolveApp('icon.svg'),
   appThumbnail: resolveApp('thumbnail.svg'),
-  appConfig: resolveApp('mira.config'),
+  appConfig: resolveApp('mira.config.js'),
 };
 
 module.exports.useYarn = fs.existsSync(

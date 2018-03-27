@@ -6,6 +6,7 @@
   },
   "dependencies": {
     "@babel/core": "7.0.0-beta.42",
+    "@babel/register": "^7.0.0-beta.42",
     "@babel/runtime": "7.0.0-beta.42",
     "babel-core": "^7.0.0-0",
     "babel-eslint": "8.2.2",
@@ -35,6 +36,7 @@
     "imagemin-webpack-plugin": "^2.1.0",
     "jest": "^22.4.3",
     "mira-simulator": "0.0.0",
+    "node-fetch": "^2.1.2",
     "object-assign": "^4.1.1",
     "promise": "^8.0.1",
     "raf": "^3.4.0",

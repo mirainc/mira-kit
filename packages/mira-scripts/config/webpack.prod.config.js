@@ -12,11 +12,14 @@ module.exports = {
   // Don't attempt to continue if there are any errors.
   bail: true,
   devtool: 'source-map',
-  entry: paths.appIndexJs,
+  entry: {
+    bundle: paths.appIndexJs,
+    'mira.config': paths.appConfig,
+  },
   output: {
     // The build folder.
     path: paths.appBuild,
-    filename: 'bundle.js',
+    filename: '[name].js',
     // Point sourcemap entries to original disk location (format as URL on Windows)
     devtoolModuleFilenameTemplate: info =>
       path.resolve(info.absoluteResourcePath).replace(/\\/g, '/'),

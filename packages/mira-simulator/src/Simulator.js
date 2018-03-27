@@ -12,6 +12,8 @@ import React, { Component } from 'react';
 import AppLoader from './AppLoader';
 import Icon from './Icon';
 
+const PRESENTATION_MIN_DURATION = 5;
+
 class MiraAppSimulator extends Component {
   static propTypes = {
     icon: PropTypes.string.isRequired,
@@ -26,10 +28,14 @@ class MiraAppSimulator extends Component {
     fullScreen: false,
     index: 0,
     presentation: null,
+    previewPresentation: null,
     present: false,
     hideControls: false,
     supressLogs: false,
+    files: {},
   };
+
+  queuedPresentationPreview = null;
 
   componentWillMount() {
     const queryParams = querystring.parse(
@@ -78,6 +84,11 @@ class MiraAppSimulator extends Component {
     return this.state[key] !== this.initialState[key];
   }
 
+  getAppVarNames() {
+    const { applicationVariables = {} } = this.props.config;
+    return Object.keys(applicationVariables);
+  }
+
   startHideControlsTimer = () => {
     if (this.state.fullScreen) {
       clearTimeout(this.hideControlsTimeout);
@@ -88,10 +99,30 @@ class MiraAppSimulator extends Component {
     }
   };
 
-  getAppVarNames() {
-    const { applicationVariables = {} } = this.props.config;
-    return Object.keys(applicationVariables);
-  }
+  setPresentationPreview = (presentation, changedProp) => {
+    let previewPresentation = presentation;
+
+    // Delay updating the preview for text and string inputs until onBlur.
+    if (changedProp.type === 'string' || changedProp.type === 'text') {
+      this.queuedPresentationPreview = previewPresentation;
+      previewPresentation = this.state.previewPresentation;
+    } else {
+      // Clear any queued preview updates because we're about to update.
+      this.queuedPresentationPreview = null;
+    }
+
+    this.setState({ appVars: presentation.application_vars });
+  };
+
+  flushPreviewUpdate = () => {
+    // Flush any queued preview updates.
+    if (this.queuedPresentationPreview) {
+      this.setState({
+        appVars: this.queuedPresentationPreview.application_vars,
+      });
+      this.queuedPresentationPreview = null;
+    }
+  };
 
   renderControls() {
     const { index, fullScreen, hideControls, present } = this.state;
@@ -192,15 +223,6 @@ class MiraAppSimulator extends Component {
       style: styles.container,
     };
 
-    if (fullScreen) {
-      return (
-        <div {...containerProps}>
-          {this.renderControls()}
-          {this.renderApp(appVars, config.allowedRequestDomains)}
-        </div>
-      );
-    }
-
     const application = {
       icon_url: icon,
       name: appName,
@@ -218,6 +240,24 @@ class MiraAppSimulator extends Component {
       application_vars: appVars,
     };
 
+    const previewErrors = PresentationBuilderForm.validate(
+      presentation,
+      application,
+      PRESENTATION_MIN_DURATION,
+    );
+
+    const shouldRenderApp = previewErrors.length === 0;
+
+    if (fullScreen) {
+      return (
+        <div {...containerProps}>
+          {this.renderControls()}
+          {shouldRenderApp &&
+            this.renderApp(appVars, config.allowedRequestDomains)}
+        </div>
+      );
+    }
+
     return (
       <div {...containerProps}>
         {this.renderControls()}
@@ -227,9 +267,8 @@ class MiraAppSimulator extends Component {
               <PresentationBuilderForm
                 presentation={presentation}
                 application={application}
-                onChange={presentation =>
-                  this.setState({ appVars: presentation.application_vars })
-                }
+                onChange={this.setPresentationPreview}
+                onBlur={this.flushPreviewUpdate}
                 onSubmit={() => {}}
               />
             </div>
@@ -240,7 +279,8 @@ class MiraAppSimulator extends Component {
                 this.setState({ previewMode })
               }
             >
-              {this.renderApp(appVars, config.allowedRequestDomains)}
+              {shouldRenderApp &&
+                this.renderApp(appVars, config.allowedRequestDomains)}
             </PresentationBuilderPreview>
           </Container>
         </ThemeProvider>

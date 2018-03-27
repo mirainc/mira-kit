@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { createFileResource, createRequestResource } from 'mira-resources';
 import React, { Component } from 'react';
 import Frame from 'react-frame-component';
+import CaptureFrameMouseOver from './CaptureFrameMouseOver';
 
 const runtimeCss = `
 html, body, .frame-root, .frame-content { 
@@ -27,6 +28,14 @@ class AppLoader extends Component {
     allowedRequestDomains: PropTypes.arrayOf(PropTypes.string).isRequired,
     appVars: PropTypes.object.isRequired,
     children: PropTypes.func.isRequired,
+    onMouseOver: PropTypes.func.isRequired,
+    onComplete: PropTypes.func,
+    supressLogs: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    onComplete: null,
+    supressLogs: false,
   };
 
   miraEvents = new EventEmitter();
@@ -37,16 +46,31 @@ class AppLoader extends Component {
   };
 
   componentWillMount() {
+    this.log('Waiting for onReady to be called...');
     this.miraEvents.on('presentation_ready', () => {
+      this.log('onReady called ✅');
+      this.log('Waiting for onComplete to be called...');
       this.setState({ didReceiveReady: true });
       setTimeout(() => this.miraEvents.emit('play'));
     });
 
     this.miraEvents.on('presentation_complete', () => {
-      // Loop the presentation.
-      // TODO: How can we detect failures to call onComplete?
-      this.miraEvents.emit('play');
+      this.log('onComplete called ✅');
+      // Call onComplete if provided, otherwise loop the presentation.
+      if (this.props.onComplete) {
+        this.log('Playing next presentation...');
+        this.props.onComplete();
+      } else {
+        this.log('Re-playing current presentation...');
+        this.miraEvents.emit('play');
+      }
     });
+  }
+
+  log(message) {
+    if (!this.props.supressLogs) {
+      console.info(message);
+    }
   }
 
   render() {
@@ -55,15 +79,17 @@ class AppLoader extends Component {
       <div style={styles.container}>
         {shouldShowOverlay && <div style={styles.overlay} />}
         <Frame head={<style>{runtimeCss}</style>} style={styles.frame}>
-          {this.props.children({
-            ...this.props.appVars,
-            miraEvents: this.miraEvents,
-            miraFileResource: this.miraFileResource,
-            miraRequestResource: createRequestResource(
-              window,
-              this.props.allowedRequestDomains,
-            ),
-          })}
+          <CaptureFrameMouseOver onMouseOver={this.props.onMouseOver}>
+            {this.props.children({
+              ...this.props.appVars,
+              miraEvents: this.miraEvents,
+              miraFileResource: this.miraFileResource,
+              miraRequestResource: createRequestResource(
+                window,
+                this.props.allowedRequestDomains,
+              ),
+            })}
+          </CaptureFrameMouseOver>
         </Frame>
       </div>
     );

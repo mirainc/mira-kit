@@ -11,6 +11,7 @@
     "mira-kit": "0.0.0",
     "mira-resources": "0.0.0",
     "prop-types": "^15.6.1",
+    "querystring": "^0.2.0",
     "react": "^15.6.0",
     "react-dom": "^15.6.0",
     "react-frame-component": "^2.0.2"

@@ -1,3 +1,4 @@
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const fs = require('fs');
 const path = require('path');
@@ -39,6 +40,9 @@ module.exports = {
     }),
     // Makes some environment variables available to the JS code.
     new webpack.DefinePlugin(env.stringified),
+    // Copy files to static directory.
+    new CopyWebpackPlugin([{ from: 'files/*', flatten: true }]),
+    // Common plugins.
     ...common.plugins,
     // Minify.
     new UglifyJsPlugin({

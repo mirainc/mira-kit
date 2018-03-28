@@ -1,6 +1,10 @@
 import EventEmitter from 'eventemitter3';
 import PropTypes from 'prop-types';
-import { createFileResource, createRequestResource } from 'mira-resources';
+import {
+  createFileResource,
+  createRequestResource,
+  captureSandboxFailure,
+} from 'mira-resources';
 import React, { Component } from 'react';
 import Frame from 'react-frame-component';
 import CaptureFrameMouseOver from './CaptureFrameMouseOver';
@@ -23,6 +27,18 @@ html, body, .frame-root, .frame-content {
 }
 `;
 
+// Private fetch used for fetching in mira resources.
+const privateFetch = window.fetch.bind(window);
+
+// Clobber XMLHttpRequest because it is not available in the Mira sandbox.
+window.XMLHttpRequest = captureSandboxFailure(
+  'XMLHttpRequest',
+  'miraRequestResource',
+);
+
+// Clobber fetch because it is not available on MiraLinks
+window.fetch = captureSandboxFailure('fetch', 'miraRequestResource');
+
 class AppLoader extends Component {
   static propTypes = {
     allowedRequestDomains: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -39,7 +55,7 @@ class AppLoader extends Component {
   };
 
   miraEvents = new EventEmitter();
-  miraFileResource = createFileResource(window);
+  miraFileResource = createFileResource(privateFetch);
 
   state = {
     didReceiveReady: false,
@@ -85,7 +101,7 @@ class AppLoader extends Component {
               miraEvents: this.miraEvents,
               miraFileResource: this.miraFileResource,
               miraRequestResource: createRequestResource(
-                window,
+                privateFetch,
                 this.props.allowedRequestDomains,
               ),
             })}

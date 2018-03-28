@@ -1,6 +1,4 @@
-export default target => {
-  const privateFetch = target.fetch.bind(target);
-
+export default privateFetch => {
   return (fileProp, method) => {
     if (method !== 'GET' && method !== 'HEAD') {
       throw new Error(

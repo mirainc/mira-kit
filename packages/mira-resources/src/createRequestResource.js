@@ -1,18 +1,7 @@
-import captureSandboxFailure from './captureSandboxFailure';
+// import captureSandboxFailure from './captureSandboxFailure';
 import inAllowedRequestDomains from './inAllowedRequestDomains';
 
-export default (target, allowedRequestDomains) => {
-  const privateFetch = target.fetch.bind(target);
-
-  // Clobber XMLHttpRequest because it is not available in the Mira sandbox.
-  target.XMLHttpRequest = captureSandboxFailure(
-    'XMLHttpRequest',
-    'miraRequestResource',
-  );
-
-  // Clobber fetch because it is not available on MiraLinks
-  target.fetch = captureSandboxFailure('fetch', 'miraRequestResource');
-
+export default (privateFetch, allowedRequestDomains) => {
   return (url, payload) => {
     const requestPayload = {
       ...payload,

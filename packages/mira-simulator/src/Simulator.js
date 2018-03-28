@@ -154,18 +154,20 @@ class MiraAppSimulator extends Component {
   };
 
   setPresentationPreview = (presentation, changedProp) => {
-    let previewPresentation = presentation;
+    let previewPresentation;
 
     // Delay updating the preview for text and string inputs until onBlur.
     if (changedProp.type === 'string' || changedProp.type === 'text') {
-      this.queuedPresentationPreview = previewPresentation;
+      this.queuedPresentationPreview = presentation;
       previewPresentation = this.state.previewPresentation;
     } else {
+      // Immediately update presentation preview.
+      previewPresentation = presentation;
       // Clear any queued preview updates because we're about to update.
       this.queuedPresentationPreview = null;
     }
 
-    this.setState({ presentation });
+    this.setState({ previewPresentation });
   };
 
   flushPreviewUpdate = () => {
@@ -251,16 +253,15 @@ class MiraAppSimulator extends Component {
 
     // Skip invalid presentation when presenting.
     if (hasErrors && present) {
+      console.log('Skipping invalid presentation...');
       return (
         <PresentationSkipper
-          onComplete={() => this.setState({ index: nextIndex })}
+          onComplete={() => this.setStateAtIndex(nextIndex)}
         />
       );
     }
 
-    if (hasErrors) {
-      return null;
-    }
+    if (hasErrors) return null;
 
     return (
       <AppLoader

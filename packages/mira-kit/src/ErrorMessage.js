@@ -3,7 +3,11 @@ import PropTypes from 'prop-types';
 
 const propTypes = {
   title: PropTypes.string.isRequired,
-  message: PropTypes.string.isRequired,
+  message: PropTypes.string,
+};
+
+const defaultProps = {
+  message: '',
 };
 
 const ErrorMessage = ({ title, message }) => (
@@ -14,6 +18,7 @@ const ErrorMessage = ({ title, message }) => (
 );
 
 ErrorMessage.propTypes = propTypes;
+ErrorMessage.defaultProps = defaultProps;
 
 const styles = {
   container: {

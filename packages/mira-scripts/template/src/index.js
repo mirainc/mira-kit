@@ -19,17 +19,13 @@ class App extends Component {
     this.props.onReady();
   }
 
-  componentWillUpdate(nextProps) {
-    // The app is visible or should loop when play changes from false to true.
-    // When this happens, start the onComplete timeout.
-    if (nextProps.shouldPlay && !this.props.shouldPlay) {
-      // Clear timeout if it already exists. This can happen if props change.
+  componentDidUpdate(prevProps) {
+    const { shouldPlay, duration, onComplete } = this.props;
+    // The app is visible start the onComplete timeout.
+    if (shouldPlay) {
+      // Clear existing timeout when props are updated.
       clearTimeout(this.onCompleteTimeout);
-      // Trigger onComplete after a user-defined amount of time.
-      this.onCompleteTimeout = setTimeout(
-        nextProps.onComplete,
-        nextProps.duration * 1000,
-      );
+      this.onCompleteTimeout = setTimeout(onComplete, duration * 1000);
     }
   }
 

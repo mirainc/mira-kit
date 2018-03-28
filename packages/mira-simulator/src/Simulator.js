@@ -39,26 +39,30 @@ class MiraAppSimulator extends Component {
   queuedPresentationPreview = null;
 
   componentWillMount() {
+    const state = { ...this.initialState };
     const queryParams = querystring.parse(
       window.location.search.replace(/^\?/, ''),
     );
 
-    this.setState(this.initialState);
     if (queryParams.previewMode) {
-      this.setState({ previewMode: queryParams.previewMode });
+      state.previewMode = queryParams.previewMode;
     }
     if (queryParams.index) {
-      this.setState({ index: parseInt(queryParams.index, 10) });
+      state.index = parseInt(queryParams.index, 10);
     }
     if (queryParams.fullScreen) {
-      this.setState({ fullScreen: true, hideControls: true });
+      state.fullScreen = true;
+      state.hideControls = true;
     }
     if (queryParams.present) {
-      this.setState({ present: true });
+      state.present = true;
     }
     if (queryParams.supressLogs) {
-      this.setState({ supressLogs: true });
+      state.supressLogs = true;
     }
+
+    this.setState(state);
+    this.setStateAtIndex(state.index);
   }
 
   componentDidUpdate() {
@@ -100,6 +104,55 @@ class MiraAppSimulator extends Component {
     }
   };
 
+  setStateAtIndex = index => {
+    const { icon, config } = this.props;
+    const {
+      name: appName,
+      applicationVariables = {},
+      presentationProperties = {},
+    } = config;
+    const appVarNames = this.getAppVarNames();
+    // Set the selected app var to the index or the first one if not found.
+    const selectedAppVar = appVarNames[index] || appVarNames[0];
+    const appVars = applicationVariables[selectedAppVar] || {};
+    const { properties, strings } = extractProperties(presentationProperties);
+
+    // Merge in defaults.
+    properties.forEach(prop => {
+      if (
+        typeof prop.default !== 'undefined' &&
+        typeof appVars[prop.name] === 'undefined'
+      ) {
+        appVars[prop.name] = prop.default;
+      }
+    });
+
+    const presentation = {
+      // Passing id will trigger the form to update state from props.
+      id: `${index}`,
+      name: selectedAppVar || '',
+      application_vars: appVars,
+    };
+
+    const application = {
+      name: appName,
+      icon_url: icon,
+      presentation_properties: properties,
+      strings: {
+        ...strings,
+        description: config.description,
+        callToAction: config.callToAction,
+      },
+    };
+
+    this.setState({
+      index,
+      presentation,
+      application,
+      previewPresentation: presentation,
+    });
+  };
+
   setPresentationPreview = (presentation, changedProp) => {
     let previewPresentation = presentation;
 
@@ -112,15 +165,13 @@ class MiraAppSimulator extends Component {
       this.queuedPresentationPreview = null;
     }
 
-    this.setState({ appVars: presentation.application_vars });
+    this.setState({ presentation });
   };
 
   flushPreviewUpdate = () => {
     // Flush any queued preview updates.
     if (this.queuedPresentationPreview) {
-      this.setState({
-        appVars: this.queuedPresentationPreview.application_vars,
-      });
+      this.setState({ previewPresentation: this.queuedPresentationPreview });
       this.queuedPresentationPreview = null;
     }
   };
@@ -147,9 +198,7 @@ class MiraAppSimulator extends Component {
               <Button
                 shrinkwrap
                 disabled={present}
-                onClick={() =>
-                  this.setState({ index: previousIndex, appVars: null })
-                }
+                onClick={() => this.setStateAtIndex(previousIndex)}
               >
                 <Icon icon="previous" />
               </Button>
@@ -164,9 +213,7 @@ class MiraAppSimulator extends Component {
               <Button
                 shrinkwrap
                 disabled={present}
-                onClick={() =>
-                  this.setState({ index: nextIndex, appVars: null })
-                }
+                onClick={() => this.setStateAtIndex(nextIndex)}
               >
                 <Icon icon="next" />
               </Button>
@@ -177,8 +224,23 @@ class MiraAppSimulator extends Component {
     );
   }
 
-  renderApp(appVars, allowedRequestDomains = [], hasErrors) {
-    const { index, present, supressLogs } = this.state;
+  renderPreview() {
+    const { config } = this.props;
+    const {
+      index,
+      present,
+      supressLogs,
+      previewPresentation,
+      application,
+    } = this.state;
+
+    const previewErrors = PresentationBuilderForm.validate(
+      previewPresentation,
+      application,
+      PRESENTATION_MIN_DURATION,
+    );
+
+    const hasErrors = previewErrors.length > 0;
 
     const count = this.getAppVarNames().length;
     const nextIndex = (index + 1) % count;
@@ -203,12 +265,12 @@ class MiraAppSimulator extends Component {
     return (
       <AppLoader
         key={index}
-        appVars={appVars}
-        allowedRequestDomains={allowedRequestDomains}
+        appVars={previewPresentation.application_vars}
+        allowedRequestDomains={config.allowedRequestDomains || []}
         supressLogs={supressLogs}
         onMouseOver={this.startHideControlsTimer}
         onComplete={
-          shouldHandleOnComplete && (() => this.setState({ index: nextIndex }))
+          shouldHandleOnComplete && (() => this.setStateAtIndex(nextIndex))
         }
       >
         {this.props.children}
@@ -217,66 +279,17 @@ class MiraAppSimulator extends Component {
   }
 
   render() {
-    const { icon, config } = this.props;
-    const { previewMode, index, fullScreen } = this.state;
-    const {
-      name: appName,
-      presentationProperties = {},
-      applicationVariables = {},
-    } = config;
-    const { properties, strings } = extractProperties(presentationProperties);
-    const appVarNames = this.getAppVarNames();
-    // Set the selected app var to the index or the first one if not found.
-    const selectedAppVar = appVarNames[index] || appVarNames[0];
-    const appVars =
-      this.state.appVars || applicationVariables[selectedAppVar] || {};
-
-    // Merge in defaults.
-    properties.forEach(prop => {
-      if (
-        typeof prop.default !== 'undefined' &&
-        typeof appVars[prop.name] === 'undefined'
-      ) {
-        appVars[prop.name] = prop.default;
-      }
-    });
-
+    const { previewMode, fullScreen, presentation, application } = this.state;
     const containerProps = {
       onMouseOver: this.startHideControlsTimer,
       style: styles.container,
     };
 
-    const application = {
-      name: appName,
-      icon_url: icon,
-      presentation_properties: properties,
-      strings: {
-        ...strings,
-        description: config.description,
-        callToAction: config.callToAction,
-      },
-    };
-
-    const presentation = {
-      // Passing id will trigger the form to update state from props.
-      id: `${index}`,
-      name: selectedAppVar || appName,
-      application_vars: appVars,
-    };
-
-    const previewErrors = PresentationBuilderForm.validate(
-      presentation,
-      application,
-      PRESENTATION_MIN_DURATION,
-    );
-
-    const hasErrors = previewErrors.length > 0;
-
     if (fullScreen) {
       return (
         <div {...containerProps}>
           {this.renderControls()}
-          {this.renderApp(appVars, config.allowedRequestDomains, hasErrors)}
+          {this.renderPreview()}
         </div>
       );
     }
@@ -302,7 +315,7 @@ class MiraAppSimulator extends Component {
                 this.setState({ previewMode })
               }
             >
-              {this.renderApp(appVars, config.allowedRequestDomains, hasErrors)}
+              {this.renderPreview()}
             </PresentationBuilderPreview>
           </Container>
         </ThemeProvider>
@@ -329,10 +342,11 @@ const styles = {
   controls: (fullScreen, hideControls) => ({
     position: 'fixed',
     zIndex: 100,
-    bottom: 16,
-    left: 16,
+    bottom: 0,
+    left: 0,
     boxSizing: 'border-box',
-    width: formWidth - 32,
+    width: formWidth,
+    padding: 16,
     display: 'flex',
     justifyContent: 'center',
     background: fullScreen ? 'transparent' : '#fff',

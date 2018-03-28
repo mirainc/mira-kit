@@ -11,6 +11,7 @@ import querystring from 'querystring';
 import React, { Component } from 'react';
 import AppLoader from './AppLoader';
 import Icon from './Icon';
+import PresentationSkipper from './PresentationSkipper';
 
 const PRESENTATION_MIN_DURATION = 5;
 
@@ -176,14 +177,28 @@ class MiraAppSimulator extends Component {
     );
   }
 
-  renderApp(appVars, allowedRequestDomains = []) {
+  renderApp(appVars, allowedRequestDomains = [], hasErrors) {
     const { index, present, supressLogs } = this.state;
+
     const count = this.getAppVarNames().length;
     const nextIndex = (index + 1) % count;
     // We only pass a an onComplete handler when presentating and there's
     // more than one application variable. We do this because we want to
     // loop when theres one app var even if presenting.
     const shouldHandleOnComplete = present && count > 1;
+
+    // Skip invalid presentation when presenting.
+    if (hasErrors && present) {
+      return (
+        <PresentationSkipper
+          onComplete={() => this.setState({ index: nextIndex })}
+        />
+      );
+    }
+
+    if (hasErrors) {
+      return null;
+    }
 
     return (
       <AppLoader
@@ -255,14 +270,13 @@ class MiraAppSimulator extends Component {
       PRESENTATION_MIN_DURATION,
     );
 
-    const shouldRenderApp = previewErrors.length === 0;
+    const hasErrors = previewErrors.length > 0;
 
     if (fullScreen) {
       return (
         <div {...containerProps}>
           {this.renderControls()}
-          {shouldRenderApp &&
-            this.renderApp(appVars, config.allowedRequestDomains)}
+          {this.renderApp(appVars, config.allowedRequestDomains, hasErrors)}
         </div>
       );
     }
@@ -288,8 +302,7 @@ class MiraAppSimulator extends Component {
                 this.setState({ previewMode })
               }
             >
-              {shouldRenderApp &&
-                this.renderApp(appVars, config.allowedRequestDomains)}
+              {this.renderApp(appVars, config.allowedRequestDomains, hasErrors)}
             </PresentationBuilderPreview>
           </Container>
         </ThemeProvider>

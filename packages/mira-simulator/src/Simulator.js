@@ -44,7 +44,7 @@ class MiraAppSimulator extends Component {
 
     this.setState(this.initialState);
     if (queryParams.previewMode) {
-      this.setState({ previewMode: queryParams.preview });
+      this.setState({ previewMode: queryParams.previewMode });
     }
     if (queryParams.index) {
       this.setState({ index: parseInt(queryParams.index, 10) });

@@ -246,7 +246,7 @@ class MiraAppSimulator extends Component {
 
     const count = this.getAppVarNames().length;
     const nextIndex = (index + 1) % count;
-    // We only pass a an onComplete handler when presentating and there's
+    // We only pass an onComplete handler when presentating and there's
     // more than one application variable. We do this because we want to
     // loop when theres one app var even if presenting.
     const shouldHandleOnComplete = present && count > 1;

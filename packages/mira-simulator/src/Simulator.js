@@ -180,6 +180,10 @@ class MiraAppSimulator extends Component {
     const { index, present, supressLogs } = this.state;
     const count = this.getAppVarNames().length;
     const nextIndex = (index + 1) % count;
+    // We only pass a an onComplete handler when presentating and there's
+    // more than one application variable. We do this because we want to
+    // loop when theres one app var even if presenting.
+    const shouldHandleOnComplete = present && count > 1;
 
     return (
       <AppLoader
@@ -188,7 +192,9 @@ class MiraAppSimulator extends Component {
         allowedRequestDomains={allowedRequestDomains}
         supressLogs={supressLogs}
         onMouseOver={this.startHideControlsTimer}
-        onComplete={present && (() => this.setState({ index: nextIndex }))}
+        onComplete={
+          shouldHandleOnComplete && (() => this.setState({ index: nextIndex }))
+        }
       >
         {this.props.children}
       </AppLoader>
@@ -204,7 +210,9 @@ class MiraAppSimulator extends Component {
       applicationVariables = {},
     } = config;
     const { properties, strings } = extractProperties(presentationProperties);
-    const selectedAppVar = Object.keys(applicationVariables)[index];
+    const appVarNames = this.getAppVarNames();
+    // Set the selected app var to the index or the first one if not found.
+    const selectedAppVar = appVarNames[index] || appVarNames[0];
     const appVars =
       this.state.appVars || applicationVariables[selectedAppVar] || {};
 
@@ -224,12 +232,13 @@ class MiraAppSimulator extends Component {
     };
 
     const application = {
-      icon_url: icon,
       name: appName,
+      icon_url: icon,
       presentation_properties: properties,
       strings: {
-        description: '',
         ...strings,
+        description: config.description,
+        callToAction: config.callToAction,
       },
     };
 

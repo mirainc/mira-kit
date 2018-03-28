@@ -5,6 +5,34 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Simulator from './Simulator';
 
+if (!process.env.MIRA_SIMULATOR_APP_CONFIG_PATH) {
+  throw new Error(
+    `Simulator is missing environment variable: MIRA_SIMULATOR_APP_CONFIG_PATH`,
+  );
+}
+
+const requireConfig = () => {
+  try {
+    const config = require(process.env.MIRA_SIMULATOR_APP_CONFIG_PATH);
+    // Support ES and CommondJS modules.
+    return config && typeof config === 'object' && config.__esModule
+      ? config.default
+      : config;
+  } catch (err) {
+    console.error(err.message);
+    return false;
+  }
+};
+
+const config = requireConfig();
+if (!config) {
+  throw new Error(
+    `Simulator failed to load config at path: ${
+      process.env.MIRA_SIMULATOR_APP_CONFIG_PATH
+    }`,
+  );
+}
+
 if (!process.env.MIRA_SIMULATOR_APP_INDEX_PATH) {
   throw new Error(
     `Simulator is missing environment variable: MIRA_SIMULATOR_APP_INDEX_PATH`,
@@ -32,57 +60,19 @@ if (!App) {
   );
 }
 
-if (!process.env.MIRA_SIMULATOR_APP_ICON_PATH) {
-  throw new Error(
-    `Simulator is missing environment variable: MIRA_SIMULATOR_APP_ICON_PATH`,
-  );
-}
-
 const requireIcon = () => {
   try {
-    return require(process.env.MIRA_SIMULATOR_APP_ICON_PATH);
+    if (process.env.MIRA_SIMULATOR_APP_ICON_PATH) {
+      return require(process.env.MIRA_SIMULATOR_APP_ICON_PATH);
+    } else {
+      return '';
+    }
   } catch (err) {
-    console.error(err.message);
-    return false;
+    return '';
   }
 };
 
 const icon = requireIcon();
-if (!icon) {
-  throw new Error(
-    `Simulator failed to load icon at path: ${
-      process.env.MIRA_SIMULATOR_APP_ICON_PATH
-    }`,
-  );
-}
-
-if (!process.env.MIRA_SIMULATOR_APP_ICON_PATH) {
-  throw new Error(
-    `Simulator is missing environment variable: MIRA_SIMULATOR_APP_ICON_PATH`,
-  );
-}
-
-const requireConfig = () => {
-  try {
-    const config = require(process.env.MIRA_SIMULATOR_APP_CONFIG_PATH);
-    // Support ES and CommondJS modules.
-    return config && typeof config === 'object' && config.__esModule
-      ? config.default
-      : config;
-  } catch (err) {
-    console.error(err.message);
-    return false;
-  }
-};
-
-const config = requireConfig();
-if (!config) {
-  throw new Error(
-    `Simulator failed to load config at path: ${
-      process.env.MIRA_SIMULATOR_APP_CONFIG_PATH
-    }`,
-  );
-}
 
 ReactDOM.render(
   <Simulator icon={icon} config={config}>

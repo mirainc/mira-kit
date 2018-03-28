@@ -1,4 +1,5 @@
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
+const fs = require('fs-extra');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin');
@@ -9,8 +10,10 @@ const getClientEnvironment = require('./env');
 
 const env = getClientEnvironment({
   MIRA_SIMULATOR_APP_INDEX_PATH: paths.appIndexJs,
-  MIRA_SIMULATOR_APP_ICON_PATH: paths.appIcon,
   MIRA_SIMULATOR_APP_CONFIG_PATH: paths.appConfig,
+  MIRA_SIMULATOR_APP_ICON_PATH: fs.existsSync(paths.appIcon)
+    ? paths.appIcon
+    : '',
 });
 
 module.exports = {

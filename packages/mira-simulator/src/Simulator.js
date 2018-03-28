@@ -315,6 +315,7 @@ const formWidth = 316;
 const styles = {
   container: {
     height: '100%',
+    background: '#000',
   },
   builder: {
     display: 'flex',

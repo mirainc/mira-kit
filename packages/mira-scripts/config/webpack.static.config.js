@@ -18,9 +18,9 @@ const env = getClientEnvironment({
 
 module.exports = {
   devtool: 'cheap-module-source-map',
-  entry: require.resolve('mira-simulator/entry'),
+  entry: require.resolve('mira-simulator/preview'),
   output: {
-    path: paths.appStatic,
+    path: paths.appStaticPreview,
     filename: 'bundle.js',
     // Point sourcemap entries to original disk location (format as URL on Windows)
     devtoolModuleFilenameTemplate: info =>
@@ -36,12 +36,16 @@ module.exports = {
     // Generates an `index.html` file with the <script> injected.
     new HtmlWebpackPlugin({
       inject: true,
-      template: require.resolve('mira-simulator/index.html'),
+      template: require.resolve('mira-simulator/preview.html'),
     }),
     // Makes some environment variables available to the JS code.
     new webpack.DefinePlugin(env.stringified),
-    // Copy files to static directory.
-    new CopyWebpackPlugin([{ from: 'files/*', flatten: true }]),
+    new CopyWebpackPlugin([
+      // Copy files to static preview directory.
+      { from: paths.appFiles, to: paths.appStaticPreview, flatten: true },
+      // Copy the simulator bundle to the root static directory.
+      { from: paths.simulatorDist, to: paths.appStatic },
+    ]),
     // Common plugins.
     ...common.plugins,
     // Minify.

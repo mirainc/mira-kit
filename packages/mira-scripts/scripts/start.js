@@ -20,7 +20,7 @@ const {
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const paths = require('../config/paths');
-const config = require('../config/webpack.sim.config');
+const config = require('../config/webpack.preview.config');
 const createDevServerConfig = require('../config/webpackDevServer.config');
 
 const defaultPort = parseInt(process.env.PORT, 10) || 3000;

@@ -53,7 +53,7 @@ class Weather extends Component {
 
     try {
       const response = await miraRequestResource(
-        `http://api.openweathermap.org/data/2.5/weather?q=${location}&units=${units}&appid=${apiKey}`,
+        `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=${units}&appid=${apiKey}`,
       );
       const weatherData = await response.json();
 

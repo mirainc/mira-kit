@@ -42,7 +42,9 @@ module.exports = {
     new webpack.DefinePlugin(env.stringified),
     new CopyWebpackPlugin([
       // Copy files to static preview directory.
-      { from: paths.appFiles, to: paths.appStaticPreview, flatten: true },
+      ...(fs.existsSync(paths.appFiles)
+        ? [{ from: paths.appFiles, to: paths.appStaticPreview, flatten: true }]
+        : []),
       // Copy the simulator bundle to the root static directory.
       { from: paths.simulatorDist, to: paths.appStatic },
     ]),

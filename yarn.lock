@@ -6798,7 +6798,7 @@ minimist@~0.0.1:
   version "0.0.10"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-0.0.10.tgz#de3f98543dbf96082be48ad1a0c7cda836301dcf"
 
-mira-elements@^0.26.3:
+mira-elements@^0.26.5:
   version "0.26.5"
   resolved "https://registry.yarnpkg.com/mira-elements/-/mira-elements-0.26.5.tgz#ed28bc4b4e34420578bb28f1f6b326560bd9a445"
   dependencies:

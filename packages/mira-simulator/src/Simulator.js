@@ -223,6 +223,7 @@ class MiraAppSimulator extends Component {
   renderPreview() {
     const {
       index,
+      previewMode,
       present,
       enableLogs,
       previewPresentation,
@@ -240,10 +241,13 @@ class MiraAppSimulator extends Component {
 
     const count = Object.keys(applicationVariables).length;
     const nextIndex = (index + 1) % count;
+    // Setting key so the app preview reloads when index or
+    // preview mode changes.
+    const key = `${index}-${previewMode}`;
 
     return (
       <AppLoader
-        key={index}
+        key={key}
         appVars={previewPresentation.application_vars}
         previewErrors={previewErrors}
         enableLogs={enableLogs}

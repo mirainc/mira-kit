@@ -24,7 +24,8 @@ export default App => {
     };
 
     state = {
-      didReceivePlay: false,
+      isPlaying: false,
+      playCount: 0,
       error: null,
     };
 
@@ -42,15 +43,10 @@ export default App => {
           );
         }
 
-        if (this.state.didReceivePlay) {
-          // When there is a single presentation, play will be fired again on complete.
-          // We need to toggle didReceivePlay so that the presentation loops.
-          this.setState({ didReceivePlay: false }, () => {
-            this.setState({ didReceivePlay: true });
-          });
-        } else {
-          this.setState({ didReceivePlay: true });
-        }
+        this.setState(state => ({
+          isPlaying: true,
+          playCount: state.playCount + 1,
+        }));
       });
     }
 
@@ -76,7 +72,7 @@ export default App => {
       // Fire presentation complete immediately if we are the active
       // presentation (already received the play event). Otherwise, fire
       // presentation_ready and wait until we receive the play event.
-      if (this.state.didReceivePlay) {
+      if (this.state.isPlaying) {
         this.handlePresentationComplete();
       } else {
         // Only show the error if the app hasn't fired presentation_ready before
@@ -91,7 +87,7 @@ export default App => {
     };
 
     render() {
-      const { error, didReceivePlay } = this.state;
+      const { error, isPlaying } = this.state;
 
       if (error) {
         return (
@@ -113,7 +109,7 @@ export default App => {
       return (
         <App
           {...appProps}
-          shouldPlay={didReceivePlay}
+          isPlaying={isPlaying}
           onReady={this.handlePresentationReady}
           onComplete={this.handlePresentationComplete}
           onError={this.handlePresentationError}

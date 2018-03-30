@@ -1,91 +1,119 @@
-import EventEmitter from 'eventemitter3';
 import PropTypes from 'prop-types';
-import {
-  createFileResource,
-  createRequestResource,
-  captureSandboxFailure,
-} from 'mira-resources';
 import React, { Component } from 'react';
-import Frame from 'react-frame-component';
-import CaptureFrameMouseOver from './CaptureFrameMouseOver';
-
-const runtimeCss = `
-html, body, .frame-root, .frame-content { 
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  width: 100%;
-}
-.frame-content {
-  overflow: hidden;
-  user-select: none;
-  cursor: default;
-  border: none;
-  display: block;
-  position: absolute;
-  background-color: black;
-}
-`;
-
-// Private fetch used for fetching in mira resources.
-const privateFetch = window.fetch.bind(window);
-
-// Clobber XMLHttpRequest because it is not available in the Mira sandbox.
-window.XMLHttpRequest = captureSandboxFailure(
-  'XMLHttpRequest',
-  'miraRequestResource',
-);
-
-// Clobber fetch because it is not available on MiraLinks
-window.fetch = captureSandboxFailure('fetch', 'miraRequestResource');
+import createMessenger from './createMessenger';
 
 class AppLoader extends Component {
   static propTypes = {
-    allowedRequestDomains: PropTypes.arrayOf(PropTypes.string).isRequired,
     appVars: PropTypes.object.isRequired,
-    children: PropTypes.func.isRequired,
-    onMouseOver: PropTypes.func.isRequired,
+    onLoad: PropTypes.func.isRequired,
     onComplete: PropTypes.func,
-    supressLogs: PropTypes.bool,
+    enableLogs: PropTypes.bool,
+    isPresenting: PropTypes.bool,
+    previewErrors: PropTypes.arrayOf(
+      PropTypes.shape({ message: PropTypes.string }),
+    ),
   };
 
   static defaultProps = {
     onComplete: null,
-    supressLogs: false,
+    enableLogs: true,
+    isPresenting: false,
+    previewErrors: [],
   };
-
-  miraEvents = new EventEmitter();
-  miraFileResource = createFileResource(privateFetch);
 
   state = {
     didReceiveReady: false,
   };
 
-  componentWillMount() {
-    this.log('Waiting for onReady to be called...');
-    this.miraEvents.on('presentation_ready', () => {
-      this.log('onReady called ✅');
-      this.log('Waiting for onComplete to be called...');
-      this.setState({ didReceiveReady: true });
-      setTimeout(() => this.miraEvents.emit('play'));
-    });
+  componentDidMount() {
+    this.messenger = createMessenger(
+      window,
+      this.frame.contentWindow,
+      this.receiveMessage,
+    );
 
-    this.miraEvents.on('presentation_complete', () => {
-      this.log('onComplete called ✅');
-      // Call onComplete if provided, otherwise loop the presentation.
-      if (this.props.onComplete) {
-        this.log('Playing next presentation...');
-        this.props.onComplete();
-      } else {
-        this.log('Re-playing current presentation...');
-        this.miraEvents.emit('play');
-      }
-    });
+    this.checkPreviewErrors();
   }
 
-  log(message) {
-    if (!this.props.supressLogs) {
-      console.info(message);
+  componentWillUnmount() {
+    this.messenger.unlisten();
+  }
+
+  componentDidUpdate() {
+    const hasErrors = this.checkPreviewErrors();
+    if (!hasErrors) {
+      // Don't send app var updates if they aren't valid.
+      // We only do this on update because never have the correct
+      // app vars on mount.
+      this.messenger.send('application_variables', this.props.appVars);
+      // Only log once.
+      if (!this.hasLoggedReady) {
+        this.logPending('Waiting for onReady.');
+        this.hasLoggedReady = true;
+      }
+    }
+  }
+
+  receiveMessage = (type, payload) => {
+    const { isPresenting, onComplete } = this.props;
+
+    if (type === 'init') {
+      this.props.onLoad(payload.application, payload.applicationVariables);
+    } else if (type === 'presentation_ready') {
+      this.logSuccess('onReady received.');
+      this.logPending('Waiting for onComplete.');
+      this.setState({ didReceiveReady: true });
+      setTimeout(() => this.messenger.send('play'));
+    } else if (type === 'presentation_complete') {
+      if (isPresenting) {
+        // Call onComplete to trigger the next presentation.
+        this.logSuccess('onComplete received, play next.');
+        onComplete();
+      } else {
+        // Trigger play again to loop the presentation.
+        this.logSuccess('onComplete received, play again.');
+        setTimeout(() => this.messenger.send('play'));
+      }
+    }
+  };
+
+  checkPreviewErrors() {
+    const { previewErrors, isPresenting, onComplete } = this.props;
+    const hasErrors = previewErrors.length > 0;
+
+    if (hasErrors) {
+      const message = previewErrors[0].message;
+      // Don't render the same warning consecutively.
+      if (message !== this.previewWarning) {
+        this.logWarning(`Warning: ${message}`);
+      }
+      this.previewWarning = message;
+      // Skip presentation if presenting.
+      if (isPresenting) {
+        onComplete();
+      }
+    } else {
+      this.previousWarning = null;
+    }
+
+    return hasErrors;
+  }
+
+  logWarning(message) {
+    this.log(`⚠️%c${message}`, 'color:#f8b91c');
+  }
+
+  logPending(message) {
+    this.log(`⬜️%c${message}`, 'color:#a5a5a5');
+  }
+
+  logSuccess(message) {
+    this.log(`✅%c${message}`, 'color:#41984d');
+  }
+
+  log(...args) {
+    if (this.props.enableLogs) {
+      console.log(...args);
     }
   }
 
@@ -94,19 +122,14 @@ class AppLoader extends Component {
     return (
       <div style={styles.container}>
         {shouldShowOverlay && <div style={styles.overlay} />}
-        <Frame head={<style>{runtimeCss}</style>} style={styles.frame}>
-          <CaptureFrameMouseOver onMouseOver={this.props.onMouseOver}>
-            {this.props.children({
-              ...this.props.appVars,
-              miraEvents: this.miraEvents,
-              miraFileResource: this.miraFileResource,
-              miraRequestResource: createRequestResource(
-                privateFetch,
-                this.props.allowedRequestDomains,
-              ),
-            })}
-          </CaptureFrameMouseOver>
-        </Frame>
+        <iframe
+          title="Preview"
+          src="preview/index.html"
+          ref={frame => {
+            this.frame = frame;
+          }}
+          style={styles.frame}
+        />
       </div>
     );
   }

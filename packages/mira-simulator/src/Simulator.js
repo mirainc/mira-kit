@@ -5,35 +5,25 @@ import {
   PresentationBuilderPreview,
   Button,
 } from 'mira-elements';
-import { extractProperties } from 'mira-kit/prop-types';
-import PropTypes from 'prop-types';
 import querystring from 'querystring';
 import React, { Component } from 'react';
 import AppLoader from './AppLoader';
 import Icon from './Icon';
-import PresentationSkipper from './PresentationSkipper';
 
 const PRESENTATION_MIN_DURATION = 5;
 
 class MiraAppSimulator extends Component {
-  static propTypes = {
-    icon: PropTypes.string.isRequired,
-    children: PropTypes.func.isRequired,
-    config: PropTypes.shape({
-      name: PropTypes.string,
-    }).isRequired,
-  };
-
   initialState = {
+    presentation: { application_vars: {} },
+    previewPresentation: { application_vars: {} },
+    application: { icon_url: '', presentation_properties: [] },
+    applicationVariables: {},
     previewMode: 'horizontal',
     fullScreen: false,
     index: 0,
-    presentation: null,
-    previewPresentation: null,
     present: false,
     hideControls: false,
-    supressLogs: false,
-    files: {},
+    enableLogs: true,
   };
 
   queuedPresentationPreview = null;
@@ -57,12 +47,11 @@ class MiraAppSimulator extends Component {
     if (queryParams.present) {
       state.present = true;
     }
-    if (queryParams.supressLogs) {
-      state.supressLogs = true;
+    if (queryParams.enableLogs === 'false') {
+      state.enableLogs = false;
     }
 
     this.setState(state);
-    this.setStateAtIndex(state.index);
   }
 
   componentDidUpdate() {
@@ -89,11 +78,6 @@ class MiraAppSimulator extends Component {
     return this.state[key] !== this.initialState[key];
   }
 
-  getAppVarNames() {
-    const { applicationVariables = {} } = this.props.config;
-    return Object.keys(applicationVariables);
-  }
-
   startHideControlsTimer = () => {
     if (this.state.fullScreen) {
       clearTimeout(this.hideControlsTimeout);
@@ -104,21 +88,36 @@ class MiraAppSimulator extends Component {
     }
   };
 
-  setStateAtIndex = index => {
-    const { icon, config } = this.props;
-    const {
-      name: appName,
-      applicationVariables = {},
-      presentationProperties = {},
-    } = config;
-    const appVarNames = this.getAppVarNames();
-    // Set the selected app var to the index or the first one if not found.
-    const selectedAppVar = appVarNames[index] || appVarNames[0];
-    const appVars = applicationVariables[selectedAppVar] || {};
-    const { properties, strings } = extractProperties(presentationProperties);
+  setStateAtIndex = (
+    index,
+    application = this.state.application,
+    applicationVariables = this.state.applicationVariables,
+  ) => {
+    // Setting a new id will trigger the form to update state from props
+    // and cause the app preview to reload. We use index as part of the id
+    // to reload the preview when index changes. We use applicationVariables
+    // in the id to ensure theform is updated whenever we change mira.config.js
+    let id = `${index}-${JSON.stringify(applicationVariables)}`;
+    let name;
+    let appVars;
+
+    if (this.state.presentation.id === id) {
+      // If the current presentation id is equal to the current one, re-use
+      // the current application variables.
+      name = this.state.presentation.name;
+      appVars = this.state.presentation.application_vars;
+    } else {
+      // We are rendering a new presentation, reset to the application varibles
+      // set in mira.config.js
+      const appVarNames = Object.keys(applicationVariables);
+      // Set the selected app var to the index or the first one if not found.
+      const selectedAppVar = appVarNames[index] || appVarNames[0];
+      name = selectedAppVar;
+      appVars = applicationVariables[selectedAppVar] || {};
+    }
 
     // Merge in defaults.
-    properties.forEach(prop => {
+    application.presentation_properties.forEach(prop => {
       if (
         typeof prop.default !== 'undefined' &&
         typeof appVars[prop.name] === 'undefined'
@@ -128,32 +127,21 @@ class MiraAppSimulator extends Component {
     });
 
     const presentation = {
-      // Passing id will trigger the form to update state from props.
-      id: `${index}`,
-      name: selectedAppVar || '',
+      id: id,
+      name: name || '',
       application_vars: appVars,
-    };
-
-    const application = {
-      name: appName,
-      icon_url: icon,
-      presentation_properties: properties,
-      strings: {
-        ...strings,
-        description: config.description,
-        callToAction: config.callToAction,
-      },
     };
 
     this.setState({
       index,
       presentation,
       application,
+      applicationVariables,
       previewPresentation: presentation,
     });
   };
 
-  setPresentationPreview = (presentation, changedProp) => {
+  setPresentation = (presentation, changedProp) => {
     let previewPresentation;
 
     // Delay updating the preview for text and string inputs until onBlur.
@@ -167,7 +155,7 @@ class MiraAppSimulator extends Component {
       this.queuedPresentationPreview = null;
     }
 
-    this.setState({ previewPresentation });
+    this.setState({ previewPresentation, presentation });
   };
 
   flushPreviewUpdate = () => {
@@ -179,8 +167,14 @@ class MiraAppSimulator extends Component {
   };
 
   renderControls() {
-    const { index, fullScreen, hideControls, present } = this.state;
-    const count = this.getAppVarNames().length;
+    const {
+      index,
+      fullScreen,
+      hideControls,
+      present,
+      applicationVariables,
+    } = this.state;
+    const count = Object.keys(applicationVariables).length;
     const nextIndex = (index + 1) % count;
     const previousIndex = ((index - 1) % count + count) % count;
     const shouldShowPlay = count > 1;
@@ -227,55 +221,42 @@ class MiraAppSimulator extends Component {
   }
 
   renderPreview() {
-    const { config } = this.props;
     const {
       index,
+      previewMode,
       present,
-      supressLogs,
+      enableLogs,
       previewPresentation,
       application,
+      applicationVariables,
     } = this.state;
 
     const previewErrors = PresentationBuilderForm.validate(
-      previewPresentation,
+      // We don't care about name not being provided to render
+      // the preview so hardcode a valid name.
+      { ...previewPresentation, name: ' ' },
       application,
       PRESENTATION_MIN_DURATION,
     );
 
-    const hasErrors = previewErrors.length > 0;
-
-    const count = this.getAppVarNames().length;
+    const count = Object.keys(applicationVariables).length;
     const nextIndex = (index + 1) % count;
-    // We only pass an onComplete handler when presentating and there's
-    // more than one application variable. We do this because we want to
-    // loop when theres one app var even if presenting.
-    const shouldHandleOnComplete = present && count > 1;
-
-    // Skip invalid presentation when presenting.
-    if (hasErrors && present) {
-      console.log('Skipping invalid presentation...');
-      return (
-        <PresentationSkipper
-          onComplete={() => this.setStateAtIndex(nextIndex)}
-        />
-      );
-    }
-
-    if (hasErrors) return null;
+    // Setting key so the app preview reloads when index or
+    // preview mode changes.
+    const key = `${index}-${previewMode}`;
 
     return (
       <AppLoader
-        key={index}
+        key={key}
         appVars={previewPresentation.application_vars}
-        allowedRequestDomains={config.allowedRequestDomains || []}
-        supressLogs={supressLogs}
-        onMouseOver={this.startHideControlsTimer}
-        onComplete={
-          shouldHandleOnComplete && (() => this.setStateAtIndex(nextIndex))
-        }
-      >
-        {this.props.children}
-      </AppLoader>
+        previewErrors={previewErrors}
+        enableLogs={enableLogs}
+        isPresenting={present}
+        onLoad={(application, applicationVariables) => {
+          this.setStateAtIndex(index, application, applicationVariables);
+        }}
+        onComplete={() => this.setStateAtIndex(nextIndex)}
+      />
     );
   }
 
@@ -304,7 +285,7 @@ class MiraAppSimulator extends Component {
               <PresentationBuilderForm
                 presentation={presentation}
                 application={application}
-                onChange={this.setPresentationPreview}
+                onChange={this.setPresentation}
                 onBlur={this.flushPreviewUpdate}
                 onSubmit={() => {}}
               />

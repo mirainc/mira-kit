@@ -11,6 +11,7 @@ module.exports = {
   appPath: resolveApp('.'),
   appBuild: resolveApp('build'),
   appStatic: resolveApp('static'),
+  appStaticPreview: resolveApp('static/preview'),
   appSrc: resolveApp('src'),
   appFiles: resolveApp('files'),
   appIndexJs: resolveApp('src/index.js'),
@@ -19,6 +20,7 @@ module.exports = {
   appIcon: resolveApp('icon.svg'),
   appThumbnail: resolveApp('thumbnail.svg'),
   appConfig: resolveApp('mira.config.js'),
+  simulatorDist: path.resolve(require.resolve('mira-simulator'), '../../dist'),
 };
 
 module.exports.useYarn = fs.existsSync(

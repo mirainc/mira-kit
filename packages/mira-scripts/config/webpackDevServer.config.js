@@ -27,10 +27,14 @@ module.exports = allowedHost => ({
   host: host,
   overlay: false,
   public: allowedHost,
+  // The app bundle index.html is served on /preview/index.html
+  publicPath: '/preview/',
   before(app) {
     // This lets us open files from the runtime error overlay.
     app.use(errorOverlayMiddleware());
     // Serve local files from the app's files directory.
-    app.use('/', express.static(paths.appFiles));
+    app.use('/preview', express.static(paths.appFiles));
+    // Serve the bundled simulator from the root.
+    app.use('/', express.static(paths.simulatorDist));
   },
 });

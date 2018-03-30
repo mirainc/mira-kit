@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withMiraApp } from 'mira-kit';
+import './styles.css';
 
 class App extends Component {
   static propTypes = {
-    shouldPlay: PropTypes.bool.isRequired,
+    isPlaying: PropTypes.bool.isRequired,
     onReady: PropTypes.func.isRequired,
     onComplete: PropTypes.func.isRequired,
     onError: PropTypes.func.isRequired,
@@ -20,9 +21,9 @@ class App extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { shouldPlay, duration, onComplete } = this.props;
+    const { isPlaying, duration, onComplete } = this.props;
     // The app is visible start the onComplete timeout.
-    if (shouldPlay) {
+    if (isPlaying) {
       // Clear existing timeout when props are updated.
       clearTimeout(this.onCompleteTimeout);
       this.onCompleteTimeout = setTimeout(onComplete, duration * 1000);
@@ -35,54 +36,22 @@ class App extends Component {
 
   render() {
     return (
-      <div style={styles.container}>
-        <div style={styles.title}>MiraKit</div>
-        <div style={styles.subtitle}>Screen signage SDK</div>
-        <br />
-        <div>
+      <main>
+        <h1>MiraKit</h1>
+        <h2>Screen signage SDK</h2>
+        <p>
           For documentation and examples check out{' '}
           <a
-            style={styles.anchor}
             href="https://github.com/mirainc/mira-kit"
             target="_blank"
             rel="noopener noreferrer"
           >
             github.com/mirainc/mira-kit
           </a>.
-        </div>
-      </div>
+        </p>
+      </main>
     );
   }
 }
-
-const styles = {
-  container: {
-    height: '100%',
-    padding: 50,
-    boxSizing: 'border-box',
-    display: 'flex',
-    flexDirection: 'column',
-    fontFamily:
-      '-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif',
-    fontSize: '175%',
-    color: 'white',
-    background: '#16161d',
-    lineHeight: 1.5,
-  },
-  title: {
-    fontWeight: 'bold',
-    fontSize: '0.85em',
-    letterSpacing: 1.2,
-  },
-  subtitle: {
-    fontStyle: 'italic',
-    fontSize: '0.85em',
-    opacity: 0.6,
-  },
-  anchor: {
-    color: '#0683d4',
-    textDecoration: 'none',
-  },
-};
 
 export default withMiraApp(App);

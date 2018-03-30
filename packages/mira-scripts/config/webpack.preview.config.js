@@ -25,7 +25,7 @@ module.exports = {
     require.resolve('react-dev-utils/webpackHotDevClient'),
     // The simulator entry, the app path to load is set with
     // the MIRA_SIMULATOR_APP_PATH environment variable.
-    require.resolve('mira-simulator/entry'),
+    require.resolve('mira-simulator/preview'),
   ],
   output: {
     // Add /* filename */ comments to generated require()s in the output.
@@ -45,7 +45,7 @@ module.exports = {
     // Generates an `index.html` file with the <script> injected.
     new HtmlWebpackPlugin({
       inject: true,
-      template: require.resolve('mira-simulator/index.html'),
+      template: require.resolve('mira-simulator/preview.html'),
     }),
     // Add module names to factory functions so they appear in browser profiler.
     new webpack.NamedModulesPlugin(),

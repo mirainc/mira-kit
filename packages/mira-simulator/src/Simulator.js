@@ -23,7 +23,7 @@ class MiraAppSimulator extends Component {
     index: 0,
     present: false,
     hideControls: false,
-    supressLogs: false,
+    enableLogs: true,
   };
 
   queuedPresentationPreview = null;
@@ -47,8 +47,8 @@ class MiraAppSimulator extends Component {
     if (queryParams.present) {
       state.present = true;
     }
-    if (queryParams.supressLogs) {
-      state.supressLogs = true;
+    if (queryParams.enableLogs === 'false') {
+      state.enableLogs = false;
     }
 
     this.setState(state);
@@ -224,7 +224,7 @@ class MiraAppSimulator extends Component {
     const {
       index,
       present,
-      supressLogs,
+      enableLogs,
       previewPresentation,
       application,
       applicationVariables,
@@ -245,8 +245,8 @@ class MiraAppSimulator extends Component {
       <AppLoader
         key={index}
         appVars={previewPresentation.application_vars}
-        hasPreviewErrors={previewErrors.length > 0}
-        supressLogs={supressLogs}
+        previewErrors={previewErrors}
+        enableLogs={enableLogs}
         isPresenting={present}
         onLoad={(application, applicationVariables) => {
           this.setStateAtIndex(index, application, applicationVariables);

@@ -87,7 +87,7 @@ export default App => {
     };
 
     render() {
-      const { error, isPlaying } = this.state;
+      const { error, isPlaying, playCount } = this.state;
 
       if (error) {
         return (
@@ -110,6 +110,7 @@ export default App => {
         <App
           {...appProps}
           isPlaying={isPlaying}
+          playCount={playCount}
           onReady={this.handlePresentationReady}
           onComplete={this.handlePresentationComplete}
           onError={this.handlePresentationError}

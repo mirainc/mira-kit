@@ -1,3 +1,10 @@
 {
-  "root": "docs"
+  "root": "./docs",
+  "title": "MiraKit Screen Signage SDK",
+  "links": {
+    "sidebar": {
+      "MiraKit · Screen Signage SDK": "https://github.com/mirainc/mira-kit"
+    }
+  },
+  "plugins": ["fancybox"]
 }

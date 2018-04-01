@@ -7,7 +7,7 @@ const apiKey = process.env.MIRA_APP_OPENWEATHERMAP_API_KEY;
 
 class Weather extends Component {
   static propTypes = {
-    location: PropTypes.string.isRequired,
+    city: PropTypes.string.isRequired,
     units: PropTypes.oneOf(['imperial', 'metric']).isRequired,
     isPlaying: PropTypes.bool.isRequired,
     onReady: PropTypes.func.isRequired,
@@ -25,9 +25,9 @@ class Weather extends Component {
   }
 
   async componentDidUpdate(prevProps) {
-    const { location, units, duration, isPlaying, onComplete } = this.props;
+    const { city, units, duration, isPlaying, onComplete } = this.props;
     // Re-fetch weather data when props change.
-    if (prevProps.location !== location || prevProps.units !== units) {
+    if (prevProps.city !== city || prevProps.units !== units) {
       await this.fetchWeatherData();
     }
     // Start onComplete timeout when app becomes visible.
@@ -43,17 +43,11 @@ class Weather extends Component {
   }
 
   async fetchWeatherData() {
-    const {
-      location,
-      units,
-      miraRequestResource,
-      onReady,
-      onError,
-    } = this.props;
+    const { city, units, miraRequestResource, onReady, onError } = this.props;
 
     try {
       const response = await miraRequestResource(
-        `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=${units}&appid=${apiKey}`,
+        `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${units}&appid=${apiKey}`,
       );
       const weatherData = await response.json();
 

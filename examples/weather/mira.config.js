@@ -6,12 +6,12 @@ export default {
   callToAction: 'Add Weather',
   allowedRequestDomains: ['api.openweathermap.org'],
   presentationProperties: {
-    location: string('City')
+    city: string('City')
       .helperText('ie. San Francisco, US')
       .required(),
     units: selection('Temperature')
       .option('imperial', 'Fahrenheit')
-      .option('metric', 'Celcius')
+      .option('metric', 'Celsius')
       .default('imperial'),
     duration: number('Duration')
       .min(15)
@@ -19,10 +19,10 @@ export default {
       .helperText('Time in seconds.'),
   },
   applicationVariables: {
-    'San Francisco': { location: 'San Francisco, US', units: 'imperial' },
-    Toronto: { location: 'Toronto, CA', units: 'metric' },
-    Sydney: { location: 'Sydney, AU', units: 'metric' },
+    'San Francisco': { city: 'San Francisco, US', units: 'imperial' },
+    Toronto: { city: 'Toronto, CA', units: 'metric' },
+    Sydney: { city: 'Sydney, AU', units: 'metric' },
     'New Presentation': {},
-    'Not Found': { location: 'Not found' },
+    'Not Found': { city: 'Not found' },
   },
 };

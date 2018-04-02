@@ -1,4 +1,4 @@
-import PropTypes from 'mira-kit/prop-types';
+import * as PropTypes from 'mira-kit/prop-types';
 
 export default {
   name: 'My Mira App',

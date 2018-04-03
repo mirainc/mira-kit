@@ -7,10 +7,20 @@
   "repository": "git@github.com:mirainc/mira-kit.git",
   "scripts": {
     "lint": "eslint .",
+    "build": "tasks/build-workspaces.bash",
+    "test": "CI=true lerna run test",
     "precommit": "lint-staged",
-    "bootstrap": "lerna bootstrap",
-    "build-docs": "gitbook build",
-    "serve-docs": "gitbook serve"
+    "publish": "tasks/publish.bash",
+    "changelog": "yarn lerna-changelog",
+    "build-docs": "tasks/build-docs.bash",
+    "serve-docs": "gitbook serve",
+    "deploy-docs": "netlify deploy -t $NETLIFY_TOKEN",
+    "build-examples": "lerna run static",
+    "deploy-examples": "lerna run deploy-static",
+    "encryptenv":
+      "jet encrypt docker/deploy.env docker/deploy.env.encrypted --key-path=mirainc_mira-kit.aes",
+    "decryptenv":
+      "jet decrypt docker/deploy.env.encrypted docker/deploy.env --key-path=mirainc_mira-kit.aes"
   },
   "devDependencies": {
     "@babel/core": "7.0.0-beta.42",
@@ -30,6 +40,7 @@
     "gitbook-plugin-fancybox": "^3.0.1",
     "husky": "^0.14.3",
     "lerna": "^2.9.0",
+    "lerna-changelog": "^0.7.0",
     "lint-staged": "^7.0.0",
     "prettier": "1.11.1"
   },
@@ -51,5 +62,8 @@
     "parser": "babel-eslint",
     "extends": ["react-app", "prettier"],
     "plugins": ["prettier"]
+  },
+  "dependencies": {
+    "highlight.js": "^9.12.0"
   }
 }

@@ -36,15 +36,16 @@ static/
 # dependencies
 node_modules/
 
-# docker
+# codeship
 docker/mirainc-mira-kit.aes
 docker/deploy.env
+*.aes
 
 # vscode config
 .vscode/
 
-# This repo should be used with yarn
+# this repo should be used with yarn
 package-lock.json
 
-# Gitbook
+# gitbook
 _book

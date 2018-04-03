@@ -48,3 +48,15 @@ The simulator wrapper component and distributable for serving the app preview in
 ##### Adding a dependency to a package
 
 `yarn workspace mira-scripts add <package-name>`
+
+### Publishing
+
+Pushing to master will trigger a pre-release. The latest versions of the packages will be published to npm with the `next` tag (ie. `npx create-mira-app@next my-mira-app`).
+
+To publish a new release:
+
+1.  Create a new [Github release](https://github.com/mirainc/mira-kit/releases).
+2.  Name the release with the new version (eg. `v2.1.0`). For pre-releases append `-<name>` to the tag (ie. `v2.1.0-beta.0`).
+3.  Checkout the latest version of `master` locally.
+4.  Generate a changelog locally with `GITHUB_AUTH=<token> yarn changelog`. You will need to [generate a personal access token](https://github.com/settings/tokens) with a `repo` scope if you don't have one.
+5.  Paste the change log into the release notes.

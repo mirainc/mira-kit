@@ -7,7 +7,7 @@ export default {
   allowedRequestDomains: ['api.openweathermap.org'],
   presentationProperties: {
     city: string('City')
-      .helperText('ie. San Francisco, US')
+      .helperText('eg. San Francisco, US')
       .required(),
     units: selection('Temperature')
       .option('imperial', 'Fahrenheit')

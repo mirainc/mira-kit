@@ -25,7 +25,7 @@ cd my-app
 npm start
 ```
 
-The `npx` command will download the `create-mira-app` cli and bootstrap your first Mira app. Run `npm start` to start the app in the MiraKit development environment.
+The [`npx`](https://www.npmjs.com/package/npx) command comes installed with Node 5.2+ and will download the `create-mira-app` cli and bootstrap your first Mira app. Run `npm start` to start the app in the MiraKit development environment.
 
 You don't need to install Webpack, Babel or ESLint — MiraKit conveniently handles all the build configuration for you.
 
@@ -48,19 +48,19 @@ Useful npm (or [yarn](https://yarnpkg.com/en/)) commands you can run from the ap
 
 ##### `npm start`
 
-Run the app in the simulator for local development.
+Runs your app in the simulator for local development.
 
 ##### `npm run build`
 
-Bundles the app for deployment to `/build`.
+Bundles a production build of your app to `/build`. Run this before deploying.
 
 ##### `npm run deploy`
 
-Deploys the new version of the app from `/build`.
+Deploys a new version of your app from `/build`.
 
 ##### `npm run static`
 
-Outputs the app bundled with the simulator to `/static`.
+Outputs your app bundled with the simulator to `/static`. Useful for sharing a test page before deploying.
 
 ##### `npm run test`
 
@@ -91,14 +91,14 @@ export default withMiraApp(App);
 
 Wrapping your app in `withMiraApp` will inject these props into your app.
 
-| Prop                | Type       | Definition                                                                                                                                                                        |
-| ------------------- | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| isPlaying           | `boolean`  | Starts at `false` and becomes `true` when your app is visible.                                                                                                                    |
-| playCount           | `number`   | Starts at `0` and increments on every play when your app is looping.                                                                                                              |
-| onReady             | `function` | Call this when your app is ready to be displayed, typically after fetching initial data.                                                                                          |
-| onComplete          | `function` | Call this when your app has finished displaying, typically after an event like `videoend` or a user-defined duration.                                                             |
-| onError             | `function` | Call this with an [Error](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error) object when your app errors.                                    |
-| miraRequestResource | `function` | Use this to fetch data. Works just like [`fetch`](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) but apps must use this instead as `fetch` is disabled in Mira apps. |
+| Prop                | Type       | Definition                                                                                                                                                                                                                 |
+| ------------------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| isPlaying           | `boolean`  | Starts at `false` and becomes `true` when your app is visible.                                                                                                                                                             |
+| playCount           | `number`   | Starts at `0` and increments on every play when your app is looping.                                                                                                                                                       |
+| onReady             | `function` | Call this when your app is ready to be displayed, typically after fetching initial data.                                                                                                                                   |
+| onComplete          | `function` | Call this when your app has finished displaying, typically after an event like `videoend` or a user-defined duration.                                                                                                      |
+| onError             | `function` | Call this with an [Error](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error) object when your app errors.                                                                             |
+| miraRequestResource | `function` | Use this to fetch data. Works just like [`fetch`](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) but it will only issue requests to whitelisted domains (see [allowedRequestDomains](#config-options) below). |
 
 # Configuration {#configuration}
 
@@ -128,7 +128,7 @@ export default {
 
 To upload an icon and thumbnail, add an `icon.svg` and `thumbnail.svg` to the root directory of your app.
 
-<div style="display: flex; max-width: 200px;">
+<div style="display: flex; max-width: 400px;">
   <div style="margin-right: 10px;">
     <img src="presentation-builder.png" alt="Mira Dashboard - Presentation builder" />
   </div>
@@ -152,7 +152,7 @@ export default {
   presentationProperties: {
     city: PropTypes.string('City')
       .required()
-      .helperText('ie. San Francisco, US')
+      .helperText('eg. San Francisco, US')
     duration: PropTypes.number('Duration')
       .min(15)
       .default(15)
@@ -389,8 +389,6 @@ You can also add environment specific environment variables.
 * `.env.test` will be loaded when running the test suite.
 
 `.env` files should be checked into source control because they should not contain any values that can't be injected into client code.
-
-You can add a `.env.local`, `.env.development.local`, `.env.production.local` and `.env.test.local` to override env vars locally. The `.local` files are ignored by git.
 
 # Browser Support {#browser-support}
 

@@ -25,7 +25,7 @@ class Menu extends Component {
   };
 
   componentDidMount() {
-    // Imediately call onReady on mount.
+    // Immediately call onReady on mount.
     this.props.onReady();
   }
 

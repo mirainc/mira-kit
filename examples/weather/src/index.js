@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withMiraApp } from 'mira-kit';
 import './styles.css';
 
+const apiUrl = process.env.MIRA_APP_OPENWEATHERMAP_API_URL;
 const apiKey = process.env.MIRA_APP_OPENWEATHERMAP_API_KEY;
 
 class Weather extends Component {
@@ -47,7 +48,7 @@ class Weather extends Component {
 
     try {
       const response = await miraRequestResource(
-        `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${units}&appid=${apiKey}`,
+        `${apiUrl}?q=${city}&units=${units}&appid=${apiKey}`,
       );
       const weatherData = await response.json();
 

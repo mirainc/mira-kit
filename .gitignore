@@ -31,6 +31,7 @@ dist/
 build/
 dist/
 lib/
+static/
 
 # dependencies
 node_modules/
@@ -44,3 +45,6 @@ docker/deploy.env
 
 # This repo should be used with yarn
 package-lock.json
+
+# Gitbook
+_book

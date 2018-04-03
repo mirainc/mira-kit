@@ -2,13 +2,15 @@
   "name": "mira-kit",
   "version": "0.0.0",
   "private": true,
-  "workspaces": ["packages/*"],
+  "workspaces": ["packages/*", "examples/*"],
   "main": "index.js",
   "repository": "git@github.com:mirainc/mira-kit.git",
   "scripts": {
     "lint": "eslint .",
     "precommit": "lint-staged",
-    "bootstrap": "lerna bootstrap"
+    "bootstrap": "lerna bootstrap",
+    "build-docs": "gitbook build",
+    "serve-docs": "gitbook serve"
   },
   "devDependencies": {
     "@babel/core": "7.0.0-beta.42",
@@ -24,6 +26,8 @@
     "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-prettier": "^2.6.0",
     "eslint-plugin-react": "7.5.1",
+    "gitbook-cli": "^2.3.2",
+    "gitbook-plugin-fancybox": "^3.0.1",
     "husky": "^0.14.3",
     "lerna": "^2.9.0",
     "lint-staged": "^7.0.0",

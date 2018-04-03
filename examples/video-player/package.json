@@ -1,0 +1,21 @@
+{
+  "name": "video-player",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "mira-kit": "0.0.0",
+    "mira-scripts": "0.0.0",
+    "netlify-cli": "^1.2.2",
+    "prop-types": "^15.6.1",
+    "react": "^15.6.0",
+    "react-dom": "^15.6.0"
+  },
+  "scripts": {
+    "start": "mira-scripts start",
+    "build": "mira-scripts build",
+    "static": "mira-scripts static",
+    "test": "mira-scripts test --env=jsdom",
+    "deploy": "mira-scripts deploy",
+    "deploy-static": "netlify deploy -t $NETLIFY_TOKEN"
+  }
+}

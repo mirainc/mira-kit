@@ -23,6 +23,7 @@ if [[ $version = *-* ]]; then
   # We are skpping the lerna git commands for pre-releases. The changelog command
   # diffs the last two lerna publish tags. Skipping git will generate the changelog
   # between the last two production releases rather than the last pre-release.
+  echo "Publishing pre-release: $version"
   yarn lerna publish --yes --skip-git --npm-tag=next --repo-version $version
 else
   # Publish a new prudction release.
@@ -31,15 +32,20 @@ else
   # Set the git user from env.
   git config user.name $GITHUB_USER
   git config user.email $GITHUB_EMAIL
+  echo "Publishing release: $version"
   # Publish packages to npm, skipping git push because we do it right after over https.
   yarn lerna publish --yes --skip-git --repo-version $version
   # Only commit and publish back to repo if there are working copy changes.
   if [[ -n $(git status --porcelain) ]]; then
+    echo "Committing changes:\n $(git status --porcelain)"
     # Commit the updated package versions to git
     git add .
     git commit -m "Publish $version [skip ci]"
+    echo "Pushing changes to $GITHUB_REPO"
     # Push updated package versions and tags back to the repo.
     git push --force --quiet --tags "https://${GITHUB_TOKEN}@${GITHUB_REPO}" master
+  else
+    echo "No working copy changes, skipping git commands."
   fi
   # Finally, deploy examples and docs.
   yarn deploy-examples

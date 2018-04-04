@@ -5,7 +5,7 @@ import ErrorMessage from './ErrorMessage';
 export const ERROR_DISPLAY_TIME = 5000;
 
 const miraAppIdentifier = Symbol();
-export const isMiraApp = component => !!component.type[miraAppIdentifier];
+export const isMiraApp = componentClass => !!componentClass[miraAppIdentifier];
 
 export default App => {
   const appName = App.name || App.displayName;

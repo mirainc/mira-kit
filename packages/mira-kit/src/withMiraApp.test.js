@@ -138,14 +138,9 @@ test('Should increment playCount', () => {
 });
 
 test('Should return true for valid Mira app', () => {
-  const props = createProps();
-  const MiraApp = withMiraApp(App);
-  const app = <MiraApp {...props} />;
-  expect(isMiraApp(app)).toEqual(true);
+  expect(isMiraApp(withMiraApp(App))).toEqual(true);
 });
 
 test('Should return false for invalid Mira app', () => {
-  const props = createProps();
-  const app = <App {...props} />;
-  expect(isMiraApp(app)).toEqual(false);
+  expect(isMiraApp(App)).toEqual(false);
 });

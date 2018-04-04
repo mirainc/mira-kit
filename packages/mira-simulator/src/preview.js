@@ -11,6 +11,7 @@ import {
   createRequestResource,
   captureSandboxFailure,
 } from 'mira-resources';
+import { isMiraApp } from 'mira-kit';
 import { extractProperties } from 'mira-kit/prop-types';
 import createMessenger from './createMessenger';
 
@@ -52,7 +53,7 @@ const requireApp = () => {
   try {
     // For webpack dynamic require to work, we need to pass the env var directly to require.
     const app = require(process.env.MIRA_SIMULATOR_APP_INDEX_PATH);
-    // Support ES and CommondJS modules.
+    // Support ES and CommonJS modules.
     return app && typeof app === 'object' && app.__esModule ? app.default : app;
   } catch (err) {
     console.error(err.message);
@@ -66,6 +67,13 @@ if (!App) {
     `Simulator failed to load app at path: ${
       process.env.MIRA_SIMULATOR_APP_INDEX_PATH
     }`,
+  );
+}
+
+if (!isMiraApp(App)) {
+  console.log(
+    `⚠️%c Please make sure your app is wrapped with withMiraApp.`,
+    'color:#f8b91c',
   );
 }
 

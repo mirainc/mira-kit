@@ -1,6 +1,7 @@
 {
   "name": "mira-scripts",
   "version": "2.0.2",
+  "repository": "git@github.com:mirainc/mira-kit.git",
   "bin": {
     "mira-scripts": "./bin/mira-scripts.js"
   },

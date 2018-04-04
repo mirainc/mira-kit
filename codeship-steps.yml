@@ -1,0 +1,14 @@
+- type: serial
+  steps:
+  - type: parallel
+    service: mirakit
+    steps:
+      - command: yarn lint
+      - command: yarn test
+      - command: yarn build
+  # Publish on Github release, tag must start with 'v' ie (v2.0.5, v2.0.5-prerelease)
+  - type: serial
+    tag: ^(v\d+.\d+.\d+)
+    service: mirakit
+    steps:
+      - command: yarn run publish

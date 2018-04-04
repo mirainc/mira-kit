@@ -24,11 +24,20 @@ if [[ $version = *-* ]]; then
   # diffs the last two lerna publish tags. Skipping git will generate the changelog
   # between the last two production releases rather than the last pre-release.
   yarn lerna publish --yes --skip-git --npm-tag=next --repo-version $version
-else 
-  # Publish a new release.
-  yarn lerna publish --yes --repo-version $version -m "Publish %s [skip ci]"
-  # Push updated package versions back to the repo.
-  git push --force --quiet "https://${GITHUB_TOKEN}@${GITHUB_REPO}" master > /dev/null 2>&1
+else
+  # Publish a new prudction release.
+  # Re-fetch branch info: https://github.com/codeship/scripts/blob/master/deployments/git_push.sh
+  git fetch --unshallow || true
+  # Set the git user from env.
+  git config user.name $GITHUB_USER
+  git config user.email $GITHUB_EMAIL
+  # Publish packages to npm, skipping git push because we do it right after over https.
+  yarn lerna publish --yes --skip-git --repo-version $version
+  # Commit the updated package versions to git
+  git add .
+  git commit -m "Publish $version [skip ci]"
+  # Push updated package versions and tags back to the repo.
+  git push --force --quiet --tags "https://${GITHUB_TOKEN}@${GITHUB_REPO}" master
   # Finally, deploy examples and docs.
   yarn deploy-examples
   yarn deploy-docs

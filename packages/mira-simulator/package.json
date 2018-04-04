@@ -1,0 +1,37 @@
+{
+  "name": "mira-simulator",
+  "version": "2.0.2",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "yarn build:lib && yarn build:dist",
+    "build:lib":
+      "NODE_ENV=production BABEL_ENV=production babel src --out-dir lib",
+    "build:dist": "NODE_ENV=production BABEL_ENV=production webpack"
+  },
+  "files": ["lib", "dist", "preview.html", "preview.js"],
+  "dependencies": {
+    "eventemitter3": "^3.0.1",
+    "mira-elements": "^0.26.6",
+    "mira-kit": "^2.0.2",
+    "mira-resources": "^2.0.2",
+    "prop-types": "^15.6.1",
+    "querystring": "^0.2.0",
+    "react": "^15.6.0",
+    "react-dom": "^15.6.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "7.0.0-beta.42",
+    "babel-loader": "8.0.0-beta.0",
+    "babel-preset-react-app": "next",
+    "css-loader": "0.28.9",
+    "file-loader": "1.1.6",
+    "html-webpack-plugin": "2.30.1",
+    "style-loader": "0.19.1",
+    "url-loader": "0.6.2",
+    "webpack": "3.10.0",
+    "webpack-dev-server": "2.11.0"
+  },
+  "babel": {
+    "presets": ["react-app"]
+  }
+}

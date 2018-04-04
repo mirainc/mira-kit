@@ -25,29 +25,27 @@ coverage
 
 # Compiled binary addons (http://nodejs.org/api/addons.html)
 dist/
-build/Release
-bundle.js
-container.js
-
-# Dependency directories
-package-lock.json
-node_modules
-jspm_packages
-
-# Optional npm cache directory
-.npm
-
-# Bundle maps
-*.js.map
-
-# Optional REPL history
-.node_repl_history
 .DS_Store
-.tern-port
 
-# docker
+# builds
+build/
+dist/
+lib/
+static/
+
+# dependencies
+node_modules/
+
+# codeship
 docker/mirainc-mira-kit.aes
 docker/deploy.env
+*.aes
 
 # vscode config
-.vscode
+.vscode/
+
+# this repo should be used with yarn
+package-lock.json
+
+# gitbook
+_book

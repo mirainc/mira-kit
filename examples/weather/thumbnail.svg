@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="110px" height="62px" viewBox="0 0 110 62" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>Weather Thumbnail</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#53ADE0" offset="0%"></stop>
+            <stop stop-color="#70CAFF" offset="100%"></stop>
+        </linearGradient>
+        <filter x="-19.2%" y="-22.2%" width="138.5%" height="155.6%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="1.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.0705882353   0 0 0 0 0.188235294   0 0 0 0 0.282352941  0 0 0 0.204738451 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+    </defs>
+    <g id="v2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Weather-Thumbnail">
+            <g id="Weather">
+                <rect id="Rectangle-1213" fill="url(#linearGradient-1)" x="0" y="0" width="110" height="62"></rect>
+                <g id="Group-4" filter="url(#filter-2)" transform="translate(42.000000, 21.000000)">
+                    <path d="M12.5892224,11.1410148 C12.513101,8.5305358 10.4050099,6.43806332 7.81559081,6.43806332 C5.78118715,6.43806332 4.04388897,7.72966714 3.35569279,9.54932454 C3.3445642,9.54921316 3.33342252,9.54915735 3.322268,9.54915735 C1.48743005,9.54915735 0,11.0594404 0,12.9224689 C0,14.6382672 1.26162419,16.0548701 2.89433249,16.2680552 L2.89433249,16.2840676 L3.04342985,16.2840676 C3.13536402,16.2918245 3.22836101,16.2957805 3.322268,16.2957805 C3.41617499,16.2957805 3.50917198,16.2918245 3.60110614,16.2840676 L11.4500159,16.2840676 C11.6235731,16.321209 11.8035209,16.3407429 11.987962,16.3407429 C13.4214291,16.3407429 14.5834839,15.1608343 14.5834839,13.7053432 C14.5834839,12.460004 13.7327714,11.4164122 12.5892224,11.1410148 Z" id="Combined-Shape" fill-opacity="0.85" fill="#FFFFFF"></path>
+                    <path d="M12.3642581,16.4815773 C16.7766521,16.4815773 20.3536041,12.8496687 20.3536041,8.36948231 C20.3536041,3.88929597 16.7766521,0.257387337 12.3642581,0.257387337 C7.95186408,0.257387337 4.37491201,3.88929597 4.37491201,8.36948231 C4.37491201,12.8496687 7.95186408,16.4815773 12.3642581,16.4815773 Z" id="Oval-2" fill-opacity="0.35" fill="#F8CE1C"></path>
+                    <ellipse id="Oval-2" fill="#F8CE1C" cx="12.3642581" cy="8.36948231" rx="5.60497262" ry="5.69108784"></ellipse>
+                    <path d="M23.7640704,11.6438698 C23.6796576,8.75424388 21.3460928,6.43806332 18.4797408,6.43806332 C16.2276867,6.43806332 14.3045239,7.86784921 13.5427012,9.88218244 C13.530382,9.88205915 13.5180483,9.88199736 13.5057004,9.88199736 C11.4745626,9.88199736 9.828,11.5538578 9.828,13.6162023 C9.828,15.515565 11.2245989,17.083723 13.0319823,17.3197157 L13.0319823,17.3374412 L13.1970308,17.3374412 C13.2988006,17.3460279 13.4017468,17.3504072 13.5057004,17.3504072 C13.609654,17.3504072 13.7126003,17.3460279 13.81437,17.3374412 L22.5175012,17.3374412 C22.7055568,17.376768 22.9003263,17.3974274 23.0998481,17.3974274 C24.6859259,17.3974274 25.9716961,16.0919025 25.9716961,14.481456 C25.9716961,13.1031536 25.0298938,11.9482006 23.7640704,11.6438698 Z" id="Combined-Shape" fill-opacity="0.95" fill="#F6F6F6" transform="translate(17.899848, 11.917745) scale(-1, 1) translate(-17.899848, -11.917745) "></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

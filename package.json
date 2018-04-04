@@ -1,0 +1,69 @@
+{
+  "name": "mira-kit",
+  "version": "0.0.0",
+  "private": true,
+  "workspaces": ["packages/*", "examples/*"],
+  "main": "index.js",
+  "repository": "git@github.com:mirainc/mira-kit.git",
+  "scripts": {
+    "lint": "eslint .",
+    "build": "tasks/build-workspaces.bash",
+    "test": "CI=true lerna run test",
+    "precommit": "lint-staged",
+    "publish": "tasks/publish.bash",
+    "changelog": "yarn lerna-changelog",
+    "build-docs": "tasks/build-docs.bash",
+    "serve-docs": "gitbook serve",
+    "deploy-docs": "netlify deploy -t $NETLIFY_TOKEN",
+    "build-examples": "lerna run static",
+    "deploy-examples": "lerna run deploy-static",
+    "encryptenv":
+      "jet encrypt docker/deploy.env docker/deploy.env.encrypted --key-path=mirainc_mira-kit.aes",
+    "decryptenv":
+      "jet decrypt docker/deploy.env.encrypted docker/deploy.env --key-path=mirainc_mira-kit.aes"
+  },
+  "devDependencies": {
+    "@babel/core": "7.0.0-beta.42",
+    "@babel/runtime": "7.0.0-beta.42",
+    "babel-eslint": "8.2.2",
+    "babel-preset-react-app": "next",
+    "eslint": "4.15.0",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-config-react-app": "^2.1.0",
+    "eslint-loader": "1.9.0",
+    "eslint-plugin-flowtype": "2.41.0",
+    "eslint-plugin-import": "2.8.0",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-prettier": "^2.6.0",
+    "eslint-plugin-react": "7.5.1",
+    "gitbook-cli": "^2.3.2",
+    "gitbook-plugin-fancybox": "^3.0.1",
+    "husky": "^0.14.3",
+    "lerna": "^2.9.0",
+    "lerna-changelog": "^0.7.0",
+    "lint-staged": "^7.0.0",
+    "prettier": "1.11.1"
+  },
+  "lint-staged": {
+    "*.{js,json,css,md}": ["prettier --write", "git add"]
+  },
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "all"
+  },
+  "babel": {
+    "presets": ["react-app"]
+  },
+  "env": {
+    "browser": true,
+    "jest": true
+  },
+  "eslintConfig": {
+    "parser": "babel-eslint",
+    "extends": ["react-app", "prettier"],
+    "plugins": ["prettier"]
+  },
+  "dependencies": {
+    "highlight.js": "^9.12.0"
+  }
+}

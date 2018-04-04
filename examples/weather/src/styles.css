@@ -1,0 +1,43 @@
+.container {
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: sans-serif;
+  font-weight: 300;
+  font-size: 60px;
+  background-size: cover;
+  background-image: url('./cloudy.svg');
+  background-repeat: no-repeat;
+  color: #4c4c4c;
+}
+
+.container.isSunny {
+  background-image: url('./sunny.svg');
+  color: #fff;
+}
+
+.text {
+  opacity: 0;
+  transition: opacity 1s ease-out;
+}
+
+.text.animate {
+  opacity: 1;
+}
+
+.temp {
+  margin-left: 4px;
+  font-size: 80px;
+  font-weight: 400;
+}
+
+.condition {
+  font-weight: 400;
+  font-style: italic;
+}
+
+.city {
+  white-space: nowrap;
+}

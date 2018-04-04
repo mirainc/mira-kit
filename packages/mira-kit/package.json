@@ -1,0 +1,38 @@
+{
+  "name": "mira-kit",
+  "version": "2.0.2",
+  "main": "lib/index.js",
+  "typings": "typings.d.ts",
+  "scripts": {
+    "build": "NODE_ENV=production BABEL_ENV=production babel src --out-dir lib",
+    "test": "jest src --env=jsdom"
+  },
+  "files": ["lib", "prop-types.js", "typings.d.ts"],
+  "dependencies": {
+    "prop-types": "^15.6.1",
+    "react": "^15.6.0",
+    "react-dom": "^15.6.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "7.0.0-beta.42",
+    "@babel/core": "7.0.0-beta.42",
+    "babel-core": "^7.0.0-0",
+    "babel-jest": "22.1.0",
+    "babel-preset-react-app": "next",
+    "enzyme": "^3.2.0",
+    "enzyme-adapter-react-15": "^1.0.5",
+    "eventemitter3": "^3.0.1",
+    "jest": "^22.4.2",
+    "react-test-renderer": "^15.6.1"
+  },
+  "babel": {
+    "presets": ["react-app"]
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.js$": "babel-jest"
+    },
+    "rootDir": "src",
+    "setupFiles": ["<rootDir>/setupTests.js"]
+  }
+}

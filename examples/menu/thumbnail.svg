@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg version="1.1" viewBox="0 0 110 62" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<title>Menus Thumbnail</title>
+<desc>Created with Sketch.</desc>
+<defs>
+<linearGradient id="c" x1="44.993%" x2="57.891%" y1="16.223%" y2="83.886%">
+<stop stop-color="#926752" offset="0"/>
+<stop stop-color="#A67963" offset="1"/>
+</linearGradient>
+<rect id="a" x=".5" y=".5" width="25" height="18"/>
+<filter id="e" x="-14%" y="-13.9%" width="128%" height="138.9%">
+<feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"/>
+<feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="1"/>
+<feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.2 0"/>
+</filter>
+<linearGradient id="b" x1="28.576%" x2="78.361%" y2="100%">
+<stop stop-color="#8D3445" offset="0"/>
+<stop stop-color="#CE4C65" offset="1"/>
+</linearGradient>
+<filter id="d" x="-20.8%" y="-9.6%" width="158.3%" height="126.9%">
+<feOffset dx="0.5" dy="0.5" in="SourceAlpha" result="shadowOffsetOuter1"/>
+<feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="0.5"/>
+<feColorMatrix in="shadowBlurOuter1" result="shadowMatrixOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.2 0"/>
+<feMerge>
+<feMergeNode in="shadowMatrixOuter1"/>
+<feMergeNode in="SourceGraphic"/>
+</feMerge>
+</filter>
+</defs>
+<g fill="none" fill-rule="evenodd">
+<rect width="110" height="62" fill="url(#c)"/>
+<g transform="translate(42 22)">
+<use fill="black" filter="url(#e)" xlink:href="#a"/>
+<use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#a"/>
+<rect x=".5" y=".5" width="10.5" height="18" fill="url(#b)"/>
+<g transform="translate(2.5 3)" fill="#fff" filter="url(#d)">
+<path d="m0.35888 0c-0.23926 2.1277-0.35888 3.5141-0.35888 4.1593 0 0.23681 0.33309 0.58708 0.99927 1.0508v7.5746c0.11724 0.28754 0.86459 0.28661 0.99734 0v-7.5746c0.66892-0.47791 1.0034-0.82819 1.0034-1.0508 0-0.62718-0.10496-2.0136-0.31488-4.1593h-0.35018l0.14393 3.666-0.31478 0.010674-0.14345-3.6767h-0.34476l0.0018102 3.7701h-0.31451l-0.0016512-3.7701h-0.34224l-0.13042 3.6767-0.31497-0.010674 0.13064-3.666h-0.34566z"/>
+<path d="m4 5.9749c0.025074 0.35004 0.3402 0.68528 0.94537 1.0057v5.8133c0.12397 0.27519 0.91425 0.27431 1.0546 0v-12.794c-0.54213 0-0.90393 0.17746-1.0854 0.53239-0.58516 1.656-0.91461 4.5163-0.91461 5.4425z"/>
+</g>
+<g transform="translate(12 3)">
+<path d="m0.5 2.5h11" stroke="#204A5A" stroke-width="2"/>
+<path d="m0.5 5.5h8" stroke="#334143"/>
+<path d="m0.5 7.75h8" stroke="#334143"/>
+<path d="m0.5 10h8" stroke="#334143"/>
+<path d="m10 5.5h1.5" stroke="#516263"/>
+<path d="m10 7.75h1.5" stroke="#516263"/>
+<path d="m10 10h1.5" stroke="#516263"/>
+</g>
+</g>
+</g>
+</svg>

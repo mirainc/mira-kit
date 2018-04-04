@@ -33,14 +33,14 @@ else
   git config user.email $GITHUB_EMAIL
   # Publish packages to npm, skipping git push because we do it right after over https.
   yarn lerna publish --yes --skip-git --repo-version $version
-  echo "COMMITTING"
-  # Commit the updated package versions to git
-  git add .
-  git commit -m "Publish $version [skip ci]"
-  echo "PUSHING"
-  # Push updated package versions and tags back to the repo.
-  git push --force --quiet --tags "https://${GITHUB_TOKEN}@${GITHUB_REPO}" master
-  echo "PUSHED"
+  # Only commit and publish back to repo if there are working copy changes.
+  if [[ -n $(git status --porcelain) ]]; then
+    # Commit the updated package versions to git
+    git add .
+    git commit -m "Publish $version [skip ci]"
+    # Push updated package versions and tags back to the repo.
+    git push --force --quiet --tags "https://${GITHUB_TOKEN}@${GITHUB_REPO}" master
+  fi
   # Finally, deploy examples and docs.
   yarn deploy-examples
   yarn deploy-docs

@@ -1,6 +1,6 @@
 {
   "name": "mira-simulator",
-  "version": "2.0.2",
+  "version": "2.0.4",
   "main": "lib/index.js",
   "repository": "git@github.com:mirainc/mira-kit.git",
   "scripts": {
@@ -13,8 +13,8 @@
   "dependencies": {
     "eventemitter3": "^3.0.1",
     "mira-elements": "^0.26.6",
-    "mira-kit": "^2.0.2",
-    "mira-resources": "^2.0.2",
+    "mira-kit": "^2.0.4",
+    "mira-resources": "^2.0.4",
     "prop-types": "^15.6.1",
     "querystring": "^0.2.0",
     "react": "^15.6.0",

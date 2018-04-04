@@ -8,7 +8,7 @@ Inspired by [create-react-app](https://github.com/facebook/create-react-app), Mi
 
 ---
 
-[Documentation](https://mirainc.github.io/mira-kit/)
+[Documentation](https://mira-kit.getmira.com/)
 
 Demos:
 [Video Player](https://mira-kit-video-example.netlify.com) ·

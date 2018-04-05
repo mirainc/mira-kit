@@ -27,10 +27,19 @@ if [[ $version = *-* ]]; then
   yarn lerna publish --yes --skip-git --npm-tag=next --repo-version $version
 else
   # Publish a new prudction release.
-  repo_url="https://${GITHUB_TOKEN}@${GITHUB_REPO}"
+  # Force the origin url to use HTTPS when fetching and pushing.
+  git remote set-url origin https://${GITHUB_TOKEN}@${GITHUB_REPO}
+  # Make sure we fetch all branches, Codeship by default will only fetch the branch that triggered the build. 
+  git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
   echo "Fetching from $GITHUB_REPO"
   # Re-fetch branch info: https://github.com/codeship/scripts/blob/master/deployments/git_push.sh
-  git fetch $repo_url --unshallow || true
+  git fetch --quiet --unshallow origin || true
+  echo "Listing remotes"
+  cat .git/config
+  echo "Listing branches"
+  git branch
+  echo "Checking out master"
+  git checkout master
   # Set the git user from env.
   git config user.name $GITHUB_USER
   git config user.email $GITHUB_EMAIL
@@ -46,11 +55,11 @@ else
     echo "Committing changes:"
     echo "$(git status --porcelain)"
     # Commit the updated package versions to git
-    git add .
+    git add --all
     git commit -m "Publish $version [skip ci]"
     echo "Pushing changes to $GITHUB_REPO"
     # Push updated package versions and tags back to the repo.
-    git push --force --quiet --tags $repo_url master
+    git push --force --quiet origin master
   else
     echo "No working copy changes, skipping git commands."
   fi

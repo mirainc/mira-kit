@@ -1,6 +1,6 @@
 {
   "name": "create-mira-app",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "repository": "git@github.com:mirainc/mira-kit.git",
   "bin": {
     "create-mira-app": "./index.js"

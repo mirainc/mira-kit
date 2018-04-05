@@ -49,3 +49,6 @@ package-lock.json
 
 # gitbook
 _book
+
+# changelog
+.changelog

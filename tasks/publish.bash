@@ -35,8 +35,13 @@ else
   git config user.name $GITHUB_USER
   git config user.email $GITHUB_EMAIL
   echo "Publishing release: $version"
-  yarn lerna publish --yes --skip-git --repo-version $version
-  # Only commit and publish back to repo if there are working copy changes.
+  # We skip the git commands because we do them ourselves below to make sure we push over HTTPS
+  # to avoid SSH fingerprint prompts. 
+  # We force publish because we are using Github releases to trigger the build, which already 
+  # creates the new tag. This causes Lerna to incorrectly determine there are no changes
+  # to publish so we need force it (causing it to skip the update check).
+  yarn lerna publish --yes --skip-git --skip-npm --force-publish=* --repo-version $version
+  # Only commit and publish back to the repo if there are working copy changes.
   if [[ -n $(git status --porcelain) ]]; then
     echo "Committing changes:"
     echo "$(git status --porcelain)"

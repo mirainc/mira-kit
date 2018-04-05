@@ -40,6 +40,9 @@ else
   # Set the git user from env.
   git config user.name $GITHUB_USER
   git config user.email $GITHUB_EMAIL
+  echo "Building packages"
+  # Build packages before publishing.
+  yarn build
   echo "Publishing release: $version"
   # We skip the git commands because we do them ourselves below to make sure we push over HTTPS
   # to avoid SSH fingerprint prompts. 
@@ -60,8 +63,7 @@ else
   else
     echo "No working copy changes, skipping git commands."
   fi
-  # We need to build all packages, examples and docs before we can deploy.
-  yarn build
+  # Build examples and docs before we can deploy.
   yarn build-examples
   yarn build-docs
   # Finally, deploy examples and docs.

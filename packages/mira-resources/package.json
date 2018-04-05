@@ -1,6 +1,6 @@
 {
   "name": "mira-resources",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "repository": "git@github.com:mirainc/mira-kit.git",
   "main": "lib/index.js",
   "scripts": {

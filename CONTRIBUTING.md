@@ -38,6 +38,7 @@ To publish a new release:
 
 1.  Create a new [Github release](https://github.com/mirainc/mira-kit/releases).
 2.  Name the release with the new version (eg. `v2.1.0`). For pre-releases append `-<name>` to the tag (ie. `v2.1.0-beta.0`).
-3.  Checkout the latest version of `master` locally.
-4.  Generate a changelog locally with `GITHUB_AUTH=<token> yarn changelog`. You will need to [generate a personal access token](https://github.com/settings/tokens) with a `repo` scope if you don't have one.
-5.  Paste the change log into the release notes.
+3.  Fetch the latest tags with `git fetch`
+4.  Checkout the latest version of `master` locally.
+5.  Generate a changelog locally with `GITHUB_AUTH=<token> yarn changelog`. You will need to [generate a personal access token](https://github.com/settings/tokens) with a `repo` scope if you don't have one.
+6.  Paste the change log into the release notes.

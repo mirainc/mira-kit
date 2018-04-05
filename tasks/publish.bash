@@ -27,26 +27,32 @@ if [[ $version = *-* ]]; then
   yarn lerna publish --yes --skip-git --npm-tag=next --repo-version $version
 else
   # Publish a new prudction release.
+  repo_url="https://${GITHUB_TOKEN}@${GITHUB_REPO}"
+  echo "Fetching from $GITHUB_REPO"
   # Re-fetch branch info: https://github.com/codeship/scripts/blob/master/deployments/git_push.sh
-  git fetch --unshallow || true
+  git fetch $repo_url --unshallow || true
   # Set the git user from env.
   git config user.name $GITHUB_USER
   git config user.email $GITHUB_EMAIL
   echo "Publishing release: $version"
-  # Publish packages to npm, skipping git push because we do it right after over https.
   yarn lerna publish --yes --skip-git --repo-version $version
   # Only commit and publish back to repo if there are working copy changes.
   if [[ -n $(git status --porcelain) ]]; then
-    echo "Committing changes:\n $(git status --porcelain)"
+    echo "Committing changes:"
+    echo "$(git status --porcelain)"
     # Commit the updated package versions to git
     git add .
     git commit -m "Publish $version [skip ci]"
     echo "Pushing changes to $GITHUB_REPO"
     # Push updated package versions and tags back to the repo.
-    git push --force --quiet --tags "https://${GITHUB_TOKEN}@${GITHUB_REPO}" master
+    git push --force --quiet --tags $repo_url master
   else
     echo "No working copy changes, skipping git commands."
   fi
+  # We need to build all packages, examples and docs before we can deploy.
+  yarn build
+  yarn build-examples
+  yarn build-docs
   # Finally, deploy examples and docs.
   yarn deploy-examples
   yarn deploy-docs

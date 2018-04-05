@@ -34,10 +34,7 @@ else
   echo "Fetching from $GITHUB_REPO"
   # Re-fetch branch info: https://github.com/codeship/scripts/blob/master/deployments/git_push.sh
   git fetch --quiet --unshallow origin || true
-  echo "Listing remotes"
-  cat .git/config
-  echo "Listing branches"
-  git branch
+  # Checkout master to make sure we are on the correct branch and that we've successfully pulled from origin.
   echo "Checking out master"
   git checkout master
   # Set the git user from env.
@@ -49,7 +46,7 @@ else
   # We force publish because we are using Github releases to trigger the build, which already 
   # creates the new tag. This causes Lerna to incorrectly determine there are no changes
   # to publish so we need force it (causing it to skip the update check).
-  yarn lerna publish --yes --skip-git --skip-npm --force-publish=* --repo-version $version
+  yarn lerna publish --yes --skip-git --force-publish=* --repo-version $version
   # Only commit and publish back to the repo if there are working copy changes.
   if [[ -n $(git status --porcelain) ]]; then
     echo "Committing changes:"

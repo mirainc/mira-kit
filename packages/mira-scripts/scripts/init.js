@@ -93,16 +93,23 @@ module.exports = (appPath, appName, verbose, originalDirectory) => {
   console.log('Inside that directory, you can run several commands:');
   console.log();
   console.log(chalk.cyan(`  ${displayedCommand} start`));
-  console.log('    Starts the Mira app simulator for development.');
+  console.log('    Runs your app in the simulator for local development.');
   console.log();
   console.log(chalk.cyan(`  ${displayedCommand} build`));
-  console.log('    Will build the app to for deployment.');
+  console.log(
+    '    Bundles a production build of your app to /build. Run this before deploying.',
+  );
   console.log();
   console.log(chalk.cyan(`  ${displayedCommand} deploy`));
-  console.log('    Will deploy the app to your Mira account.');
+  console.log('    Deploys a new version of your app from /build.');
+  console.log();
+  console.log(chalk.cyan(`  ${displayedCommand} static`));
+  console.log(
+    '    Output the app and simulator as a static site to /static. Useful for sharing a test page before deploying.',
+  );
   console.log();
   console.log(chalk.cyan(`  ${displayedCommand} test`));
-  console.log('    Starts the test runner.');
+  console.log('    Runs the jest test suite against files ending in .test.js.');
   console.log();
   console.log('We suggest that you begin by typing:');
   console.log();

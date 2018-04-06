@@ -60,7 +60,7 @@ Deploys a new version of your app from `/build`.
 
 ##### `npm run static`
 
-Outputs your app bundled with the simulator to `/static`. Useful for sharing a test page before deploying.
+Output the app and simulator as a static site to `/static`. Useful for sharing a test page before deploying.
 
 ##### `npm run test`
 

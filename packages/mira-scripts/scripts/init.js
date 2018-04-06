@@ -21,7 +21,7 @@ module.exports = (appPath, appName, verbose, originalDirectory) => {
   appPackage.scripts = {
     start: 'mira-scripts start',
     build: 'mira-scripts build',
-    deploy: 'mira-scripts deploy',
+    deploy: 'mira-scripts deploy --token=$API_TOKEN --app=$APP_ID',
     static: 'mira-scripts static',
     test: 'mira-scripts test --env=jsdom',
   };

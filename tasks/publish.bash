@@ -24,7 +24,7 @@ if [[ $version = *-* ]]; then
   # diffs the last two lerna publish tags. Skipping git will generate the changelog
   # between the last two production releases rather than the last pre-release.
   echo "Publishing pre-release: $version"
-  yarn lerna publish --yes --skip-git --npm-tag=next --repo-version $version
+  yarn lerna publish --yes --skip-git --force-publish=* --npm-tag=next --repo-version $version
 else
   # Publish a new prudction release.
   # Force the origin url to use HTTPS when fetching and pushing.

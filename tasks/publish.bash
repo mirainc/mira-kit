@@ -63,11 +63,12 @@ else
   else
     echo "No working copy changes, skipping git commands."
   fi
-  # Build examples and docs before we can deploy.
-  yarn build-examples
-  yarn build-docs
-  # Finally, deploy examples and docs.
+  # We already built the examples with `yarn build`, now deploy them.
   yarn deploy-examples
+  # Finally, build and deploy docs.
+  # Gitbook can cause CI to fail randomly when building, if this happens
+  # run the following commands locally from latest version of master.
+  yarn build-docs
   yarn deploy-docs
 fi
 

@@ -59,7 +59,7 @@ else
     git commit -m "Publish $version [skip ci]"
     echo "Pushing changes to $GITHUB_REPO"
     # Push updated package versions and tags back to the repo.
-    git push --force --quiet origin master
+    git push --force --quiet origin master > /dev/null 2>&1
   else
     echo "No working copy changes, skipping git commands."
   fi

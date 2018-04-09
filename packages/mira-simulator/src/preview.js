@@ -3,17 +3,11 @@
 // The app config is sent to the simulator (parent window) for it can render
 // presentation form and then sends back the app vars to render.
 
-import EventEmitter from 'eventemitter3';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {
-  createFileResource,
-  createRequestResource,
-  captureSandboxFailure,
-} from 'mira-resources';
 import { isMiraApp } from 'mira-kit';
 import { extractProperties } from 'mira-kit/prop-types';
-import createMessenger from './createMessenger';
+import AppPreview from './AppPreview';
 
 if (!process.env.MIRA_SIMULATOR_APP_CONFIG_PATH) {
   throw new Error(
@@ -24,7 +18,7 @@ if (!process.env.MIRA_SIMULATOR_APP_CONFIG_PATH) {
 const requireConfig = () => {
   try {
     const config = require(process.env.MIRA_SIMULATOR_APP_CONFIG_PATH);
-    // Support ES and CommondJS modules.
+    // Support ES and CommonJS modules.
     return config && typeof config === 'object' && config.__esModule
       ? config.default
       : config;
@@ -91,48 +85,6 @@ const requireIcon = () => {
 
 const icon = requireIcon();
 
-// console.log(icon, config, App);
-// Private fetch used for fetching in mira resources.
-const privateFetch = window.fetch.bind(window);
-
-// Clobber XMLHttpRequest because it is not available in the Mira sandbox.
-window.XMLHttpRequest = captureSandboxFailure(
-  'XMLHttpRequest',
-  'miraRequestResource',
-);
-
-// Clobber fetch because it is not available on MiraLinks
-window.fetch = captureSandboxFailure('fetch', 'miraRequestResource');
-
-const miraEvents = new EventEmitter();
-const mountNode = document.getElementById('react-root');
-const render = appVars => {
-  const props = {
-    ...appVars,
-    miraEvents,
-    miraFileResource: createFileResource(privateFetch),
-    miraRequestResource: createRequestResource(
-      privateFetch,
-      config.allowedRequestDomains,
-    ),
-  };
-
-  ReactDOM.render(<App {...props} />, mountNode);
-};
-
-const messenger = createMessenger(window, window.parent, (type, payload) => {
-  if (type === 'play') {
-    miraEvents.emit('play');
-  } else if (type === 'application_variables') {
-    render(payload);
-  }
-});
-
-// Forward presentation events to the parent window.
-['presentation_ready', 'presentation_complete'].forEach(eventName => {
-  miraEvents.on(eventName, () => messenger.send(eventName));
-});
-
 // Construct the application definition from the config file.
 const { properties, strings } = extractProperties(
   config.presentationProperties,
@@ -150,8 +102,13 @@ const application = {
   },
 };
 
-// Send the application definiton and all app variables to the parent window.
-messenger.send('init', {
-  application,
-  applicationVariables: config.applicationVariables,
-});
+ReactDOM.render(
+  <AppPreview
+    application={application}
+    applicationVariables={config.applicationVariables}
+    allowedRequestDomains={config.allowedRequestDomains}
+  >
+    {props => <App {...props} />}
+  </AppPreview>,
+  document.getElementById('react-root'),
+);

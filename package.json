@@ -10,7 +10,7 @@
     "lint": "eslint .",
     "build": "tasks/build-workspaces.bash",
     "test": "CI=true lerna run test",
-    "bump-version": "lerna publish --yes --skip-npm",
+    "bump-version": "lerna publish --yes --skip-npm --skip-git",
     "publish": "tasks/publish.bash",
     "changelog": "yarn lerna-changelog",
     "build-docs": "tasks/build-docs.bash",

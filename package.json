@@ -6,10 +6,11 @@
   "main": "index.js",
   "repository": "git@github.com:mirainc/mira-kit.git",
   "scripts": {
+    "precommit": "lint-staged",
     "lint": "eslint .",
     "build": "tasks/build-workspaces.bash",
     "test": "CI=true lerna run test",
-    "precommit": "lint-staged",
+    "bump-version": "lerna publish --yes --skip-npm",
     "publish": "tasks/publish.bash",
     "changelog": "yarn lerna-changelog",
     "build-docs": "tasks/build-docs.bash",

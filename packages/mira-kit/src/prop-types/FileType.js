@@ -1,10 +1,11 @@
 import BaseType from './BaseType';
 
+// Cap file size at 500mb by default.
+export const defaultMaxSize = 500000000;
 export default class FileType extends BaseType {
   constructor(label) {
     super(label, 'file');
-    // Cap file size at 500mb by default.
-    this.maxSize(500000000);
+    this.maxSize(defaultMaxSize);
   }
 
   contentTypes(contentTypes) {

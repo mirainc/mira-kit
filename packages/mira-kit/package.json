@@ -1,6 +1,6 @@
 {
   "name": "mira-kit",
-  "version": "2.0.12",
+  "version": "2.1.0",
   "repository": "git@github.com:mirainc/mira-kit.git",
   "main": "lib/index.js",
   "typings": "typings.d.ts",
@@ -8,7 +8,11 @@
     "build": "NODE_ENV=production BABEL_ENV=production babel src --out-dir lib",
     "test": "jest src --env=jsdom"
   },
-  "files": ["lib", "prop-types.js", "typings.d.ts"],
+  "files": [
+    "lib",
+    "prop-types.js",
+    "typings.d.ts"
+  ],
   "dependencies": {
     "prop-types": "^15.6.1",
     "react": "^15.6.0",
@@ -28,14 +32,20 @@
     "react-test-renderer": "^15.6.1"
   },
   "babel": {
-    "presets": ["react-app"],
-    "plugins": ["transform-es2015-modules-commonjs"]
+    "presets": [
+      "react-app"
+    ],
+    "plugins": [
+      "transform-es2015-modules-commonjs"
+    ]
   },
   "jest": {
     "transform": {
       "^.+\\.js$": "babel-jest"
     },
     "rootDir": "src",
-    "setupFiles": ["<rootDir>/setupTests.js"]
+    "setupFiles": [
+      "<rootDir>/setupTests.js"
+    ]
   }
 }

@@ -1,4 +1,4 @@
-### ![](icon.svg) Weather App
+### Weather - Example Mira App
 
 Display local weather conditions.
 

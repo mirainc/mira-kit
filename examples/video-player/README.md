@@ -1,4 +1,4 @@
-### ![](icon.svg) Video Player
+### Video Player - Example Mira App
 
 Upload videos to your library.
 

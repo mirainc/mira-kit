@@ -1,4 +1,4 @@
-### ![](icon.svg) Menu
+### Menu - Example Mira App
 
 Easily create and display customized menus.
 

@@ -12,6 +12,7 @@ import {
 } from './';
 import { imageContentTypes } from './ImageType';
 import { videoContentTypes } from './VideoType';
+import { defaultMaxSize } from './FileType';
 
 test('Should extract properties from array', () => {
   const propTypes = {
@@ -119,8 +120,18 @@ test('Should extract properties from file', () => {
     helper_helperLink: 'helperLink',
   });
   expect(properties).toEqual([
-    { type: 'file', name: 'optional', optional: true, constraints: {} },
-    { type: 'file', name: 'required', optional: false, constraints: {} },
+    {
+      type: 'file',
+      name: 'optional',
+      optional: true,
+      constraints: { 'content-length': defaultMaxSize },
+    },
+    {
+      type: 'file',
+      name: 'required',
+      optional: false,
+      constraints: { 'content-length': defaultMaxSize },
+    },
     {
       type: 'file',
       name: 'constraints',
@@ -133,7 +144,7 @@ test('Should extract properties from file', () => {
       optional: true,
       helper_text: 'helper_helperText',
       helper_link: 'helper_helperLink',
-      constraints: {},
+      constraints: { 'content-length': defaultMaxSize },
     },
   ]);
 });
@@ -154,13 +165,19 @@ test('Should extract properties from image', () => {
       type: 'file',
       name: 'optional',
       optional: true,
-      constraints: { 'content-types': imageContentTypes },
+      constraints: {
+        'content-types': imageContentTypes,
+        'content-length': defaultMaxSize,
+      },
     },
     {
       type: 'file',
       name: 'required',
       optional: false,
-      constraints: { 'content-types': imageContentTypes },
+      constraints: {
+        'content-types': imageContentTypes,
+        'content-length': defaultMaxSize,
+      },
     },
   ]);
 });
@@ -181,13 +198,19 @@ test('Should extract properties from video', () => {
       type: 'file',
       name: 'optional',
       optional: true,
-      constraints: { 'content-types': videoContentTypes },
+      constraints: {
+        'content-types': videoContentTypes,
+        'content-length': defaultMaxSize,
+      },
     },
     {
       type: 'file',
       name: 'required',
       optional: false,
-      constraints: { 'content-types': videoContentTypes },
+      constraints: {
+        'content-types': videoContentTypes,
+        'content-length': defaultMaxSize,
+      },
     },
   ]);
 });

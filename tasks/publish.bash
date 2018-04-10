@@ -27,7 +27,7 @@ if [[ $version = *-* ]]; then
   echo "Publishing $version pre-release..."
   yarn lerna publish --yes --skip-git --force-publish=* --npm-tag=next --repo-version $version
 else
-  # Publish a new prudction release.
+  # Publish a new prodction release.
   echo "Publishing $version release..."
   yarn lerna publish --yes --skip-git --force-publish=* --repo-version $version
   # We already built the examples with `yarn build`, now deploy them.

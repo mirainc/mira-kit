@@ -1,8 +1,8 @@
-### ![](icon.svg) _Name_
+## _App Name_
 
 _Description_
 
-#### Presentation Properties
+#### Properties
 
 | Name       | Type     | Description                  |
 | ---------- | -------- | ---------------------------- |

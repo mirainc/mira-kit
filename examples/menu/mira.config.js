@@ -4,7 +4,7 @@ export default {
   name: 'Menu',
   description: 'Easily create and display customized menus.',
   callToAction: 'Create Menu',
-  presentationProperties: {
+  properties: {
     categories: array('Categories', 'Category').items({
       name: string('Category').required(),
       items: array('Items', 'Item').items({
@@ -18,44 +18,49 @@ export default {
       .default(15)
       .helperText('Time in seconds.'),
   },
-  applicationVariables: {
-    Menu: {
-      categories: [
-        {
-          name: 'Sandwiches',
-          items: [
+  simulator: {
+    presentations: [
+      {
+        name: 'Menu',
+        values: {
+          categories: [
             {
-              name: 'Cuban',
-              itemDescription: 'The king of ham and cheese sandwiches.',
-              price: '5',
+              name: 'Sandwiches',
+              items: [
+                {
+                  name: 'Cuban',
+                  itemDescription: 'The king of ham and cheese sandwiches.',
+                  price: '5',
+                },
+                {
+                  name: 'Reuben',
+                  itemDescription:
+                    "A good ole' fashioned Corned Beef Reuben Sandwich. Pile it high and serve on rye.",
+                  price: '6',
+                },
+              ],
             },
             {
-              name: 'Reuben',
-              itemDescription:
-                "A good ole' fashioned Corned Beef Reuben Sandwich. Pile it high and serve on rye.",
-              price: '6',
+              name: 'Entrees',
+              items: [
+                {
+                  name: 'Steak Frites',
+                  itemDescription:
+                    'Norwich, ON AAA 8oz. New York striploin / fresh cut Yukon frites / cabernet shallot jus / truffle aïoli.',
+                  price: '28',
+                },
+                {
+                  name: 'Zucchini Rigatoni',
+                  itemDescription:
+                    'Ricotta / grape tomato / zucchini pesto / garlic / extra virgin olive oil / kale / potato crumble',
+                  price: '20',
+                },
+              ],
             },
           ],
         },
-        {
-          name: 'Entrees',
-          items: [
-            {
-              name: 'Steak Frites',
-              itemDescription:
-                'Norwich, ON AAA 8oz. New York striploin / fresh cut Yukon frites / cabernet shallot jus / truffle aïoli.',
-              price: '28',
-            },
-            {
-              name: 'Zucchini Rigatoni',
-              itemDescription:
-                'Ricotta / grape tomato / zucchini pesto / garlic / extra virgin olive oil / kale / potato crumble',
-              price: '20',
-            },
-          ],
-        },
-      ],
-    },
-    'New Presentation': {},
+      },
+      { name: 'New Presentation' },
+    ],
   },
 };

@@ -86,9 +86,7 @@ const requireIcon = () => {
 const icon = requireIcon();
 
 // Construct the application definition from the config file.
-const { properties, strings } = extractProperties(
-  config.presentationProperties,
-);
+const { properties, strings } = extractProperties(config.properties);
 const application = {
   name: config.name,
   icon_url: icon,
@@ -105,8 +103,8 @@ const application = {
 ReactDOM.render(
   <AppPreview
     application={application}
-    applicationVariables={config.applicationVariables}
     allowedRequestDomains={config.allowedRequestDomains}
+    simulatorOptions={config.simulator}
   >
     {props => <App {...props} />}
   </AppPreview>,

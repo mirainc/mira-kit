@@ -13,6 +13,7 @@
   "dependencies": {
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
     "eventemitter3": "^3.0.1",
+    "fast-deep-equal": "^1.1.0",
     "mira-elements": "^0.26.6",
     "mira-kit": "^2.1.0",
     "mira-resources": "^2.1.0",

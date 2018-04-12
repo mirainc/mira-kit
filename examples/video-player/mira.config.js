@@ -4,25 +4,33 @@ export default {
   name: 'Video Player',
   description: 'Upload videos to your library.',
   callToAction: 'Upload Video',
-  presentationProperties: {
+  properties: {
     video: video('Video')
       .helperText('Supports .mp4, .mpeg and .mov')
       .required(),
     mute: boolean('Mute').default(true),
   },
-  applicationVariables: {
-    'Mira Intro': {
-      video: {
-        filename: 'mira-intro.mp4',
-        url: 'mira-intro.mp4',
+  simulator: {
+    presentations: [
+      {
+        name: 'Mira Intro',
+        values: {
+          video: {
+            filename: 'mira-intro.mp4',
+            url: 'mira-intro.mp4',
+          },
+        },
       },
-    },
-    Bars: {
-      video: {
-        filename: 'bars.mp4',
-        url: 'bars.mp4',
+      {
+        name: 'Bars',
+        values: {
+          video: {
+            filename: 'bars.mp4',
+            url: 'bars.mp4',
+          },
+        },
       },
-    },
-    'New Presentation': {},
+      { name: 'New Presentation' },
+    ],
   },
 };

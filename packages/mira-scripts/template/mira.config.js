@@ -4,13 +4,13 @@ export default {
   name: 'My Mira App',
   description: 'Create your first app with MiraKit.',
   callToAction: 'Create App',
-  presentationProperties: {
+  properties: {
     duration: PropTypes.number('Duration')
       .min(5)
       .default(10)
       .helperText('Time in seconds.'),
   },
-  applicationVariables: {
-    'New Presentation': {},
+  simulator: {
+    presentations: [{ name: 'New Presentation' }],
   },
 };

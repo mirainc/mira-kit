@@ -14,6 +14,12 @@ import { imageContentTypes } from './ImageType';
 import { videoContentTypes } from './VideoType';
 import { defaultMaxSize } from './FileType';
 
+test('Should return empty properties and strings for empty propTypes', () => {
+  const { properties, strings } = extractProperties();
+  expect(strings).toEqual({});
+  expect(properties).toEqual([]);
+});
+
 test('Should extract properties from array', () => {
   const propTypes = {
     optional: array('Items', 'Item').items({ string: string('String') }),

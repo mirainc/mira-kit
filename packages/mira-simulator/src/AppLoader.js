@@ -1,6 +1,8 @@
+import deepEqual from 'fast-deep-equal';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import createMessenger from './createMessenger';
+import logger from './logger';
 
 class AppLoader extends Component {
   static propTypes = {
@@ -25,6 +27,8 @@ class AppLoader extends Component {
     didReceiveReady: false,
   };
 
+  hasSentInitialAppVars = false;
+
   componentDidMount() {
     this.messenger = createMessenger(
       window,
@@ -39,13 +43,20 @@ class AppLoader extends Component {
     this.messenger.unlisten();
   }
 
-  componentDidUpdate() {
-    const hasErrors = this.checkPreviewErrors();
-    if (!hasErrors) {
-      // Don't send app var updates if they aren't valid.
-      // We only do this on update because never have the correct
-      // app vars on mount.
-      this.messenger.send('application_variables', this.props.appVars);
+  componentDidUpdate(prevProps) {
+    const { appVars } = this.props;
+    if (!this.checkPreviewErrors()) {
+      // Send app vars if:
+      //  - There are no errors.
+      //  - We have not sent the initial app vars since load.
+      //  - They have changed.
+      if (
+        !this.hasSentInitialAppVars ||
+        !deepEqual(appVars, prevProps.appVars)
+      ) {
+        this.messenger.send('application_variables', appVars);
+        this.hasSentInitialAppVars = true;
+      }
       // Only log once.
       if (!this.hasLoggedReady) {
         this.logPending('Waiting for onReady.');
@@ -58,7 +69,8 @@ class AppLoader extends Component {
     const { isPresenting, onComplete } = this.props;
 
     if (type === 'init') {
-      this.props.onLoad(payload.application, payload.applicationVariables);
+      this.hasSentInitialAppVars = false;
+      this.props.onLoad(payload.application, payload.simulatorOptions);
     } else if (type === 'presentation_ready') {
       this.logSuccess('onReady received.');
       this.logPending('Waiting for onComplete.');
@@ -100,20 +112,20 @@ class AppLoader extends Component {
   }
 
   logWarning(message) {
-    this.log(`⚠️%c${message}`, 'color:#f8b91c');
+    if (this.props.enableLogs) {
+      logger.warning(message);
+    }
   }
 
   logPending(message) {
-    this.log(`⬜️%c${message}`, 'color:#a5a5a5');
+    if (this.props.enableLogs) {
+      logger.pending(message);
+    }
   }
 
   logSuccess(message) {
-    this.log(`✅%c${message}`, 'color:#41984d');
-  }
-
-  log(...args) {
     if (this.props.enableLogs) {
-      console.log(...args);
+      logger.success(message);
     }
   }
 

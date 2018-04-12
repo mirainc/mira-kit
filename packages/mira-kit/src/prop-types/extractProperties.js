@@ -33,6 +33,7 @@ export default function extractProperties(
 
     if (propType.type === 'selection') {
       prop.options = [];
+      prop.exclusive = propType.exclusive;
       propType.options.forEach(option => {
         strings[option.value] = option.label;
         prop.options.push({ name: option.value, value: option.value });

@@ -316,6 +316,7 @@ test('Should extract properties from selection', () => {
     {
       type: 'selection',
       name: 'optional',
+      exclusive: true,
       optional: true,
       options: [],
       constraints: {},
@@ -323,6 +324,7 @@ test('Should extract properties from selection', () => {
     {
       type: 'selection',
       name: 'required',
+      exclusive: true,
       optional: false,
       options: [],
       constraints: {},
@@ -330,6 +332,7 @@ test('Should extract properties from selection', () => {
     {
       type: 'selection',
       name: 'options',
+      exclusive: true,
       optional: true,
       options: [{ name: 'a', value: 'a' }, { name: 'b', value: 'b' }],
       default: 'a',
@@ -338,6 +341,7 @@ test('Should extract properties from selection', () => {
     {
       type: 'selection',
       name: 'helper',
+      exclusive: true,
       optional: true,
       helper_text: 'helper_helperText',
       helper_link: 'helper_helperLink',

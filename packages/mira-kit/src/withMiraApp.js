@@ -50,6 +50,11 @@ export default App => {
       });
     }
 
+    componentWillReceiveProps() {
+      // Clear any previous errors to allow the app to recover.
+      this.setState({ error: null });
+    }
+
     handlePresentationReady = () => {
       // Emit presentation_ready after fetching initial resources.
       // Applications are preloaded before switching to the next
@@ -69,17 +74,16 @@ export default App => {
     };
 
     handlePresentationError = error => {
-      // Fire presentation complete immediately if we are the active
-      // presentation (already received the play event). Otherwise, fire
-      // presentation_ready and wait until we receive the play event.
+      // Fire presentation complete immediately if we are currently playing.
+      // Otherwise, fire presentation_ready so that play is triggered.
       if (this.state.isPlaying) {
         this.handlePresentationComplete();
       } else {
-        // Only show the error if the app hasn't fired presentation_ready before
-        // an error occurs.
-        this.setState({ error });
         this.handlePresentationReady();
       }
+
+      // Show the error.
+      this.setState({ error });
 
       console.error(
         `App ${appName ? `'${appName}' ` : ''}errored: ${error.message}`,

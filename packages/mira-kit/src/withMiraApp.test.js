@@ -79,7 +79,7 @@ test('Should pass play to App on play event', () => {
   expect(wrapper.find(App).props().playCount).toEqual(1);
 });
 
-test('Should fire presentation_complete with timeout on error BEFORE play', () => {
+test('Should fire presentation_ready with timeout on error BEFORE play', () => {
   jest.useFakeTimers();
   const props = createProps();
   jest.spyOn(props.miraEvents, 'emit');
@@ -104,7 +104,7 @@ test('Should fire presentation_complete with timeout on error BEFORE play', () =
   jest.useRealTimers();
 });
 
-test('Should fire presentation_complete and NOT set error state on error AFTER play', () => {
+test('Should fire presentation_complete on error AFTER play', () => {
   const props = createProps();
   jest.spyOn(props.miraEvents, 'emit');
   const MiraApp = withMiraApp(App);
@@ -113,7 +113,6 @@ test('Should fire presentation_complete and NOT set error state on error AFTER p
   onReady();
   props.miraEvents.emit('play');
   onError(new Error());
-  expect(wrapper.state().error).toBeNull();
   expect(props.miraEvents.emit).toHaveBeenCalledTimes(3);
   expect(props.miraEvents.emit.mock.calls[0][0]).toEqual('presentation_ready');
   expect(props.miraEvents.emit.mock.calls[1][0]).toEqual('play');
@@ -135,6 +134,18 @@ test('Should increment playCount', () => {
   props.miraEvents.emit('play');
   expect(mockApp).toHaveBeenCalledTimes(3);
   expect(mockApp.mock.calls[2][0].playCount).toEqual(2);
+});
+
+test('Should reset error state on props update', () => {
+  const props = createProps();
+  const MiraApp = withMiraApp(App);
+  const wrapper = shallow(<MiraApp {...props} />);
+  const { onError } = wrapper.find(App).props();
+  const error = new Error();
+  onError(error);
+  expect(wrapper.state().error).toEqual(error);
+  wrapper.setProps(props);
+  expect(wrapper.state().error).toEqual(null);
 });
 
 test('Should return true for valid Mira app', () => {

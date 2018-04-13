@@ -3,6 +3,8 @@ export default function extractProperties(
   properties = [],
   strings = {},
 ) {
+  if (!propTypes) return { properties, strings };
+
   Object.keys(propTypes).forEach(propName => {
     const propType = propTypes[propName].toJSON();
 

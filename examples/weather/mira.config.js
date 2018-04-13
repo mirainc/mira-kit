@@ -5,7 +5,7 @@ export default {
   description: 'Display local weather conditions.',
   callToAction: 'Add Weather',
   allowedRequestDomains: ['api.openweathermap.org'],
-  presentationProperties: {
+  properties: {
     city: string('City')
       .helperText('eg. San Francisco, US')
       .required(),
@@ -18,11 +18,25 @@ export default {
       .default(15)
       .helperText('Time in seconds.'),
   },
-  applicationVariables: {
-    'San Francisco': { city: 'San Francisco, US', units: 'imperial' },
-    Toronto: { city: 'Toronto, CA', units: 'metric' },
-    Sydney: { city: 'Sydney, AU', units: 'metric' },
-    'New Presentation': {},
-    'Not Found': { city: 'Not found' },
+  simulator: {
+    presentations: [
+      {
+        name: 'San Francisco',
+        values: { city: 'San Francisco, US', units: 'imperial' },
+      },
+      {
+        name: 'Toronto',
+        values: { city: 'Toronto, CA', units: 'metric' },
+      },
+      {
+        name: 'Sydney',
+        values: { city: 'Sydney, AU', units: 'metric' },
+      },
+      {
+        name: 'Not Found',
+        values: { city: 'Not found' },
+      },
+      { name: 'New Presentation' },
+    ],
   },
 };

@@ -23,15 +23,20 @@ window.fetch = captureSandboxFailure('fetch', 'miraRequestResource');
 class AppPreview extends Component {
   static propTypes = {
     application: PropTypes.object.isRequired,
-    applicationVariables: PropTypes.object.isRequired,
-    allowedRequestDomains: PropTypes.arrayOf(PropTypes.string).isRequired,
+    allowedRequestDomains: PropTypes.arrayOf(PropTypes.string),
+    simulatorOptions: PropTypes.object,
+  };
+
+  static defaultProps = {
+    allowedRequestDomains: [],
+    simulatorOptions: { presentations: [] },
   };
 
   state = {};
   miraEvents = new EventEmitter();
 
   componentDidMount() {
-    const { application, applicationVariables } = this.props;
+    const { application, simulatorOptions } = this.props;
 
     this.messenger = createMessenger(
       window,
@@ -49,7 +54,7 @@ class AppPreview extends Component {
     // Send the application definition and all app variables to the parent window.
     this.messenger.send('init', {
       application,
-      applicationVariables,
+      simulatorOptions,
     });
   }
 

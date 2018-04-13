@@ -19,10 +19,11 @@ module.exports = {
   appPackageJson: resolveApp('package.json'),
   appIcon: resolveApp('icon.svg'),
   appThumbnail: resolveApp('thumbnail.svg'),
-  appConfig: resolveApp('mira.config.js'),
   simulatorDist: path.resolve(require.resolve('mira-simulator'), '../../dist'),
 };
 
 module.exports.useYarn = fs.existsSync(
   path.join(module.exports.appPath, 'yarn.lock'),
 );
+
+module.exports.resolveApp = resolveApp;

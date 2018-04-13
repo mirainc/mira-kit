@@ -44,7 +44,9 @@ module.exports = {
             loader: require.resolve('eslint-loader'),
           },
         ],
-        include: [paths.appSrc],
+        // We are using appPath not appSrc to make sure we include any mira.config.js
+        // and mira.*.config.js files from the app directory.
+        include: [paths.appPath],
         exclude: [/[/\\\\]node_modules[/\\\\]/],
       },
       {
@@ -67,7 +69,9 @@ module.exports = {
           // Process application JS with Babel.
           {
             test: /\.(js|jsx|mjs)$/,
-            include: [paths.appSrc],
+            // We are using appPath not appSrc to make sure we include any mira.config.js
+            // and mira.*.config.js files from the app directory.
+            include: [paths.appPath],
             exclude: [/[/\\\\]node_modules[/\\\\]/],
             loader: require.resolve('babel-loader'),
             options: {

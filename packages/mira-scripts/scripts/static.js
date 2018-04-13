@@ -11,11 +11,12 @@ process.on('unhandledRejection', err => {
 
 const chalk = require('chalk');
 const fs = require('fs-extra');
+const argv = require('minimist')(process.argv.slice(2));
 const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
 const printBuildError = require('react-dev-utils/printBuildError');
 const promisify = require('util.promisify');
 const webpack = require('webpack');
-const config = require('../config/webpack.static.config');
+const createConfig = require('../config/webpack.static.config');
 const paths = require('../config/paths');
 
 const isCI =
@@ -23,10 +24,12 @@ const isCI =
   (typeof process.env.CI !== 'string' ||
     process.env.CI.toLowerCase() !== 'false');
 
+const configPath = argv.config;
+
 async function build() {
   // Clean build directory.
   fs.emptyDirSync(paths.appStatic);
-  const compiler = webpack(config);
+  const compiler = webpack(createConfig(configPath));
   const runCompiler = promisify(compiler.run.bind(compiler));
   try {
     console.log('Creating static build...');

@@ -127,16 +127,17 @@ class MiraAppSimulator extends Component {
       );
 
       // If a presentation exists in state it means the user has updated the
-      // form values, presenting or has passed in a presentation from the query string.
+      // form values, is in present mode or has passed in a presentation from
+      // the query string.
       if (presentation) {
         if (!isNaN(presentation.id)) {
-          // Use the query string presentation values over what's defined in the simulator
-          // config to allow users to edit the values in the form and have them persist
-          // through a page refresh.
+          // Use the query string presentation values over what's defined in the
+          // simulator config to allow users to edit the values in the form and
+          // have them persist through a page refresh.
           state.simulatorOptions.presentations[presentation.id] = presentation;
         } else {
-          // If a presentation id isn't provided or valid, add the presentation to the end
-          // of the simulator presentations with a new id.
+          // If a presentation id isn't provided or valid, add the presentation
+          // to the end of the simulator presentations with a new id.
           state.presentation.id = state.simulatorOptions.presentations.length;
           state.simulatorOptions.presentations.push(state.presentation);
         }

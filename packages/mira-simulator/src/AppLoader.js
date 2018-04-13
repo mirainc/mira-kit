@@ -161,7 +161,7 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#16161D',
+    backgroundColor: '#22202b',
     color: 'rgba(255, 255, 255, 0.85)',
     fontSize: 40,
   },

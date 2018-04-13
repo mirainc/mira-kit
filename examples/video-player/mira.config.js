@@ -30,6 +30,15 @@ export default {
           },
         },
       },
+      {
+        name: 'Not Found',
+        values: {
+          video: {
+            filename: 'notfound.mp4',
+            url: 'notfound.mp4',
+          },
+        },
+      },
       { name: 'New Presentation' },
     ],
   },

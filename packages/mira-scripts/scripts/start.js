@@ -10,6 +10,7 @@ process.on('unhandledRejection', err => {
 });
 
 const chalk = require('chalk');
+const argv = require('minimist')(process.argv.slice(2));
 const clearConsole = require('react-dev-utils/clearConsole');
 const openBrowser = require('react-dev-utils/openBrowser');
 const {
@@ -20,13 +21,14 @@ const {
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const paths = require('../config/paths');
-const config = require('../config/webpack.preview.config');
+const createConfig = require('../config/webpack.preview.config');
 const createDevServerConfig = require('../config/webpackDevServer.config');
 
 const defaultPort = parseInt(process.env.PORT, 10) || 3000;
 const host = process.env.HOST || '0.0.0.0';
 const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
 const isInteractive = process.stdout.isTTY;
+const configPath = argv.config;
 
 async function start() {
   const appName = require(paths.appPackageJson).name;
@@ -34,7 +36,7 @@ async function start() {
   const urls = prepareUrls(protocol, host, port);
   const compiler = createCompiler(
     webpack,
-    config,
+    createConfig(configPath),
     appName,
     urls,
     paths.useYarn,

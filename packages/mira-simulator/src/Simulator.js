@@ -320,7 +320,6 @@ class MiraAppSimulator extends Component {
                 application={application}
                 onChange={this.queuePresentationUpdate}
                 onBlur={this.flushPreviewUpdate}
-                onSubmit={() => {}}
               />
             </div>
             <PresentationBuilderPreview
@@ -364,7 +363,6 @@ const styles = {
     padding: 16,
     display: 'flex',
     justifyContent: 'center',
-    background: fullScreen ? 'transparent' : '#fff',
     opacity: fullScreen && hideControls ? 0 : 1,
     transition: fullScreen && hideControls ? 'opacity 1s ease-in' : '',
   }),

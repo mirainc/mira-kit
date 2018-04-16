@@ -8,6 +8,7 @@ import ReactDOM from 'react-dom';
 import { isMiraApp } from 'mira-kit';
 import { extractProperties } from 'mira-kit/prop-types';
 import AppPreview from './AppPreview';
+import logger from './logger';
 
 if (!process.env.MIRA_SIMULATOR_APP_CONFIG_PATH) {
   throw new Error(
@@ -65,10 +66,7 @@ if (!App) {
 }
 
 if (!isMiraApp(App)) {
-  console.log(
-    `⚠️%c Please make sure your app is wrapped with withMiraApp.`,
-    'color:#f8b91c',
-  );
+  logger.warning('Please make sure your app is wrapped with withMiraApp.');
 }
 
 const requireIcon = () => {

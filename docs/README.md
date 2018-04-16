@@ -81,7 +81,7 @@ const App = ({
   onComplete,
   onError,
   miraRequestResource,
-  ...applicationVariables
+  ...presentationValues
 }) => {
   // ...
 };
@@ -115,14 +115,14 @@ export default {
 
 ### Config Options {#config-options}
 
-| Option                 | type       | Description                                                                                               |
-| ---------------------- | ---------- | --------------------------------------------------------------------------------------------------------- |
-| name                   | `string`   | The display name of your app.                                                                             |
-| description            | `string`   | The description of your app.                                                                              |
-| callToAction           | `string`   | The text to display in the app selector.                                                                  |
-| presentationProperties | `object`   | Defines the inputs of your application that appear in the presentation builder.                           |
-| allowedRequestDomains  | `string[]` | The domains your app can make requests to. See the [fetching data](#fetching-data) section for more info. |
-| applicationVariables   | `object`   | Used by the simulator to test the different states of your app.                                           |
+| Option                | type       | Description                                                                                               |
+| --------------------- | ---------- | --------------------------------------------------------------------------------------------------------- |
+| name                  | `string`   | The display name of your app.                                                                             |
+| description           | `string`   | The description of your app.                                                                              |
+| callToAction          | `string`   | The text to display in the app selector.                                                                  |
+| properties            | `object`   | Defines the inputs of your application that appear in the presentation builder.                           |
+| allowedRequestDomains | `string[]` | The domains your app can make requests to. See the [fetching data](#fetching-data) section for more info. |
+| simulator             | `object`   | Simulator-only options. (See the [Simulator](#simulator) section for available options.)                  |
 
 ### Adding an Icon and Thumbnail {#adding-icon-thumbnail}
 
@@ -137,7 +137,7 @@ To upload an icon and thumbnail, add an `icon.svg` and `thumbnail.svg` to the ro
   </div>
 </div>
 
-### Presentation Properties {#presentation-properties}
+### Properties {#properties}
 
 Presentation properties define how the user can configure your app from the Dashboard. Use MiraKit prop types and their modifiers to create the presentation builder experience.
 
@@ -149,7 +149,7 @@ export default {
   name: 'Weather',
   description: 'Display local weather conditions.',
   callToAction: 'Add Weather',
-  presentationProperties: {
+  properties: {
     city: PropTypes.string('City')
       .required()
       .helperText('eg. San Francisco, US')
@@ -220,9 +220,39 @@ array('Categories', 'Category').items({
 
 Check out [Menu](#menu) for an example of using array types.
 
-### Application Variables {#application-variables}
+### Simulator {#simulator}
 
-The values of the inputs when creating or updating a presentation are called application variables. They are passed into your app as props along with the props injected by `withMiraApp`.
+Running `npm start` from your app directory will start the Mira app simulator. You can test various presentation values in the simulator using the `presentations` option:
+
+```js
+// mira.config.js
+export default {
+  // ...
+  simulator: {
+    presentations: [
+      {
+        name: 'San Francisco',
+        values: { city: 'San Francisco, US', units: 'imperial' },
+      },
+      {
+        name: 'Toronto',
+        values: { city: 'Toronto, CA', units: 'metric' },
+      },
+      {
+        name: 'Sydney',
+        values: { city: 'Sydney, AU', units: 'metric' },
+      },
+      {
+        name: 'Not Found',
+        values: { city: 'Not found' },
+      },
+      { name: 'New Presentation' },
+    ],
+  },
+};
+```
+
+Presentation values are injected into your app:
 
 ```js
 // src/index.js
@@ -233,7 +263,7 @@ const Weather = ({
   onReady,
   onComplete,
   onError,
-  // applicationVariables
+  // Presentation values.
   city,
   units,
   duration,
@@ -242,22 +272,6 @@ const Weather = ({
 };
 
 export default withMiraApp(Weather);
-```
-
-You can test various states of your application in the simulator by specifying `applicationVariables` in `mira.config.js`.
-
-```js
-// mira.config.js
-export default {
-  // ...
-  applicationVariables: {
-    'San Francisco': { city: 'San Francisco, US', units: 'imperial' },
-    Toronto: { city: 'Toronto, CA', units: 'metric' },
-    Sydney: { city: 'Sydney, AU', units: 'metric' },
-    'New Presentation': {},
-    'Not Found': { city: 'Not found' },
-  },
-};
 ```
 
 # File Uploads {#file-uploads}
@@ -269,7 +283,7 @@ Mira apps can use files uploaded through the Dashboard. To accept files, your ap
 import { image, video, file } from 'mira-kit/prop-types';
 export default {
   // ...
-  presentationProperties: {
+  properties: {
     image: image('Image'),
     video: video('Video'),
     pdf: file('PDF').contentTypes(['application/pdf']),
@@ -294,14 +308,14 @@ export default withMiraApp(PictureApp);
 
 #### Local Files {#local-files}
 
-You can test local files by adding them to a `files` directory in the root directory of your app. The relative url can be referenced from your application variables.
+You can test local files by adding them to a `files` directory in the root directory of your app. The relative url can be referenced from your simulator presentations.
 
 ```js
 // mira.config.js
 export default {
   // ...
-  applicationVariables: {
-    video: { url: 'video.mp4' },
+  simulator: {
+    presentations: [{ name: 'Video', values: { url: 'video.mp4' } }],
   },
 };
 ```

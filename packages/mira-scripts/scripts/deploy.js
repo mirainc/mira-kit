@@ -69,9 +69,7 @@ async function deploy() {
     throw new Error(`Error loading mira.config.js: ${err.message}.`);
   }
 
-  const { properties, strings } = extractProperties(
-    config.presentationProperties,
-  );
+  const { properties, strings } = extractProperties(config.properties);
 
   const application = {
     name: config.name,

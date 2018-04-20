@@ -113,7 +113,7 @@ test('Should extract properties from file', () => {
       .maxSize(1),
     helper: file('File')
       .helperText('helperText')
-      .helperLink('helperLink'),
+      .helperLink('http://helper.link'),
   };
 
   const { properties, strings } = extractProperties(propTypes);
@@ -123,7 +123,6 @@ test('Should extract properties from file', () => {
     constraints: 'File',
     helper: 'File',
     helper_helperText: 'helperText',
-    helper_helperLink: 'helperLink',
   });
   expect(properties).toEqual([
     {
@@ -149,7 +148,7 @@ test('Should extract properties from file', () => {
       name: 'helper',
       optional: true,
       helper_text: 'helper_helperText',
-      helper_link: 'helper_helperLink',
+      helper_link: 'http://helper.link',
       constraints: { 'content-length': defaultMaxSize },
     },
   ]);
@@ -254,7 +253,7 @@ test('Should extract properties from number', () => {
       .max(10),
     helper: number('Number')
       .helperText('helperText')
-      .helperLink('helperLink'),
+      .helperLink('http://helper.link'),
   };
 
   const { properties, strings } = extractProperties(propTypes);
@@ -265,7 +264,6 @@ test('Should extract properties from number', () => {
     constraints: 'Number',
     helper: 'Number',
     helper_helperText: 'helperText',
-    helper_helperLink: 'helperLink',
   });
   expect(properties).toEqual([
     { type: 'number', name: 'optional', optional: true, constraints: {} },
@@ -288,7 +286,7 @@ test('Should extract properties from number', () => {
       name: 'helper',
       optional: true,
       helper_text: 'helper_helperText',
-      helper_link: 'helper_helperLink',
+      helper_link: 'http://helper.link',
       constraints: {},
     },
   ]);
@@ -304,7 +302,7 @@ test('Should extract properties from selection', () => {
       .default('a'),
     helper: selection('Selection')
       .helperText('helperText')
-      .helperLink('helperLink'),
+      .helperLink('http://helper.link'),
   };
 
   const { properties, strings } = extractProperties(propTypes);
@@ -316,7 +314,6 @@ test('Should extract properties from selection', () => {
     b: 'B',
     helper: 'Selection',
     helper_helperText: 'helperText',
-    helper_helperLink: 'helperLink',
   });
   expect(properties).toEqual([
     {
@@ -350,7 +347,7 @@ test('Should extract properties from selection', () => {
       exclusive: true,
       optional: true,
       helper_text: 'helper_helperText',
-      helper_link: 'helper_helperLink',
+      helper_link: 'http://helper.link',
       constraints: {},
       options: [],
     },
@@ -364,7 +361,7 @@ test('Should extract properties from string', () => {
     default: string('String').default('default'),
     helper: string('String')
       .helperText('helperText')
-      .helperLink('helperLink'),
+      .helperLink('http://helper.link'),
   };
 
   const { properties, strings } = extractProperties(propTypes);
@@ -374,7 +371,6 @@ test('Should extract properties from string', () => {
     default: 'String',
     helper: 'String',
     helper_helperText: 'helperText',
-    helper_helperLink: 'helperLink',
   });
   expect(properties).toEqual([
     { type: 'string', name: 'optional', optional: true, constraints: {} },
@@ -391,7 +387,7 @@ test('Should extract properties from string', () => {
       name: 'helper',
       optional: true,
       helper_text: 'helper_helperText',
-      helper_link: 'helper_helperLink',
+      helper_link: 'http://helper.link',
       constraints: {},
     },
   ]);
@@ -404,7 +400,7 @@ test('Should extract properties from text', () => {
     default: text('Text').default('default'),
     helper: text('Text')
       .helperText('helperText')
-      .helperLink('helperLink'),
+      .helperLink('http://helper.link'),
   };
 
   const { properties, strings } = extractProperties(propTypes);
@@ -414,7 +410,6 @@ test('Should extract properties from text', () => {
     default: 'Text',
     helper: 'Text',
     helper_helperText: 'helperText',
-    helper_helperLink: 'helperLink',
   });
   expect(properties).toEqual([
     { type: 'text', name: 'optional', optional: true, constraints: {} },
@@ -431,7 +426,7 @@ test('Should extract properties from text', () => {
       name: 'helper',
       optional: true,
       helper_text: 'helper_helperText',
-      helper_link: 'helper_helperLink',
+      helper_link: 'http://helper.link',
       constraints: {},
     },
   ]);

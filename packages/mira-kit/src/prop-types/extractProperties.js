@@ -25,12 +25,7 @@ export default function extractProperties(
       const helperTextStringKey = `${propName}_helperText`;
       strings[helperTextStringKey] = propType.helperText;
       prop.helper_text = helperTextStringKey;
-    }
-
-    if (typeof propType.helperLink !== 'undefined') {
-      const helperLinkStringKey = `${propName}_helperLink`;
-      strings[helperLinkStringKey] = propType.helperLink;
-      prop.helper_link = helperLinkStringKey;
+      prop.helper_link = propType.helperLink;
     }
 
     if (propType.type === 'selection') {

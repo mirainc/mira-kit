@@ -1,6 +1,6 @@
 # MiraKit
 
-[![npm](https://img.shields.io/npm/v/mira-kit.svg)](https://www.npmjs.com/package/mira-kit) [![build status](https://img.shields.io/codeship/c58d4e70-9d48-0134-e482-0ad6b5578a26/master.svg)](https://app.codeship.com/projects/188612)
+[![npm](https://img.shields.io/npm/v/mira-kit.svg)](https://www.npmjs.com/package/mira-kit) [ ![Codeship Status for mirainc/mira-kit](https://app.codeship.com/projects/c58d4e70-9d48-0134-e482-0ad6b5578a26/status?branch=master)](https://app.codeship.com/projects/188612)
 
 MiraKit is [Mira's](https://getmira.com) screen signage SDK. Mira apps are offline-first React applications that can be configured and published through the [Mira Dashboard](https://dash.getmira.com).
 

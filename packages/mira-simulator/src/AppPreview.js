@@ -8,18 +8,6 @@ import {
 import createMessenger from './createMessenger';
 import { EventEmitter } from 'eventemitter3';
 
-// Private fetch used for fetching in mira resources.
-const privateFetch = window.fetch.bind(window);
-
-// Clobber XMLHttpRequest because it is not available in the Mira sandbox.
-window.XMLHttpRequest = captureSandboxFailure(
-  'XMLHttpRequest',
-  'miraRequestResource',
-);
-
-// Clobber fetch because it is not available on MiraLinks
-window.fetch = captureSandboxFailure('fetch', 'miraRequestResource');
-
 class AppPreview extends Component {
   static propTypes = {
     application: PropTypes.object.isRequired,
@@ -34,6 +22,20 @@ class AppPreview extends Component {
 
   state = {};
   miraEvents = new EventEmitter();
+
+  componentWillMount() {
+    // Private fetch used for fetching in mira resources.
+    this.privateFetch = window.fetch.bind(window);
+
+    // Clobber XMLHttpRequest because it is not available in the Mira sandbox.
+    window.XMLHttpRequest = captureSandboxFailure(
+      'XMLHttpRequest',
+      'miraRequestResource',
+    );
+
+    // Clobber fetch because it is not available on MiraLinks.
+    window.fetch = captureSandboxFailure('fetch', 'miraRequestResource');
+  }
 
   componentDidMount() {
     const { application, simulatorOptions } = this.props;
@@ -77,9 +79,9 @@ class AppPreview extends Component {
     const props = {
       ...this.state.appVars,
       miraEvents: this.miraEvents,
-      miraFileResource: createFileResource(privateFetch),
+      miraFileResource: createFileResource(this.privateFetch),
       miraRequestResource: createRequestResource(
-        privateFetch,
+        this.privateFetch,
         this.props.allowedRequestDomains,
       ),
     };

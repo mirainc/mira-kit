@@ -75,13 +75,13 @@ The entry file for Mira apps is `src/index.js` and it must export your app wrapp
 import { withMiraApp } from 'mira-kit';
 
 const App = ({
+  presentation,
   isPlaying,
   playCount,
   onReady,
   onComplete,
   onError,
   miraRequestResource,
-  ...presentationValues
 }) => {
   // ...
 };
@@ -93,6 +93,7 @@ Wrapping your app in `withMiraApp` will inject these props into your app.
 
 | Prop                | Type       | Definition                                                                                                                                                                                                                 |
 | ------------------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| presentation        | `object`   | An instance of your application with the user-defined name and values.<br/>ie. `{ name: 'Weather', values: { city: 'San Francisco' } }`                                                                                    |
 | isPlaying           | `boolean`  | Starts at `false` and becomes `true` when your app is visible.                                                                                                                                                             |
 | playCount           | `number`   | Starts at `0` and increments on every play when your app is looping.                                                                                                                                                       |
 | onReady             | `function` | Call this when your app is ready to be displayed, typically after fetching initial data.                                                                                                                                   |
@@ -252,22 +253,21 @@ export default {
 };
 ```
 
-Presentation values are injected into your app:
+The active presentation is injected into your app's props:
 
 ```js
 // src/index.js
 import { withMiraApp } from 'mira-kit';
 
-const Weather = ({
-  isPlaying,
-  onReady,
-  onComplete,
-  onError,
-  // Presentation values.
-  city,
-  units,
-  duration,
-}) => {
+const Weather = ({ presentation, isPlaying, onReady, onComplete, onError }) => {
+  // presentation = {
+  //   name: 'San Francisco',
+  //   values: {
+  //     city: 'San Francisco, CA',
+  //     units: 'imperial',
+  //     duration: 10,
+  //   }
+  // }
   // ...
 };
 
@@ -299,8 +299,8 @@ import React from 'react';
 import { withMiraApp } from 'mira-kit';
 
 // Render the image and call onReady when it has loaded.
-const PictureApp = ({ image, onReady }) => (
-  <img src={image.url} onLoad={onReady} />
+const PictureApp = ({ presentation, onReady }) => (
+  <img src={presentation.values.image.url} onLoad={onReady} />
 );
 
 export default withMiraApp(PictureApp);
@@ -353,10 +353,10 @@ class WeatherApp extends Component {
   }
 
   await fetchWeatherData() {
-    const { city, miraRequestResource, onReady, onError } = this.props;
+    const { presentation, miraRequestResource, onReady, onError } = this.props;
     try {
       const url = `https://api.weather.com/${city}`;
-      const response = await miraRequestResource(url);
+      const response = await miraRequestResource(presentation.values.url);
       const weatherData = await response.json();
       this.setState({ weatherData });
       // Calling onReady will let the runtime know your

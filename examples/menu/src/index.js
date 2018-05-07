@@ -5,23 +5,27 @@ import './styles.css';
 
 class Menu extends Component {
   static propTypes = {
+    presentation: PropTypes.shape({
+      values: PropTypes.shape({
+        categories: PropTypes.arrayOf(
+          PropTypes.shape({
+            name: PropTypes.string.isRequired,
+            items: PropTypes.arrayOf(
+              PropTypes.shape({
+                name: PropTypes.string.isRequired,
+                itemDescription: PropTypes.string.isRequired,
+                price: PropTypes.string.isRequired,
+              }),
+            ),
+          }),
+        ),
+        duration: PropTypes.number.isRequired,
+      }),
+    }).isRequired,
     isPlaying: PropTypes.bool.isRequired,
     onReady: PropTypes.func.isRequired,
     onComplete: PropTypes.func.isRequired,
     onError: PropTypes.func.isRequired,
-    categories: PropTypes.arrayOf(
-      PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        items: PropTypes.arrayOf(
-          PropTypes.shape({
-            name: PropTypes.string.isRequired,
-            itemDescription: PropTypes.string.isRequired,
-            price: PropTypes.string.isRequired,
-          }),
-        ),
-      }),
-    ),
-    duration: PropTypes.number.isRequired,
   };
 
   componentDidMount() {
@@ -30,17 +34,20 @@ class Menu extends Component {
   }
 
   componentDidUpdate() {
-    const { isPlaying, duration, onComplete } = this.props;
+    const { isPlaying, presentation, onComplete } = this.props;
     if (isPlaying) {
       clearTimeout(this.onCompleteTimeout);
-      this.onCompleteTimeout = setTimeout(onComplete, duration * 1000);
+      this.onCompleteTimeout = setTimeout(
+        onComplete,
+        presentation.values.duration * 1000,
+      );
     }
   }
 
   render() {
-    const { isPlaying, categories = [] } = this.props;
+    const { isPlaying, presentation } = this.props;
+    const categories = presentation.values.categories || [];
     const isPortrait = document.body.clientHeight > document.body.clientWidth;
-
     return (
       <div className={`container${isPortrait ? ' portrait' : ''}`}>
         {categories.map((category, i) => (

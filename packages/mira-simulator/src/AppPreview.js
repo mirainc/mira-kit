@@ -20,7 +20,10 @@ class AppPreview extends Component {
     simulatorOptions: { presentations: [] },
   };
 
-  state = {};
+  state = {
+    presentation: null,
+  };
+
   miraEvents = new EventEmitter();
 
   componentWillMount() {
@@ -67,26 +70,32 @@ class AppPreview extends Component {
   receiveMessage = (type, payload) => {
     if (type === 'play') {
       this.miraEvents.emit('play');
-    } else if (type === 'application_variables') {
-      this.setState({ appVars: payload });
+    } else if (type === 'presentation') {
+      this.setState({ presentation: payload });
     }
   };
 
   render() {
-    // Don't render the app if we haven't received any app vars yet.
-    if (!this.state.appVars) return null;
+    const { allowedRequestDomains, children } = this.props;
+    const { presentation } = this.state;
+    // Don't render the app if we haven't received the presentation object yet.
+    if (!presentation) return null;
+    // Spreading app props will be deprecated. New apps should use the presentation
+    // prop which contains the application variables.
+    const legacyApplicationVars = presentation.application_vars;
 
     const props = {
-      ...this.state.appVars,
+      ...legacyApplicationVars,
+      presentation,
       miraEvents: this.miraEvents,
       miraFileResource: createFileResource(this.privateFetch),
       miraRequestResource: createRequestResource(
         this.privateFetch,
-        this.props.allowedRequestDomains,
+        allowedRequestDomains,
       ),
     };
 
-    return this.props.children(props);
+    return children(props);
   }
 }
 

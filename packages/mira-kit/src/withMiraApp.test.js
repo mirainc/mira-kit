@@ -9,7 +9,12 @@ const createProps = () => ({
   miraRequestResource: () => Promise.resolve,
   miraFileResource: () => Promise.resolve,
   strings: { string: 'string' },
-  appProp: 'appProp',
+  presentation: {
+    name: 'presentation',
+    application_vars: {
+      foo: 'bar',
+    },
+  },
 });
 
 const App = () => <div />;
@@ -22,7 +27,10 @@ test('Should render app', () => {
   expect(app.length).toEqual(1);
   const appProps = app.props();
   expect(Object.keys(appProps).length).toEqual(9);
-  expect(appProps.appProp).toEqual(props.appProp);
+  expect(appProps.presentation.name).toEqual(props.presentation.name);
+  expect(appProps.presentation.values).toEqual(
+    props.presentation.application_vars,
+  );
   expect(appProps.isPlaying).toEqual(false);
   expect(appProps.playCount).toEqual(0);
   expect(typeof appProps.onReady).toEqual('function');

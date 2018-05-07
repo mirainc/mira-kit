@@ -14,6 +14,10 @@ export default App => {
     static displayName = `withMiraApp(${appName || 'App'})`;
 
     static propTypes = {
+      presentation: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        application_vars: PropTypes.object.isRequired,
+      }).isRequired,
       miraEvents: PropTypes.shape({
         on: PropTypes.func.isRequired,
         emit: PropTypes.func.isRequired,
@@ -74,6 +78,7 @@ export default App => {
     };
 
     handlePresentationError = error => {
+      const { presentation } = this.props;
       // Fire presentation complete immediately if we are currently playing.
       // Otherwise, fire presentation_ready so that play is triggered.
       if (this.state.isPlaying) {
@@ -86,9 +91,17 @@ export default App => {
       this.setState({ error });
 
       console.error(
-        `App ${appName ? `'${appName}' ` : ''}errored: ${error.message}`,
+        `Presentation error for '${presentation.name}': ${error.message}`,
       );
     };
+
+    getPresentation() {
+      const { presentation } = this.props;
+      return {
+        name: presentation.name,
+        values: presentation.application_vars,
+      };
+    }
 
     render() {
       const { error, isPlaying, playCount } = this.state;
@@ -107,12 +120,13 @@ export default App => {
         miraFileResource,
         miraRequestResource,
         strings,
-        ...appProps
+        ...legacyApplicationVars
       } = this.props;
 
       return (
         <App
-          {...appProps}
+          {...legacyApplicationVars}
+          presentation={this.getPresentation()}
           isPlaying={isPlaying}
           playCount={playCount}
           onReady={this.handlePresentationReady}

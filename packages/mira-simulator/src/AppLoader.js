@@ -6,7 +6,10 @@ import logger from './logger';
 
 class AppLoader extends Component {
   static propTypes = {
-    appVars: PropTypes.object.isRequired,
+    presentation: PropTypes.shape({
+      name: PropTypes.string,
+      application_vars: PropTypes.object,
+    }).isRequired,
     onLoad: PropTypes.func.isRequired,
     onComplete: PropTypes.func,
     enableLogs: PropTypes.bool,
@@ -27,7 +30,7 @@ class AppLoader extends Component {
     didReceiveReady: false,
   };
 
-  hasSentInitialAppVars = false;
+  hasSentInitialPresentation = false;
 
   componentDidMount() {
     this.messenger = createMessenger(
@@ -44,18 +47,18 @@ class AppLoader extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { appVars } = this.props;
+    const { presentation } = this.props;
     if (!this.checkPreviewErrors()) {
       // Send app vars if:
       //  - There are no errors.
       //  - We have not sent the initial app vars since load.
       //  - They have changed.
       if (
-        !this.hasSentInitialAppVars ||
-        !deepEqual(appVars, prevProps.appVars)
+        !this.hasSentInitialPresentation ||
+        !deepEqual(presentation, prevProps.presentation)
       ) {
-        this.messenger.send('application_variables', appVars);
-        this.hasSentInitialAppVars = true;
+        this.messenger.send('presentation', presentation);
+        this.hasSentInitialPresentation = true;
       }
       // Only log once.
       if (!this.hasLoggedReady) {
@@ -69,7 +72,7 @@ class AppLoader extends Component {
     const { isPresenting, onComplete } = this.props;
 
     if (type === 'init') {
-      this.hasSentInitialAppVars = false;
+      this.hasSentInitialPresentation = false;
       this.props.onLoad(payload.application, payload.simulatorOptions);
     } else if (type === 'presentation_ready') {
       this.logSuccess('onReady received.');

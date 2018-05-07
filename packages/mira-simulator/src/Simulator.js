@@ -262,7 +262,7 @@ class MiraAppSimulator extends Component {
     // We don't care about name not being set to render the preview
     // so we hard-code a valid name.
     presentationPreview = mergeDefaultAppVars(
-      { ...presentationPreview, name: ' ' },
+      { ...presentationPreview, name: presentationPreview.name || ' ' },
       application,
     );
 
@@ -278,7 +278,7 @@ class MiraAppSimulator extends Component {
     return (
       <AppLoader
         key={key}
-        appVars={presentationPreview.application_vars}
+        presentation={presentationPreview}
         previewErrors={previewErrors}
         enableLogs={enableLogs}
         isPresenting={present}

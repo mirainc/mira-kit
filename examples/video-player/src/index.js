@@ -3,8 +3,7 @@ import { withMiraApp } from 'mira-kit';
 import './styles.css';
 
 const VideoPlayer = ({
-  video,
-  mute,
+  presentation,
   isPlaying,
   onReady,
   onComplete,
@@ -17,8 +16,8 @@ const VideoPlayer = ({
         videoEl.play();
       }
     }}
-    src={video.url}
-    muted={mute}
+    src={presentation.values.video.url}
+    muted={presentation.values.mute}
     onCanPlay={onReady}
     onEnded={onComplete}
     onError={e => onError(new Error(`Media error: ${e.target.error.code}`))}

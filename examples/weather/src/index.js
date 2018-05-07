@@ -8,8 +8,13 @@ const apiKey = process.env.MIRA_APP_OPENWEATHERMAP_API_KEY;
 
 class Weather extends Component {
   static propTypes = {
-    city: PropTypes.string.isRequired,
-    units: PropTypes.oneOf(['imperial', 'metric']).isRequired,
+    presentation: PropTypes.shape({
+      values: PropTypes.shape({
+        city: PropTypes.string.isRequired,
+        units: PropTypes.oneOf(['imperial', 'metric']).isRequired,
+        duration: PropTypes.number.isRequired,
+      }),
+    }).isRequired,
     isPlaying: PropTypes.bool.isRequired,
     onReady: PropTypes.func.isRequired,
     onComplete: PropTypes.func.isRequired,
@@ -26,9 +31,13 @@ class Weather extends Component {
   }
 
   async componentDidUpdate(prevProps) {
-    const { city, units, duration, isPlaying, onComplete } = this.props;
+    const { presentation, isPlaying, onComplete } = this.props;
+    const { city, units, duration } = presentation.values;
     // Re-fetch weather data when props change.
-    if (prevProps.city !== city || prevProps.units !== units) {
+    if (
+      prevProps.presentation.values.city !== city ||
+      prevProps.presentation.values.units !== units
+    ) {
       await this.fetchWeatherData();
     }
     // Start onComplete timeout when app becomes visible.
@@ -44,8 +53,8 @@ class Weather extends Component {
   }
 
   async fetchWeatherData() {
-    const { city, units, miraRequestResource, onReady, onError } = this.props;
-
+    const { presentation, miraRequestResource, onReady, onError } = this.props;
+    const { city, units } = presentation.values;
     try {
       const response = await miraRequestResource(
         `${apiUrl}?q=${city}&units=${units}&appid=${apiKey}`,

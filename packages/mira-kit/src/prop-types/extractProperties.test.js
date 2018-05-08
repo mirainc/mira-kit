@@ -9,6 +9,7 @@ import {
   string,
   text,
   video,
+  theme,
 } from './';
 import { imageContentTypes } from './ImageType';
 import { videoContentTypes } from './VideoType';
@@ -430,4 +431,35 @@ test('Should extract properties from text', () => {
       constraints: {},
     },
   ]);
+});
+
+test('Should extract properties from theme', () => {
+  const propTypes = {
+    default: theme().required(),
+  };
+
+  const { properties, strings } = extractProperties(propTypes);
+  expect(strings).toEqual({
+    default: 'Theme',
+  });
+  expect(properties).toEqual([
+    {
+      type: 'selection',
+      name: 'default',
+      inject_themes: true,
+      options: [],
+      optional: false,
+      exclusive: true,
+      constraints: {},
+    },
+  ]);
+});
+
+test('Should throw error when multiple theme prop types exist', () => {
+  const propTypes = {
+    theme1: theme().required(),
+    theme2: theme().required(),
+  };
+
+  expect(() => extractProperties(propTypes)).toThrow();
 });

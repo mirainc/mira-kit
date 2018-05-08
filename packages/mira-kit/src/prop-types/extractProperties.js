@@ -5,6 +5,8 @@ export default function extractProperties(
 ) {
   if (!propTypes) return { properties, strings };
 
+  let hasThemePropType = false;
+
   Object.keys(propTypes).forEach(propName => {
     const propType = propTypes[propName].toJSON();
 
@@ -45,6 +47,18 @@ export default function extractProperties(
       const itemProperties = [];
       extractProperties(propType.items, itemProperties, strings);
       prop.properties = itemProperties;
+    }
+
+    // TODO: validate that only one prop can exist with injectThemes.
+    if (propType.injectThemes) {
+      if (hasThemePropType) {
+        throw new Error(
+          'Error extracting properties: Cannot have multiple theme prop types.',
+        );
+      } else {
+        prop.inject_themes = true;
+        hasThemePropType = true;
+      }
     }
 
     properties.push(prop);

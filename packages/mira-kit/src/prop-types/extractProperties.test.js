@@ -444,12 +444,9 @@ test('Should extract properties from theme', () => {
   });
   expect(properties).toEqual([
     {
-      type: 'selection',
+      type: 'theme',
       name: 'default',
-      inject_themes: true,
-      options: [],
       optional: false,
-      exclusive: true,
       constraints: {},
     },
   ]);

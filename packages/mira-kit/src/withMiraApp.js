@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ErrorMessage from './ErrorMessage';
+import * as themes from './themes';
 
 export const ERROR_DISPLAY_TIME = 5000;
 
@@ -17,6 +18,7 @@ export default App => {
       presentation: PropTypes.shape({
         name: PropTypes.string.isRequired,
         application_vars: PropTypes.object.isRequired,
+        theme: PropTypes.object,
       }).isRequired,
       miraEvents: PropTypes.shape({
         on: PropTypes.func.isRequired,
@@ -97,9 +99,20 @@ export default App => {
 
     getPresentation() {
       const { presentation } = this.props;
+      const theme = presentation.theme || {};
       return {
         name: presentation.name,
         values: presentation.application_vars,
+        theme: {
+          name: theme.name || themes.clean.name,
+          backgroundColor:
+            theme.background_color || themes.clean.background_color,
+          bodyFont: theme.body_font || themes.clean.body_font,
+          bodyTextColor: theme.body_text_color || themes.clean.body_text_color,
+          headingFont: theme.heading_font || themes.clean.heading_font,
+          headingTextColor:
+            theme.heading_text_color || themes.clean.heading_text_color,
+        },
       };
     }
 

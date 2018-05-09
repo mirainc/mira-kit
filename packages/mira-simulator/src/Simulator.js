@@ -1,4 +1,5 @@
 import deepEqual from 'fast-deep-equal';
+import * as themes from 'mira-kit/themes';
 import {
   ThemeProvider,
   Container,
@@ -116,6 +117,24 @@ class MiraAppSimulator extends Component {
       simulatorOptions,
     };
 
+    // Convert user-defined themes to snake_case for API parity.
+    simulatorOptions.themes = (simulatorOptions.themes || []).map(theme => ({
+      id: theme.id,
+      name: theme.name,
+      background_color: theme.backgroundColor,
+      body_font: theme.bodyFont,
+      body_text_color: theme.bodyTextColor,
+      heading_font: theme.headingFont,
+      heading_text_color: theme.headingTextColor,
+    }));
+    // Add default themes.
+    simulatorOptions.themes = [
+      themes.clean,
+      themes.showroom,
+      themes.slate,
+      ...simulatorOptions.themes,
+    ];
+
     if (simulatorOptions.presentations) {
       // Map over presentations to add a unique id (index) to each one.
       state.simulatorOptions.presentations = state.simulatorOptions.presentations.map(
@@ -123,6 +142,7 @@ class MiraAppSimulator extends Component {
           id: index,
           name: p.name,
           application_vars: p.values || {},
+          theme_id: p.theme,
         }),
       );
 
@@ -253,7 +273,7 @@ class MiraAppSimulator extends Component {
   }
 
   renderPreview() {
-    const { previewMode, present, enableLogs } = this.state;
+    const { previewMode, present, enableLogs, simulatorOptions } = this.state;
     let { presentationPreview, application } = this.state;
 
     presentationPreview = presentationPreview || EMPTY_PRESENTATION;
@@ -275,6 +295,13 @@ class MiraAppSimulator extends Component {
     // Setting key so the app preview reloads when presentation
     // or preview mode changes.
     const key = `${presentationPreview.id}-${previewMode}`;
+    // Add selected theme object to presentation.
+    if (presentationPreview.theme_id) {
+      const theme = (simulatorOptions.themes || []).find(
+        t => t.id === presentationPreview.theme_id,
+      );
+      presentationPreview.theme = theme;
+    }
     return (
       <AppLoader
         key={key}
@@ -290,7 +317,7 @@ class MiraAppSimulator extends Component {
 
   render() {
     const { previewMode, fullScreen } = this.state;
-    let { presentation, application } = this.state;
+    let { presentation, application, simulatorOptions } = this.state;
 
     presentation = presentation || EMPTY_PRESENTATION;
     application = application || EMPTY_APPLICATION;
@@ -318,6 +345,7 @@ class MiraAppSimulator extends Component {
               <PresentationBuilderForm
                 presentation={mergeDefaultAppVars(presentation, application)}
                 application={application}
+                themes={simulatorOptions.themes}
                 onChange={this.queuePresentationUpdate}
                 onBlur={this.flushPreviewUpdate}
               />

@@ -49,14 +49,13 @@ export default function extractProperties(
       prop.properties = itemProperties;
     }
 
-    // TODO: validate that only one prop can exist with injectThemes.
-    if (propType.injectThemes) {
+    if (propType.type === 'theme') {
+      // Validate that only one theme type can exist per application.
       if (hasThemePropType) {
         throw new Error(
           'Error extracting properties: Cannot have multiple theme prop types.',
         );
       } else {
-        prop.inject_themes = true;
         hasThemePropType = true;
       }
     }

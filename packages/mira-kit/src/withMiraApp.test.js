@@ -3,6 +3,7 @@ import EventEmitter from 'eventemitter3';
 import React from 'react';
 import withMiraApp, { ERROR_DISPLAY_TIME, isMiraApp } from './withMiraApp';
 import ErrorMessage from './ErrorMessage';
+import * as themes from './themes';
 
 const createProps = () => ({
   miraEvents: new EventEmitter(),
@@ -11,6 +12,14 @@ const createProps = () => ({
   strings: { string: 'string' },
   presentation: {
     name: 'presentation',
+    theme: {
+      name: 'name',
+      background_color: 'backgroundColor',
+      body_font: 'bodyFont',
+      body_text_color: 'bodyTextColor',
+      heading_font: 'headingFont',
+      heading_text_color: 'headingTextColor',
+    },
     application_vars: {
       foo: 'bar',
     },
@@ -31,6 +40,14 @@ test('Should render app', () => {
   expect(appProps.presentation.values).toEqual(
     props.presentation.application_vars,
   );
+  expect(appProps.presentation.theme).toEqual({
+    name: 'name',
+    backgroundColor: 'backgroundColor',
+    bodyFont: 'bodyFont',
+    bodyTextColor: 'bodyTextColor',
+    headingFont: 'headingFont',
+    headingTextColor: 'headingTextColor',
+  });
   expect(appProps.isPlaying).toEqual(false);
   expect(appProps.playCount).toEqual(0);
   expect(typeof appProps.onReady).toEqual('function');
@@ -154,6 +171,35 @@ test('Should reset error state on props update', () => {
   expect(wrapper.state().error).toEqual(error);
   wrapper.setProps(props);
   expect(wrapper.state().error).toEqual(null);
+});
+
+test('Should default to clean theme if no theme provided', () => {
+  const props = createProps();
+  props.presentation.theme = null;
+  const MiraApp = withMiraApp(App);
+  const wrapper = shallow(<MiraApp {...props} />);
+  const app = wrapper.find(App);
+  const appProps = app.props();
+  expect(appProps.presentation.theme).toEqual({
+    name: themes.clean.name,
+    backgroundColor: themes.clean.background_color,
+    bodyFont: themes.clean.body_font,
+    bodyTextColor: themes.clean.body_text_color,
+    headingFont: themes.clean.heading_font,
+    headingTextColor: themes.clean.heading_text_color,
+  });
+});
+
+test('Should use to clean theme value if not set', () => {
+  const props = createProps();
+  props.presentation.theme.heading_font = null;
+  const MiraApp = withMiraApp(App);
+  const wrapper = shallow(<MiraApp {...props} />);
+  const app = wrapper.find(App);
+  const appProps = app.props();
+  expect(appProps.presentation.theme.headingFont).toEqual(
+    themes.clean.heading_font,
+  );
 });
 
 test('Should return true for valid Mira app', () => {

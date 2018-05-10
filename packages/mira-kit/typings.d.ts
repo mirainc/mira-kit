@@ -63,4 +63,13 @@ declare module 'mira-kit/prop-types' {
   }
   export function string(label: string): StringType;
   export function text(label: string): StringType;
+
+  interface ThemeType {
+    required(): ThemeType;
+    default(defaultValue: string): ThemeType;
+    helperText(helperText: string): ThemeType;
+    helperLink(helperLink: string): ThemeType;
+    maxLength(maxLength: number): ThemeType;
+  }
+  export function them(label?: string): ThemeType;
 }

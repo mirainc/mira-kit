@@ -7,12 +7,12 @@
   "changelog": {
     "repo": "mirainc/mira-kit",
     "labels": {
-      "feature": ":rocket: New Feature",
-      "breaking change": ":boom: Breaking Change",
-      "bug": ":bug: Bug Fix",
-      "enhancement": ":nail_care: Enhancement",
-      "documentation": ":memo: Documentation",
-      "chore": ":house: Chore"
+      "feature": "New Feature",
+      "breaking change": "Breaking Change",
+      "bug": "Bug Fix",
+      "enhancement": "Enhancement",
+      "documentation": "Documentation",
+      "chore": "Chore"
     },
     "cacheDir": ".changelog"
   }

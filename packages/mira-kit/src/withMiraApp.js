@@ -19,7 +19,7 @@ export default App => {
         name: PropTypes.string.isRequired,
         application_vars: PropTypes.object.isRequired,
         theme: PropTypes.object,
-      }).isRequired,
+      }),
       miraEvents: PropTypes.shape({
         on: PropTypes.func.isRequired,
         emit: PropTypes.func.isRequired,
@@ -27,6 +27,12 @@ export default App => {
       miraFileResource: PropTypes.func.isRequired,
       miraRequestResource: PropTypes.func.isRequired,
       strings: PropTypes.object,
+    };
+
+    static defaultProps = {
+      // The presentation object may not exist. The presentation prop can be required
+      // once all Dashboard clients, the screenshot service and photon have been updated.
+      presentation: {},
     };
 
     state = {

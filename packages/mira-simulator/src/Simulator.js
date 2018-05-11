@@ -16,13 +16,13 @@ import mergeDefaultAppVars from './mergeDefaultAppVars';
 
 const PRESENTATION_MIN_DURATION = 5;
 const EMPTY_PRESENTATION = { name: 'New Presentation', application_vars: {} };
-const EMPTY_APPLICATION = { icon_url: '', presentation_properties: [] };
+const EMPTY_APP_VERSION = { icon_url: '', presentation_properties: [] };
 
 class MiraAppSimulator extends Component {
   initialState = {
     presentation: null,
     presentationPreview: null,
-    application: null,
+    appVersion: null,
     previewMode: 'horizontal',
     fullScreen: false,
     present: false,
@@ -109,11 +109,11 @@ class MiraAppSimulator extends Component {
   // setOptions is called whenever the app is loaded. This happens
   // on first page load but also when the app code has changed, causing
   // webpack to reload the app preview.
-  setOptions = (application, simulatorOptions) => {
+  setOptions = (appVersion, simulatorOptions) => {
     const { presentation } = this.state;
     const state = {
       presentation,
-      application,
+      appVersion,
       simulatorOptions,
     };
 
@@ -274,21 +274,21 @@ class MiraAppSimulator extends Component {
 
   renderPreview() {
     const { previewMode, present, enableLogs, simulatorOptions } = this.state;
-    let { presentationPreview, application } = this.state;
+    let { presentationPreview, appVersion } = this.state;
 
     presentationPreview = presentationPreview || EMPTY_PRESENTATION;
-    application = application || EMPTY_APPLICATION;
+    appVersion = appVersion || EMPTY_APP_VERSION;
 
     // We don't care about name not being set to render the preview
     // so we hard-code a valid name.
     presentationPreview = mergeDefaultAppVars(
       { ...presentationPreview, name: presentationPreview.name || ' ' },
-      application,
+      appVersion,
     );
 
     const previewErrors = PresentationBuilderForm.validate(
       presentationPreview,
-      application,
+      appVersion,
       PRESENTATION_MIN_DURATION,
     );
 
@@ -317,10 +317,10 @@ class MiraAppSimulator extends Component {
 
   render() {
     const { previewMode, fullScreen } = this.state;
-    let { presentation, application, simulatorOptions } = this.state;
+    let { presentation, appVersion, simulatorOptions } = this.state;
 
     presentation = presentation || EMPTY_PRESENTATION;
-    application = application || EMPTY_APPLICATION;
+    appVersion = appVersion || EMPTY_APP_VERSION;
 
     const containerProps = {
       onMouseOver: this.startHideControlsTimer,
@@ -343,15 +343,15 @@ class MiraAppSimulator extends Component {
           <Container style={styles.builder}>
             <div style={styles.form}>
               <PresentationBuilderForm
-                presentation={mergeDefaultAppVars(presentation, application)}
-                application={application}
+                presentation={mergeDefaultAppVars(presentation, appVersion)}
+                appVersion={appVersion}
                 themes={simulatorOptions.themes}
                 onChange={this.queuePresentationUpdate}
                 onBlur={this.flushPreviewUpdate}
               />
             </div>
             <PresentationBuilderPreview
-              application={application}
+              appVersion={appVersion}
               previewMode={previewMode}
               onPreviewModeChange={previewMode =>
                 this.setState({ previewMode })

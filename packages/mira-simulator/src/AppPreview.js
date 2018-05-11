@@ -10,7 +10,7 @@ import { EventEmitter } from 'eventemitter3';
 
 class AppPreview extends Component {
   static propTypes = {
-    application: PropTypes.object.isRequired,
+    appVersion: PropTypes.object.isRequired,
     allowedRequestDomains: PropTypes.arrayOf(PropTypes.string),
     simulatorOptions: PropTypes.object,
   };
@@ -41,7 +41,7 @@ class AppPreview extends Component {
   }
 
   componentDidMount() {
-    const { application, simulatorOptions } = this.props;
+    const { appVersion, simulatorOptions } = this.props;
 
     this.messenger = createMessenger(
       window,
@@ -56,9 +56,9 @@ class AppPreview extends Component {
       });
     });
 
-    // Send the application definition and all app variables to the parent window.
+    // Send the appVersion definition and all app variables to the parent window.
     this.messenger.send('init', {
-      application,
+      appVersion,
       simulatorOptions,
     });
   }

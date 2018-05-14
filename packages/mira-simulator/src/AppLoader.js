@@ -73,7 +73,7 @@ class AppLoader extends Component {
 
     if (type === 'init') {
       this.hasSentInitialPresentation = false;
-      this.props.onLoad(payload.application, payload.simulatorOptions);
+      this.props.onLoad(payload.appVersion, payload.simulatorOptions);
     } else if (type === 'presentation_ready') {
       this.logSuccess('onReady received.');
       this.logPending('Waiting for onComplete.');

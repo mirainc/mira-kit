@@ -11,8 +11,8 @@
   "files": ["lib", "prop-types.js", "typings.d.ts"],
   "dependencies": {
     "prop-types": "^15.6.1",
-    "react": "^15.6.0",
-    "react-dom": "^15.6.0"
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0"
   },
   "devDependencies": {
     "@babel/cli": "7.0.0-beta.42",
@@ -21,11 +21,11 @@
     "babel-jest": "22.1.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
     "babel-preset-react-app": "next",
-    "enzyme": "^3.2.0",
-    "enzyme-adapter-react-15": "^1.0.5",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
     "eventemitter3": "^3.0.1",
     "jest": "^22.4.2",
-    "react-test-renderer": "^15.6.1"
+    "react-test-renderer": "^16.4.0"
   },
   "babel": {
     "presets": ["react-app"],

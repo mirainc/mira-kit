@@ -70,8 +70,10 @@ module.exports = (appPath, appName, verbose, originalDirectory) => {
     }
   }
 
-  const dependencies = ['react@^15.6.0', 'react-dom@^15.6.0', 'prop-types'];
+  const dependencies = ['react@^16.4.0', 'react-dom@^16.4.0', 'prop-types'];
+  const devDependencies = ['react-test-renderer@^16.4.0'];
   installDeps(dependencies, useYarn, verbose);
+  installDeps(devDependencies, useYarn, verbose, true);
 
   if (tryGitInit(appPath)) {
     console.log();
@@ -125,16 +127,17 @@ module.exports = (appPath, appName, verbose, originalDirectory) => {
   }
 };
 
-function installDeps(depedencies, useYarn, verbose) {
+function installDeps(depedencies, useYarn, verbose, isDev) {
   let command;
   let args;
 
   if (useYarn) {
     command = 'yarn';
     args = ['add'];
+    if (isDev) args.push('--dev');
   } else {
     command = 'npm';
-    args = ['install', '--save'];
+    args = ['install', isDev ? '--save-dev' : '--save'];
   }
 
   if (verbose) {

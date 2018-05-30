@@ -35,8 +35,7 @@ class Menu extends Component {
 
   componentDidUpdate() {
     const { isPlaying, presentation, onComplete } = this.props;
-    if (isPlaying) {
-      clearTimeout(this.onCompleteTimeout);
+    if (isPlaying && !this.onCompleteTimeout) {
       this.onCompleteTimeout = setTimeout(
         onComplete,
         presentation.values.duration * 1000,

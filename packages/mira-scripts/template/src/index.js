@@ -23,9 +23,7 @@ class App extends Component {
   componentDidUpdate(prevProps) {
     const { isPlaying, duration, onComplete } = this.props;
     // The app is visible start the onComplete timeout.
-    if (isPlaying) {
-      // Clear existing timeout when props are updated.
-      clearTimeout(this.onCompleteTimeout);
+    if (isPlaying && !this.onCompleteTimeout) {
       this.onCompleteTimeout = setTimeout(onComplete, duration * 1000);
     }
   }

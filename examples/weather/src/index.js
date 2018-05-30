@@ -41,9 +41,7 @@ class Weather extends Component {
       await this.fetchWeatherData();
     }
     // Start onComplete timeout when app becomes visible.
-    if (isPlaying) {
-      // Clear existing timeout when props are updated.
-      clearTimeout(this.onCompleteTimeout);
+    if (isPlaying && !this.onCompleteTimeout) {
       this.onCompleteTimeout = setTimeout(onComplete, duration * 1000);
     }
   }

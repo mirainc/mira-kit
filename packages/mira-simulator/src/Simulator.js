@@ -336,6 +336,11 @@ class MiraAppSimulator extends Component {
       );
     }
 
+    const presentationWithDefaults = {
+      ...mergeDefaultAppVars(presentation, appVersion),
+      id: String(presentation.id),
+    };
+
     return (
       <div {...containerProps}>
         {this.renderControls()}
@@ -343,7 +348,7 @@ class MiraAppSimulator extends Component {
           <Container style={styles.builder}>
             <div style={styles.form}>
               <PresentationBuilderForm
-                presentation={mergeDefaultAppVars(presentation, appVersion)}
+                presentation={presentationWithDefaults}
                 appVersion={appVersion}
                 themes={simulatorOptions.themes}
                 onChange={this.queuePresentationUpdate}

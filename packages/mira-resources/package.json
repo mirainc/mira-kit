@@ -14,7 +14,7 @@
   "devDependencies": {
     "@babel/cli": "7.0.0-beta.42",
     "babel-jest": "^23.0.0-alpha.0",
-    "babel-preset-react-app": "next",
+    "babel-preset-react-app": "4.0.0-next.66cc7a90",
     "jest": "^22.4.2"
   },
   "babel": {

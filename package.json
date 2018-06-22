@@ -27,7 +27,7 @@
     "@babel/core": "7.0.0-beta.42",
     "@babel/runtime": "7.0.0-beta.42",
     "babel-eslint": "8.2.2",
-    "babel-preset-react-app": "next",
+    "babel-preset-react-app": "4.0.0-next.66cc7a90",
     "eslint": "4.15.0",
     "eslint-config-prettier": "^2.9.0",
     "eslint-config-react-app": "^2.1.0",

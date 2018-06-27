@@ -5,12 +5,15 @@ import './styles.css';
 
 class App extends Component {
   static propTypes = {
+    presentation: PropTypes.shape({
+      values: PropTypes.shape({
+        duration: PropTypes.number.isRequired,
+      }),
+    }).isRequired,
     isPlaying: PropTypes.bool.isRequired,
     onReady: PropTypes.func.isRequired,
     onComplete: PropTypes.func.isRequired,
     onError: PropTypes.func.isRequired,
-    // App-specific props.
-    duration: PropTypes.number.isRequired,
   };
 
   componentDidMount() {
@@ -21,7 +24,8 @@ class App extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { isPlaying, duration, onComplete } = this.props;
+    const { isPlaying, presentation, onComplete } = this.props;
+    const { duration } = presentation.values;
     // The app is visible start the onComplete timeout.
     if (isPlaying && !this.onCompleteTimeout) {
       this.onCompleteTimeout = setTimeout(onComplete, duration * 1000);

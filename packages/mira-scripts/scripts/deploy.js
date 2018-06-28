@@ -105,10 +105,8 @@ async function deploy() {
     },
   );
   if (!publishResponse.ok) {
-    const { message } = await publishResponse.json();
-    throw new Error(
-      `Error publishing app: [${publishResponse.statusText}] ${message}.`,
-    );
+    const message = await publishResponse.text();
+    throw new Error(`Error publishing app: ${message}.`);
   }
 
   const appVersion = await publishResponse.json();

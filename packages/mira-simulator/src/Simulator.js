@@ -122,16 +122,19 @@ class MiraAppSimulator extends Component {
       id: theme.id,
       name: theme.name,
       background_color: theme.backgroundColor,
+      background_image: theme.backgroundImage,
+      background_image_portrait: theme.backgroundImagePortrait,
       body_font: theme.bodyFont,
       body_text_color: theme.bodyTextColor,
       heading_font: theme.headingFont,
       heading_text_color: theme.headingTextColor,
+      heading_2_font: theme.heading2Font,
+      heading_2_text_color: theme.heading2TextColor,
+      border_color: theme.borderColor,
     }));
     // Add default themes.
     simulatorOptions.themes = [
-      themes.clean,
-      themes.showroom,
-      themes.slate,
+      ...Object.keys(themes).map(name => themes[name]),
       ...simulatorOptions.themes,
     ];
 

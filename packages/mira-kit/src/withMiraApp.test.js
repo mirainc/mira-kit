@@ -15,10 +15,15 @@ const createProps = () => ({
     theme: {
       name: 'name',
       background_color: 'backgroundColor',
+      background_image: 'backgroundImage',
+      background_image_portrait: 'backgroundImagePortrait',
       body_font: 'bodyFont',
       body_text_color: 'bodyTextColor',
       heading_font: 'headingFont',
       heading_text_color: 'headingTextColor',
+      heading_2_font: 'heading2Font',
+      heading_2_text_color: 'heading2TextColor',
+      border_color: 'borderColor',
     },
     application_vars: {
       foo: 'bar',
@@ -43,10 +48,15 @@ test('Should render app', () => {
   expect(appProps.presentation.theme).toEqual({
     name: 'name',
     backgroundColor: 'backgroundColor',
+    backgroundImage: 'backgroundImage',
+    backgroundImagePortrait: 'backgroundImagePortrait',
     bodyFont: 'bodyFont',
     bodyTextColor: 'bodyTextColor',
     headingFont: 'headingFont',
     headingTextColor: 'headingTextColor',
+    heading2Font: 'heading2Font',
+    heading2TextColor: 'heading2TextColor',
+    borderColor: 'borderColor',
   });
   expect(appProps.isPlaying).toEqual(false);
   expect(appProps.playCount).toEqual(0);
@@ -173,7 +183,7 @@ test('Should reset error state on props update', () => {
   expect(wrapper.state().error).toEqual(null);
 });
 
-test('Should default to clean theme if no theme provided', () => {
+test('Should default to frontpage theme if no theme provided', () => {
   const props = createProps();
   props.presentation.theme = null;
   const MiraApp = withMiraApp(App);
@@ -181,16 +191,22 @@ test('Should default to clean theme if no theme provided', () => {
   const app = wrapper.find(App);
   const appProps = app.props();
   expect(appProps.presentation.theme).toEqual({
-    name: themes.clean.name,
-    backgroundColor: themes.clean.background_color,
-    bodyFont: themes.clean.body_font,
-    bodyTextColor: themes.clean.body_text_color,
-    headingFont: themes.clean.heading_font,
-    headingTextColor: themes.clean.heading_text_color,
+    name: themes.frontpage.name,
+    backgroundColor: themes.frontpage.background_color,
+    bodyFont: themes.frontpage.body_font,
+    bodyTextColor: themes.frontpage.body_text_color,
+    headingFont: themes.frontpage.heading_font,
+    headingTextColor: themes.frontpage.heading_text_color,
+    // Optional properties, they should not be set.
+    // backgroundImage: themes.frontpage.background_image,
+    // backgroundImagePortrait: themes.frontpage.background_image_portrait,
+    // heading2Font: themes.frontpage.heading_2_font,
+    // heading2TextColor: themes.frontpage.heading_2_text_color,
+    // borderColor: themes.frontpage.border_color,
   });
 });
 
-test('Should use to clean theme value if not set', () => {
+test('Should default to frontpage if theme not set', () => {
   const props = createProps();
   props.presentation.theme.heading_font = null;
   const MiraApp = withMiraApp(App);
@@ -198,7 +214,7 @@ test('Should use to clean theme value if not set', () => {
   const app = wrapper.find(App);
   const appProps = app.props();
   expect(appProps.presentation.theme.headingFont).toEqual(
-    themes.clean.heading_font,
+    themes.frontpage.heading_font,
   );
 });
 

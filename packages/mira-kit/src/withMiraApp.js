@@ -104,14 +104,22 @@ export default App => {
         name: presentation.name,
         values: presentation.application_vars,
         theme: {
-          name: theme.name || themes.clean.name,
+          name: theme.name || themes.frontpage.name,
           backgroundColor:
-            theme.background_color || themes.clean.background_color,
-          bodyFont: theme.body_font || themes.clean.body_font,
-          bodyTextColor: theme.body_text_color || themes.clean.body_text_color,
-          headingFont: theme.heading_font || themes.clean.heading_font,
+            theme.background_color || themes.frontpage.background_color,
+          bodyFont: theme.body_font || themes.frontpage.body_font,
+          bodyTextColor:
+            theme.body_text_color || themes.frontpage.body_text_color,
+          headingFont: theme.heading_font || themes.frontpage.heading_font,
           headingTextColor:
-            theme.heading_text_color || themes.clean.heading_text_color,
+            theme.heading_text_color || themes.frontpage.heading_text_color,
+          // These are optional fields and should not default to front page to allow
+          // apps to handle the default values if not set.
+          backgroundImage: theme.background_image,
+          backgroundImagePortrait: theme.background_image_portrait,
+          heading2Font: theme.heading_2_font,
+          heading2TextColor: theme.heading_2_text_color,
+          borderColor: theme.border_color,
         },
       };
     }

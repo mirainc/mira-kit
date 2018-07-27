@@ -1,7 +1,7 @@
 export default {
   id: 'frontpage',
   name: 'Front Page',
-  background_color: '#f6f6f6',
+  background_color: '#ffffff',
   background_image: null,
   background_image_portrait: null,
   heading_font: 'https://fonts.getmira.com/Roboto-Light.woff',

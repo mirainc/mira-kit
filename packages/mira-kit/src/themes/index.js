@@ -5,6 +5,7 @@ export { default as frontpage } from './frontpage';
 export { default as golden } from './golden';
 export { default as parade } from './parade';
 export { default as refresh } from './refresh';
+export { default as reserved } from './reserved';
 export { default as solid } from './solid';
 export { default as woodwork } from './woodwork';
 export { default as xray } from './xray';

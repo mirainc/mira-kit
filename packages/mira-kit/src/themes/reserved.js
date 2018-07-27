@@ -9,6 +9,6 @@ export default {
   heading_2_font: 'https://fonts.getmira.com/Roboto-Medium.woff',
   heading_2_text_color: '#ffffff',
   body_font: 'https://fonts.getmira.com/Roboto-Regular.woff',
-  body_text_color: '#ffffff',
+  body_text_color: '#f6f6f6',
   border_color: '#f6f6f6',
 };

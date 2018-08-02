@@ -4,6 +4,7 @@ import ErrorMessage from './ErrorMessage';
 import * as themes from './themes';
 
 export const ERROR_DISPLAY_TIME = 5000;
+export const RETRY_PRESENTATION_TIME = 15000;
 
 const miraAppIdentifier = Symbol();
 export const isMiraApp = componentClass => !!componentClass[miraAppIdentifier];
@@ -39,26 +40,41 @@ export default App => {
 
     componentDidMount() {
       this.props.miraEvents.on('play', () => {
-        if (this.state.error) {
+        const { error, playCount } = this.state;
+        if (error) {
           // An error occurred before we received the play event, delay
           // the presentation_complete event to allow photon enough time
-          // to queue the next presentation.
-          this.playerEndTimeout = setTimeout(
-            this.handlePresentationComplete,
-            ERROR_DISPLAY_TIME,
-          );
+          // to queue the next presentation. If the presentation is the only
+          // one in the sequence, we will attempt to load it again in case
+          // the error is due to a temporary network disconnect.
+          if (playCount === 0) {
+            this.errorDisplayTimeout = setTimeout(
+              this.handlePresentationComplete,
+              ERROR_DISPLAY_TIME,
+            );
+          } else {
+            this.retryTimeout = setTimeout(
+              () => this.setState({ error: null }),
+              RETRY_PRESENTATION_TIME,
+            );
+          }
         }
 
-        this.setState(state => ({
+        this.setState({
           isPlaying: true,
-          playCount: state.playCount + 1,
-        }));
+          playCount: playCount + 1,
+        });
       });
     }
 
     componentWillReceiveProps() {
       // Clear any previous errors to allow the app to recover.
       this.setState({ error: null });
+    }
+
+    componentWillUnmount() {
+      clearTimeout(this.errorDisplayTimeout);
+      clearTimeout(this.retryTimeout);
     }
 
     handlePresentationReady = () => {

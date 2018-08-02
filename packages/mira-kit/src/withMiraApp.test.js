@@ -156,6 +156,30 @@ test('Should fire presentation_complete on error AFTER play', () => {
   );
 });
 
+test('Should reset error state with timeout when playCount > 1', () => {
+  jest.useFakeTimers();
+  const props = createProps();
+  jest.spyOn(props.miraEvents, 'emit');
+  const MiraApp = withMiraApp(App);
+  const wrapper = shallow(<MiraApp {...props} />);
+  const { onReady, onError } = wrapper.find(App).props();
+  onReady();
+  props.miraEvents.emit('play');
+  onError(new Error());
+  props.miraEvents.emit('play');
+  expect(props.miraEvents.emit).toHaveBeenCalledTimes(4);
+  expect(props.miraEvents.emit.mock.calls[0][0]).toEqual('presentation_ready');
+  expect(props.miraEvents.emit.mock.calls[1][0]).toEqual('play');
+  expect(wrapper.state().error).toBeDefined();
+  expect(props.miraEvents.emit.mock.calls[2][0]).toEqual(
+    'presentation_complete',
+  );
+  expect(props.miraEvents.emit.mock.calls[3][0]).toEqual('play');
+  // Run timeout to check if error is reset.
+  jest.runAllTimers();
+  expect(wrapper.state().error).toEqual(null);
+});
+
 test('Should increment playCount', () => {
   const props = createProps();
   const mockApp = jest.fn(App);

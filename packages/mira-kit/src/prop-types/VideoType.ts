@@ -9,7 +9,7 @@ export const videoContentTypes = [
   'video/webm',
 ];
 export default class VideoType extends FileType {
-  constructor(label) {
+  constructor(label: string) {
     super(label);
     this.setConstraint('content-types', videoContentTypes);
   }

@@ -1,26 +1,25 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
 
-const propTypes = {
-  title: PropTypes.string.isRequired,
-  message: PropTypes.string,
-};
+interface ErrorMessageProps {
+  title: string;
+  message: string;
+}
 
-const defaultProps = {
-  message: '',
-};
+interface Styles {
+  [key: string]: React.CSSProperties;
+}
 
-const ErrorMessage = ({ title, message }) => (
+const ErrorMessage: React.SFC<ErrorMessageProps> = ({
+  title = '',
+  message = '',
+}) => (
   <div style={styles.container}>
     <div style={styles.title}>{title}</div>
     <div style={styles.message}>{message}</div>
   </div>
 );
 
-ErrorMessage.propTypes = propTypes;
-ErrorMessage.defaultProps = defaultProps;
-
-const styles = {
+const styles: Styles = {
   container: {
     boxSizing: 'border-box',
     position: 'absolute',

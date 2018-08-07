@@ -1,20 +1,46 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import * as EventEmitter from 'eventemitter3';
+import * as PropTypes from 'prop-types';
+import * as React from 'react';
 import ErrorMessage from './ErrorMessage';
-import * as themes from './themes';
+import frontpage from './themes/frontpage';
 
 export const ERROR_DISPLAY_TIME = 5000;
 export const RETRY_PRESENTATION_TIME = 15000;
 
 const miraAppIdentifier = Symbol();
-export const isMiraApp = componentClass => !!componentClass[miraAppIdentifier];
+export const isMiraApp = (component: any) =>
+  component.isMiraApp === miraAppIdentifier;
 
-export default App => {
+interface MiraAppProps {
+  presentation: {
+    name: string;
+    theme: { [key: string]: string };
+    application_vars: { [key: string]: any };
+  };
+  miraEvents: EventEmitter;
+  miraFileResource: (file: { url: string }) => any;
+  miraRequestResource: (url: string) => any;
+  strings: { [key: string]: string };
+}
+
+interface MiraAppState {
+  isPlaying: boolean;
+  playCount: number;
+  error?: Error;
+}
+
+export default function withMiraApp(App: React.ComponentType<any>) {
   const appName = App.name || App.displayName;
 
-  const WrappedComponent = class extends Component {
+  class WrappedComponent extends React.Component<MiraAppProps, MiraAppState> {
     static displayName = `withMiraApp(${appName || 'App'})`;
 
+    static isMiraApp = miraAppIdentifier;
+
+    // Typescript and prop-types have overlap, normally only Typescript types will suffice but
+    // propTypes can validate at runtime. Since the runtime checks are valuable when consuming
+    // this component in the Simulator, we are defining prop types here. In the future, we may
+    // be able to avoid the duplication with https://github.com/gcanti/prop-types-ts.
     static propTypes = {
       presentation: PropTypes.shape({
         name: PropTypes.string.isRequired,
@@ -30,13 +56,15 @@ export default App => {
       strings: PropTypes.object,
     };
 
-    state = {
+    state: MiraAppState = {
       isPlaying: false,
       playCount: 0,
       error: null,
     };
 
     hasSentReady = false;
+    errorDisplayTimeout: NodeJS.Timer;
+    retryTimeout: NodeJS.Timer;
 
     componentDidMount() {
       this.props.miraEvents.on('play', () => {
@@ -95,7 +123,7 @@ export default App => {
       this.props.miraEvents.emit('presentation_complete');
     };
 
-    handlePresentationError = error => {
+    handlePresentationError = (error: Error) => {
       const { presentation } = this.props;
       // Fire presentation complete immediately if we are currently playing.
       // Otherwise, fire presentation_ready so that play is triggered.
@@ -108,6 +136,7 @@ export default App => {
       // Show the error.
       this.setState({ error });
 
+      // tslint:disable-next-line
       console.error(
         `Presentation error for '${presentation.name}': ${error.message}`,
       );
@@ -120,15 +149,13 @@ export default App => {
         name: presentation.name,
         values: presentation.application_vars,
         theme: {
-          name: theme.name || themes.frontpage.name,
-          backgroundColor:
-            theme.background_color || themes.frontpage.background_color,
-          bodyFont: theme.body_font || themes.frontpage.body_font,
-          bodyTextColor:
-            theme.body_text_color || themes.frontpage.body_text_color,
-          headingFont: theme.heading_font || themes.frontpage.heading_font,
+          name: theme.name || frontpage.name,
+          backgroundColor: theme.background_color || frontpage.background_color,
+          bodyFont: theme.body_font || frontpage.body_font,
+          bodyTextColor: theme.body_text_color || frontpage.body_text_color,
+          headingFont: theme.heading_font || frontpage.heading_font,
           headingTextColor:
-            theme.heading_text_color || themes.frontpage.heading_text_color,
+            theme.heading_text_color || frontpage.heading_text_color,
           // These are optional fields and should not default to front page to allow
           // apps to handle the default values if not set.
           backgroundImage: theme.background_image,
@@ -175,9 +202,9 @@ export default App => {
         />
       );
     }
-  };
+  }
 
-  WrappedComponent[miraAppIdentifier] = true;
+  // WrappedComponent[miraAppIdentifier] = true;
 
   return WrappedComponent;
-};
+}

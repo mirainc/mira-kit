@@ -10,7 +10,7 @@ export const imageContentTypes = [
   'image/gif',
 ];
 export default class ImageType extends FileType {
-  constructor(label) {
+  constructor(label: string) {
     super(label);
     this.setConstraint('content-types', imageContentTypes);
   }

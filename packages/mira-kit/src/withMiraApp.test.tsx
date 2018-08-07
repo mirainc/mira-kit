@@ -1,9 +1,9 @@
 import { shallow, mount } from 'enzyme';
-import EventEmitter from 'eventemitter3';
-import React from 'react';
+import * as EventEmitter from 'eventemitter3';
+import * as React from 'react';
 import withMiraApp, { ERROR_DISPLAY_TIME, isMiraApp } from './withMiraApp';
 import ErrorMessage from './ErrorMessage';
-import * as themes from './themes';
+import frontpage from './themes/frontpage';
 
 const createProps = () => ({
   miraEvents: new EventEmitter(),
@@ -31,7 +31,7 @@ const createProps = () => ({
   },
 });
 
-const App = () => <div />;
+const App: React.SFC<any> = () => <div />;
 
 test('Should render app', () => {
   const props = createProps();
@@ -80,28 +80,26 @@ test('Should render error', () => {
 
 test('Should emit presentation_ready once on ready', () => {
   const props = createProps();
-  props.miraEvents.emit = jest.fn();
+  const mockEmit = jest.spyOn(props.miraEvents, 'emit');
   const MiraApp = withMiraApp(App);
   const wrapper = shallow(<MiraApp {...props} />);
   const { onReady } = wrapper.find(App).props();
   // Test that multiple calls to handlePresentationReady only fire one presentation_ready
   onReady();
   onReady();
-  expect(props.miraEvents.emit).toHaveBeenCalledTimes(1);
-  expect(props.miraEvents.emit.mock.calls[0][0]).toEqual('presentation_ready');
+  expect(mockEmit).toHaveBeenCalledTimes(1);
+  expect(mockEmit.mock.calls[0][0]).toEqual('presentation_ready');
 });
 
 test('Should emit presentation_complete on complete', () => {
   const props = createProps();
-  props.miraEvents.emit = jest.fn();
+  const mockEmit = jest.spyOn(props.miraEvents, 'emit');
   const MiraApp = withMiraApp(App);
   const wrapper = shallow(<MiraApp {...props} />);
   const { onComplete } = wrapper.find(App).props();
   onComplete();
-  expect(props.miraEvents.emit).toHaveBeenCalledTimes(1);
-  expect(props.miraEvents.emit.mock.calls[0][0]).toEqual(
-    'presentation_complete',
-  );
+  expect(mockEmit).toHaveBeenCalledTimes(1);
+  expect(mockEmit.mock.calls[0][0]).toEqual('presentation_complete');
 });
 
 test('Should pass play to App on play event', () => {
@@ -117,49 +115,47 @@ test('Should pass play to App on play event', () => {
 test('Should fire presentation_ready with timeout on error BEFORE play', () => {
   jest.useFakeTimers();
   const props = createProps();
-  jest.spyOn(props.miraEvents, 'emit');
+  const mockEmit = jest.spyOn(props.miraEvents, 'emit');
   const MiraApp = withMiraApp(App);
   const wrapper = shallow(<MiraApp {...props} />);
   const { onError } = wrapper.find(App).props();
   onError(new Error());
   props.miraEvents.emit('play');
-  expect(props.miraEvents.emit).toHaveBeenCalledTimes(2);
-  expect(props.miraEvents.emit.mock.calls[0][0]).toEqual('presentation_ready');
-  expect(props.miraEvents.emit.mock.calls[1][0]).toEqual('play');
+  expect(mockEmit).toHaveBeenCalledTimes(2);
+  expect(mockEmit.mock.calls[0][0]).toEqual('presentation_ready');
+  expect(mockEmit.mock.calls[1][0]).toEqual('play');
+
+  const setTimeout = (window.setTimeout as any) as jest.SpyInstance;
   expect(setTimeout).toHaveBeenCalledTimes(1);
   expect(setTimeout.mock.calls[0]).toEqual([
     expect.any(Function),
     ERROR_DISPLAY_TIME,
   ]);
   jest.runAllTimers();
-  expect(props.miraEvents.emit).toHaveBeenCalledTimes(3);
-  expect(props.miraEvents.emit.mock.calls[2][0]).toEqual(
-    'presentation_complete',
-  );
+  expect(mockEmit).toHaveBeenCalledTimes(3);
+  expect(mockEmit.mock.calls[2][0]).toEqual('presentation_complete');
   jest.useRealTimers();
 });
 
 test('Should fire presentation_complete on error AFTER play', () => {
   const props = createProps();
-  jest.spyOn(props.miraEvents, 'emit');
+  const mockEmit = jest.spyOn(props.miraEvents, 'emit');
   const MiraApp = withMiraApp(App);
   const wrapper = shallow(<MiraApp {...props} />);
   const { onReady, onError } = wrapper.find(App).props();
   onReady();
   props.miraEvents.emit('play');
   onError(new Error());
-  expect(props.miraEvents.emit).toHaveBeenCalledTimes(3);
-  expect(props.miraEvents.emit.mock.calls[0][0]).toEqual('presentation_ready');
-  expect(props.miraEvents.emit.mock.calls[1][0]).toEqual('play');
-  expect(props.miraEvents.emit.mock.calls[2][0]).toEqual(
-    'presentation_complete',
-  );
+  expect(mockEmit).toHaveBeenCalledTimes(3);
+  expect(mockEmit.mock.calls[0][0]).toEqual('presentation_ready');
+  expect(mockEmit.mock.calls[1][0]).toEqual('play');
+  expect(mockEmit.mock.calls[2][0]).toEqual('presentation_complete');
 });
 
 test('Should reset error state with timeout when playCount > 1', () => {
   jest.useFakeTimers();
   const props = createProps();
-  jest.spyOn(props.miraEvents, 'emit');
+  const mockEmit = jest.spyOn(props.miraEvents, 'emit');
   const MiraApp = withMiraApp(App);
   const wrapper = shallow(<MiraApp {...props} />);
   const { onReady, onError } = wrapper.find(App).props();
@@ -167,17 +163,15 @@ test('Should reset error state with timeout when playCount > 1', () => {
   props.miraEvents.emit('play');
   onError(new Error());
   props.miraEvents.emit('play');
-  expect(props.miraEvents.emit).toHaveBeenCalledTimes(4);
-  expect(props.miraEvents.emit.mock.calls[0][0]).toEqual('presentation_ready');
-  expect(props.miraEvents.emit.mock.calls[1][0]).toEqual('play');
-  expect(wrapper.state().error).toBeDefined();
-  expect(props.miraEvents.emit.mock.calls[2][0]).toEqual(
-    'presentation_complete',
-  );
-  expect(props.miraEvents.emit.mock.calls[3][0]).toEqual('play');
+  expect(mockEmit).toHaveBeenCalledTimes(4);
+  expect(mockEmit.mock.calls[0][0]).toEqual('presentation_ready');
+  expect(mockEmit.mock.calls[1][0]).toEqual('play');
+  expect((wrapper.state() as any).error).toBeDefined();
+  expect(mockEmit.mock.calls[2][0]).toEqual('presentation_complete');
+  expect(mockEmit.mock.calls[3][0]).toEqual('play');
   // Run timeout to check if error is reset.
   jest.runAllTimers();
-  expect(wrapper.state().error).toEqual(null);
+  expect((wrapper.state() as any).error).toEqual(null);
 });
 
 test('Should increment playCount', () => {
@@ -202,9 +196,9 @@ test('Should reset error state on props update', () => {
   const { onError } = wrapper.find(App).props();
   const error = new Error();
   onError(error);
-  expect(wrapper.state().error).toEqual(error);
+  expect((wrapper.state() as any).error).toEqual(error);
   wrapper.setProps(props);
-  expect(wrapper.state().error).toEqual(null);
+  expect((wrapper.state() as any).error).toEqual(null);
 });
 
 test('Should default to frontpage theme if no theme provided', () => {
@@ -215,18 +209,18 @@ test('Should default to frontpage theme if no theme provided', () => {
   const app = wrapper.find(App);
   const appProps = app.props();
   expect(appProps.presentation.theme).toEqual({
-    name: themes.frontpage.name,
-    backgroundColor: themes.frontpage.background_color,
-    bodyFont: themes.frontpage.body_font,
-    bodyTextColor: themes.frontpage.body_text_color,
-    headingFont: themes.frontpage.heading_font,
-    headingTextColor: themes.frontpage.heading_text_color,
+    name: frontpage.name,
+    backgroundColor: frontpage.background_color,
+    bodyFont: frontpage.body_font,
+    bodyTextColor: frontpage.body_text_color,
+    headingFont: frontpage.heading_font,
+    headingTextColor: frontpage.heading_text_color,
     // Optional properties, they should not be set.
-    // backgroundImage: themes.frontpage.background_image,
-    // backgroundImagePortrait: themes.frontpage.background_image_portrait,
-    // heading2Font: themes.frontpage.heading_2_font,
-    // heading2TextColor: themes.frontpage.heading_2_text_color,
-    // borderColor: themes.frontpage.border_color,
+    // backgroundImage: frontpage.background_image,
+    // backgroundImagePortrait: frontpage.background_image_portrait,
+    // heading2Font: frontpage.heading_2_font,
+    // heading2TextColor: frontpage.heading_2_text_color,
+    // borderColor: frontpage.border_color,
   });
 });
 
@@ -238,7 +232,7 @@ test('Should default to frontpage if theme not set', () => {
   const app = wrapper.find(App);
   const appProps = app.props();
   expect(appProps.presentation.theme.headingFont).toEqual(
-    themes.frontpage.heading_font,
+    frontpage.heading_font,
   );
 });
 

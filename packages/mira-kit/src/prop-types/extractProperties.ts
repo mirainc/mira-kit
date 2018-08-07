@@ -1,7 +1,10 @@
+import { IBaseType } from './BaseType';
+import { SelectionPropType } from './SelectionType';
+
 export default function extractProperties(
-  propTypes,
-  properties = [],
-  strings = {},
+  propTypes?: { [key: string]: IBaseType },
+  properties: any[] = [],
+  strings: { [key: string]: string } = {},
 ) {
   if (!propTypes) return { properties, strings };
 
@@ -12,7 +15,7 @@ export default function extractProperties(
 
     strings[propName] = propType.label;
 
-    const prop = {
+    const prop: any = {
       name: propName,
       type: propType.type,
       optional: propType.optional,
@@ -33,7 +36,7 @@ export default function extractProperties(
     if (propType.type === 'selection') {
       prop.options = [];
       prop.exclusive = propType.exclusive;
-      propType.options.forEach(option => {
+      (propType as SelectionPropType).options.forEach(option => {
         strings[option.value] = option.label;
         prop.options.push({ name: option.value, value: option.value });
       });
@@ -44,7 +47,7 @@ export default function extractProperties(
       strings[singularStringKey] = propType.singularLabel;
       prop.singular_name = singularStringKey;
 
-      const itemProperties = [];
+      const itemProperties: any[] = [];
       extractProperties(propType.items, itemProperties, strings);
       prop.properties = itemProperties;
     }

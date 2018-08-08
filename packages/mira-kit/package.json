@@ -3,7 +3,7 @@
   "version": "3.4.0",
   "repository": "git@github.com:mirainc/mira-kit.git",
   "main": "lib/index.js",
-  "typings": "typings.d.ts",
+  "typings": "lib/index.d.ts",
   "scripts": {
     "build": "NODE_ENV=production tsc",
     "test": "jest src --env=jsdom",

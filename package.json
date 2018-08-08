@@ -7,7 +7,7 @@
   "repository": "git@github.com:mirainc/mira-kit.git",
   "scripts": {
     "precommit": "lint-staged",
-    "lint": "eslint . && tslint",
+    "lint": "eslint . && lerna run lint",
     "build": "tasks/build-workspaces.bash",
     "test": "CI=true lerna run test",
     "bump-version": "lerna publish --yes --skip-npm --skip-git",

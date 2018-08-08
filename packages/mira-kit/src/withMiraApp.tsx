@@ -1,5 +1,4 @@
 import * as EventEmitter from 'eventemitter3';
-import * as PropTypes from 'prop-types';
 import * as React from 'react';
 import ErrorMessage from './ErrorMessage';
 import frontpage from './themes/frontpage';
@@ -29,32 +28,15 @@ interface MiraAppState {
   error?: Error;
 }
 
-export default function withMiraApp(App: React.ComponentType<any>) {
+export default function withMiraApp(
+  App: React.ComponentType<any>,
+): React.ComponentType<MiraAppProps> {
   const appName = App.name || App.displayName;
 
   class WrappedComponent extends React.Component<MiraAppProps, MiraAppState> {
     static displayName = `withMiraApp(${appName || 'App'})`;
 
     static isMiraApp = miraAppIdentifier;
-
-    // Typescript and prop-types have overlap, normally only Typescript types will suffice but
-    // propTypes can validate at runtime. Since the runtime checks are valuable when consuming
-    // this component in the Simulator, we are defining prop types here. In the future, we may
-    // be able to avoid the duplication with https://github.com/gcanti/prop-types-ts.
-    static propTypes = {
-      presentation: PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        application_vars: PropTypes.object.isRequired,
-        theme: PropTypes.object,
-      }).isRequired,
-      miraEvents: PropTypes.shape({
-        on: PropTypes.func.isRequired,
-        emit: PropTypes.func.isRequired,
-      }).isRequired,
-      miraFileResource: PropTypes.func.isRequired,
-      miraRequestResource: PropTypes.func.isRequired,
-      strings: PropTypes.object,
-    };
 
     state: MiraAppState = {
       isPlaying: false,
@@ -203,8 +185,6 @@ export default function withMiraApp(App: React.ComponentType<any>) {
       );
     }
   }
-
-  // WrappedComponent[miraAppIdentifier] = true;
 
   return WrappedComponent;
 }

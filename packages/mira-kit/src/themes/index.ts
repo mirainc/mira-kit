@@ -1,11 +1,17 @@
 export { default as blueprint } from './blueprint';
 export { default as chalkboard } from './chalkboard';
+export { default as clean } from './clean';
 export { default as fashion } from './fashion';
+export { default as fresh } from './fresh';
 export { default as frontpage } from './frontpage';
 export { default as golden } from './golden';
+export { default as grill } from './grill';
 export { default as parade } from './parade';
 export { default as refresh } from './refresh';
 export { default as reserved } from './reserved';
+export { default as seattle } from './seattle';
+export { default as showroom } from './showroom';
+export { default as slate } from './slate';
 export { default as solid } from './solid';
 export { default as woodwork } from './woodwork';
 export { default as xray } from './xray';

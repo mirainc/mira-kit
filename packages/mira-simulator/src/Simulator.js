@@ -134,8 +134,24 @@ class MiraAppSimulator extends Component {
     }));
     // Add default themes.
     simulatorOptions.themes = [
-      ...Object.keys(themes).map(name => themes[name]),
       ...simulatorOptions.themes,
+      themes.frontpage,
+      themes.reserved,
+      themes.woodwork,
+      themes.solid,
+      themes.parade,
+      themes.xray,
+      themes.golden,
+      themes.refresh,
+      themes.blueprint,
+      themes.chalkboard,
+      themes.fashion,
+      themes.fresh,
+      themes.grill,
+      themes.seattle,
+      themes.showroom,
+      themes.clean,
+      themes.slate,
     ];
 
     if (simulatorOptions.presentations) {

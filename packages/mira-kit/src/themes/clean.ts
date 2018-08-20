@@ -10,5 +10,5 @@ export default {
   heading_2_text_color: null,
   body_font: 'https://fonts.getmira.com/Roboto-Regular.woff',
   body_text_color: '#333333',
-  border_color: '#ffffff',
+  border_color: null,
 };

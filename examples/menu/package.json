@@ -1,10 +1,10 @@
 {
   "name": "menu",
-  "version": "3.4.0",
+  "version": "3.4.1",
   "private": true,
   "dependencies": {
-    "mira-kit": "^3.4.0",
-    "mira-scripts": "^3.4.0",
+    "mira-kit": "^3.4.1",
+    "mira-scripts": "^3.4.1",
     "netlify-cli": "^1.2.2",
     "prop-types": "^15.6.1",
     "react": "^16.4.0",

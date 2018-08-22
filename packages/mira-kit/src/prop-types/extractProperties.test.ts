@@ -460,3 +460,15 @@ test('Should throw error when multiple theme prop types exist', () => {
 
   expect(() => extractProperties(propTypes)).toThrow();
 });
+
+test('Should set maxItems constraint', () => {
+  const propTypes = {
+    array: array('Item', 'Items')
+      .items({ name: string('String') })
+      .maxItems(4)
+      .required(),
+  };
+
+  const { properties } = extractProperties(propTypes);
+  expect(properties[0].constraints).toEqual({ max_items: 4 });
+});

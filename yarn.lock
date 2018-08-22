@@ -682,6 +682,13 @@
     core-js "^2.5.3"
     regenerator-runtime "^0.11.1"
 
+"@babel/runtime@7.0.0-beta.54":
+  version "7.0.0-beta.54"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.0.0-beta.54.tgz#39ebb42723fe7ca4b3e1b00e967e80138d47cadf"
+  dependencies:
+    core-js "^2.5.7"
+    regenerator-runtime "^0.12.0"
+
 "@babel/template@7.0.0-beta.42":
   version "7.0.0-beta.42"
   resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.0.0-beta.42.tgz#7186d4e70d44cdec975049ba0a73bdaf5cdee052"
@@ -2756,6 +2763,10 @@ core-js@^2.4.0, core-js@^2.5.0, core-js@^2.5.3:
   version "2.5.4"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.5.4.tgz#f2c8bf181f2a80b92f360121429ce63a2f0aeae0"
 
+core-js@^2.5.7:
+  version "2.5.7"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.5.7.tgz#f972608ff0cead68b841a16a932d0b183791814e"
+
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
@@ -2872,6 +2883,10 @@ crypto-browserify@^3.11.0:
 crypto-random-string@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/crypto-random-string/-/crypto-random-string-1.0.0.tgz#a230f64f568310e1498009940790ec99545bca7e"
+
+css-box-model@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/css-box-model/-/css-box-model-1.0.0.tgz#60142814f2b25be00c4aac65ea1a55a531b18922"
 
 css-color-names@0.0.4:
   version "0.0.4"
@@ -7141,7 +7156,7 @@ lockfile@~1.0.1, lockfile@~1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/lockfile/-/lockfile-1.0.3.tgz#2638fc39a0331e9cac1a04b71799931c9c50df79"
 
-lodash-es@^4.17.5, lodash-es@^4.2.1:
+lodash-es@^4.17.5:
   version "4.17.10"
   resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.10.tgz#62cd7104cdf5dd87f235a837f0ede0e8e5117e05"
 
@@ -7508,9 +7523,9 @@ mem@^1.1.0:
   dependencies:
     mimic-fn "^1.0.0"
 
-memoize-one@^3.0.1:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/memoize-one/-/memoize-one-3.1.1.tgz#ef609811e3bc28970eac2884eece64d167830d17"
+memoize-one@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/memoize-one/-/memoize-one-4.0.0.tgz#fc5e2f1427a216676a62ec652cf7398cfad123db"
 
 memory-fs@^0.4.0, memory-fs@~0.4.1:
   version "0.4.1"
@@ -7684,9 +7699,9 @@ minimist@~0.0.1:
   version "0.0.10"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-0.0.10.tgz#de3f98543dbf96082be48ad1a0c7cda836301dcf"
 
-mira-elements@^0.30.0:
-  version "0.30.0"
-  resolved "https://registry.yarnpkg.com/mira-elements/-/mira-elements-0.30.0.tgz#1c456e89d42aee0c8e9f5c1368ecfd626b7cf943"
+mira-elements@^0.30.2:
+  version "0.30.2"
+  resolved "https://registry.yarnpkg.com/mira-elements/-/mira-elements-0.30.2.tgz#055e32cf18c6c5d8f6f06846fd08c9541a1e9ce1"
   dependencies:
     array-equal "^1.0.0"
     babel-runtime "^6.25.0"
@@ -7699,7 +7714,7 @@ mira-elements@^0.30.0:
     object-path-immutable "^1.0.1"
     prop-types "^15.5.10"
     react "^16.3.2"
-    react-beautiful-dnd "^4.0.1"
+    react-beautiful-dnd "^8.0.7"
     react-color "^2.14.1"
     react-datepicker "^0.58.0"
     react-dom "^16.3.2"
@@ -9394,7 +9409,7 @@ promzard@^0.3.0:
   dependencies:
     read "1"
 
-prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1:
+prop-types@15.6.1, prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1:
   version "15.6.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.1.tgz#36644453564255ddda391191fb3a125cbdf654ca"
   dependencies:
@@ -9518,9 +9533,9 @@ quick-lru@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/quick-lru/-/quick-lru-1.1.0.tgz#4360b17c61136ad38078397ff11416e186dcfbb8"
 
-raf-schd@^2.1.0:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/raf-schd/-/raf-schd-2.1.1.tgz#0b59964cee2e96b7dd46ffaeb5c08740f3a5e7ab"
+raf-schd@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/raf-schd/-/raf-schd-4.0.0.tgz#9855756c5045ff4ed4516e14a47719387c3c907b"
 
 raf@^3.1.0, raf@^3.4.0:
   version "3.4.0"
@@ -9587,20 +9602,19 @@ rc@^1.0.1, rc@^1.1.2, rc@^1.1.6, rc@^1.1.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-beautiful-dnd@^4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/react-beautiful-dnd/-/react-beautiful-dnd-4.0.1.tgz#3b0a49bf6be75af351176c904f012611dd292b81"
+react-beautiful-dnd@^8.0.7:
+  version "8.0.7"
+  resolved "https://registry.yarnpkg.com/react-beautiful-dnd/-/react-beautiful-dnd-8.0.7.tgz#2cc7ba62bffe08d3dad862fd8f48204440901b43"
   dependencies:
-    babel-runtime "^6.26.0"
-    invariant "^2.2.2"
-    memoize-one "^3.0.1"
-    prop-types "^15.6.0"
-    raf-schd "^2.1.0"
+    "@babel/runtime" "7.0.0-beta.54"
+    css-box-model "^1.0.0"
+    memoize-one "^4.0.0"
+    prop-types "15.6.1"
+    raf-schd "^4.0.0"
     react-motion "^0.5.2"
-    react-redux "^5.0.6"
-    redux "^3.7.2"
-    redux-thunk "^2.2.0"
-    reselect "^3.0.1"
+    react-redux "^5.0.7"
+    redux "^4.0.0"
+    tiny-invariant "^0.0.3"
 
 react-color@^2.14.1:
   version "2.14.1"
@@ -9722,7 +9736,7 @@ react-reconciler@^0.7.0:
     object-assign "^4.1.1"
     prop-types "^15.6.0"
 
-react-redux@^5.0.6:
+react-redux@^5.0.7:
   version "5.0.7"
   resolved "https://registry.yarnpkg.com/react-redux/-/react-redux-5.0.7.tgz#0dc1076d9afb4670f993ffaef44b8f8c1155a4c8"
   dependencies:
@@ -10031,18 +10045,12 @@ reduce-function-call@^1.0.1:
   dependencies:
     balanced-match "^0.4.2"
 
-redux-thunk@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/redux-thunk/-/redux-thunk-2.2.0.tgz#e615a16e16b47a19a515766133d1e3e99b7852e5"
-
-redux@^3.7.2:
-  version "3.7.2"
-  resolved "https://registry.yarnpkg.com/redux/-/redux-3.7.2.tgz#06b73123215901d25d065be342eb026bc1c8537b"
+redux@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/redux/-/redux-4.0.0.tgz#aa698a92b729315d22b34a0553d7e6533555cc03"
   dependencies:
-    lodash "^4.2.1"
-    lodash-es "^4.2.1"
     loose-envify "^1.1.0"
-    symbol-observable "^1.0.3"
+    symbol-observable "^1.2.0"
 
 regenerate-unicode-properties@^5.1.1:
   version "5.1.3"
@@ -10057,6 +10065,10 @@ regenerate@^1.2.1, regenerate@^1.3.3:
 regenerator-runtime@^0.11.0, regenerator-runtime@^0.11.1:
   version "0.11.1"
   resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.11.1.tgz#be05ad7f9bf7d22e056f9726cee5017fbf19e2e9"
+
+regenerator-runtime@^0.12.0:
+  version "0.12.1"
+  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.12.1.tgz#fa1a71544764c036f8c49b13a08b2594c9f8a0de"
 
 regenerator-transform@^0.12.3:
   version "0.12.3"
@@ -10289,10 +10301,6 @@ require-uncached@^1.0.3:
 requires-port@1.0.x, requires-port@1.x.x, requires-port@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/requires-port/-/requires-port-1.0.0.tgz#925d2601d39ac485e091cf0da5c6e694dc3dcaff"
-
-reselect@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/reselect/-/reselect-3.0.1.tgz#efdaa98ea7451324d092b2b2163a6a1d7a9a2147"
 
 resolve-cwd@^2.0.0:
   version "2.0.0"
@@ -11242,7 +11250,7 @@ symbol-observable@^0.2.2:
   version "0.2.4"
   resolved "https://registry.yarnpkg.com/symbol-observable/-/symbol-observable-0.2.4.tgz#95a83db26186d6af7e7a18dbd9760a2f86d08f40"
 
-symbol-observable@^1.0.3, symbol-observable@^1.0.4:
+symbol-observable@^1.0.4, symbol-observable@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/symbol-observable/-/symbol-observable-1.2.0.tgz#c22688aed4eab3cdc2dfeacbb561660560a00804"
 
@@ -11420,6 +11428,10 @@ timers-browserify@^2.0.4:
   resolved "https://registry.yarnpkg.com/timers-browserify/-/timers-browserify-2.0.6.tgz#241e76927d9ca05f4d959819022f5b3664b64bae"
   dependencies:
     setimmediate "^1.0.4"
+
+tiny-invariant@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/tiny-invariant/-/tiny-invariant-0.0.3.tgz#4c7283c950e290889e9e94f64d3586ec9156cf44"
 
 tinycolor2@^1.4.1:
   version "1.4.1"

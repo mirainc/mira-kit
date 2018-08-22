@@ -25,4 +25,9 @@ export default class ArrayType extends BaseType<ArrayPropType> {
     this.propType.items = items;
     return this;
   }
+
+  maxItems(maxItems: number) {
+    this.setConstraint('max_items', maxItems);
+    return this;
+  }
 }

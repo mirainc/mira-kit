@@ -210,13 +210,15 @@ file('PDF').contentTypes(['application/pdf']);
 
 ```js
 // The first argument is the plural label and the second is the singular label.
-array('Categories', 'Category').items({
-  name: string('Category'),
-  items: array('Items', 'Item').items({
-    name: string('Item'),
-    price: number('Price'),
-  }),
-});
+array('Categories', 'Category')
+  .items({
+    name: string('Category'),
+    items: array('Items', 'Item').items({
+      name: string('Item'),
+      price: number('Price'),
+    }),
+  })
+  .maxItems(10);
 ```
 
 Check out [Menu](#menu) for an example of using array types.

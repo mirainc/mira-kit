@@ -81,7 +81,6 @@ const App = ({
   onReady,
   onComplete,
   onError,
-  miraRequestResource,
 }) => {
   // ...
 };
@@ -91,15 +90,14 @@ export default withMiraApp(App);
 
 Wrapping your app in `withMiraApp` will inject these props into your app.
 
-| Prop                | Type       | Definition                                                                                                                                                                                                                 |
-| ------------------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| presentation        | `object`   | An instance of your application with the user-defined name and values.<br/>ie. `{ name: 'Weather', values: { city: 'San Francisco' } }`                                                                                    |
-| isPlaying           | `boolean`  | Starts at `false` and becomes `true` when your app is visible.                                                                                                                                                             |
-| playCount           | `number`   | Starts at `0` and increments on every play when your app is looping.                                                                                                                                                       |
-| onReady             | `function` | Call this when your app is ready to be displayed, typically after fetching initial data.                                                                                                                                   |
-| onComplete          | `function` | Call this when your app has finished displaying, typically after an event like `videoend` or a user-defined duration.                                                                                                      |
-| onError             | `function` | Call this with an [Error](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error) object when your app errors.                                                                             |
-| miraRequestResource | `function` | Use this to fetch data. Works just like [`fetch`](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) but it will only issue requests to whitelisted domains (see [allowedRequestDomains](#config-options) below). |
+| Prop         | Type       | Definition                                                                                                                                     |
+| ------------ | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| presentation | `object`   | An instance of your application with the user-defined name and values.<br/>ie. `{ name: 'Weather', values: { city: 'San Francisco' } }`        |
+| isPlaying    | `boolean`  | Starts at `false` and becomes `true` when your app is visible.                                                                                 |
+| playCount    | `number`   | Starts at `0` and increments on every play when your app is looping.                                                                           |
+| onReady      | `function` | Call this when your app is ready to be displayed, typically after fetching initial data.                                                       |
+| onComplete   | `function` | Call this when your app has finished displaying, typically after an event like `videoend` or a user-defined duration.                          |
+| onError      | `function` | Call this with an [Error](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error) object when your app errors. |
 
 # Configuration {#configuration}
 
@@ -116,14 +114,13 @@ export default {
 
 ### Config Options {#config-options}
 
-| Option                | type       | Description                                                                                               |
-| --------------------- | ---------- | --------------------------------------------------------------------------------------------------------- |
-| name                  | `string`   | The display name of your app.                                                                             |
-| description           | `string`   | The description of your app.                                                                              |
-| callToAction          | `string`   | The text to display in the app selector.                                                                  |
-| properties            | `object`   | Defines the inputs of your application that appear in the presentation builder.                           |
-| allowedRequestDomains | `string[]` | The domains your app can make requests to. See the [fetching data](#fetching-data) section for more info. |
-| simulator             | `object`   | Simulator-only options. (See the [Simulator](#simulator) section for available options.)                  |
+| Option       | type     | Description                                                                              |
+| ------------ | -------- | ---------------------------------------------------------------------------------------- |
+| name         | `string` | The display name of your app.                                                            |
+| description  | `string` | The description of your app.                                                             |
+| callToAction | `string` | The text to display in the app selector.                                                 |
+| properties   | `object` | Defines the inputs of your application that appear in the presentation builder.          |
+| simulator    | `object` | Simulator-only options. (See the [Simulator](#simulator) section for available options.) |
 
 ### Adding an Icon and Thumbnail {#adding-icon-thumbnail}
 
@@ -323,64 +320,6 @@ export default {
 ```
 
 Check out [Video Player](#video-player) for an example of handling file uploads.
-
-# Fetching Data {#fetching-data}
-
-Mira apps must whitelist any domains to make requests. You can add domains to `allowedRequestDomains` in your config.
-
-```js
-// mira.config.js
-export default {
-  // ...
-  allowedRequestDomains: ['api.weather.com'],
-};
-```
-
-Then use `miraRequestResource` to make requests, **fetch is disabled** in Mira applications. Fetching data typically happens after your app is mounted (but before it becomes visible) and after your app receives new props.
-
-```js
-// src/index.js
-import React, { Component } from 'react';
-import { withMiraApp } from 'mira-kit';
-
-class WeatherApp extends Component {
-  componentDidMount() {
-    // fetch initial data when the component mounts.
-    this.fetchWeatherData();
-  }
-
-  componentDidUpdate(prevProps) {
-    // Re-fetch when props change.
-    this.fetchWeatherData();
-  }
-
-  await fetchWeatherData() {
-    const { presentation, miraRequestResource, onReady, onError } = this.props;
-    try {
-      const url = `https://api.weather.com/${city}`;
-      const response = await miraRequestResource(presentation.values.url);
-      const weatherData = await response.json();
-      this.setState({ weatherData });
-      // Calling onReady will let the runtime know your
-      // app can be displayed.
-      onReady();
-    } catch (err) {
-      // This will tell the runtime our app has an error
-      // and should be skipped.
-      onError(err);
-    }
-  }
-
-  render() {
-    const { weatherData } = this.state;
-    // ...
-  }
-}
-
-export default withMiraApp(WeatherApp);
-```
-
-Check out [Weather](#weather) for an example of data fetching with `miraRequestResource`.
 
 # Environment Variables {#environment-variables}
 

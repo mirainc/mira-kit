@@ -19,7 +19,6 @@ class Weather extends Component {
     onReady: PropTypes.func.isRequired,
     onComplete: PropTypes.func.isRequired,
     onError: PropTypes.func.isRequired,
-    miraRequestResource: PropTypes.func.isRequired,
   };
 
   state = {
@@ -51,10 +50,10 @@ class Weather extends Component {
   }
 
   async fetchWeatherData() {
-    const { presentation, miraRequestResource, onReady, onError } = this.props;
+    const { presentation, onReady, onError } = this.props;
     const { city, units } = presentation.values;
     try {
-      const response = await miraRequestResource(
+      const response = await fetch(
         `${apiUrl}?q=${city}&units=${units}&appid=${apiKey}`,
       );
       const weatherData = await response.json();

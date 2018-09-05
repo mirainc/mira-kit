@@ -1,10 +1,6 @@
 import PropTypes from 'prop-types';
 import { Component } from 'react';
-import {
-  createFileResource,
-  createRequestResource,
-  captureSandboxFailure,
-} from 'mira-resources';
+import { createFileResource, createRequestResource } from 'mira-resources';
 import createMessenger from './createMessenger';
 import { EventEmitter } from 'eventemitter3';
 
@@ -28,16 +24,9 @@ class AppPreview extends Component {
 
   componentWillMount() {
     // Private fetch used for fetching in mira resources.
+    // miraRequestResource and miraFileResource are deprecated, we can
+    // remove privateFetch after they are finally removed.
     this.privateFetch = window.fetch.bind(window);
-
-    // Clobber XMLHttpRequest because it is not available in the Mira sandbox.
-    window.XMLHttpRequest = captureSandboxFailure(
-      'XMLHttpRequest',
-      'miraRequestResource',
-    );
-
-    // Clobber fetch because it is not available on MiraLinks.
-    window.fetch = captureSandboxFailure('fetch', 'miraRequestResource');
   }
 
   componentDidMount() {
@@ -89,6 +78,7 @@ class AppPreview extends Component {
       presentation,
       miraEvents: this.miraEvents,
       miraFileResource: createFileResource(this.privateFetch),
+      // TODO: Remove config.allowedRequestDomains when miraRequestResource is finally removed.
       miraRequestResource: createRequestResource(
         this.privateFetch,
         allowedRequestDomains,

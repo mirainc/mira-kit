@@ -4,7 +4,6 @@ export default {
   name: 'Weather',
   description: 'Display local weather conditions.',
   callToAction: 'Add Weather',
-  allowedRequestDomains: ['api.openweathermap.org'],
   properties: {
     city: string('City')
       .helperText('eg. San Francisco, US')

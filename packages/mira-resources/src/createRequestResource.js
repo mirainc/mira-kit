@@ -3,6 +3,10 @@ import inAllowedRequestDomains from './inAllowedRequestDomains';
 
 export default (privateFetch, allowedRequestDomains) => {
   return (url, payload) => {
+    console.warn(
+      'mireRequestResource is deprecated, please use fetch instead.',
+    );
+
     const requestPayload = {
       ...payload,
       cache: 'default',

@@ -17,9 +17,10 @@ interface MiraAppProps {
     application_vars: { [key: string]: any };
   };
   miraEvents: EventEmitter;
+  strings: { [key: string]: string };
+  // Deprecated.
   miraFileResource: (file: { url: string }) => any;
   miraRequestResource: (url: string) => any;
-  strings: { [key: string]: string };
 }
 
 interface MiraAppState {

@@ -1,6 +1,6 @@
 {
   "name": "mira-scripts",
-  "version": "3.5.0",
+  "version": "3.6.0",
   "repository": "git@github.com:mirainc/mira-kit.git",
   "bin": {
     "mira-scripts": "./bin/mira-scripts.js"
@@ -40,7 +40,7 @@
     "jest": "^22.4.3",
     "mime-types": "^2.1.18",
     "minimist": "^1.2.0",
-    "mira-simulator": "^3.5.0",
+    "mira-simulator": "^3.6.0",
     "node-fetch": "^2.1.2",
     "object-assign": "^4.1.1",
     "postcss-flexbugs-fixes": "3.2.0",

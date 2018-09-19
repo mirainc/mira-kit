@@ -63,6 +63,25 @@ export default function extractProperties(
       }
     }
 
+    if (propType.type === 'oAuth') {
+      const { authUrl, verifyUrl, verifyQsParam } = propType;
+
+      if (!authUrl) {
+        throw new Error(
+          'Error extracting properties: OAuth type must set authUrl.',
+        );
+      }
+      if (!verifyUrl) {
+        throw new Error(
+          'Error extracting properties: OAuth type must set verifyUrl.',
+        );
+      }
+
+      prop.auth_url = authUrl;
+      prop.verify_url = verifyUrl;
+      prop.verify_qs_param = verifyQsParam;
+    }
+
     properties.push(prop);
   });
 

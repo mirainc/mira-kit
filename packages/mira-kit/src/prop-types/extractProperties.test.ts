@@ -5,6 +5,7 @@ import {
   file,
   image,
   number,
+  oAuth,
   selection,
   string,
   text,
@@ -471,4 +472,48 @@ test('Should set maxItems constraint', () => {
 
   const { properties } = extractProperties(propTypes);
   expect(properties[0].constraints).toEqual({ max_items: 4 });
+});
+
+test('Should extract properties for oAuth', () => {
+  const propTypes = {
+    oAuth: oAuth('Connect')
+      .authUrl('https://example.com/auth')
+      .verifyUrl('https://example.com/verify', 'accessToken')
+      .helperText('helperText')
+      .helperLink('https://example.com/help')
+      .required(),
+  };
+
+  const { properties, strings } = extractProperties(propTypes);
+  expect(strings).toEqual({
+    oAuth: 'Connect',
+    oAuth_helperText: 'helperText',
+  });
+  expect(properties).toEqual([
+    {
+      type: 'oAuth',
+      name: 'oAuth',
+      optional: false,
+      auth_url: 'https://example.com/auth',
+      verify_url: 'https://example.com/verify',
+      verify_qs_param: 'accessToken',
+      helper_text: 'oAuth_helperText',
+      helper_link: 'https://example.com/help',
+      constraints: {},
+    },
+  ]);
+});
+
+test('Should throw for oAuth property without auth url', () => {
+  const propTypes = {
+    oAuth: oAuth('Connect').verifyUrl('https://example.com/verify'),
+  };
+  expect(() => extractProperties(propTypes)).toThrow();
+});
+
+test('Should throw for oAuth property without verify url', () => {
+  const propTypes = {
+    oAuth: oAuth('Connect').authUrl('https://example.com/auth'),
+  };
+  expect(() => extractProperties(propTypes)).toThrow();
 });

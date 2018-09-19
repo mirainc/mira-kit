@@ -73,7 +73,7 @@ module.exports = {
       inject: true,
       template: 'index.html',
     }),
-    // Temporarily disable React production build to supress warnings in development.
+    // Temporarily disable React production build to suppress warnings in development.
     // This will end up building with the development when running the static build.
     // We should probably create two builds of the simulator for development and production.
     // new webpack.DefinePlugin({

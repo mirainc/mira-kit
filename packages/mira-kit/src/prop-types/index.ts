@@ -3,6 +3,7 @@ import BooleanType from './BooleanType';
 import FileType from './FileType';
 import ImageType from './ImageType';
 import NumberType from './NumberType';
+import OAuthType from './OAuthType';
 import SelectionType from './SelectionType';
 import StringType from './StringType';
 import TextType from './TextType';
@@ -17,6 +18,7 @@ export const file = (label: string) => new FileType(label);
 export const image = (label: string) => new ImageType(label);
 // tslint:disable-next-line
 export const number = (label: string) => new NumberType(label);
+export const oAuth = (label: string) => new OAuthType(label);
 export const selection = (label: string) => new SelectionType(label);
 // tslint:disable-next-line
 export const string = (label: string) => new StringType(label);

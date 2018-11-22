@@ -1,20 +1,22 @@
-import extractProperties from './extractProperties';
 import {
   array,
   boolean,
+  facebookAuth,
   file,
+  googleAuth,
   image,
   number,
   oAuth,
   selection,
   string,
   text,
-  video,
   theme,
+  video,
 } from './';
+import extractProperties from './extractProperties';
+import { defaultMaxSize } from './FileType';
 import { imageContentTypes } from './ImageType';
 import { videoContentTypes } from './VideoType';
-import { defaultMaxSize } from './FileType';
 
 test('Should return empty properties and strings for empty propTypes', () => {
   const { properties, strings } = extractProperties();
@@ -479,6 +481,7 @@ test('Should extract properties for oAuth', () => {
     oAuth: oAuth('Connect')
       .authUrl('https://example.com/auth')
       .verifyUrl('https://example.com/verify', 'accessToken')
+      .logoutUrl('https://example.com/logout', 'accessToken')
       .helperText('helperText')
       .helperLink('https://example.com/help')
       .required(),
@@ -497,6 +500,8 @@ test('Should extract properties for oAuth', () => {
       auth_url: 'https://example.com/auth',
       verify_url: 'https://example.com/verify',
       verify_qs_param: 'accessToken',
+      logout_url: 'https://example.com/logout',
+      logout_qs_param: 'accessToken',
       helper_text: 'oAuth_helperText',
       helper_link: 'https://example.com/help',
       constraints: {},
@@ -516,4 +521,54 @@ test('Should throw for oAuth property without verify url', () => {
     oAuth: oAuth('Connect').authUrl('https://example.com/auth'),
   };
   expect(() => extractProperties(propTypes)).toThrow();
+});
+
+test('Should extract properties for facebookAuth', () => {
+  const propTypes = {
+    facebookAuth: facebookAuth()
+      .authUrl('https://example.com/auth')
+      .verifyUrl('https://example.com/verify', 'accessToken')
+      .logoutUrl('https://example.com/logout', 'accessToken')
+      .required(),
+  };
+
+  const { properties, strings } = extractProperties(propTypes);
+  expect(properties).toEqual([
+    {
+      type: 'facebookAuth',
+      name: 'facebookAuth',
+      optional: false,
+      auth_url: 'https://example.com/auth',
+      verify_url: 'https://example.com/verify',
+      verify_qs_param: 'accessToken',
+      logout_url: 'https://example.com/logout',
+      logout_qs_param: 'accessToken',
+      constraints: {},
+    },
+  ]);
+});
+
+test('Should extract properties for googleAuth', () => {
+  const propTypes = {
+    googleAuth: googleAuth()
+      .authUrl('https://example.com/auth')
+      .verifyUrl('https://example.com/verify', 'accessToken')
+      .logoutUrl('https://example.com/logout', 'accessToken')
+      .required(),
+  };
+
+  const { properties, strings } = extractProperties(propTypes);
+  expect(properties).toEqual([
+    {
+      type: 'googleAuth',
+      name: 'googleAuth',
+      optional: false,
+      auth_url: 'https://example.com/auth',
+      verify_url: 'https://example.com/verify',
+      verify_qs_param: 'accessToken',
+      logout_url: 'https://example.com/logout',
+      logout_qs_param: 'accessToken',
+      constraints: {},
+    },
+  ]);
 });

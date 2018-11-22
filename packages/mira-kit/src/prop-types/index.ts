@@ -1,6 +1,8 @@
 import ArrayType from './ArrayType';
 import BooleanType from './BooleanType';
+import FacebookAuthType from './FacebookAuthType';
 import FileType from './FileType';
+import GoogleAuthType from './GoogleAuthType';
 import ImageType from './ImageType';
 import NumberType from './NumberType';
 import OAuthType from './OAuthType';
@@ -14,7 +16,9 @@ export const array = (label: string, singular: string) =>
   new ArrayType(label, singular);
 // tslint:disable-next-line
 export const boolean = (label: string) => new BooleanType(label);
+export const facebookAuth = () => new FacebookAuthType();
 export const file = (label: string) => new FileType(label);
+export const googleAuth = () => new GoogleAuthType();
 export const image = (label: string) => new ImageType(label);
 // tslint:disable-next-line
 export const number = (label: string) => new NumberType(label);

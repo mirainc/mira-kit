@@ -63,8 +63,18 @@ export default function extractProperties(
       }
     }
 
-    if (propType.type === 'oAuth') {
-      const { authUrl, verifyUrl, verifyQsParam } = propType;
+    if (
+      propType.type === 'oAuth' ||
+      propType.type === 'facebookAuth' ||
+      propType.type === 'googleAuth'
+    ) {
+      const {
+        authUrl,
+        verifyUrl,
+        verifyQsParam,
+        logoutUrl,
+        logoutQsParam,
+      } = propType;
 
       if (!authUrl) {
         throw new Error(
@@ -80,6 +90,8 @@ export default function extractProperties(
       prop.auth_url = authUrl;
       prop.verify_url = verifyUrl;
       prop.verify_qs_param = verifyQsParam;
+      prop.logout_url = logoutUrl;
+      prop.logout_qs_param = logoutQsParam;
     }
 
     properties.push(prop);

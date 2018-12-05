@@ -307,6 +307,8 @@ test('Should extract properties from selection', () => {
     helper: selection('Selection')
       .helperText('helperText')
       .helperLink('http://helper.link'),
+    multiple: selection('Selection').multiple(),
+    optionsUrl: selection('Selection').optionsUrl('https://options.url'),
   };
 
   const { properties, strings } = extractProperties(propTypes);
@@ -318,12 +320,13 @@ test('Should extract properties from selection', () => {
     b: 'B',
     helper: 'Selection',
     helper_helperText: 'helperText',
+    multiple: 'Selection',
+    optionsUrl: 'Selection',
   });
   expect(properties).toEqual([
     {
       type: 'selection',
       name: 'optional',
-      exclusive: true,
       optional: true,
       options: [],
       constraints: {},
@@ -331,7 +334,6 @@ test('Should extract properties from selection', () => {
     {
       type: 'selection',
       name: 'required',
-      exclusive: true,
       optional: false,
       options: [],
       constraints: {},
@@ -339,7 +341,6 @@ test('Should extract properties from selection', () => {
     {
       type: 'selection',
       name: 'options',
-      exclusive: true,
       optional: true,
       options: [{ name: 'a', value: 'a' }, { name: 'b', value: 'b' }],
       default: 'a',
@@ -348,14 +349,39 @@ test('Should extract properties from selection', () => {
     {
       type: 'selection',
       name: 'helper',
-      exclusive: true,
       optional: true,
       helper_text: 'helper_helperText',
       helper_link: 'http://helper.link',
       constraints: {},
       options: [],
     },
+    {
+      type: 'selection',
+      name: 'multiple',
+      multiple: true,
+      optional: true,
+      constraints: {},
+      options: [],
+    },
+    {
+      type: 'selection',
+      name: 'optionsUrl',
+      optional: true,
+      constraints: {},
+      options: [],
+      options_url: 'https://options.url',
+    },
   ]);
+});
+
+test('Should not allow selection types to specify options and optionUrl', () => {
+  const propTypes = {
+    selection: selection('Selection')
+      .optionsUrl('http://options.url')
+      .option('value', 'label'),
+  };
+
+  expect(() => extractProperties(propTypes)).toThrow();
 });
 
 test('Should extract properties from string', () => {

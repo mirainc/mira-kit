@@ -35,7 +35,18 @@ export default function extractProperties(
 
     if (propType.type === 'selection') {
       prop.options = [];
-      prop.exclusive = propType.exclusive;
+      prop.multiple = propType.multiple;
+
+      if (propType.optionsUrl && propType.options.length > 0) {
+        throw new Error(
+          `Cannot set both an optionsUrl and options for selection '${
+            propType.label
+          }'`,
+        );
+      }
+
+      prop.options_url = propType.optionsUrl;
+
       (propType as SelectionPropType).options.forEach(option => {
         strings[option.value] = option.label;
         prop.options.push({ name: option.value, value: option.value });

@@ -196,8 +196,6 @@ class MiraAppSimulator extends Component {
   queuePresentationUpdate = (presentation, changedProp) => {
     let presentationPreview;
 
-    console.log('queuePresentationUpdate', presentation);
-
     // Delay updating the preview for text and string inputs until onBlur.
     if (changedProp.type === 'string' || changedProp.type === 'text') {
       this.queuedPresentationPreview = presentation;

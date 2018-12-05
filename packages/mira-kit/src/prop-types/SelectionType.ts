@@ -7,15 +7,14 @@ interface Option {
 
 export interface SelectionPropType extends PropType {
   default: string;
-  exclusive: boolean;
+  multiple: boolean;
   options: Option[];
+  optionsUrl: string;
 }
 
 export default class SelectionType extends BaseType<SelectionPropType> {
   constructor(label: string) {
     super(label, 'selection');
-    // We currently don't support multi-selects.
-    this.propType.exclusive = true;
     this.propType.options = [];
   }
 
@@ -24,9 +23,19 @@ export default class SelectionType extends BaseType<SelectionPropType> {
     return this;
   }
 
+  multiple(value = true) {
+    this.propType.multiple = value;
+    return this;
+  }
+
   option(value: string, label: string) {
     if (!label) label = value;
     this.propType.options.push({ label, value });
+    return this;
+  }
+
+  optionsUrl(url: string) {
+    this.propType.optionsUrl = url;
     return this;
   }
 }

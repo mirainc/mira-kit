@@ -14,7 +14,7 @@
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
     "eventemitter3": "^3.0.1",
     "fast-deep-equal": "^1.1.0",
-    "mira-elements": "^0.33.1",
+    "mira-elements": "^0.33.2",
     "mira-kit": "^3.9.1",
     "mira-resources": "^3.9.1",
     "prop-types": "^15.6.1",

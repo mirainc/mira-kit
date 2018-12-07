@@ -7699,9 +7699,9 @@ minimist@~0.0.1:
   version "0.0.10"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-0.0.10.tgz#de3f98543dbf96082be48ad1a0c7cda836301dcf"
 
-mira-elements@^0.33.0:
-  version "0.33.0"
-  resolved "https://registry.yarnpkg.com/mira-elements/-/mira-elements-0.33.0.tgz#5f372fed8445d982b584240e2b3879786ea7295f"
+mira-elements@^0.33.1:
+  version "0.33.1"
+  resolved "https://registry.yarnpkg.com/mira-elements/-/mira-elements-0.33.1.tgz#360877a8b2897c14a03372a6ee2ebf27940ba7d2"
   dependencies:
     array-equal "^1.0.0"
     babel-runtime "^6.25.0"

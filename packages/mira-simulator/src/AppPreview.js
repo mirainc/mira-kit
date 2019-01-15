@@ -65,7 +65,7 @@ class AppPreview extends Component {
   };
 
   render() {
-    const { allowedRequestDomains, children } = this.props;
+    const { allowedRequestDomains, children, simulatorOptions } = this.props;
     const { presentation } = this.state;
     // Don't render the app if we haven't received the presentation object yet.
     if (!presentation) return null;
@@ -83,6 +83,7 @@ class AppPreview extends Component {
         this.privateFetch,
         allowedRequestDomains,
       ),
+      isDashboard: simulatorOptions.isDashboard,
     };
 
     return children(props);

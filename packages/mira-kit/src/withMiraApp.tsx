@@ -18,6 +18,7 @@ interface MiraAppProps {
   };
   miraEvents: EventEmitter;
   strings: { [key: string]: string };
+  isDashboard: boolean;
   // Deprecated.
   miraFileResource: (file: { url: string }) => any;
   miraRequestResource: (url: string) => any;
@@ -167,6 +168,7 @@ export default function withMiraApp(
         miraFileResource,
         miraRequestResource,
         strings,
+        isDashboard,
         ...legacyApplicationVars
       } = this.props;
 
@@ -182,6 +184,7 @@ export default function withMiraApp(
           miraFileResource={miraFileResource}
           miraRequestResource={miraRequestResource}
           strings={strings}
+          isDashboard={isDashboard}
         />
       );
     }

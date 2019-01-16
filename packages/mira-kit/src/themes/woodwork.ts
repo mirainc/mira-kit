@@ -1,7 +1,7 @@
 export default {
   id: 'woodwork',
   name: 'Woodwork',
-  background_color: '#0514f3c2d727',
+  background_color: '#4f3c2d',
   background_image: 'https://public-assets.getmira.com/images/woodwork.jpg',
   background_image_portrait:
     'https://public-assets.getmira.com/images/woodwork-portrait.jpg',

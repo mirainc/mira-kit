@@ -84,6 +84,7 @@ class AppPreview extends Component {
         allowedRequestDomains,
       ),
       isDashboard: simulatorOptions.isDashboard,
+      isThumbnail: simulatorOptions.isThumbnail,
     };
 
     return children(props);

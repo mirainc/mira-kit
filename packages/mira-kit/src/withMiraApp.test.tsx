@@ -36,11 +36,13 @@ const App: React.SFC<any> = () => <div />;
 test('Should render app', () => {
   const props = createProps();
   const MiraApp = withMiraApp(App);
-  const wrapper = shallow(<MiraApp {...props} isDashboard={true} />);
+  const wrapper = shallow(
+    <MiraApp {...props} isDashboard={true} isThumbnail={true} />,
+  );
   const app = wrapper.find(App);
   expect(app.length).toEqual(1);
   const appProps = app.props();
-  expect(Object.keys(appProps).length).toEqual(10);
+  expect(Object.keys(appProps).length).toEqual(11);
   expect(appProps.presentation.name).toEqual(props.presentation.name);
   expect(appProps.presentation.values).toEqual(
     props.presentation.application_vars,
@@ -67,6 +69,7 @@ test('Should render app', () => {
   expect(appProps.miraFileResource).toEqual(props.miraFileResource);
   expect(appProps.strings).toEqual(props.strings);
   expect(appProps.isDashboard).toEqual(true);
+  expect(appProps.isThumbnail).toEqual(true);
 });
 
 test('Should render error', () => {

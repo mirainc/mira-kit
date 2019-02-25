@@ -7699,9 +7699,10 @@ minimist@~0.0.1:
   version "0.0.10"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-0.0.10.tgz#de3f98543dbf96082be48ad1a0c7cda836301dcf"
 
-mira-elements@^0.33.2:
-  version "0.33.2"
-  resolved "https://registry.yarnpkg.com/mira-elements/-/mira-elements-0.33.2.tgz#a838743b9ca805355d11fe464ad43d930d787c18"
+mira-elements@^0.34.0:
+  version "0.34.0"
+  resolved "https://registry.yarnpkg.com/mira-elements/-/mira-elements-0.34.0.tgz#48b17b55556da88fa349544e2b301b1969979d88"
+  integrity sha512-5ajhTIHhlmWeIwUHl/8btWaF4+3WH0aCcW+Etqn0n0dTW952IHxmE4EWNnSWdcXIaLK7GDNJ26st9ICmTL3cyw==
   dependencies:
     array-equal "^1.0.0"
     babel-runtime "^6.25.0"

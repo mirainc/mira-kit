@@ -8,6 +8,7 @@ import {
   number,
   oAuth,
   selection,
+  soundZone,
   string,
   text,
   theme,
@@ -558,7 +559,7 @@ test('Should extract properties for facebookAuth', () => {
       .required(),
   };
 
-  const { properties, strings } = extractProperties(propTypes);
+  const { properties } = extractProperties(propTypes);
   expect(properties).toEqual([
     {
       type: 'facebookAuth',
@@ -583,7 +584,7 @@ test('Should extract properties for googleAuth', () => {
       .required(),
   };
 
-  const { properties, strings } = extractProperties(propTypes);
+  const { properties } = extractProperties(propTypes);
   expect(properties).toEqual([
     {
       type: 'googleAuth',
@@ -594,6 +595,30 @@ test('Should extract properties for googleAuth', () => {
       verify_qs_param: 'accessToken',
       logout_url: 'https://example.com/logout',
       logout_qs_param: 'accessToken',
+      constraints: {},
+    },
+  ]);
+});
+
+test('Should extract properties for soundZone', () => {
+  const propTypes = {
+    soundZone: soundZone('SoundZone')
+      .helperText('helperText')
+      .helperLink('https://example.com/help'),
+  };
+
+  const { properties, strings } = extractProperties(propTypes);
+  expect(strings).toEqual({
+    soundZone: 'SoundZone',
+    soundZone_helperText: 'helperText',
+  });
+  expect(properties).toEqual([
+    {
+      type: 'soundZone',
+      name: 'soundZone',
+      optional: true,
+      helper_text: 'soundZone_helperText',
+      helper_link: 'https://example.com/help',
       constraints: {},
     },
   ]);

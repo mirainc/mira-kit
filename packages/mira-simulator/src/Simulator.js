@@ -303,6 +303,7 @@ class MiraAppSimulator extends Component {
     presentationPreview = mergeDefaultAppVars(
       { ...presentationPreview, name: presentationPreview.name || ' ' },
       appVersion,
+      simulatorOptions.soundZones,
     );
 
     const previewErrors = PresentationBuilderForm.validate(
@@ -356,7 +357,11 @@ class MiraAppSimulator extends Component {
     }
 
     const presentationWithDefaults = {
-      ...mergeDefaultAppVars(presentation, appVersion),
+      ...mergeDefaultAppVars(
+        presentation,
+        appVersion,
+        simulatorOptions.soundZones,
+      ),
       id: String(presentation.id),
     };
 
@@ -370,6 +375,7 @@ class MiraAppSimulator extends Component {
                 presentation={presentationWithDefaults}
                 appVersion={appVersion}
                 themes={simulatorOptions.themes}
+                soundZones={simulatorOptions.soundZones}
                 onChange={this.queuePresentationUpdate}
                 onBlur={this.flushPreviewUpdate}
               />

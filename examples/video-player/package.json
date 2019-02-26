@@ -1,10 +1,10 @@
 {
   "name": "video-player",
-  "version": "3.10.0",
+  "version": "3.11.0",
   "private": true,
   "dependencies": {
-    "mira-kit": "^3.10.0",
-    "mira-scripts": "^3.10.0",
+    "mira-kit": "^3.11.0",
+    "mira-scripts": "^3.11.0",
     "netlify-cli": "^1.2.2",
     "prop-types": "^15.6.1",
     "react": "^16.4.0",

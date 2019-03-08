@@ -8,12 +8,12 @@ class AppPreview extends Component {
   static propTypes = {
     appVersion: PropTypes.object.isRequired,
     allowedRequestDomains: PropTypes.arrayOf(PropTypes.string),
-    simulatorOptions: PropTypes.object,
+    previewOptions: PropTypes.object,
   };
 
   static defaultProps = {
     allowedRequestDomains: [],
-    simulatorOptions: { presentations: [] },
+    previewOptions: { presentations: [] },
   };
 
   state = {
@@ -30,7 +30,7 @@ class AppPreview extends Component {
   }
 
   componentDidMount() {
-    const { appVersion, simulatorOptions } = this.props;
+    const { appVersion, previewOptions } = this.props;
 
     this.messenger = createMessenger(
       window,
@@ -48,7 +48,7 @@ class AppPreview extends Component {
     // Send the appVersion definition and all app variables to the parent window.
     this.messenger.send('init', {
       appVersion,
-      simulatorOptions,
+      previewOptions,
     });
   }
 
@@ -65,7 +65,7 @@ class AppPreview extends Component {
   };
 
   render() {
-    const { allowedRequestDomains, children, simulatorOptions } = this.props;
+    const { allowedRequestDomains, children, previewOptions } = this.props;
     const { presentation } = this.state;
     // Don't render the app if we haven't received the presentation object yet.
     if (!presentation) return null;
@@ -83,8 +83,8 @@ class AppPreview extends Component {
         this.privateFetch,
         allowedRequestDomains,
       ),
-      isDashboard: simulatorOptions.isDashboard,
-      isThumbnail: simulatorOptions.isThumbnail,
+      isDashboard: previewOptions.isDashboard,
+      isThumbnail: previewOptions.isThumbnail,
     };
 
     return children(props);

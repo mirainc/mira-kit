@@ -28,7 +28,7 @@ class MiraAppSimulator extends Component {
     present: false,
     hideControls: false,
     enableLogs: true,
-    simulatorOptions: { presentations: [] },
+    previewOptions: { presentations: [] },
   };
 
   queuedPresentationPreview = null;
@@ -109,16 +109,16 @@ class MiraAppSimulator extends Component {
   // setOptions is called whenever the app is loaded. This happens
   // on first page load but also when the app code has changed, causing
   // webpack to reload the app preview.
-  setOptions = (appVersion, simulatorOptions) => {
+  setOptions = (appVersion, previewOptions) => {
     const { presentation } = this.state;
     const state = {
       presentation,
       appVersion,
-      simulatorOptions,
+      previewOptions,
     };
 
     // Convert user-defined themes to snake_case for API parity.
-    simulatorOptions.themes = (simulatorOptions.themes || []).map(theme => ({
+    previewOptions.themes = (previewOptions.themes || []).map(theme => ({
       id: theme.id,
       name: theme.name,
       background_color: theme.backgroundColor,
@@ -133,8 +133,8 @@ class MiraAppSimulator extends Component {
       border_color: theme.borderColor,
     }));
     // Add default themes.
-    simulatorOptions.themes = [
-      ...simulatorOptions.themes,
+    previewOptions.themes = [
+      ...previewOptions.themes,
       themes.frontpage,
       themes.reserved,
       themes.woodwork,
@@ -154,9 +154,9 @@ class MiraAppSimulator extends Component {
       themes.slate,
     ];
 
-    if (simulatorOptions.presentations) {
+    if (previewOptions.presentations) {
       // Map over presentations to add a unique id (index) to each one.
-      state.simulatorOptions.presentations = state.simulatorOptions.presentations.map(
+      state.previewOptions.presentations = state.previewOptions.presentations.map(
         (p, index) => ({
           id: index,
           name: p.name,
@@ -173,16 +173,16 @@ class MiraAppSimulator extends Component {
           // Use the query string presentation values over what's defined in the
           // simulator config to allow users to edit the values in the form and
           // have them persist through a page refresh.
-          state.simulatorOptions.presentations[presentation.id] = presentation;
+          state.previewOptions.presentations[presentation.id] = presentation;
         } else {
           // If a presentation id isn't provided or valid, add the presentation
           // to the end of the simulator presentations with a new id.
-          state.presentation.id = state.simulatorOptions.presentations.length;
-          state.simulatorOptions.presentations.push(state.presentation);
+          state.presentation.id = state.previewOptions.presentations.length;
+          state.previewOptions.presentations.push(state.presentation);
         }
       } else {
         // No presentation currently set, use the first one in the simulator config.
-        const firstPresentation = simulatorOptions.presentations[0];
+        const firstPresentation = previewOptions.presentations[0];
         state.presentation = firstPresentation;
       }
     }
@@ -219,12 +219,12 @@ class MiraAppSimulator extends Component {
   };
 
   nextPresentation = () => {
-    const { presentation, simulatorOptions } = this.state;
-    const count = simulatorOptions.presentations.length;
+    const { presentation, previewOptions } = this.state;
+    const count = previewOptions.presentations.length;
     let index = presentation.id;
     // Show the next presentation in the list.
     const nextIndex = (index + 1) % count;
-    const nextPresentation = simulatorOptions.presentations[nextIndex];
+    const nextPresentation = previewOptions.presentations[nextIndex];
 
     this.setState({
       presentation: nextPresentation,
@@ -233,12 +233,12 @@ class MiraAppSimulator extends Component {
   };
 
   previousPresentation = () => {
-    const { presentation, simulatorOptions } = this.state;
-    const count = simulatorOptions.presentations.length;
+    const { presentation, previewOptions } = this.state;
+    const count = previewOptions.presentations.length;
     let index = presentation.id;
     // Show the previous presentation in the list.
     const previousIndex = ((index - 1) % count + count) % count;
-    const previousPresentation = simulatorOptions.presentations[previousIndex];
+    const previousPresentation = previewOptions.presentations[previousIndex];
 
     this.setState({
       presentation: previousPresentation,
@@ -247,8 +247,8 @@ class MiraAppSimulator extends Component {
   };
 
   renderControls() {
-    const { fullScreen, hideControls, present, simulatorOptions } = this.state;
-    const shouldShowPlay = simulatorOptions.presentations.length > 1;
+    const { fullScreen, hideControls, present, previewOptions } = this.state;
+    const shouldShowPlay = previewOptions.presentations.length > 1;
 
     return (
       <ThemeProvider theme={fullScreen ? 'dark' : 'light'}>
@@ -292,7 +292,7 @@ class MiraAppSimulator extends Component {
   }
 
   renderPreview() {
-    const { previewMode, present, enableLogs, simulatorOptions } = this.state;
+    const { previewMode, present, enableLogs, previewOptions } = this.state;
     let { presentationPreview, appVersion } = this.state;
 
     presentationPreview = presentationPreview || EMPTY_PRESENTATION;
@@ -303,7 +303,7 @@ class MiraAppSimulator extends Component {
     presentationPreview = mergeDefaultAppVars(
       { ...presentationPreview, name: presentationPreview.name || ' ' },
       appVersion,
-      simulatorOptions.soundZones,
+      previewOptions.soundZones,
     );
 
     const previewErrors = PresentationBuilderForm.validate(
@@ -317,7 +317,7 @@ class MiraAppSimulator extends Component {
     const key = `${presentationPreview.id}-${previewMode}`;
     // Add selected theme object to presentation.
     if (presentationPreview.theme_id) {
-      const theme = (simulatorOptions.themes || []).find(
+      const theme = (previewOptions.themes || []).find(
         t => t.id === presentationPreview.theme_id,
       );
       presentationPreview.theme = theme;
@@ -337,7 +337,7 @@ class MiraAppSimulator extends Component {
 
   render() {
     const { previewMode, fullScreen } = this.state;
-    let { presentation, appVersion, simulatorOptions } = this.state;
+    let { presentation, appVersion, previewOptions } = this.state;
 
     presentation = presentation || EMPTY_PRESENTATION;
     appVersion = appVersion || EMPTY_APP_VERSION;
@@ -360,7 +360,7 @@ class MiraAppSimulator extends Component {
       ...mergeDefaultAppVars(
         presentation,
         appVersion,
-        simulatorOptions.soundZones,
+        previewOptions.soundZones,
       ),
       id: String(presentation.id),
     };
@@ -374,8 +374,8 @@ class MiraAppSimulator extends Component {
               <PresentationBuilderForm
                 presentation={presentationWithDefaults}
                 appVersion={appVersion}
-                themes={simulatorOptions.themes}
-                soundZones={simulatorOptions.soundZones}
+                themes={previewOptions.themes}
+                soundZones={previewOptions.soundZones}
                 onChange={this.queuePresentationUpdate}
                 onBlur={this.flushPreviewUpdate}
               />

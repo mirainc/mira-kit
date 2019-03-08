@@ -102,7 +102,7 @@ ReactDOM.render(
   <AppPreview
     appVersion={appVersion}
     allowedRequestDomains={config.allowedRequestDomains}
-    simulatorOptions={config.simulator}
+    previewOptions={config.simulator}
   >
     {props => <App {...props} />}
   </AppPreview>,

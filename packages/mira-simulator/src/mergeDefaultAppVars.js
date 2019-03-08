@@ -1,20 +1,35 @@
+import { defaults, keyBy, mapValues } from 'lodash/fp';
+
+const keyByName = keyBy('name');
+const mapValuesToDefault = mapValues('default');
+const isSoundZoneType = property => property.type === 'soundZone';
+const setDefaultSoundZone = soundZone => property =>
+  isSoundZoneType(property)
+    ? defaults({ default: soundZone.id }, property)
+    : property;
+
 export default (presentation, appVersion, soundZones = []) => {
-  const appVars = { ...presentation.application_vars };
+  const { application_vars } = presentation;
+  const { presentation_properties } = appVersion;
+  const [soundZone] = soundZones;
 
-  appVersion.presentation_properties.forEach(prop => {
-    const propValue = appVars[prop.name];
+  let presentationProperties = presentation_properties;
 
-    if (propValue === undefined) {
-      if (prop.type === 'soundZone' && soundZones.length > 0) {
-        appVars[prop.name] = soundZones[0].id;
-      } else if (prop.default !== undefined) {
-        appVars[prop.name] = prop.default;
-      }
-    }
-  });
+  if (soundZone) {
+    // use first preview soundZone as default soundZone property value
+    presentationProperties = presentationProperties.map(
+      setDefaultSoundZone(soundZone),
+    );
+  }
+
+  const withDefaultAppVars = defaults(
+    mapValuesToDefault(keyByName(presentationProperties)),
+  );
+
+  const applicationVars = withDefaultAppVars({ ...application_vars });
 
   return {
     ...presentation,
-    application_vars: appVars,
+    application_vars: applicationVars,
   };
 };

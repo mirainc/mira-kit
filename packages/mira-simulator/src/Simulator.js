@@ -1,4 +1,5 @@
 import deepEqual from 'fast-deep-equal';
+import { omitBy, isNil } from 'lodash/fp';
 import * as themes from 'mira-kit/themes';
 import {
   ThemeProvider,
@@ -41,6 +42,8 @@ const normalizePresentation = presentation => ({
 
 const assignIndexId = (obj, index) => ({ ...obj, id: index });
 
+const omitNilValues = omitBy(isNil);
+
 class MiraAppSimulator extends Component {
   initialState = {
     presentation: null,
@@ -56,41 +59,43 @@ class MiraAppSimulator extends Component {
 
   queuedPresentationPreview = null;
 
-  componentWillMount() {
-    const state = { ...this.initialState };
-    const queryParams = querystring.parse(
-      window.location.search.replace(/^\?/, ''),
-    );
+  getStateFromQueryParams() {
+    const query = window.location.search.replace(/^\?/, '');
+    const queryParams = querystring.parse(query);
+    const { previewMode, present, enableLogs } = queryParams;
+    let { fullScreen, presentation } = queryParams;
+    fullScreen = !!fullScreen && fullScreen !== 'false';
 
-    if (queryParams.previewMode) {
-      state.previewMode = queryParams.previewMode;
-    }
-    if (queryParams.fullScreen) {
-      state.fullScreen = true;
-      state.hideControls = true;
-    }
-    if (queryParams.present) {
-      state.present = true;
-    }
-    if (queryParams.enableLogs === 'false') {
-      state.enableLogs = false;
-    }
-    if (queryParams.presentation) {
+    if (presentation) {
       try {
-        const presentation = JSON.parse(
-          decodeURIComponent(queryParams.presentation),
-        );
+        presentation = JSON.parse(decodeURIComponent(presentation));
+
         if (!presentation.application_vars) {
           throw new Error('Missing application_vars');
         }
-        state.presentation = presentation;
-        state.presentationPreview = state.presentation;
       } catch (err) {
-        logger.warning('Could not parse presentation from querystring.');
+        logger.warning(
+          `Could not parse presentation from querystring: ${err.message}`,
+        );
       }
     }
 
-    this.setState(state);
+    return omitNilValues({
+      previewMode,
+      fullScreen,
+      present,
+      hideControls: fullScreen, // hide controls in fullScreen mode
+      enableLogs: enableLogs === 'false' ? false : undefined,
+      presentation,
+      presentationPreview: presentation,
+    });
+  }
+
+  componentWillMount() {
+    this.setState({
+      ...this.initialState,
+      ...this.getStateFromQueryParams(),
+    });
   }
 
   componentDidUpdate() {

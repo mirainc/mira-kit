@@ -140,32 +140,11 @@ class MiraAppSimulator extends Component {
       previewOptions,
     };
 
-    // Convert user-defined themes to snake_case for API parity.
-    previewOptions.themes = (previewOptions.themes || []).map(
-      convertThemeToSnakeCase,
-    );
-
-    // Add default themes.
-    previewOptions.themes = [
-      ...previewOptions.themes,
-      themes.frontpage,
-      themes.reserved,
-      themes.woodwork,
-      themes.solid,
-      themes.parade,
-      themes.xray,
-      themes.golden,
-      themes.refresh,
-      themes.blueprint,
-      themes.chalkboard,
-      themes.fashion,
-      themes.fresh,
-      themes.grill,
-      themes.seattle,
-      themes.showroom,
-      themes.clean,
-      themes.slate,
-    ];
+    previewOptions.themes = (previewOptions.themes || [])
+      // Convert user-defined themes to snake_case for API parity.
+      .map(convertThemeToSnakeCase)
+      // Add default themes.
+      .concat(Object.values(themes));
 
     if (previewOptions.presentations) {
       state.previewOptions.presentations = state.previewOptions.presentations

@@ -129,10 +129,10 @@ class MiraAppSimulator extends Component {
     }
   };
 
-  // setOptions is called whenever the app is loaded. This happens
+  // onAppLoad is called whenever the app is loaded. This happens
   // on first page load but also when the app code has changed, causing
   // webpack to reload the app preview.
-  setOptions = (appVersion, previewOptions) => {
+  onAppLoad = (appVersion, previewOptions) => {
     const { presentation } = this.state;
     const state = {
       presentation,
@@ -336,7 +336,7 @@ class MiraAppSimulator extends Component {
         previewErrors={previewErrors}
         enableLogs={enableLogs}
         isPresenting={present}
-        onLoad={this.setOptions}
+        onLoad={this.onAppLoad}
         onComplete={this.nextPresentation}
       />
     );

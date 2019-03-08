@@ -83,12 +83,37 @@ class MiraAppSimulator extends Component {
     return omitNilValues({
       previewMode,
       fullScreen,
-      present,
+      present: present && present !== 'false',
       hideControls: fullScreen, // hide controls in fullScreen mode
       enableLogs: enableLogs === 'false' ? false : undefined,
       presentation,
       presentationPreview: presentation,
     });
+  }
+
+  persistStateToQueryParams() {
+    const previewMode = this.getUpdatedState('previewMode');
+    const fullScreen = this.getUpdatedState('fullScreen');
+    const present = this.getUpdatedState('present');
+
+    let presentation = this.getUpdatedState('presentation');
+
+    if (presentation) {
+      presentation = encodeURIComponent(
+        JSON.stringify(queryParams.presentation || {}),
+      );
+    }
+
+    const qs = querystring.stringify(
+      omitNilValues({
+        previewMode,
+        fullScreen,
+        present,
+        presentation,
+      }),
+    );
+
+    window.history.replaceState(null, '', `?${qs}`);
   }
 
   componentWillMount() {
@@ -99,25 +124,11 @@ class MiraAppSimulator extends Component {
   }
 
   componentDidUpdate() {
-    const queryParams = {};
+    this.persistStateToQueryParams();
+  }
 
-    if (this.hasStateChanged('previewMode')) {
-      queryParams.previewMode = this.state.previewMode;
-    }
-    if (this.hasStateChanged('fullScreen')) {
-      queryParams.fullScreen = this.state.fullScreen;
-    }
-    if (this.hasStateChanged('present')) {
-      queryParams.present = this.state.present;
-    }
-    if (this.hasStateChanged('presentation')) {
-      queryParams.presentation = encodeURIComponent(
-        JSON.stringify(this.state.presentation || {}),
-      );
-    }
-
-    const qs = querystring.stringify(queryParams);
-    window.history.replaceState(null, '', `?${qs}`);
+  getUpdatedState(key) {
+    return this.hasStateChanged(key) ? this.state[key] : undefined;
   }
 
   hasStateChanged(key) {

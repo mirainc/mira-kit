@@ -33,6 +33,14 @@ const convertThemeToSnakeCase = theme => ({
   border_color: theme.borderColor,
 });
 
+const normalizePresentation = presentation => ({
+  name: presentation.name,
+  application_vars: presentation.values || {},
+  theme_id: presentation.theme,
+});
+
+const assignIndexId = (obj, index) => ({ ...obj, id: index });
+
 class MiraAppSimulator extends Component {
   initialState = {
     presentation: null,
@@ -160,15 +168,9 @@ class MiraAppSimulator extends Component {
     ];
 
     if (previewOptions.presentations) {
-      // Map over presentations to add a unique id (index) to each one.
-      state.previewOptions.presentations = state.previewOptions.presentations.map(
-        (p, index) => ({
-          id: index,
-          name: p.name,
-          application_vars: p.values || {},
-          theme_id: p.theme,
-        }),
-      );
+      state.previewOptions.presentations = state.previewOptions.presentations
+        .map(normalizePresentation)
+        .map(assignIndexId);
 
       // If a presentation exists in state it means the user has updated the
       // form values, is in present mode or has passed in a presentation from

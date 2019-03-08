@@ -18,6 +18,21 @@ const PRESENTATION_MIN_DURATION = 5;
 const EMPTY_PRESENTATION = { name: 'New Presentation', application_vars: {} };
 const EMPTY_APP_VERSION = { icon_url: '', presentation_properties: [] };
 
+const convertThemeToSnakeCase = theme => ({
+  id: theme.id,
+  name: theme.name,
+  background_color: theme.backgroundColor,
+  background_image: theme.backgroundImage,
+  background_image_portrait: theme.backgroundImagePortrait,
+  body_font: theme.bodyFont,
+  body_text_color: theme.bodyTextColor,
+  heading_font: theme.headingFont,
+  heading_text_color: theme.headingTextColor,
+  heading_2_font: theme.heading2Font,
+  heading_2_text_color: theme.heading2TextColor,
+  border_color: theme.borderColor,
+});
+
 class MiraAppSimulator extends Component {
   initialState = {
     presentation: null,
@@ -118,20 +133,10 @@ class MiraAppSimulator extends Component {
     };
 
     // Convert user-defined themes to snake_case for API parity.
-    previewOptions.themes = (previewOptions.themes || []).map(theme => ({
-      id: theme.id,
-      name: theme.name,
-      background_color: theme.backgroundColor,
-      background_image: theme.backgroundImage,
-      background_image_portrait: theme.backgroundImagePortrait,
-      body_font: theme.bodyFont,
-      body_text_color: theme.bodyTextColor,
-      heading_font: theme.headingFont,
-      heading_text_color: theme.headingTextColor,
-      heading_2_font: theme.heading2Font,
-      heading_2_text_color: theme.heading2TextColor,
-      border_color: theme.borderColor,
-    }));
+    previewOptions.themes = (previewOptions.themes || []).map(
+      convertThemeToSnakeCase,
+    );
+
     // Add default themes.
     previewOptions.themes = [
       ...previewOptions.themes,

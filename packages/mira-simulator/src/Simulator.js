@@ -99,9 +99,7 @@ class MiraAppSimulator extends Component {
     let presentation = this.getUpdatedState('presentation');
 
     if (presentation) {
-      presentation = encodeURIComponent(
-        JSON.stringify(queryParams.presentation || {}),
-      );
+      presentation = encodeURIComponent(JSON.stringify(presentation));
     }
 
     const qs = querystring.stringify(

@@ -114,17 +114,6 @@ class MiraAppSimulator extends Component {
     window.history.replaceState(null, '', `?${qs}`);
   }
 
-  componentWillMount() {
-    this.setState({
-      ...this.initialState,
-      ...this.getStateFromQueryParams(),
-    });
-  }
-
-  componentDidUpdate() {
-    this.persistStateToQueryParams();
-  }
-
   getUpdatedState(key) {
     return this.hasStateChanged(key) ? this.state[key] : undefined;
   }
@@ -245,6 +234,17 @@ class MiraAppSimulator extends Component {
       presentationPreview: previousPresentation,
     });
   };
+
+  componentWillMount() {
+    this.setState({
+      ...this.initialState,
+      ...this.getStateFromQueryParams(),
+    });
+  }
+
+  componentDidUpdate() {
+    this.persistStateToQueryParams();
+  }
 
   renderControls() {
     const { fullScreen, hideControls, present, previewOptions } = this.state;

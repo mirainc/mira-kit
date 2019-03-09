@@ -137,11 +137,6 @@ class MiraAppSimulator extends Component {
   // webpack to reload the app preview.
   onAppLoad = (appVersion, previewOptions) => {
     const { presentation } = this.state;
-    const state = {
-      presentation,
-      appVersion,
-      previewOptions,
-    };
 
     previewOptions.themes = (previewOptions.themes || [])
       // Convert user-defined themes to snake_case for API parity.
@@ -150,7 +145,7 @@ class MiraAppSimulator extends Component {
       .concat(Object.values(themes));
 
     if (previewOptions.presentations) {
-      state.previewOptions.presentations = state.previewOptions.presentations
+      previewOptions.presentations = previewOptions.presentations
         .map(normalizePresentation)
         .map(assignIndexId);
 
@@ -162,24 +157,27 @@ class MiraAppSimulator extends Component {
           // Use the query string presentation values over what's defined in the
           // simulator config to allow users to edit the values in the form and
           // have them persist through a page refresh.
-          state.previewOptions.presentations[presentation.id] = presentation;
+          previewOptions.presentations[presentation.id] = presentation;
         } else {
           // If a presentation id isn't provided or valid, add the presentation
           // to the end of the simulator presentations with a new id.
-          state.presentation.id = state.previewOptions.presentations.length;
-          state.previewOptions.presentations.push(state.presentation);
+          presentation.id = previewOptions.presentations.length;
+          previewOptions.presentations.push(presentation);
         }
       } else {
         // No presentation currently set, use the first one in the simulator config.
         const firstPresentation = previewOptions.presentations[0];
-        state.presentation = firstPresentation;
+        presentation = firstPresentation;
       }
     }
 
-    // Immediately update the preview.
-    state.presentationPreview = state.presentation;
-
-    this.setState(state);
+    this.setState({
+      presentation,
+      // Immediately update the preview.
+      presentationPreview: presentation,
+      appVersion,
+      previewOptions,
+    });
   };
 
   queuePresentationUpdate = (presentation, changedProp) => {

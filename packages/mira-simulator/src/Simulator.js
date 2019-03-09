@@ -144,31 +144,29 @@ class MiraAppSimulator extends Component {
       // Add default themes.
       .concat(Object.values(themes));
 
-    if (previewOptions.presentations) {
-      previewOptions.presentations = previewOptions.presentations
-        .map(normalizePresentation)
-        .map(assignIndexId);
+    previewOptions.presentations = (previewOptions.presentations || [])
+      .map(normalizePresentation)
+      .map(assignIndexId);
 
-      // If a presentation exists in state it means the user has updated the
-      // form values, is in present mode or has passed in a presentation from
-      // the query string.
-      if (presentation) {
-        if (!isNaN(presentation.id)) {
-          // Use the query string presentation values over what's defined in the
-          // simulator config to allow users to edit the values in the form and
-          // have them persist through a page refresh.
-          previewOptions.presentations[presentation.id] = presentation;
-        } else {
-          // If a presentation id isn't provided or valid, add the presentation
-          // to the end of the simulator presentations with a new id.
-          presentation.id = previewOptions.presentations.length;
-          previewOptions.presentations.push(presentation);
-        }
+    // If a presentation exists in state it means the user has updated the
+    // form values, is in present mode or has passed in a presentation from
+    // the query string.
+    if (presentation) {
+      if (!isNaN(presentation.id)) {
+        // Use the query string presentation values over what's defined in the
+        // simulator config to allow users to edit the values in the form and
+        // have them persist through a page refresh.
+        previewOptions.presentations[presentation.id] = presentation;
       } else {
-        // No presentation currently set, use the first one in the simulator config.
-        const firstPresentation = previewOptions.presentations[0];
-        presentation = firstPresentation;
+        // If a presentation id isn't provided or valid, add the presentation
+        // to the end of the simulator presentations with a new id.
+        presentation.id = previewOptions.presentations.length;
+        previewOptions.presentations.push(presentation);
       }
+    } else if (previewOptions.presentations.length) {
+      // No presentation currently set, use the first one in the simulator config.
+      const firstPresentation = previewOptions.presentations[0];
+      presentation = firstPresentation;
     }
 
     this.setState({

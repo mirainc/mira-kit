@@ -1,5 +1,5 @@
 import deepEqual from 'fast-deep-equal';
-import { isEqual, isNil, omitBy } from 'lodash/fp';
+import { isEqual, isNil, omitBy, tail } from 'lodash/fp';
 import * as defaultThemes from 'mira-kit/themes';
 import {
   ThemeProvider,
@@ -60,8 +60,6 @@ class MiraAppSimulator extends Component {
     hideControls: false,
     enableLogs: true,
   };
-
-  queuedPresentationPreview = null;
 
   getStateFromQueryParams() {
     const query = window.location.search.replace(/^\?/, '');
@@ -199,28 +197,26 @@ class MiraAppSimulator extends Component {
   };
 
   queuePresentationUpdate = (presentation, changedProp) => {
-    let presentationPreview;
+    // Persist preview presentation updates through next/prev navigation.
+    const presentations = [presentation, ...tail(this.state.presentations)];
+    this.setState({ presentations });
 
-    // Delay updating the preview for text and string inputs until onBlur.
+    // Defer preview update for text and string inputs until onBlur.
     if (changedProp.type === 'string' || changedProp.type === 'text') {
-      this.queuedPresentationPreview = presentation;
-      presentationPreview = this.state.presentationPreview;
+      this.deferPreviewUpdate(presentation);
     } else {
       // Immediately update presentation preview.
-      presentationPreview = presentation;
-      // Clear any queued preview updates because we're about to update.
-      this.queuedPresentationPreview = null;
+      this.setPresentation(presentation);
     }
+  };
 
-    this.setState({ presentationPreview, presentation });
+  deferPreviewUpdate = presentation => {
+    this.setState({ presentation });
   };
 
   flushPreviewUpdate = () => {
-    // Flush any queued preview updates.
-    if (this.queuedPresentationPreview) {
-      this.setState({ presentationPreview: this.queuedPresentationPreview });
-      this.queuedPresentationPreview = null;
-    }
+    // Flush any deferred preview updates.
+    this.setState({ presentationPreview: this.state.presentation });
   };
 
   nextPresentation = () => {

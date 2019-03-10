@@ -1,5 +1,5 @@
 import deepEqual from 'fast-deep-equal';
-import { omitBy, isNil, toNumber } from 'lodash/fp';
+import { isEqual, isNil, omitBy } from 'lodash/fp';
 import * as defaultThemes from 'mira-kit/themes';
 import {
   ThemeProvider,
@@ -14,6 +14,8 @@ import AppLoader from './AppLoader';
 import Icon from './Icon';
 import logger from './logger';
 import mergeDefaultAppVars from './mergeDefaultAppVars';
+import CircularQueue from './CircularQueue';
+import memoizeOne from './memoizeOne';
 
 const PRESENTATION_MIN_DURATION = 5;
 const EMPTY_PRESENTATION = { name: 'New Presentation', application_vars: {} };
@@ -35,15 +37,14 @@ const convertThemeToSnakeCase = theme => ({
   border_color: theme.borderColor,
 });
 
-const normalizePresentation = presentation => ({
-  name: presentation.name,
-  application_vars: presentation.values || {},
-  theme_id: presentation.theme,
-});
-
-const assignIndexId = (obj, index) => ({ ...obj, id: index });
-
 const omitNilValues = omitBy(isNil);
+
+const normalizePresentation = presentation =>
+  omitNilValues({
+    name: presentation.name,
+    application_vars: presentation.values || {},
+    theme_id: presentation.theme,
+  });
 
 class MiraAppSimulator extends Component {
   initialState = {
@@ -146,31 +147,31 @@ class MiraAppSimulator extends Component {
     });
   };
 
-  setPresentations = presentations => {
-    const { presentation } = this.state;
+  // memoize most recent input to avoid resetting presentations when app reloads without changes
+  setPresentations = memoizeOne(
+    presentations => {
+      const { presentation } = this.state;
 
-    presentations = presentations.map(assignIndexId);
-
-    if (presentation) {
-      // User has specified presentation via form or query params.
-      if (presentations.find(({ id }) => id === toNumber(presentation.id))) {
-        // Allow edited presentations in array to persist through page/app refresh.
-        presentations = presentations.map(
-          existing =>
-            existing.id === toNumber(presentation.id) ? presentation : existing,
-        );
-      } else {
-        // Append new presentations to end of array and reassign array index ids.
-        presentations.push(presentation);
-        presentations = presentations.concat(presentation).map(assignIndexId);
+      if (presentation) {
+        // Presentation exists in state when user defines query params or updates form values.
+        if (presentations.some(isEqual(presentation))) {
+          // Rotate presentations until the presentation in user-defined state is first.
+          const queue = CircularQueue.from(presentations);
+          while (!isEqual(presentation, queue.head)) queue.next;
+          presentations = queue.values;
+        } else {
+          // Prepend new presentations to beginning of values.
+          presentations.unshift(presentation);
+        }
+      } else if (presentations.length) {
+        // User has not specified presentation, use first presentation by default.
+        this.setPresentation(presentations[0]);
       }
-    } else if (presentations.length) {
-      // User has not specified presentation, use first presentation by default.
-      this.setPresentation(presentations[0]);
-    }
 
-    this.setState({ presentations });
-  };
+      this.setState({ presentations });
+    },
+    (...args) => JSON.stringify(args), // cache inputs by JSON string
+  );
 
   setSoundZones = soundZones => {
     this.setState({ soundZones });
@@ -223,30 +224,26 @@ class MiraAppSimulator extends Component {
   };
 
   nextPresentation = () => {
-    const { presentation, presentations } = this.state;
-    const count = presentations.length;
-    let index = presentation.id;
-    // Show the next presentation in the list.
-    const nextIndex = (index + 1) % count;
-    const nextPresentation = presentations[nextIndex];
+    const { values: presentations, next } = CircularQueue.from(
+      this.state.presentations,
+    );
 
     this.setState({
-      presentation: nextPresentation,
-      presentationPreview: nextPresentation,
+      presentation: next,
+      presentationPreview: next,
+      presentations,
     });
   };
 
-  previousPresentation = () => {
-    const { presentation, presentations } = this.state;
-    const count = presentations.length;
-    let index = presentation.id;
-    // Show the previous presentation in the list.
-    const previousIndex = ((index - 1) % count + count) % count;
-    const previousPresentation = presentations[previousIndex];
+  prevPresentation = () => {
+    const { values: presentations, prev } = CircularQueue.from(
+      this.state.presentations,
+    );
 
     this.setState({
-      presentation: previousPresentation,
-      presentationPreview: previousPresentation,
+      presentation: prev,
+      presentationPreview: prev,
+      presentations,
     });
   };
 
@@ -280,7 +277,7 @@ class MiraAppSimulator extends Component {
               <Button
                 shrinkwrap
                 disabled={present}
-                onClick={this.previousPresentation}
+                onClick={this.prevPresentation}
               >
                 <Icon icon="previous" />
               </Button>
@@ -372,10 +369,11 @@ class MiraAppSimulator extends Component {
       );
     }
 
-    const presentationWithDefaults = {
-      ...mergeDefaultAppVars(presentation, appVersion, soundZones),
-      id: String(presentation.id),
-    };
+    const presentationWithDefaults = mergeDefaultAppVars(
+      presentation,
+      appVersion,
+      soundZones,
+    );
 
     return (
       <div {...containerProps}>

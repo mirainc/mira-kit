@@ -1,5 +1,5 @@
 import deepEqual from 'fast-deep-equal';
-import { isEqual, isNil, omitBy, tail } from 'lodash/fp';
+import { eq, flow, get, isNil, map, omitBy, tail } from 'lodash/fp';
 import * as defaultThemes from 'mira-kit/themes';
 import {
   ThemeProvider,
@@ -8,6 +8,7 @@ import {
   PresentationBuilderPreview,
   Button,
 } from 'mira-elements';
+import hash from 'object-hash';
 import querystring from 'querystring';
 import React, { Component } from 'react';
 import AppLoader from './AppLoader';
@@ -21,6 +22,15 @@ const PRESENTATION_MIN_DURATION = 5;
 const EMPTY_PRESENTATION = { name: 'New Presentation', application_vars: {} };
 const EMPTY_APP_VERSION = { icon_url: '', presentation_properties: [] };
 const DEFAULT_THEMES = Object.values(defaultThemes);
+
+const memoizeByIds = fn => memoizeOne(fn, flow(map('id'), hash));
+
+// if id does not exist, set id to hash of object contents
+const defaultHashId = ({ id, ...obj }) => ({ ...obj, id: id || hash(obj) });
+
+const omitNilValues = omitBy(isNil);
+
+const idMatches = id => flow(get('id'), eq(id));
 
 const convertThemeToSnakeCase = theme => ({
   id: theme.id,
@@ -36,8 +46,6 @@ const convertThemeToSnakeCase = theme => ({
   heading_2_text_color: theme.heading2TextColor,
   border_color: theme.borderColor,
 });
-
-const omitNilValues = omitBy(isNil);
 
 const normalizePresentation = presentation =>
   omitNilValues({
@@ -138,25 +146,41 @@ class MiraAppSimulator extends Component {
     this.setState({ appVersion });
   };
 
-  setPresentation = presentation => {
-    this.setState({
-      presentation,
-      presentationPreview: presentation,
-    });
-  };
+  setPresentation = flow(
+    // stamp incoming presentations with hash IDs
+    defaultHashId,
+    presentation => {
+      const { presentations } = this.state;
 
-  // memoize most recent input to avoid resetting presentations when app reloads without changes
-  setPresentations = memoizeOne(
-    presentations => {
-      const { presentation } = this.state;
+      if (!presentations.some(idMatches(presentation.id))) {
+        // cache new incoming presentations
+        this.setState({ presentations: [presentation, ...presentations] });
+      }
+
+      this.setState({
+        presentation,
+        presentationPreview: presentation,
+      });
+    },
+  );
+
+  setPresentations = flow(
+    // stamp incoming presentations with hash IDs
+    map(defaultHashId),
+    // memoize most recent input to avoid resetting presentations when app reloads without changes
+    memoizeByIds(presentations => {
+      let { presentation } = this.state;
 
       if (presentation) {
         // Presentation exists in state when user defines query params or updates form values.
-        if (presentations.some(isEqual(presentation))) {
+        presentation = defaultHashId(presentation);
+
+        if (presentations.some(idMatches(presentation.id))) {
           // Rotate presentations until the presentation in user-defined state is first.
           const queue = CircularQueue.from(presentations);
-          while (!isEqual(presentation, queue.head)) queue.next;
-          presentations = queue.values;
+          while (queue.head.id !== presentation.id) queue.next;
+          // Replace presentation in case it was updated.
+          presentations = [presentation, ...tail(queue.values)];
         } else {
           // Prepend new presentations to beginning of values.
           presentations.unshift(presentation);
@@ -167,8 +191,7 @@ class MiraAppSimulator extends Component {
       }
 
       this.setState({ presentations });
-    },
-    (...args) => JSON.stringify(args), // cache inputs by JSON string
+    }),
   );
 
   setSoundZones = soundZones => {

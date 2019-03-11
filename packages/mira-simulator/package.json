@@ -17,6 +17,7 @@
     "mira-elements": "^0.34.0",
     "mira-kit": "^3.11.0",
     "mira-resources": "^3.9.2",
+    "object-hash": "^1.3.1",
     "prop-types": "^15.6.1",
     "querystring": "^0.2.0",
     "react": "^16.4.0",

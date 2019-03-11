@@ -183,10 +183,10 @@ class MiraAppSimulator extends Component {
   // handleAppLoad is called whenever the app is loaded. This happens
   // on first page load but also when the app code has changed, causing
   // webpack to reload the app preview.
-  handleAppLoad = (
-    appVersion,
-    { themes = [], presentations = [], soundZones = [] },
-  ) => {
+  handleAppLoad = (appVersion, previewOptions) => {
+    let { themes = [], presentations = [] } = previewOptions;
+    const { soundZones = [] } = previewOptions;
+
     themes = themes.map(convertThemeToSnakeCase);
     presentations = presentations.map(normalizePresentation);
 
@@ -194,6 +194,9 @@ class MiraAppSimulator extends Component {
     this.setThemes(themes);
     this.setPresentations(presentations);
     this.setSoundZones(soundZones);
+
+    if (this.props.onAppLoad) this.props.onAppLoad(appVersion, previewOptions);
+    if (this.onAppLoad) this.onAppLoad(appVersion, previewOptions);
   };
 
   queuePresentationUpdate = (presentation, changedProp) => {

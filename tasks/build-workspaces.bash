@@ -7,6 +7,8 @@ set -e
 # First we need to build packages
 cd packages/mira-kit
 yarn build
+cd ../mira-mock-device
+yarn build
 cd ../mira-resources
 yarn build
 cd ../mira-simulator

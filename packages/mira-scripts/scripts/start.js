@@ -34,6 +34,13 @@ async function start() {
   const appName = require(paths.appPackageJson).name;
   const port = await choosePort(host, defaultPort);
   const urls = prepareUrls(protocol, host, port);
+  // Inject custom urls for Mira device
+  urls.lanUrlForTerminal = `${urls.lanUrlForTerminal}\n
+  Run the following to view your app on your dev device:\n
+  mira-cli device action enable-dev-url <device_id> '${protocol}://${
+    urls.lanUrlForConfig
+  }:${port}/?fullScreen=true&present=true'
+  `;
   const compiler = createCompiler(
     webpack,
     createConfig(configPath),

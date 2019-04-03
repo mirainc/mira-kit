@@ -1,10 +1,10 @@
 {
   "name": "weather",
-  "version": "3.12.1",
+  "version": "3.12.2",
   "private": true,
   "dependencies": {
     "mira-kit": "^3.11.0",
-    "mira-scripts": "^3.12.1",
+    "mira-scripts": "^3.12.2",
     "netlify-cli": "^1.2.2",
     "prop-types": "^15.6.1",
     "react": "^16.4.0",

@@ -245,7 +245,7 @@ class MiraAppSimulator extends Component {
   }
 
   renderPreview(presentationPreview, errors, previewMode) {
-    const { enableLogs, present, fullScreen } = this.state;
+    const { enableLogs, present, fullScreen, simulatorOptions } = this.state;
 
     const appLoader = (
       <AppLoader
@@ -257,6 +257,7 @@ class MiraAppSimulator extends Component {
         enableLogs={enableLogs}
         isPresenting={present}
         isFullscreen={fullScreen}
+        accessToken={simulatorOptions.accessToken}
         onLoad={this.setOptions}
         onComplete={this.nextPresentation}
       />

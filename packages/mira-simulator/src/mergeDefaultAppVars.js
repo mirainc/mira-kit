@@ -1,4 +1,4 @@
-export default (presentation, appVersion, soundZones = []) => {
+export default (presentation, appVersion, soundZones = [], playlists = []) => {
   const appVars = { ...presentation.application_vars };
 
   appVersion.presentation_properties.forEach(prop => {
@@ -7,6 +7,8 @@ export default (presentation, appVersion, soundZones = []) => {
     if (propValue === undefined) {
       if (prop.type === 'soundZone' && soundZones.length > 0) {
         appVars[prop.name] = soundZones[0].id;
+      } else if (prop.type === 'playlist' && playlists.length > 0) {
+        appVars[prop.name] = playlists[0].id;
       } else if (prop.default !== undefined) {
         appVars[prop.name] = prop.default;
       }

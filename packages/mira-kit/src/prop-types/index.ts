@@ -6,6 +6,7 @@ import GoogleAuthType from './GoogleAuthType';
 import ImageType from './ImageType';
 import NumberType from './NumberType';
 import OAuthType from './OAuthType';
+import PlaylistType from './PlaylistType';
 import SelectionType from './SelectionType';
 import SoundZoneType from './SoundZoneType';
 import StringType from './StringType';
@@ -24,6 +25,7 @@ export const image = (label: string) => new ImageType(label);
 // tslint:disable-next-line
 export const number = (label: string) => new NumberType(label);
 export const oAuth = (label: string) => new OAuthType(label);
+export const playlist = (label: string) => new PlaylistType(label);
 export const soundZone = (label: string) => new SoundZoneType(label);
 export const selection = (label: string) => new SelectionType(label);
 // tslint:disable-next-line

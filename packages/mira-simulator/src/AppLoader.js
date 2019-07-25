@@ -14,6 +14,7 @@ class AppLoader extends Component {
     onComplete: PropTypes.func,
     enableLogs: PropTypes.bool,
     isPresenting: PropTypes.bool,
+    isFullscreen: PropTypes.bool,
     previewErrors: PropTypes.arrayOf(
       PropTypes.shape({ message: PropTypes.string }),
     ),
@@ -23,6 +24,7 @@ class AppLoader extends Component {
     onComplete: null,
     enableLogs: true,
     isPresenting: false,
+    isFullscreen: false,
     previewErrors: [],
   };
 
@@ -133,9 +135,11 @@ class AppLoader extends Component {
   }
 
   render() {
-    const shouldShowOverlay = !this.state.didReceiveReady;
+    const { isFullscreen } = this.props;
+    const { didReceiveReady } = this.state;
+    const shouldShowOverlay = !didReceiveReady;
     return (
-      <div style={styles.container}>
+      <div style={isFullscreen ? styles.containerFullscreen : styles.container}>
         {shouldShowOverlay && <div style={styles.overlay} />}
         <iframe
           title="Preview"
@@ -154,6 +158,14 @@ const styles = {
   container: {
     height: '100%',
     position: 'relative',
+  },
+  containerFullscreen: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    zIndex: 90, // Should be less than zIndex of controls
   },
   overlay: {
     position: 'absolute',

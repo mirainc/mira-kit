@@ -1,18 +1,17 @@
 import deepEqual from 'fast-deep-equal';
+import App from 'mira-elements/core/App';
+import Button from 'mira-elements/core/Button';
+import ThemeProvider from 'mira-elements/core/ThemeProvider';
+import PresentationBuilder from 'mira-elements/presentation/PresentationBuilder';
+import PresentationPreview from 'mira-elements/presentation/PresentationPreview';
+import theme from 'mira-elements/theme';
 import * as themes from 'mira-kit/themes';
-import {
-  ThemeProvider,
-  Container,
-  PresentationBuilderForm,
-  PresentationBuilderPreview,
-  Button,
-} from 'mira-elements';
 import querystring from 'querystring';
 import React, { Component } from 'react';
 import AppLoader from './AppLoader';
-import Icon from './Icon';
 import logger from './logger';
 import mergeDefaultAppVars from './mergeDefaultAppVars';
+import ThemeSelector from 'mira-elements/core/ThemeSelector/ThemeSelector';
 
 const PRESENTATION_MIN_DURATION = 5;
 const EMPTY_PRESENTATION = { name: 'New Presentation', application_vars: {} };
@@ -21,7 +20,6 @@ const EMPTY_APP_VERSION = { icon_url: '', presentation_properties: [] };
 class MiraAppSimulator extends Component {
   initialState = {
     presentation: null,
-    presentationPreview: null,
     appVersion: null,
     previewMode: 'horizontal',
     fullScreen: false,
@@ -30,8 +28,6 @@ class MiraAppSimulator extends Component {
     enableLogs: true,
     simulatorOptions: { presentations: [] },
   };
-
-  queuedPresentationPreview = null;
 
   componentWillMount() {
     const state = { ...this.initialState };
@@ -61,7 +57,6 @@ class MiraAppSimulator extends Component {
           throw new Error('Missing application_vars');
         }
         state.presentation = presentation;
-        state.presentationPreview = state.presentation;
       } catch (err) {
         logger.warning('Could not parse presentation from querystring.');
       }
@@ -187,35 +182,7 @@ class MiraAppSimulator extends Component {
       }
     }
 
-    // Immediately update the preview.
-    state.presentationPreview = state.presentation;
-
     this.setState(state);
-  };
-
-  queuePresentationUpdate = (presentation, changedProp) => {
-    let presentationPreview;
-
-    // Delay updating the preview for text and string inputs until onBlur.
-    if (changedProp.type === 'string' || changedProp.type === 'text') {
-      this.queuedPresentationPreview = presentation;
-      presentationPreview = this.state.presentationPreview;
-    } else {
-      // Immediately update presentation preview.
-      presentationPreview = presentation;
-      // Clear any queued preview updates because we're about to update.
-      this.queuedPresentationPreview = null;
-    }
-
-    this.setState({ presentationPreview, presentation });
-  };
-
-  flushPreviewUpdate = () => {
-    // Flush any queued preview updates.
-    if (this.queuedPresentationPreview) {
-      this.setState({ presentationPreview: this.queuedPresentationPreview });
-      this.queuedPresentationPreview = null;
-    }
   };
 
   nextPresentation = () => {
@@ -226,10 +193,7 @@ class MiraAppSimulator extends Component {
     const nextIndex = (index + 1) % count;
     const nextPresentation = simulatorOptions.presentations[nextIndex];
 
-    this.setState({
-      presentation: nextPresentation,
-      presentationPreview: nextPresentation,
-    });
+    this.setState({ presentation: nextPresentation });
   };
 
   previousPresentation = () => {
@@ -240,10 +204,7 @@ class MiraAppSimulator extends Component {
     const previousIndex = ((index - 1) % count + count) % count;
     const previousPresentation = simulatorOptions.presentations[previousIndex];
 
-    this.setState({
-      presentation: previousPresentation,
-      presentationPreview: previousPresentation,
-    });
+    this.setState({ presentation: previousPresentation });
   };
 
   renderControls() {
@@ -251,112 +212,75 @@ class MiraAppSimulator extends Component {
     const shouldShowPlay = simulatorOptions.presentations.length > 1;
 
     return (
-      <ThemeProvider theme={fullScreen ? 'dark' : 'light'}>
+      <ThemeSelector color={fullScreen ? 'dark' : 'light'}>
         <div style={styles.controls(fullScreen, hideControls)}>
           <Button
-            shrinkwrap
+            icon={fullScreen ? 'fullscreenExit' : 'fullscreen'}
             onClick={() => this.setState({ fullScreen: !fullScreen })}
-          >
-            <Icon icon={fullScreen ? 'fullscreenExit' : 'fullscreen'} />
-          </Button>
-          <div style={{ flex: 1 }} />
+          />
+          &nbsp; &nbsp;
           {shouldShowPlay && (
             <span>
               <Button
-                shrinkwrap
+                icon="previous"
                 disabled={present}
                 onClick={this.previousPresentation}
-              >
-                <Icon icon="previous" />
-              </Button>
+              />
               &nbsp;
               <Button
-                shrinkwrap
+                icon={present ? 'pause' : 'play'}
                 onClick={() => this.setState({ present: !present })}
-              >
-                <Icon icon={present ? 'pause' : 'play'} />
-              </Button>
+              />
               &nbsp;
               <Button
-                shrinkwrap
+                icon="next"
                 disabled={present}
                 onClick={this.nextPresentation}
-              >
-                <Icon icon="next" />
-              </Button>
+              />
             </span>
           )}
         </div>
-      </ThemeProvider>
+      </ThemeSelector>
     );
   }
 
-  renderPreview() {
-    const { previewMode, present, enableLogs, simulatorOptions } = this.state;
-    let { presentationPreview, appVersion } = this.state;
+  renderPreview(presentationPreview, errors, previewMode) {
+    const { enableLogs, present, fullScreen } = this.state;
 
-    presentationPreview = presentationPreview || EMPTY_PRESENTATION;
-    appVersion = appVersion || EMPTY_APP_VERSION;
-
-    // We don't care about name not being set to render the preview
-    // so we hard-code a valid name.
-    presentationPreview = mergeDefaultAppVars(
-      { ...presentationPreview, name: presentationPreview.name || ' ' },
-      appVersion,
-      simulatorOptions.soundZones,
-    );
-
-    const previewErrors = PresentationBuilderForm.validate(
-      presentationPreview,
-      appVersion,
-      PRESENTATION_MIN_DURATION,
-    );
-
-    // Setting key so the app preview reloads when presentation
-    // or preview mode changes.
-    const key = `${presentationPreview.id}-${previewMode}`;
-    // Add selected theme object to presentation.
-    if (presentationPreview.theme_id) {
-      const theme = (simulatorOptions.themes || []).find(
-        t => t.id === presentationPreview.theme_id,
-      );
-      presentationPreview.theme = theme;
-    }
-    return (
+    const appLoader = (
       <AppLoader
-        key={key}
-        presentation={presentationPreview}
-        previewErrors={previewErrors}
+        presentation={{
+          ...presentationPreview,
+          application_vars: presentationPreview.applicationVariables,
+        }}
+        previewErrors={errors}
         enableLogs={enableLogs}
         isPresenting={present}
+        isFullscreen={fullScreen}
         onLoad={this.setOptions}
         onComplete={this.nextPresentation}
       />
     );
+
+    if (fullScreen) {
+      return appLoader;
+    }
+
+    return (
+      <PresentationPreview previewMode={previewMode}>
+        {appLoader}
+      </PresentationPreview>
+    );
   }
 
   render() {
-    const { previewMode, fullScreen } = this.state;
+    const { previewMode } = this.state;
     let { presentation, appVersion, simulatorOptions } = this.state;
 
     presentation = presentation || EMPTY_PRESENTATION;
     appVersion = appVersion || EMPTY_APP_VERSION;
 
-    const containerProps = {
-      onMouseOver: this.startHideControlsTimer,
-      style: styles.container,
-    };
-
-    if (fullScreen) {
-      return (
-        <div {...containerProps}>
-          {this.renderControls()}
-          {this.renderPreview()}
-        </div>
-      );
-    }
-
-    const presentationWithDefaults = {
+    presentation = {
       ...mergeDefaultAppVars(
         presentation,
         appVersion,
@@ -366,50 +290,49 @@ class MiraAppSimulator extends Component {
     };
 
     return (
-      <div {...containerProps}>
-        {this.renderControls()}
-        <ThemeProvider theme="light">
-          <Container style={styles.builder}>
-            <div style={styles.form}>
-              <PresentationBuilderForm
-                presentation={presentationWithDefaults}
-                appVersion={appVersion}
-                themes={simulatorOptions.themes}
-                soundZones={simulatorOptions.soundZones}
-                onChange={this.queuePresentationUpdate}
-                onBlur={this.flushPreviewUpdate}
-              />
-            </div>
-            <PresentationBuilderPreview
-              appVersion={appVersion}
+      <ThemeProvider theme={theme}>
+        <App color="grey">
+          <div
+            style={styles.container}
+            onMouseOver={this.startHideControlsTimer}
+          >
+            {this.renderControls()}
+            <PresentationBuilder
               previewMode={previewMode}
-              onPreviewModeChange={previewMode =>
-                this.setState({ previewMode })
-              }
+              presentation={{
+                ...presentation,
+                applicationVariables: presentation.application_vars,
+              }}
+              appVersion={{
+                ...appVersion,
+                iconUrl: appVersion.icon_url,
+                presentationProperties: appVersion.presentation_properties,
+              }}
+              themes={simulatorOptions.themes}
+              soundZones={simulatorOptions.soundZones}
+              minDuration={PRESENTATION_MIN_DURATION}
             >
-              {this.renderPreview()}
-            </PresentationBuilderPreview>
-          </Container>
-        </ThemeProvider>
-      </div>
+              {(presentationPreview, errors, previewMode) =>
+                this.renderPreview(presentationPreview, errors, previewMode)
+              }
+            </PresentationBuilder>
+          </div>
+        </App>
+      </ThemeProvider>
     );
   }
 }
 
-const formWidth = 316;
 const styles = {
   container: {
     height: '100%',
     background: '#000',
+    display: 'flex',
   },
   builder: {
     display: 'flex',
     flexDirection: 'row',
     height: '100%',
-  },
-  form: {
-    width: formWidth,
-    display: 'flex',
   },
   controls: (fullScreen, hideControls) => ({
     position: 'fixed',
@@ -417,7 +340,6 @@ const styles = {
     bottom: 0,
     left: 0,
     boxSizing: 'border-box',
-    width: formWidth,
     padding: 16,
     display: 'flex',
     justifyContent: 'center',

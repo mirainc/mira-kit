@@ -7,6 +7,7 @@ import {
   image,
   number,
   oAuth,
+  playlist,
   selection,
   soundZone,
   string,
@@ -618,6 +619,30 @@ test('Should extract properties for soundZone', () => {
       name: 'soundZone',
       optional: true,
       helper_text: 'soundZone_helperText',
+      helper_link: 'https://example.com/help',
+      constraints: {},
+    },
+  ]);
+});
+
+test('Should extract properties for playlist', () => {
+  const propTypes = {
+    playlist: playlist('Playlist')
+      .helperText('helperText')
+      .helperLink('https://example.com/help'),
+  };
+
+  const { properties, strings } = extractProperties(propTypes);
+  expect(strings).toEqual({
+    playlist: 'Playlist',
+    playlist_helperText: 'helperText',
+  });
+  expect(properties).toEqual([
+    {
+      type: 'playlist',
+      name: 'playlist',
+      optional: true,
+      helper_text: 'playlist_helperText',
       helper_link: 'https://example.com/help',
       constraints: {},
     },

@@ -285,6 +285,7 @@ class MiraAppSimulator extends Component {
         presentation,
         appVersion,
         simulatorOptions.soundZones,
+        simulatorOptions.playlists,
       ),
       id: String(presentation.id),
     };
@@ -310,6 +311,7 @@ class MiraAppSimulator extends Component {
               }}
               themes={simulatorOptions.themes}
               soundZones={simulatorOptions.soundZones}
+              playlists={simulatorOptions.playlists}
               minDuration={PRESENTATION_MIN_DURATION}
             >
               {(presentationPreview, errors, previewMode) =>

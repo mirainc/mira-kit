@@ -1,6 +1,6 @@
 {
   "name": "mira-kit",
-  "version": "3.11.0",
+  "version": "3.13.0",
   "repository": "git@github.com:mirainc/mira-kit.git",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",

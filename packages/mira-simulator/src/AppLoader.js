@@ -10,6 +10,7 @@ class AppLoader extends Component {
       name: PropTypes.string,
       application_vars: PropTypes.object,
     }).isRequired,
+    theme: PropTypes.object,
     onLoad: PropTypes.func.isRequired,
     onComplete: PropTypes.func,
     enableLogs: PropTypes.bool,
@@ -50,7 +51,7 @@ class AppLoader extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { presentation, accessToken } = this.props;
+    const { presentation, theme, accessToken } = this.props;
     if (!this.checkPreviewErrors()) {
       // Send app vars if:
       //  - There are no errors.
@@ -61,7 +62,10 @@ class AppLoader extends Component {
         !deepEqual(presentation, prevProps.presentation) ||
         prevProps.accessToken !== accessToken
       ) {
-        this.messenger.send('props', { presentation, accessToken });
+        this.messenger.send('props', {
+          presentation: { ...presentation, theme },
+          accessToken,
+        });
         this.hasSentInitialProps = true;
       }
       // Only log once.

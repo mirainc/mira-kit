@@ -15,6 +15,7 @@ class AppLoader extends Component {
     enableLogs: PropTypes.bool,
     isPresenting: PropTypes.bool,
     isFullscreen: PropTypes.bool,
+    accessToken: PropTypes.string,
     previewErrors: PropTypes.arrayOf(
       PropTypes.shape({ message: PropTypes.string }),
     ),
@@ -32,7 +33,7 @@ class AppLoader extends Component {
     didReceiveReady: false,
   };
 
-  hasSentInitialPresentation = false;
+  hasSentInitialProps = false;
 
   componentDidMount() {
     this.messenger = createMessenger(
@@ -49,18 +50,19 @@ class AppLoader extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { presentation } = this.props;
+    const { presentation, accessToken } = this.props;
     if (!this.checkPreviewErrors()) {
       // Send app vars if:
       //  - There are no errors.
       //  - We have not sent the initial app vars since load.
       //  - They have changed.
       if (
-        !this.hasSentInitialPresentation ||
-        !deepEqual(presentation, prevProps.presentation)
+        !this.hasSentInitialProps ||
+        !deepEqual(presentation, prevProps.presentation) ||
+        prevProps.accessToken !== accessToken
       ) {
-        this.messenger.send('presentation', presentation);
-        this.hasSentInitialPresentation = true;
+        this.messenger.send('props', { presentation, accessToken });
+        this.hasSentInitialProps = true;
       }
       // Only log once.
       if (!this.hasLoggedReady) {
@@ -74,7 +76,7 @@ class AppLoader extends Component {
     const { isPresenting, onComplete } = this.props;
 
     if (type === 'init') {
-      this.hasSentInitialPresentation = false;
+      this.hasSentInitialProps = false;
       this.props.onLoad(payload.appVersion, payload.simulatorOptions);
     } else if (type === 'presentation_ready') {
       this.logSuccess('onReady received.');

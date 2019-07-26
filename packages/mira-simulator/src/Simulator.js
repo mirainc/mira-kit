@@ -65,21 +65,21 @@ class MiraAppSimulator extends Component {
     this.setState(state);
   }
 
-  componentDidUpdate() {
+  setQueryParams(presentation, previewMode, fullScreen, present) {
     const queryParams = {};
 
     if (this.hasStateChanged('previewMode')) {
-      queryParams.previewMode = this.state.previewMode;
+      queryParams.previewMode = previewMode;
     }
     if (this.hasStateChanged('fullScreen')) {
-      queryParams.fullScreen = this.state.fullScreen;
+      queryParams.fullScreen = fullScreen;
     }
     if (this.hasStateChanged('present')) {
-      queryParams.present = this.state.present;
+      queryParams.present = present;
     }
     if (this.hasStateChanged('presentation')) {
       queryParams.presentation = encodeURIComponent(
-        JSON.stringify(this.state.presentation || {}),
+        JSON.stringify(presentation || {}),
       );
     }
 
@@ -247,12 +247,21 @@ class MiraAppSimulator extends Component {
   renderPreview(presentationPreview, errors, previewMode) {
     const { enableLogs, present, fullScreen, simulatorOptions } = this.state;
 
+    const presentation = {
+      ...presentationPreview,
+      application_vars: presentationPreview.applicationVariables,
+    };
+
+    const theme = (simulatorOptions.themes || []).find(
+      t => t.id === presentation.themeId,
+    );
+
+    this.setQueryParams(presentation, previewMode, fullScreen, present);
+
     const appLoader = (
       <AppLoader
-        presentation={{
-          ...presentationPreview,
-          application_vars: presentationPreview.applicationVariables,
-        }}
+        presentation={presentation}
+        theme={theme}
         previewErrors={errors}
         enableLogs={enableLogs}
         isPresenting={present}

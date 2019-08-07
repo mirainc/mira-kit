@@ -16,7 +16,9 @@ class AppLoader extends Component {
     enableLogs: PropTypes.bool,
     isPresenting: PropTypes.bool,
     isFullscreen: PropTypes.bool,
-    accessToken: PropTypes.string,
+    auth: PropTypes.shape({
+      accessToken: PropTypes.string,
+    }),
     previewErrors: PropTypes.arrayOf(
       PropTypes.shape({ message: PropTypes.string }),
     ),
@@ -51,7 +53,7 @@ class AppLoader extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { presentation, theme, accessToken } = this.props;
+    const { presentation, theme, auth } = this.props;
     if (!this.checkPreviewErrors()) {
       // Send app vars if:
       //  - There are no errors.
@@ -60,11 +62,11 @@ class AppLoader extends Component {
       if (
         !this.hasSentInitialProps ||
         !deepEqual(presentation, prevProps.presentation) ||
-        prevProps.accessToken !== accessToken
+        !deepEqual(auth, prevProps.auth)
       ) {
         this.messenger.send('props', {
           presentation: { ...presentation, theme },
-          accessToken,
+          auth,
         });
         this.hasSentInitialProps = true;
       }

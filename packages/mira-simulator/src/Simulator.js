@@ -266,7 +266,7 @@ class MiraAppSimulator extends Component {
         enableLogs={enableLogs}
         isPresenting={present}
         isFullscreen={fullScreen}
-        accessToken={simulatorOptions.accessToken}
+        auth={simulatorOptions.auth || {}}
         onLoad={this.setOptions}
         onComplete={this.nextPresentation}
       />

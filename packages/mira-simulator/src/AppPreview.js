@@ -62,14 +62,14 @@ class AppPreview extends Component {
     } else if (type === 'props') {
       this.setState({
         presentation: payload.presentation,
-        accessToken: payload.accessToken,
+        auth: payload.auth,
       });
     }
   };
 
   render() {
     const { allowedRequestDomains, children, simulatorOptions } = this.props;
-    const { presentation, accessToken } = this.state;
+    const { presentation, auth } = this.state;
     // Don't render the app if we haven't received the presentation object yet.
     if (!presentation) return null;
     // Spreading app props will be deprecated. New apps should use the presentation
@@ -79,7 +79,7 @@ class AppPreview extends Component {
     const props = {
       ...legacyApplicationVars,
       presentation,
-      accessToken,
+      auth,
       miraEvents: this.miraEvents,
       miraFileResource: createFileResource(this.privateFetch),
       // TODO: Remove config.allowedRequestDomains when miraRequestResource is finally removed.

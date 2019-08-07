@@ -1,6 +1,6 @@
 {
   "name": "mira-mock-device",
-  "version": "3.13.0",
+  "version": "3.13.1",
   "description":
     "Utility class for mocking App environments in integration tests",
   "main": "lib/index.js",

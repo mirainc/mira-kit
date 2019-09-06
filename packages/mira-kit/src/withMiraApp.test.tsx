@@ -1,9 +1,9 @@
-import { shallow, mount } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import * as EventEmitter from 'eventemitter3';
 import * as React from 'react';
-import withMiraApp, { ERROR_DISPLAY_TIME, isMiraApp } from './withMiraApp';
 import ErrorMessage from './ErrorMessage';
 import frontpage from './themes/frontpage';
+import withMiraApp, { ERROR_DISPLAY_TIME, isMiraApp } from './withMiraApp';
 
 const createProps = () => ({
   miraEvents: new EventEmitter(),
@@ -29,6 +29,8 @@ const createProps = () => ({
       foo: 'bar',
     },
   },
+  isDashboard: false,
+  isThumbnail: false,
 });
 
 const App: React.SFC<any> = () => <div />;
@@ -42,7 +44,7 @@ test('Should render app', () => {
   const app = wrapper.find(App);
   expect(app.length).toEqual(1);
   const appProps = app.props();
-  expect(Object.keys(appProps).length).toEqual(11);
+  expect(Object.keys(appProps).length).toEqual(12);
   expect(appProps.presentation.name).toEqual(props.presentation.name);
   expect(appProps.presentation.values).toEqual(
     props.presentation.application_vars,
@@ -70,6 +72,7 @@ test('Should render app', () => {
   expect(appProps.strings).toEqual(props.strings);
   expect(appProps.isDashboard).toEqual(true);
   expect(appProps.isThumbnail).toEqual(true);
+  expect(appProps.miraEvents).toBeInstanceOf(EventEmitter);
 });
 
 test('Should render error', () => {

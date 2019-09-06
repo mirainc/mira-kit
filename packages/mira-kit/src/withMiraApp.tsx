@@ -188,6 +188,7 @@ export default function withMiraApp(
           strings={strings}
           isDashboard={isDashboard}
           isThumbnail={isThumbnail}
+          miraEvents={miraEvents}
         />
       );
     }

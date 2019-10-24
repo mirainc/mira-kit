@@ -28,6 +28,11 @@ const createProps = () => ({
     application_vars: {
       foo: 'bar',
     },
+    created_at: '2018-05-30T19:55:17.871355Z',
+    updated_at: '2019-10-03T16:41:01.692429Z',
+    application_deployment_id: 'c0cb796f-afe5-41bb-85c4-62d3c51134f3',
+    application_name: 'TestApp',
+    application_id: 'ec2710b1-78a8-4dcb-aaf9-e45f465ed99e',
   },
   isDashboard: false,
   isThumbnail: false,
@@ -62,6 +67,11 @@ test('Should render app', () => {
     heading2TextColor: 'heading2TextColor',
     borderColor: 'borderColor',
   });
+  expect(appProps.presentation.createdAt).toEqual('2018-05-30T19:55:17.871355Z');
+  expect(appProps.presentation.updatedAt).toEqual('2019-10-03T16:41:01.692429Z');
+  expect(appProps.presentation.applicationDeploymentId).toEqual('c0cb796f-afe5-41bb-85c4-62d3c51134f3');
+  expect(appProps.presentation.applicationName).toEqual('TestApp');
+  expect(appProps.presentation.applicationId).toEqual('ec2710b1-78a8-4dcb-aaf9-e45f465ed99e');
   expect(appProps.isPlaying).toEqual(false);
   expect(appProps.playCount).toEqual(0);
   expect(typeof appProps.onReady).toEqual('function');

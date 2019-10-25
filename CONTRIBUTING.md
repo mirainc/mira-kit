@@ -8,7 +8,7 @@ After cloning the repository, running `yarn` will install and link all packages 
 
 ##### `create-raydiant-app`
 
-The globally installed cli used to bootstrap a new Mira app. Installs the latest `raydiant-scripts` and `raydiant-kit` locally and runs the `init` script.
+The globally installed cli used to bootstrap a new Raydiant app. Installs the latest `raydiant-scripts` and `raydiant-kit` locally and runs the `init` script.
 
 ##### `raydiant-kit`
 
@@ -20,7 +20,7 @@ Sandboxing utilities for `fetch` and allowed request domains.
 
 ##### `raydiant-scripts`
 
-The development scripts for running the simulator and deploying a Mira apps.
+The development scripts for running the simulator and deploying a Raydiant apps.
 
 ##### `raydiant-simulator`
 

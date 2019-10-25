@@ -1,6 +1,6 @@
-mirakit:
+app:
   build:
-    image: mirakit
+    image: app
     path: .
     dockerfile_path: docker/Dockerfile
   encrypted_env_file: docker/deploy.env.encrypted

@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { withRaydiantApp } from 'raydiant-kit';
 import './styles.css';
 
-const apiUrl = process.env.MIRA_APP_OPENWEATHERMAP_API_URL;
-const apiKey = process.env.MIRA_APP_OPENWEATHERMAP_API_KEY;
+const apiUrl = process.env.RAYDIANT_APP_OPENWEATHERMAP_API_URL;
+const apiKey = process.env.RAYDIANT_APP_OPENWEATHERMAP_API_KEY;
 
 class Weather extends Component {
   static propTypes = {

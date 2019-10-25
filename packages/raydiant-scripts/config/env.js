@@ -36,11 +36,11 @@ dotenvFiles.forEach(dotenvFile => {
   }
 });
 
-// Grab NODE_ENV and MIRA_APP_* environment variables and prepare them to be
+// Grab NODE_ENV and RAYDIANT_APP_* environment variables and prepare them to be
 // injected into the application via DefinePlugin in Webpack configuration.
 module.exports = (additionalEnvVars = {}) => {
   const clientEnvVars = Object.keys(process.env)
-    .filter(key => /^MIRA_APP_/i.test(key))
+    .filter(key => /^RAYDIANT_APP_/i.test(key))
     .reduce(
       (env, key) => {
         env[key] = process.env[key];

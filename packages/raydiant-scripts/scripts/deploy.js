@@ -12,7 +12,7 @@ const argv = require('minimist')(process.argv.slice(2));
 const { extractProperties } = require('raydiant-kit/prop-types');
 const paths = require('../config/paths');
 
-const apiUrl = argv.api || 'https://api.getmira.com';
+const apiUrl = argv.api || 'https://api.raydiant.com';
 const apiToken = argv.token;
 const appId = argv.app;
 

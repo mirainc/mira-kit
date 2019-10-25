@@ -42,7 +42,7 @@ class App extends Component {
   render() {
     return (
       <main>
-        <h1>MiraKit</h1>
+        <h1>RaydiantKit</h1>
         <h2>Screen signage SDK</h2>
         <p>
           For documentation and examples check out{' '}

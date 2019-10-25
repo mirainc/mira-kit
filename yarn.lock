@@ -8101,29 +8101,6 @@ minimist@~0.0.1:
   version "0.0.10"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-0.0.10.tgz#de3f98543dbf96082be48ad1a0c7cda836301dcf"
 
-mira-elements@^1.7.28:
-  version "1.7.28"
-  resolved "https://registry.yarnpkg.com/mira-elements/-/mira-elements-1.7.28.tgz#86aaf9b4ee814220875a9f7524150ee0e7810f80"
-  integrity sha512-asSJ7JiXE7aOUtMkYxuZgApCeWm9GTEx+jmHD1CjLE09o047RWuozO2yaawZ/T6/dlbqpDAwM1/ySPoxYw8bjQ==
-  dependencies:
-    "@date-io/moment" "^1.3.5"
-    "@material-ui/core" "~3.2.0"
-    classnames "^2.2.6"
-    debounce "^1.2.0"
-    is-touch-device "^1.0.1"
-    material-ui-pickers "^2.2.4"
-    moment "^2.24.0"
-    object-path "^0.11.4"
-    object-path-immutable "^3.0.0"
-    react "16.4.2"
-    react-beautiful-dnd "^10.0.3"
-    react-color "^2.14.1"
-    react-datepicker "^1.6.0"
-    react-dom "16.4.2"
-    react-media "^1.9.2"
-    react-motion "^0.5.2"
-    react-text-mask "^5.4.3"
-
 mississippi@^1.2.0, mississippi@^1.3.0, mississippi@~1.3.0:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/mississippi/-/mississippi-1.3.1.tgz#2a8bb465e86550ac8b36a7b6f45599171d78671e"
@@ -10038,6 +10015,29 @@ raw-body@2.3.2:
     http-errors "1.6.2"
     iconv-lite "0.4.19"
     unpipe "1.0.0"
+
+raydiant-elements@0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/raydiant-elements/-/raydiant-elements-0.2.2.tgz#3aad7a2164802e2c746f1dba3432f38e10971fdd"
+  integrity sha512-igya9ndtiufpeqPPJr4vGCebhL0ucw9jWF5CqAFS9Qkjf1Me3QZjJbm0kmGkO06coMMKHjbbhDek6KmGiV7xFQ==
+  dependencies:
+    "@date-io/moment" "^1.3.5"
+    "@material-ui/core" "~3.2.0"
+    classnames "^2.2.6"
+    debounce "^1.2.0"
+    is-touch-device "^1.0.1"
+    material-ui-pickers "^2.2.4"
+    moment "^2.24.0"
+    object-path "^0.11.4"
+    object-path-immutable "^3.0.0"
+    react "16.4.2"
+    react-beautiful-dnd "^10.0.3"
+    react-color "^2.14.1"
+    react-datepicker "^1.6.0"
+    react-dom "16.4.2"
+    react-media "^1.9.2"
+    react-motion "^0.5.2"
+    react-text-mask "^5.4.3"
 
 rc@^1.0.1, rc@^1.1.2, rc@^1.1.6, rc@^1.1.7:
   version "1.2.6"

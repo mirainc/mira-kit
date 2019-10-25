@@ -1,17 +1,17 @@
 import deepEqual from 'fast-deep-equal';
-import App from 'mira-elements/core/App';
-import Button from 'mira-elements/core/Button';
-import ThemeProvider from 'mira-elements/core/ThemeProvider';
-import PresentationBuilder from 'mira-elements/presentation/PresentationBuilder';
-import PresentationPreview from 'mira-elements/presentation/PresentationPreview';
-import theme from 'mira-elements/theme';
+import App from 'raydiant-elements/core/App';
+import Button from 'raydiant-elements/core/Button';
+import ThemeProvider from 'raydiant-elements/core/ThemeProvider';
+import PresentationBuilder from 'raydiant-elements/presentation/PresentationBuilder';
+import PresentationPreview from 'raydiant-elements/presentation/PresentationPreview';
+import theme from 'raydiant-elements/theme';
 import * as themes from 'mira-kit/themes';
 import querystring from 'querystring';
 import React, { Component } from 'react';
 import AppLoader from './AppLoader';
 import logger from './logger';
 import mergeDefaultAppVars from './mergeDefaultAppVars';
-import ThemeSelector from 'mira-elements/core/ThemeSelector/ThemeSelector';
+import ThemeSelector from 'raydiant-elements/core/ThemeSelector/ThemeSelector';
 
 const PRESENTATION_MIN_DURATION = 5;
 const EMPTY_PRESENTATION = { name: 'New Presentation', application_vars: {} };

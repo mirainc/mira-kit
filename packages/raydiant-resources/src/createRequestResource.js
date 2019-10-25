@@ -13,7 +13,7 @@ export default (privateFetch, allowedRequestDomains) => {
     };
     if (!inAllowedRequestDomains(allowedRequestDomains, url)) {
       throw new Error(
-        `Invalid URL '${url}', domain not allowed. To allow it please add it to allowedRequestDomains in your mira.config.js.`,
+        `Invalid URL '${url}', domain not allowed. To allow it please add it to allowedRequestDomains in your raydiant.config.js.`,
       );
     }
     return privateFetch(url, requestPayload);

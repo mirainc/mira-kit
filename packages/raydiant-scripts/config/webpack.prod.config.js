@@ -6,7 +6,7 @@ const paths = require('./paths');
 const common = require('./webpack.common');
 const getClientEnvironment = require('./env');
 
-module.exports = (relConfigPath = 'mira.config.js') => {
+module.exports = (relConfigPath = 'raydiant.config.js') => {
   const env = getClientEnvironment();
   const configPath = paths.resolveApp(relConfigPath);
   return {
@@ -15,7 +15,7 @@ module.exports = (relConfigPath = 'mira.config.js') => {
     devtool: 'source-map',
     entry: {
       bundle: paths.appIndexJs,
-      'mira.config': configPath,
+      'raydiant.config': configPath,
     },
     output: {
       // The build folder.

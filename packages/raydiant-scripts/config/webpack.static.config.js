@@ -8,7 +8,7 @@ const paths = require('./paths');
 const common = require('./webpack.common');
 const getClientEnvironment = require('./env');
 
-module.exports = (relConfigPath = 'mira.config.js') => {
+module.exports = (relConfigPath = 'raydiant.config.js') => {
   const configPath = paths.resolveApp(relConfigPath);
   const env = getClientEnvironment({
     MIRA_SIMULATOR_APP_INDEX_PATH: paths.appIndexJs,

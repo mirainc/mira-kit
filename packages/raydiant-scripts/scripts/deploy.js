@@ -31,7 +31,7 @@ async function deploy() {
     throw new Error(`Missing app id, provide it with --app=<app>.`);
   }
 
-  const configPath = path.resolve(paths.appBuild, 'mira.config.js');
+  const configPath = path.resolve(paths.appBuild, 'raydiant.config.js');
   if (!fs.existsSync(configPath)) {
     throw new Error(
       `Could not find app config at ${configPath}. You may need to run '${
@@ -66,7 +66,7 @@ async function deploy() {
       config = config.default;
     }
   } catch (err) {
-    throw new Error(`Error loading mira.config.js: ${err.message}.`);
+    throw new Error(`Error loading raydiant.config.js: ${err.message}.`);
   }
 
   const { properties, strings } = extractProperties(config.properties);

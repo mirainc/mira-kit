@@ -36,7 +36,7 @@ my-app
 ├── src
 |   └── index.js
 |   └── styles.css
-├── mira.config.js
+├── raydiant.config.js
 ├── package.json
 ├── icon.svg
 └── thumbnail.svg
@@ -101,10 +101,10 @@ Wrapping your app in `withRaydiantApp` will inject these props into your app.
 
 # Configuration {#configuration}
 
-All Mira apps have a `mira.config.js` file to specify how it appears in the Dashboard.
+All Mira apps have a `raydiant.config.js` file to specify how it appears in the Dashboard.
 
 ```js
-// mira.config.js
+// raydiant.config.js
 export default {
   name: 'Weather',
   description: 'Display local weather conditions.',
@@ -140,7 +140,7 @@ To upload an icon and thumbnail, add an `icon.svg` and `thumbnail.svg` to the ro
 Presentation properties define how the user can configure your app from the Dashboard. Use MiraKit prop types and their modifiers to create the presentation builder experience.
 
 ```js
-// mira.config.js
+// raydiant.config.js
 import PropTypes from 'raydiant-kit/prop-types';
 
 export default {
@@ -225,7 +225,7 @@ Check out [Menu](#menu) for an example of using array types.
 Running `npm start` from your app directory will start the Mira app simulator. You can test various presentation values in the simulator using the `presentations` option:
 
 ```js
-// mira.config.js
+// raydiant.config.js
 export default {
   // ...
   simulator: {
@@ -278,7 +278,7 @@ export default withRaydiantApp(Weather);
 Mira apps can use files uploaded through the Dashboard. To accept files, your app must define a file presentation property.
 
 ```js
-// mira.config.js
+// raydiant.config.js
 import { image, video, file } from 'raydiant-kit/prop-types';
 export default {
   // ...
@@ -310,7 +310,7 @@ export default withRaydiantApp(PictureApp);
 You can test local files by adding them to a `files` directory in the root directory of your app. The relative url can be referenced from your simulator presentations.
 
 ```js
-// mira.config.js
+// raydiant.config.js
 export default {
   // ...
   simulator: {

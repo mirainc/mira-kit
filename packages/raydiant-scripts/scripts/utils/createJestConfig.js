@@ -92,7 +92,7 @@ module.exports = resolve => {
             supportedKeys.map(key => chalk.bold('  \u2022 ' + key)).join('\n') +
             '.\n\n' +
             'These options in your package.json Jest configuration ' +
-            'are not currently supported by MiraKit:\n\n' +
+            'are not currently supported by Raydiant:\n\n' +
             unsupportedKeys
               .map(key => chalk.bold('  \u2022 ' + key))
               .join('\n'),

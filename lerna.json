@@ -5,7 +5,7 @@
   "npmClient": "yarn",
   "useWorkspaces": true,
   "changelog": {
-    "repo": "mirainc/mira-kit",
+    "repo": "mirainc/raydiant-kit",
     "labels": {
       "feature": "New Feature",
       "breaking change": "Breaking Change",

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withMiraApp } from 'mira-kit';
+import { withRaydiantApp } from 'raydiant-kit';
 import './styles.css';
 
 class Menu extends Component {
@@ -72,4 +72,4 @@ class Menu extends Component {
   }
 }
 
-export default withMiraApp(Menu);
+export default withRaydiantApp(Menu);

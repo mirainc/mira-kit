@@ -3,18 +3,18 @@
   "version": "3.13.2",
   "private": true,
   "dependencies": {
-    "mira-kit": "^3.13.2",
-    "mira-scripts": "^3.13.2",
+    "raydiant-kit": "^3.13.2",
+    "raydiant-scripts": "^3.13.2",
     "netlify-cli": "^1.2.2",
     "prop-types": "^15.6.1",
     "react": "^16.4.0",
     "react-dom": "^16.4.0"
   },
   "scripts": {
-    "start": "mira-scripts start",
-    "build": "mira-scripts build",
-    "static": "mira-scripts static",
-    "deploy": "mira-scripts deploy",
+    "start": "raydiant-scripts start",
+    "build": "raydiant-scripts build",
+    "static": "raydiant-scripts static",
+    "deploy": "raydiant-scripts deploy",
     "deploy-static": "netlify deploy -t $NETLIFY_TOKEN"
   }
 }

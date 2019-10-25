@@ -1,0 +1,16 @@
+{
+  "name": "create-raydiant-app",
+  "version": "2.1.0",
+  "repository": "git@github.com:mirainc/raydiant-kit.git",
+  "bin": {
+    "create-raydiant-app": "./index.js"
+  },
+  "dependencies": {
+    "chalk": "^2.3.2",
+    "commander": "^2.15.0",
+    "cross-spawn": "^6.0.5",
+    "fs-extra": "^5.0.0",
+    "semver": "^5.5.0",
+    "validate-npm-package-name": "^3.0.0"
+  }
+}

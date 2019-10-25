@@ -1,22 +1,22 @@
-# MiraKit
+# RaydiantKit
 
-[![npm](https://img.shields.io/npm/v/mira-kit.svg)](https://www.npmjs.com/package/mira-kit) [ ![Codeship Status for mirainc/mira-kit](https://app.codeship.com/projects/c58d4e70-9d48-0134-e482-0ad6b5578a26/status?branch=master)](https://app.codeship.com/projects/188612)
+[![npm](https://img.shields.io/npm/v/raydiant-kit.svg)](https://www.npmjs.com/package/raydiant-kit) [ ![Codeship Status for mirainc/raydiant-kit](https://app.codeship.com/projects/c58d4e70-9d48-0134-e482-0ad6b5578a26/status?branch=master)](https://app.codeship.com/projects/188612)
 
-MiraKit is [Mira's](https://getmira.com) screen signage SDK. Mira apps are offline-first React applications that can be configured and published through the [Mira Dashboard](https://dash.getmira.com).
+RaydiantKit is [Raydiant's](https://www.raydiant.com) screen signage SDK. Raydiant apps are offline-first React applications that can be configured and published through the [Raydiant Dashboard](https://dash.raydiant.com).
 
-Inspired by [create-react-app](https://github.com/facebook/create-react-app), MiraKit makes it easy to develop screen signage applications with zero build configuration.
+Inspired by [create-react-app](https://github.com/facebook/create-react-app), RaydiantKit makes it easy to develop screen signage applications with zero build configuration.
 
 ---
 
-[Documentation](https://mira-kit.getmira.com/)
+[Documentation](https://raydiant-kit.raydiant.com/)
 
 Demos:
-[Video Player](https://mira-kit-video-example.netlify.com) ·
-[Weather](https://mira-kit-weather-example.netlify.com) ·
-[Menu](https://mira-kit-menu-example.netlify.com)
+[Video Player](https://raydiant-kit-video-example.netlify.com) ·
+[Weather](https://raydiant-kit-weather-example.netlify.com) ·
+[Menu](https://raydiant-kit-menu-example.netlify.com)
 
 [Contributing Guidelines](CONTRIBUTING.md)
 
 ---
 
-![](mira-steps.png)
+![](raydiant-steps.png)

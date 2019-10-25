@@ -8,7 +8,7 @@
 
 #### Developing
 
-* [withMiraApp](README.md#with-mira-app)
+* [withRaydiantApp](README.md#with-raydiant-app)
 * [Configuration](README.md#configuration)
   * [Config Options](README.md#config-options)
   * [Adding an Icon and Thumbnail](README.md#adding-icon-thumbnail)

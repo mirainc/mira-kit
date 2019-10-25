@@ -1,4 +1,4 @@
-### Video Player - Example Mira App
+### Video Player - Example Raydiant App
 
 Upload videos to your library.
 

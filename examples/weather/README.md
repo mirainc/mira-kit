@@ -1,4 +1,4 @@
-### Weather - Example Mira App
+### Weather - Example Raydiant App
 
 Display local weather conditions.
 

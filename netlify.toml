@@ -1,0 +1,4 @@
+[[redirects]]
+  from = "https://mira-kit.getmira.com/*"
+  to = "https://raydiant-kit.raydiant.com/:splat"
+  status = 301

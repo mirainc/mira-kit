@@ -1,42 +1,42 @@
 # Introduction
 
-MiraKit is [Mira's](https://getmira.com) screen signage SDK. Mira apps are offline-first React applications that can be configured and published through the [Mira Dashboard](https://dash.getmira.com).
+RaydiantKit is [Raydiant's](https://www.raydiant.com) screen signage SDK. Raydiant apps are offline-first React applications that can be configured and published through the [Raydiant Dashboard](https://dash.raydiant.com).
 
-Inspired by [create-react-app](https://github.com/facebook/create-react-app), MiraKit makes it easy to develop screen signage applications with zero build configuration.
+Inspired by [create-react-app](https://github.com/facebook/create-react-app), RaydiantKit makes it easy to develop screen signage applications with zero build configuration.
 
 This document assumes you have some experience with [React](https://reactjs.org/) and [async / await](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function).
 
 ---
 
-[View on Github](https://github.com/mirainc/mira-kit) ·
-[Video App](https://mira-kit-video-example.netlify.com/) ·
-[Weather App](https://mira-kit-weather-example.netlify.com/) ·
-[Menu App](https://mira-kit-menu-example.netlify.com/)
+[View on Github](https://github.com/mirainc/raydiant-kit) ·
+[Video App](https://raydiant-kit-video-example.netlify.com/) ·
+[Weather App](https://raydiant-kit-weather-example.netlify.com/) ·
+[Menu App](https://raydiant-kit-menu-example.netlify.com/)
 
 # Installation and Setup {#install}
 
-MiraKit requires [Node 8](https://nodejs.org/en/) or higher. Run `node --version` to make sure you are running a compatible version.
+RaydiantKit requires [Node 8](https://nodejs.org/en/) or higher. Run `node --version` to make sure you are running a compatible version.
 
-To create and run your first Mira app, run the following commands:
+To create and run your first Raydiant app, run the following commands:
 
 ```js
-npx create-mira-app my-app  
+npx create-raydiant-app my-app  
 cd my-app
 npm start
 ```
 
-The [`npx`](https://www.npmjs.com/package/npx) command comes installed with Node 5.2+ and will download the `create-mira-app` cli and bootstrap your first Mira app. Run `npm start` to start the app in the MiraKit development environment.
+The [`npx`](https://www.npmjs.com/package/npx) command comes installed with Node 5.2+ and will download the `create-raydiant-app` cli and bootstrap your first Raydiant app. Run `npm start` to start the app in the RaydiantKit development environment.
 
-You don't need to install Webpack, Babel or ESLint — MiraKit conveniently handles all the build configuration for you.
+You don't need to install Webpack, Babel or ESLint — RaydiantKit conveniently handles all the build configuration for you.
 
-Running `create-mira-app my-app` will scaffold a new app inside a directory called `my-app` with these files:
+Running `create-raydiant-app my-app` will scaffold a new app inside a directory called `my-app` with these files:
 
 ```
 my-app
 ├── src
 |   └── index.js
 |   └── styles.css
-├── mira.config.js
+├── raydiant.config.js
 ├── package.json
 ├── icon.svg
 └── thumbnail.svg
@@ -66,13 +66,13 @@ Output the app and simulator as a static site to `/static`. Useful for sharing a
 
 Runs the [jest](https://facebook.github.io/jest/) test suite against files ending in `.test.js`.
 
-# withMiraApp {#with-mira-app}
+# withRaydiantApp {#with-raydiant-app}
 
-The entry file for Mira apps is `src/index.js` and it must export your app wrapped in the `withMiraApp` [higher-order component](https://reactjs.org/docs/higher-order-components.html):
+The entry file for Raydiant apps is `src/index.js` and it must export your app wrapped in the `withRaydiantApp` [higher-order component](https://reactjs.org/docs/higher-order-components.html):
 
 ```js
 // src/index.js
-import { withMiraApp } from 'mira-kit';
+import { withRaydiantApp } from 'raydiant-kit';
 
 const App = ({
   presentation,
@@ -85,10 +85,10 @@ const App = ({
   // ...
 };
 
-export default withMiraApp(App);
+export default withRaydiantApp(App);
 ```
 
-Wrapping your app in `withMiraApp` will inject these props into your app.
+Wrapping your app in `withRaydiantApp` will inject these props into your app.
 
 | Prop         | Type       | Definition                                                                                                                                     |
 | ------------ | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -101,10 +101,10 @@ Wrapping your app in `withMiraApp` will inject these props into your app.
 
 # Configuration {#configuration}
 
-All Mira apps have a `mira.config.js` file to specify how it appears in the Dashboard.
+All Raydiant apps have a `raydiant.config.js` file to specify how it appears in the Dashboard.
 
 ```js
-// mira.config.js
+// raydiant.config.js
 export default {
   name: 'Weather',
   description: 'Display local weather conditions.',
@@ -128,20 +128,20 @@ To upload an icon and thumbnail, add an `icon.svg` and `thumbnail.svg` to the ro
 
 <div style="display: flex; max-width: 400px;">
   <div style="margin-right: 10px;">
-    <img src="presentation-builder.png" alt="Mira Dashboard - Presentation builder" />
+    <img src="presentation-builder.png" alt="Raydiant Dashboard - Presentation builder" />
   </div>
   <div>
-    <img src="app-selector.png" alt="Mira Dashboard - App selector" />
+    <img src="app-selector.png" alt="Raydiant Dashboard - App selector" />
   </div>
 </div>
 
 ### Properties {#properties}
 
-Presentation properties define how the user can configure your app from the Dashboard. Use MiraKit prop types and their modifiers to create the presentation builder experience.
+Presentation properties define how the user can configure your app from the Dashboard. Use RaydiantKit prop types and their modifiers to create the presentation builder experience.
 
 ```js
-// mira.config.js
-import PropTypes from 'mira-kit/prop-types';
+// raydiant.config.js
+import PropTypes from 'raydiant-kit/prop-types';
 
 export default {
   name: 'Weather',
@@ -222,10 +222,10 @@ Check out [Menu](#menu) for an example of using array types.
 
 ### Simulator {#simulator}
 
-Running `npm start` from your app directory will start the Mira app simulator. You can test various presentation values in the simulator using the `presentations` option:
+Running `npm start` from your app directory will start the Raydiant app simulator. You can test various presentation values in the simulator using the `presentations` option:
 
 ```js
-// mira.config.js
+// raydiant.config.js
 export default {
   // ...
   simulator: {
@@ -256,7 +256,7 @@ The active presentation is injected into your app's props:
 
 ```js
 // src/index.js
-import { withMiraApp } from 'mira-kit';
+import { withRaydiantApp } from 'raydiant-kit';
 
 const Weather = ({ presentation, isPlaying, onReady, onComplete, onError }) => {
   // presentation = {
@@ -270,16 +270,16 @@ const Weather = ({ presentation, isPlaying, onReady, onComplete, onError }) => {
   // ...
 };
 
-export default withMiraApp(Weather);
+export default withRaydiantApp(Weather);
 ```
 
 # File Uploads {#file-uploads}
 
-Mira apps can use files uploaded through the Dashboard. To accept files, your app must define a file presentation property.
+Raydiant apps can use files uploaded through the Dashboard. To accept files, your app must define a file presentation property.
 
 ```js
-// mira.config.js
-import { image, video, file } from 'mira-kit/prop-types';
+// raydiant.config.js
+import { image, video, file } from 'raydiant-kit/prop-types';
 export default {
   // ...
   properties: {
@@ -295,14 +295,14 @@ The url of the upload will be available on the file prop.
 ```js
 // src/index.js
 import React from 'react';
-import { withMiraApp } from 'mira-kit';
+import { withRaydiantApp } from 'raydiant-kit';
 
 // Render the image and call onReady when it has loaded.
 const PictureApp = ({ presentation, onReady }) => (
   <img src={presentation.values.image.url} onLoad={onReady} />
 );
 
-export default withMiraApp(PictureApp);
+export default withRaydiantApp(PictureApp);
 ```
 
 #### Local Files {#local-files}
@@ -310,7 +310,7 @@ export default withMiraApp(PictureApp);
 You can test local files by adding them to a `files` directory in the root directory of your app. The relative url can be referenced from your simulator presentations.
 
 ```js
-// mira.config.js
+// raydiant.config.js
 export default {
   // ...
   simulator: {
@@ -323,18 +323,18 @@ Check out [Video Player](#video-player) for an example of handling file uploads.
 
 # Environment Variables {#environment-variables}
 
-Environment variables are injected at build time and must be prefixed with `MIRA_APP_` to access them in your app.
+Environment variables are injected at build time and must be prefixed with `RAYDIANT_APP_` to access them in your app.
 
 You can add environment variables in a `.env` file in the root directory the app.
 
 ```bash
 # .env
-MIRA_APP_WEATHER_API_KEY=key
+RAYDIANT_APP_WEATHER_API_KEY=key
 ```
 
 ```js
 // src/index.js
-const apiKey = process.env.MIRA_APP_WEATHER_API_KEY;
+const apiKey = process.env.RAYDIANT_APP_WEATHER_API_KEY;
 ```
 
 You can also add environment specific environment variables.
@@ -347,20 +347,20 @@ You can also add environment specific environment variables.
 
 # Browser Support {#browser-support}
 
-The Mira device runtime is [Chromium](https://www.chromium.org/) based so at minimum your app needs to support the latest version of Chrome. It is also recommended that you also develop your app against the Chrome browser.
+The Raydiant device runtime is [Chromium](https://www.chromium.org/) based so at minimum your app needs to support the latest version of Chrome. It is also recommended that you also develop your app against the Chrome browser.
 
-The Mira Dashboard will also load a preview of your app while creating or editing a presentation and supports [Chrome](https://www.google.ca/chrome/), [Safari](https://support.apple.com/downloads/safari), [Edge](https://www.microsoft.com/en-ca/windows/microsoft-edge) and [IE11](https://www.microsoft.com/en-ca/download/internet-explorer-11-for-windows-7-details.aspx). Your app should work with these browsers or provide graceful fallbacks if they don't.
+The Raydiant Dashboard will also load a preview of your app while creating or editing a presentation and supports [Chrome](https://www.google.ca/chrome/), [Safari](https://support.apple.com/downloads/safari), [Edge](https://www.microsoft.com/en-ca/windows/microsoft-edge) and [IE11](https://www.microsoft.com/en-ca/download/internet-explorer-11-for-windows-7-details.aspx). Your app should work with these browsers or provide graceful fallbacks if they don't.
 
 # Deploying to the Dashboard {#deploying-to-dashboard}
 
-MiraKit is currently in _closed beta_, contact [support@getmira.com](mailto:support@getmira.com?subject=MiraKit%api%token%20and%20app%20id) and request an API token and app id to deploy your app.
+RaydiantKit is currently in _closed beta_, contact [support@raydiant.com](mailto:support@raydiant.com?subject=RaydiantKit%api%token%20and%20app%20id) and request an API token and app id to deploy your app.
 
 # Examples
 
 The examples are published so you can play around with them online. To run them locally you will need to [install yarn](https://yarnpkg.com/en/docs/install) and clone the repository.
 
 ```bash
-git clone git@github.com:mirainc/mira-kit.git
+git clone git@github.com:raydiant/raydiant-kit.git
 yarn
 cd examples/weather
 yarn start
@@ -370,19 +370,19 @@ yarn start
 
 Displays a user-uploaded video. Demos file uploads.
 
-[Demo](https://mira-kit-video-example.netlify.com) ·
-[Source](https://github.com/mirainc/mira-kit/tree/master/examples/video-player)
+[Demo](https://raydiant-kit-video-example.netlify.com) ·
+[Source](https://github.com/mirainc/raydiant-kit/tree/master/examples/video-player)
 
 ## Weather {#weather}
 
 Fetches local weather data for a specified city. Demos data fetching, in-animations and environment variables.
 
-[Demo](https://mira-kit-weather-example.netlify.com) ·
-[Source](https://github.com/mirainc/mira-kit/tree/master/examples/weather)
+[Demo](https://raydiant-kit-weather-example.netlify.com) ·
+[Source](https://github.com/mirainc/raydiant-kit/tree/master/examples/weather)
 
 ## Menu {#menu}
 
 Display a table of menu items. Demos array types.
 
-[Demo](https://mira-kit-menu-example.netlify.com) ·
-[Source](https://github.com/mirainc/mira-kit/tree/master/examples/menu)
+[Demo](https://raydiant-kit-menu-example.netlify.com) ·
+[Source](https://github.com/mirainc/raydiant-kit/tree/master/examples/menu)

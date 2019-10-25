@@ -17,7 +17,7 @@ const PRESENTATION_MIN_DURATION = 5;
 const EMPTY_PRESENTATION = { name: 'New Presentation', application_vars: {} };
 const EMPTY_APP_VERSION = { icon_url: '', presentation_properties: [] };
 
-class MiraAppSimulator extends Component {
+class RaydiantAppSimulator extends Component {
   initialState = {
     presentation: null,
     appVersion: null,
@@ -360,4 +360,4 @@ const styles = {
   }),
 };
 
-export default MiraAppSimulator;
+export default RaydiantAppSimulator;

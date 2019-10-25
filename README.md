@@ -16,3 +16,7 @@ Demos:
 [Menu](https://raydiant-kit-menu-example.netlify.com)
 
 [Contributing Guidelines](CONTRIBUTING.md)
+
+---
+
+![](raydiant-steps.png)

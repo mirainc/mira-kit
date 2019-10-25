@@ -1,6 +1,6 @@
 {
   "name": "raydiant-simulator",
-  "version": "3.13.2",
+  "version": "4.0.0",
   "main": "lib/index.js",
   "repository": "git@github.com:mirainc/raydiant-kit.git",
   "scripts": {
@@ -14,11 +14,11 @@
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
     "eventemitter3": "^3.0.1",
     "fast-deep-equal": "^1.1.0",
-    "raydiant-elements": "0.2.2",
-    "raydiant-kit": "^3.13.2",
-    "raydiant-resources": "^3.9.2",
     "prop-types": "^15.6.1",
     "querystring": "^0.2.0",
+    "raydiant-elements": "0.2.2",
+    "raydiant-kit": "^4.0.0",
+    "raydiant-resources": "^4.0.0",
     "react": "^16.4.0",
     "react-dom": "^16.4.0"
   },

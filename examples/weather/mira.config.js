@@ -1,4 +1,4 @@
-import { string, selection, number } from 'mira-kit/prop-types';
+import { string, selection, number } from 'raydiant-kit/prop-types';
 
 export default {
   name: 'Weather',

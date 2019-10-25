@@ -1,5 +1,5 @@
 import React from 'react';
-import { withMiraApp } from 'mira-kit';
+import { withRaydiantApp } from 'raydiant-kit';
 import './styles.css';
 
 const VideoPlayer = ({
@@ -24,4 +24,4 @@ const VideoPlayer = ({
   />
 );
 
-export default withMiraApp(VideoPlayer);
+export default withRaydiantApp(VideoPlayer);

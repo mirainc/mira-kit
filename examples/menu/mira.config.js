@@ -1,4 +1,4 @@
-import { array, string, text, number } from 'mira-kit/prop-types';
+import { array, string, text, number } from 'raydiant-kit/prop-types';
 
 export default {
   name: 'Menu',

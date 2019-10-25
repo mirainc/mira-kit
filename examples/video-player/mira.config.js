@@ -1,4 +1,4 @@
-import { video, boolean } from 'mira-kit/prop-types';
+import { video, boolean } from 'raydiant-kit/prop-types';
 
 export default {
   name: 'Video Player',

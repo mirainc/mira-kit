@@ -66,13 +66,13 @@ Output the app and simulator as a static site to `/static`. Useful for sharing a
 
 Runs the [jest](https://facebook.github.io/jest/) test suite against files ending in `.test.js`.
 
-# withMiraApp {#with-mira-app}
+# withRaydiantApp {#with-raydiant-app}
 
-The entry file for Mira apps is `src/index.js` and it must export your app wrapped in the `withMiraApp` [higher-order component](https://reactjs.org/docs/higher-order-components.html):
+The entry file for Mira apps is `src/index.js` and it must export your app wrapped in the `withRaydiantApp` [higher-order component](https://reactjs.org/docs/higher-order-components.html):
 
 ```js
 // src/index.js
-import { withMiraApp } from 'mira-kit';
+import { withRaydiantApp } from 'raydiant-kit';
 
 const App = ({
   presentation,
@@ -85,10 +85,10 @@ const App = ({
   // ...
 };
 
-export default withMiraApp(App);
+export default withRaydiantApp(App);
 ```
 
-Wrapping your app in `withMiraApp` will inject these props into your app.
+Wrapping your app in `withRaydiantApp` will inject these props into your app.
 
 | Prop         | Type       | Definition                                                                                                                                     |
 | ------------ | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -141,7 +141,7 @@ Presentation properties define how the user can configure your app from the Dash
 
 ```js
 // mira.config.js
-import PropTypes from 'mira-kit/prop-types';
+import PropTypes from 'raydiant-kit/prop-types';
 
 export default {
   name: 'Weather',
@@ -256,7 +256,7 @@ The active presentation is injected into your app's props:
 
 ```js
 // src/index.js
-import { withMiraApp } from 'mira-kit';
+import { withRaydiantApp } from 'raydiant-kit';
 
 const Weather = ({ presentation, isPlaying, onReady, onComplete, onError }) => {
   // presentation = {
@@ -270,7 +270,7 @@ const Weather = ({ presentation, isPlaying, onReady, onComplete, onError }) => {
   // ...
 };
 
-export default withMiraApp(Weather);
+export default withRaydiantApp(Weather);
 ```
 
 # File Uploads {#file-uploads}
@@ -279,7 +279,7 @@ Mira apps can use files uploaded through the Dashboard. To accept files, your ap
 
 ```js
 // mira.config.js
-import { image, video, file } from 'mira-kit/prop-types';
+import { image, video, file } from 'raydiant-kit/prop-types';
 export default {
   // ...
   properties: {
@@ -295,14 +295,14 @@ The url of the upload will be available on the file prop.
 ```js
 // src/index.js
 import React from 'react';
-import { withMiraApp } from 'mira-kit';
+import { withRaydiantApp } from 'raydiant-kit';
 
 // Render the image and call onReady when it has loaded.
 const PictureApp = ({ presentation, onReady }) => (
   <img src={presentation.values.image.url} onLoad={onReady} />
 );
 
-export default withMiraApp(PictureApp);
+export default withRaydiantApp(PictureApp);
 ```
 
 #### Local Files {#local-files}
@@ -360,7 +360,7 @@ MiraKit is currently in _closed beta_, contact [support@getmira.com](mailto:supp
 The examples are published so you can play around with them online. To run them locally you will need to [install yarn](https://yarnpkg.com/en/docs/install) and clone the repository.
 
 ```bash
-git clone git@github.com:mirainc/mira-kit.git
+git clone git@github.com:raydiant/raydiant-kit.git
 yarn
 cd examples/weather
 yarn start

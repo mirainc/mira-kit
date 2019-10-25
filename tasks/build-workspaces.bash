@@ -5,13 +5,13 @@ set -e
 # to happen in a specific order.
 
 # First we need to build packages
-cd packages/mira-kit
+cd packages/raydiant-kit
 yarn build
-cd ../mira-mock-device
+cd ../raydiant-mock-device
 yarn build
-cd ../mira-resources
+cd ../raydiant-resources
 yarn build
-cd ../mira-simulator
+cd ../raydiant-simulator
 yarn build
 
 # Now build the examples

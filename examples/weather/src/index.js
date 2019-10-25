@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withMiraApp } from 'mira-kit';
+import { withRaydiantApp } from 'raydiant-kit';
 import './styles.css';
 
 const apiUrl = process.env.MIRA_APP_OPENWEATHERMAP_API_URL;
@@ -90,4 +90,4 @@ class Weather extends Component {
   }
 }
 
-export default withMiraApp(Weather);
+export default withRaydiantApp(Weather);

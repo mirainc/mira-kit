@@ -1,7 +1,7 @@
 {
   "name": "raydiant-resources",
   "version": "3.9.2",
-  "repository": "git@github.com:mirainc/mira-kit.git",
+  "repository": "git@github.com:mirainc/raydiant-kit.git",
   "main": "lib/index.js",
   "scripts": {
     "build": "NODE_ENV=production BABEL_ENV=production babel src --out-dir lib",

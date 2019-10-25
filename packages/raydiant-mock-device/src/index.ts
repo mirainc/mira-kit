@@ -100,7 +100,7 @@ class MockDevice extends EventEmitter {
   sendMessage = async (type: string, payload?: JSONObject) => {
     // simulator builds will filter postmessage based on source === 'raydiant-simulator'
     // remove this once we stop depending on simulator builds
-    // https://github.com/mirainc/mira-kit/blob/98f77a7/packages/raydiant-simulator/src/createMessenger.js#L9
+    // https://github.com/mirainc/raydiant-kit/blob/98f77a7/packages/raydiant-simulator/src/createMessenger.js#L9
     const source = 'raydiant-simulator';
 
     await this.page.evaluate(

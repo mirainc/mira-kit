@@ -44,11 +44,11 @@ class App extends Component {
         <p>
           For documentation and examples check out{' '}
           <a
-            href="https://github.com/mirainc/mira-kit"
+            href="https://github.com/mirainc/raydiant-kit"
             target="_blank"
             rel="noopener noreferrer"
           >
-            github.com/mirainc/mira-kit
+            github.com/mirainc/raydiant-kit
           </a>.
         </p>
       </main>

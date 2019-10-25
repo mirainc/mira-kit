@@ -39,7 +39,7 @@ const program = new commander.Command(packageJson.name)
     console.log();
     console.log(`    If you have any problems, please open an an issue:`);
     console.log(
-      `    ${chalk.cyan('https://github.com/mirainc/mira-kit/issues/new')}`,
+      `    ${chalk.cyan('https://github.com/mirainc/raydiant-kit/issues/new')}`,
     );
     console.log();
   })

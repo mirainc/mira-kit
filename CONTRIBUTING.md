@@ -40,7 +40,7 @@ To publish a new release:
 2.  Commit the changes with a commit message of the new version number (ie. `Publish v2.0.1`).
 3.  Create a PR to master with the updated version numbers.
 4.  Merge PR into master.
-5.  Create a new [Github release](https://github.com/mirainc/mira-kit/releases) from master.
+5.  Create a new [Github release](https://github.com/mirainc/raydiant-kit/releases) from master.
 6.  Name the release with the new version (eg. `v2.1.0`). For pre-releases append `-<name>` to the tag (ie. `v2.1.0-beta.0`).
 7.  Checkout master locally and fetch the latest tags with `git fetch`.
 8.  Generate a changelog locally with `GITHUB_AUTH=<token> yarn changelog --tag-from <previous-tag> --tag-to <new-tag>`. You will need to [generate a personal access token](https://github.com/settings/tokens) with a `repo` scope if you don't have one.

@@ -2,7 +2,7 @@
   "name": "raydiant-simulator",
   "version": "3.13.2",
   "main": "lib/index.js",
-  "repository": "git@github.com:mirainc/mira-kit.git",
+  "repository": "git@github.com:mirainc/raydiant-kit.git",
   "scripts": {
     "build": "yarn build:lib && yarn build:dist",
     "build:lib":

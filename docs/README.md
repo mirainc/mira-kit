@@ -8,7 +8,7 @@ This document assumes you have some experience with [React](https://reactjs.org/
 
 ---
 
-[View on Github](https://github.com/mirainc/mira-kit) ·
+[View on Github](https://github.com/mirainc/raydiant-kit) ·
 [Video App](https://raydiant-kit-video-example.netlify.com/) ·
 [Weather App](https://raydiant-kit-weather-example.netlify.com/) ·
 [Menu App](https://raydiant-kit-menu-example.netlify.com/)
@@ -371,18 +371,18 @@ yarn start
 Displays a user-uploaded video. Demos file uploads.
 
 [Demo](https://raydiant-kit-video-example.netlify.com) ·
-[Source](https://github.com/mirainc/mira-kit/tree/master/examples/video-player)
+[Source](https://github.com/mirainc/raydiant-kit/tree/master/examples/video-player)
 
 ## Weather {#weather}
 
 Fetches local weather data for a specified city. Demos data fetching, in-animations and environment variables.
 
 [Demo](https://raydiant-kit-weather-example.netlify.com) ·
-[Source](https://github.com/mirainc/mira-kit/tree/master/examples/weather)
+[Source](https://github.com/mirainc/raydiant-kit/tree/master/examples/weather)
 
 ## Menu {#menu}
 
 Display a table of menu items. Demos array types.
 
 [Demo](https://raydiant-kit-menu-example.netlify.com) ·
-[Source](https://github.com/mirainc/mira-kit/tree/master/examples/menu)
+[Source](https://github.com/mirainc/raydiant-kit/tree/master/examples/menu)

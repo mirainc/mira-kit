@@ -9,13 +9,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/mirainc/mira-kit.git"
+    "url": "git+ssh://git@github.com/mirainc/raydiant-kit.git"
   },
   "author": "",
   "bugs": {
-    "url": "https://github.com/mirainc/mira-kit/issues"
+    "url": "https://github.com/mirainc/raydiant-kit/issues"
   },
-  "homepage": "https://github.com/mirainc/mira-kit#readme",
+  "homepage": "https://github.com/mirainc/raydiant-kit#readme",
   "dependencies": {
     "koa": "^2.7.0",
     "koa-static": "^5.0.0",

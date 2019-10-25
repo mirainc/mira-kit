@@ -3,7 +3,7 @@
   "title": "Raydiant Screen Signage SDK",
   "links": {
     "sidebar": {
-      "Raydiant · Screen Signage SDK": "https://github.com/mirainc/mira-kit"
+      "Raydiant · Screen Signage SDK": "https://github.com/mirainc/raydiant-kit"
     }
   },
   "plugins": ["fancybox"]

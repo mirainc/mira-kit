@@ -28,7 +28,10 @@ class App extends Component {
     const { duration } = presentation.values;
     // The app is visible start the onComplete timeout.
     if (isPlaying && !this.onCompleteTimeout) {
-      this.onCompleteTimeout = setTimeout(onComplete, duration * 1000);
+      this.onCompleteTimeout = setTimeout(() => {
+        onComplete();
+        this.onCompleteTimeout = null;
+      }, duration * 1000);
     }
   }
 

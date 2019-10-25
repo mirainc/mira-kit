@@ -42,10 +42,17 @@ module.exports = async (
   // Change working direction to app root.
   process.chdir(appPath);
 
-  // TODO: Also install raydiant-kit here. Optionally set with --kit-version
-  const scriptsPackage = getInstallPackage(scriptsVersion, originalDirectory);
+  const scriptsPackage = getInstallPackage(
+    'raydiant-scripts',
+    scriptsVersion,
+    originalDirectory,
+  );
   const scriptsPackageName = getPackageName(scriptsPackage);
-  const kitPackage = getInstallPackage(kitVersion, originalDirectory);
+  const kitPackage = getInstallPackage(
+    'raydiant-kit',
+    kitVersion,
+    originalDirectory,
+  );
   const kitPackageName = getPackageName(kitPackage);
   console.log(`Installing ${scriptsPackageName} and ${kitPackageName}...`);
   console.log();
@@ -73,8 +80,7 @@ function isYarnAvailable() {
   }
 }
 
-function getInstallPackage(version, originalDirectory) {
-  let packageToInstall = 'raydiant-scripts';
+function getInstallPackage(packageToInstall, version, originalDirectory) {
   const validSemver = semver.valid(version);
   if (validSemver) {
     packageToInstall += `@${validSemver}`;

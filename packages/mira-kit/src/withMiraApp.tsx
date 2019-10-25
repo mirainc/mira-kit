@@ -15,6 +15,11 @@ interface MiraAppProps {
     name: string;
     theme: { [key: string]: string };
     application_vars: { [key: string]: any };
+    created_at: string;
+    updated_at: string;
+    application_id: string;
+    application_deployment_id: string;
+    application_name: string;
   };
   miraEvents: EventEmitter;
   strings: { [key: string]: string };
@@ -133,6 +138,11 @@ export default function withMiraApp(
       return {
         name: presentation.name,
         values: presentation.application_vars,
+        createdAt: presentation.created_at,
+        updatedAt: presentation.updated_at,
+        applicationId: presentation.application_id,
+        applicationDeploymentId: presentation.application_deployment_id,
+        applicationName: presentation.application_name,
         theme: {
           name: theme.name || frontpage.name,
           backgroundColor: theme.background_color || frontpage.background_color,

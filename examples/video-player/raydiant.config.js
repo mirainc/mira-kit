@@ -13,11 +13,11 @@ export default {
   simulator: {
     presentations: [
       {
-        name: 'Mira Intro',
+        name: 'How Raydiant Works',
         values: {
           video: {
-            filename: 'mira-intro.mp4',
-            url: 'mira-intro.mp4',
+            filename: 'raydiant-how-it-works.mp4',
+            url: 'raydiant-how-it-works.mp4',
           },
         },
       },

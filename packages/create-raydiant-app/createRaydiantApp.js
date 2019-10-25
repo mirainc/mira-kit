@@ -22,7 +22,7 @@ module.exports = async (
     process.exit(1);
   }
 
-  console.log(`Creating a new Mira app in ${chalk.green(appPath)}.`);
+  console.log(`Creating a new Raydiant app in ${chalk.green(appPath)}.`);
   console.log();
 
   const packageJson = {
@@ -42,7 +42,7 @@ module.exports = async (
   // Change working direction to app root.
   process.chdir(appPath);
 
-  // TODO: Also install mira-kit here. Optionally set with --kit-version
+  // TODO: Also install raydiant-kit here. Optionally set with --kit-version
   const scriptsPackage = getInstallPackage(scriptsVersion, originalDirectory);
   const scriptsPackageName = getPackageName(scriptsPackage);
   const kitPackage = getInstallPackage(kitVersion, originalDirectory);

@@ -23,7 +23,7 @@ module.exports = {
     strictExportPresence: true,
     rules: [
       // Disable require.ensure as it's not a standard language feature.
-      // Also Mira apps cannot contain multiple bundles.
+      // Also Raydiant apps cannot contain multiple bundles.
       { parser: { requireEnsure: false } },
       // First, run the linter.
       // It's important to do this before Babel processes the JS.
@@ -45,7 +45,7 @@ module.exports = {
           },
         ],
         // We are using appPath not appSrc to make sure we include any raydiant.config.js
-        // and mira.*.config.js files from the app directory.
+        // and raydiant.*.config.js files from the app directory.
         include: [paths.appPath],
         exclude: [/[/\\\\]node_modules[/\\\\]/],
       },
@@ -61,7 +61,7 @@ module.exports = {
             test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
             loader: require.resolve('url-loader'),
             options: {
-              // Mira apps must be a single js file so we set this to a large number
+              // Raydiant apps must be a single js file so we set this to a large number
               // to ensure we always encode images as data urls.
               limit: Number.MAX_SAFE_INTEGER,
             },
@@ -70,7 +70,7 @@ module.exports = {
           {
             test: /\.(js|jsx|mjs)$/,
             // We are using appPath not appSrc to make sure we include any raydiant.config.js
-            // and mira.*.config.js files from the app directory.
+            // and raydiant.*.config.js files from the app directory.
             include: [paths.appPath],
             exclude: [/[/\\\\]node_modules[/\\\\]/],
             loader: require.resolve('babel-loader'),
@@ -140,7 +140,7 @@ module.exports = {
           },
           {
             // Fallback to file-loader.
-            // Since Mira apps can only be a single bundle.js we never want this
+            // Since Raydiant apps can only be a single bundle.js we never want this
             // loader to run. We are including it so the build doesn't error.
             // TODO: We should show warnings if  files are detected.
             // Exclude `html` and `json` extensions so they get processed

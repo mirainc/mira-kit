@@ -32,7 +32,7 @@ const program = new commander.Command(packageJson.name)
   )
   .option(
     '--kit-version <alternative-package>',
-    'use an older or non-standard version of mira-kit',
+    'use an older or non-standard version of raydiant-kit',
   )
   .allowUnknownOption()
   .on('--help', () => {
@@ -52,7 +52,7 @@ const appName = path.basename(rootAppPath);
 // Ensure app name is a valid npm package name.
 checkAppName(appName);
 
-// All is good, try creating a mira app.
+// All is good, try creating a raydiant app.
 createRaydiantApp(
   projectName,
   rootAppPath,
@@ -72,7 +72,7 @@ function checkProjectName(projectName) {
     console.log();
     console.log('For example:');
     console.log(
-      `  ${chalk.cyan(program.name())} ${chalk.green('my-mira-app')}`,
+      `  ${chalk.cyan(program.name())} ${chalk.green('my-raydiant-app')}`,
     );
     process.exit(1);
   }

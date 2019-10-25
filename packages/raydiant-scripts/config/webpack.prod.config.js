@@ -26,7 +26,7 @@ module.exports = (relConfigPath = 'raydiant.config.js') => {
         path.resolve(info.absoluteResourcePath).replace(/\\/g, '/'),
     },
     externals: {
-      // React is injected into Mira apps in the dashboard and on the device.
+      // React is injected into Raydiant apps in the dashboard and on the device.
       react: 'React',
     },
     resolve: {

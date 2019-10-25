@@ -6,11 +6,11 @@ import frontpage from './themes/frontpage';
 export const ERROR_DISPLAY_TIME = 5000;
 export const RETRY_PRESENTATION_TIME = 15000;
 
-const miraAppIdentifier = Symbol();
+const raydiantAppIdentifier = Symbol();
 export const isRaydiantApp = (component: any) =>
-  component.isRaydiantApp === miraAppIdentifier;
+  component.isRaydiantApp === raydiantAppIdentifier;
 
-interface MiraAppProps {
+interface RaydiantAppProps {
   presentation: {
     name: string;
     theme: { [key: string]: string };
@@ -30,7 +30,7 @@ interface MiraAppProps {
   miraRequestResource: (url: string) => any;
 }
 
-interface MiraAppState {
+interface RaydiantAppState {
   isPlaying: boolean;
   playCount: number;
   error?: Error;
@@ -38,15 +38,18 @@ interface MiraAppState {
 
 export default function withRaydiantApp(
   App: React.ComponentType<any>,
-): React.ComponentType<MiraAppProps> {
+): React.ComponentType<RaydiantAppProps> {
   const appName = App.name || App.displayName;
 
-  class WrappedComponent extends React.Component<MiraAppProps, MiraAppState> {
+  class WrappedComponent extends React.Component<
+    RaydiantAppProps,
+    RaydiantAppState
+  > {
     static displayName = `withRaydiantApp(${appName || 'App'})`;
 
-    static isRaydiantApp = miraAppIdentifier;
+    static isRaydiantApp = raydiantAppIdentifier;
 
-    state: MiraAppState = {
+    state: RaydiantAppState = {
       isPlaying: false,
       playCount: 0,
       error: null,

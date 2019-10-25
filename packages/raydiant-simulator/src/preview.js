@@ -10,15 +10,15 @@ import { extractProperties } from 'raydiant-kit/prop-types';
 import AppPreview from './AppPreview';
 import logger from './logger';
 
-if (!process.env.MIRA_SIMULATOR_APP_CONFIG_PATH) {
+if (!process.env.RAYDIANT_SIMULATOR_APP_CONFIG_PATH) {
   throw new Error(
-    `Simulator is missing environment variable: MIRA_SIMULATOR_APP_CONFIG_PATH`,
+    `Simulator is missing environment variable: RAYDIANT_SIMULATOR_APP_CONFIG_PATH`,
   );
 }
 
 const requireConfig = () => {
   try {
-    const config = require(process.env.MIRA_SIMULATOR_APP_CONFIG_PATH);
+    const config = require(process.env.RAYDIANT_SIMULATOR_APP_CONFIG_PATH);
     // Support ES and CommonJS modules.
     return config && typeof config === 'object' && config.__esModule
       ? config.default
@@ -33,21 +33,21 @@ const config = requireConfig();
 if (!config) {
   throw new Error(
     `Simulator failed to load config at path: ${
-      process.env.MIRA_SIMULATOR_APP_CONFIG_PATH
+      process.env.RAYDIANT_SIMULATOR_APP_CONFIG_PATH
     }`,
   );
 }
 
-if (!process.env.MIRA_SIMULATOR_APP_INDEX_PATH) {
+if (!process.env.RAYDIANT_SIMULATOR_APP_INDEX_PATH) {
   throw new Error(
-    `Simulator is missing environment variable: MIRA_SIMULATOR_APP_INDEX_PATH`,
+    `Simulator is missing environment variable: RAYDIANT_SIMULATOR_APP_INDEX_PATH`,
   );
 }
 
 const requireApp = () => {
   try {
     // For webpack dynamic require to work, we need to pass the env var directly to require.
-    const app = require(process.env.MIRA_SIMULATOR_APP_INDEX_PATH);
+    const app = require(process.env.RAYDIANT_SIMULATOR_APP_INDEX_PATH);
     // Support ES and CommonJS modules.
     return app && typeof app === 'object' && app.__esModule ? app.default : app;
   } catch (err) {
@@ -60,7 +60,7 @@ const App = requireApp();
 if (!App) {
   throw new Error(
     `Simulator failed to load app at path: ${
-      process.env.MIRA_SIMULATOR_APP_INDEX_PATH
+      process.env.RAYDIANT_SIMULATOR_APP_INDEX_PATH
     }`,
   );
 }
@@ -71,8 +71,8 @@ if (!isRaydiantApp(App)) {
 
 const requireIcon = () => {
   try {
-    if (process.env.MIRA_SIMULATOR_APP_ICON_PATH) {
-      return require(process.env.MIRA_SIMULATOR_APP_ICON_PATH);
+    if (process.env.RAYDIANT_SIMULATOR_APP_ICON_PATH) {
+      return require(process.env.RAYDIANT_SIMULATOR_APP_ICON_PATH);
     } else {
       return '';
     }

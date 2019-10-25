@@ -11,9 +11,9 @@ const getClientEnvironment = require('./env');
 module.exports = (relConfigPath = 'raydiant.config.js') => {
   const configPath = paths.resolveApp(relConfigPath);
   const env = getClientEnvironment({
-    MIRA_SIMULATOR_APP_INDEX_PATH: paths.appIndexJs,
-    MIRA_SIMULATOR_APP_CONFIG_PATH: configPath,
-    MIRA_SIMULATOR_APP_ICON_PATH: fs.existsSync(paths.appIcon)
+    RAYDIANT_SIMULATOR_APP_INDEX_PATH: paths.appIndexJs,
+    RAYDIANT_SIMULATOR_APP_CONFIG_PATH: configPath,
+    RAYDIANT_SIMULATOR_APP_ICON_PATH: fs.existsSync(paths.appIcon)
       ? paths.appIcon
       : '',
   });

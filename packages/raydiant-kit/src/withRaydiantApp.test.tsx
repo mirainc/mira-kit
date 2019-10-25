@@ -264,10 +264,10 @@ test('Should default to frontpage if theme not set', () => {
   );
 });
 
-test('Should return true for valid Mira app', () => {
+test('Should return true for valid Raydiant app', () => {
   expect(isRaydiantApp(withRaydiantApp(App))).toEqual(true);
 });
 
-test('Should return false for invalid Mira app', () => {
+test('Should return false for invalid Raydiant app', () => {
   expect(isRaydiantApp(App)).toEqual(false);
 });

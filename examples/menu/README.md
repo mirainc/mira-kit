@@ -1,4 +1,4 @@
-### Menu - Example Mira App
+### Menu - Example Raydiant App
 
 Easily create and display customized menus.
 

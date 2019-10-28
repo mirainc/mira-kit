@@ -157,6 +157,11 @@ class RaydiantAppSimulator extends Component {
           name: p.name,
           application_vars: p.values || {},
           theme_id: p.theme,
+          updated_at: p.updatedAt,
+          created_at: p.createdAt,
+          application_id: p.applicationId,
+          application_deployment_id: p.applicationDeploymentId,
+          application_name: p.applicationName,
         }),
       );
 

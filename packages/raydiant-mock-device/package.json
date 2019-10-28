@@ -1,6 +1,6 @@
 {
   "name": "raydiant-mock-device",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description":
     "Utility class for mocking App environments in integration tests",
   "main": "lib/index.js",

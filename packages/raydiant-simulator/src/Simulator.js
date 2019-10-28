@@ -84,7 +84,7 @@ class RaydiantAppSimulator extends Component {
     }
 
     const qs = querystring.stringify(queryParams);
-    window.history.replaceState(null, '', `?${qs}`);
+    window.history.replaceState(null, '', `?${qs}${window.location.hash}`);
   }
 
   hasStateChanged(key) {

@@ -9,6 +9,11 @@ class AppLoader extends Component {
     presentation: PropTypes.shape({
       name: PropTypes.string,
       application_vars: PropTypes.object,
+      updated_at: PropTypes.string,
+      created_at: PropTypes.string,
+      application_deployment_id: PropTypes.string,
+      application_id: PropTypes.string,
+      application_name: PropTypes.string,
     }).isRequired,
     theme: PropTypes.object,
     onLoad: PropTypes.func.isRequired,

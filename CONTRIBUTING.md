@@ -30,6 +30,16 @@ The simulator wrapper component and distributable for serving the app preview in
 
 `yarn workspace raydiant-scripts add <package-name>`
 
+##### Linking with Apps
+
+To link `raydiant-kit` with your application, run the following commands:
+
+`cd packages/raydiant-simulator && yarn build`
+
+`yarn link`
+
+Then, in the root directory of your application, run `yarn link raydiant-scripts`
+
 ## Publishing
 
 Creating a pre-release (ie. `v2.0.5-beta.1`) will publish packages to npm under the `next` tag. Creating a new release (ie. `v2.0.5`) will publish all packages, examples and documentation.

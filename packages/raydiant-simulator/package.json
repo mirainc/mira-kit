@@ -1,6 +1,6 @@
 {
   "name": "raydiant-simulator",
-  "version": "4.0.3",
+  "version": "4.0.4",
   "main": "lib/index.js",
   "repository": "git@github.com:mirainc/raydiant-kit.git",
   "scripts": {

@@ -18,7 +18,6 @@
 * [Fetching Data](README.md#fetching-data)
 * [Environment Variables](README.md#environment-variables)
 * [Supported Browsers](README.md#browser-support)
-* [Linking with apps](README.md#linking-with-apps)
 
 #### Deployment
 

@@ -35,6 +35,7 @@ The simulator wrapper component and distributable for serving the app preview in
 To link `raydiant-kit` with your application, run the following commands:
 
 `cd packages/raydiant-simulator && yarn build`
+
 `yarn link`
 
 Then, in the root directory of your application, run `yarn link raydiant-scripts`

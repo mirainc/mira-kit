@@ -351,6 +351,17 @@ The Raydiant device runtime is [Chromium](https://www.chromium.org/) based so at
 
 The Raydiant Dashboard will also load a preview of your app while creating or editing a presentation and supports [Chrome](https://www.google.ca/chrome/), [Safari](https://support.apple.com/downloads/safari), [Edge](https://www.microsoft.com/en-ca/windows/microsoft-edge) and [IE11](https://www.microsoft.com/en-ca/download/internet-explorer-11-for-windows-7-details.aspx). Your app should work with these browsers or provide graceful fallbacks if they don't.
 
+# Linking with Apps {#linking-with-apps}
+
+To link `raydiant-kit` with your application, run the following commands:
+
+```
+cd packages/raydiant-simulator && yarn build
+yarn link
+```
+
+Then, in the root directory of your application, run `yarn link raydiant-scripts`.chr
+
 # Deploying to the Dashboard {#deploying-to-dashboard}
 
 RaydiantKit is currently in _closed beta_, contact [support@raydiant.com](mailto:support@raydiant.com?subject=RaydiantKit%api%token%20and%20app%20id) and request an API token and app id to deploy your app.

@@ -1,17 +1,17 @@
 import deepEqual from 'fast-deep-equal';
+import querystring from 'querystring';
 import App from 'raydiant-elements/core/App';
 import Button from 'raydiant-elements/core/Button';
 import ThemeProvider from 'raydiant-elements/core/ThemeProvider';
+import ThemeSelector from 'raydiant-elements/core/ThemeSelector/ThemeSelector';
 import PresentationBuilder from 'raydiant-elements/presentation/PresentationBuilder';
 import PresentationPreview from 'raydiant-elements/presentation/PresentationPreview';
 import theme from 'raydiant-elements/theme';
 import * as themes from 'raydiant-kit/themes';
-import querystring from 'querystring';
 import React, { Component } from 'react';
 import AppLoader from './AppLoader';
 import logger from './logger';
 import mergeDefaultAppVars from './mergeDefaultAppVars';
-import ThemeSelector from 'raydiant-elements/core/ThemeSelector/ThemeSelector';
 
 const PRESENTATION_MIN_DURATION = 5;
 const EMPTY_PRESENTATION = { name: 'New Presentation', application_vars: {} };
@@ -24,7 +24,6 @@ class RaydiantAppSimulator extends Component {
     previewMode: 'horizontal',
     fullScreen: false,
     present: false,
-    hideControls: false,
     enableLogs: true,
     simulatorOptions: { presentations: [] },
   };
@@ -40,7 +39,6 @@ class RaydiantAppSimulator extends Component {
     }
     if (queryParams.fullScreen) {
       state.fullScreen = true;
-      state.hideControls = true;
     }
     if (queryParams.present) {
       state.present = true;
@@ -90,16 +88,6 @@ class RaydiantAppSimulator extends Component {
   hasStateChanged(key) {
     return !deepEqual(this.state[key], this.initialState[key]);
   }
-
-  startHideControlsTimer = () => {
-    if (this.state.fullScreen) {
-      clearTimeout(this.hideControlsTimeout);
-      this.setState({ hideControls: false });
-      this.hideControlsTimeout = setTimeout(() => {
-        this.setState({ hideControls: true });
-      }, 4000);
-    }
-  };
 
   // setOptions is called whenever the app is loaded. This happens
   // on first page load but also when the app code has changed, causing
@@ -213,13 +201,14 @@ class RaydiantAppSimulator extends Component {
   };
 
   renderControls() {
-    const { fullScreen, hideControls, present, simulatorOptions } = this.state;
+    const { fullScreen, present, simulatorOptions } = this.state;
     const shouldShowPlay = simulatorOptions.presentations.length > 1;
 
     return (
-      <ThemeSelector color={fullScreen ? 'dark' : 'light'}>
-        <div style={styles.controls(fullScreen, hideControls)}>
+      <ThemeSelector>
+        <div style={styles.controls}>
           <Button
+            color="primary"
             icon={fullScreen ? 'fullscreenExit' : 'fullscreen'}
             onClick={() => this.setState({ fullScreen: !fullScreen })}
           />
@@ -227,17 +216,20 @@ class RaydiantAppSimulator extends Component {
           {shouldShowPlay && (
             <span>
               <Button
+                color="primary"
                 icon="previous"
                 disabled={present}
                 onClick={this.previousPresentation}
               />
               &nbsp;
               <Button
+                color="primary"
                 icon={present ? 'pause' : 'play'}
                 onClick={() => this.setState({ present: !present })}
               />
               &nbsp;
               <Button
+                color="primary"
                 icon="next"
                 disabled={present}
                 onClick={this.nextPresentation}
@@ -308,10 +300,7 @@ class RaydiantAppSimulator extends Component {
     return (
       <ThemeProvider theme={theme}>
         <App color="grey">
-          <div
-            style={styles.container}
-            onMouseOver={this.startHideControlsTimer}
-          >
+          <div style={styles.container}>
             {this.renderControls()}
             <PresentationBuilder
               previewMode={previewMode}
@@ -351,7 +340,7 @@ const styles = {
     flexDirection: 'row',
     height: '100%',
   },
-  controls: (fullScreen, hideControls) => ({
+  controls: {
     position: 'fixed',
     zIndex: 100,
     bottom: 0,
@@ -360,9 +349,7 @@ const styles = {
     padding: 16,
     display: 'flex',
     justifyContent: 'center',
-    opacity: fullScreen && hideControls ? 0 : 1,
-    transition: fullScreen && hideControls ? 'opacity 1s ease-in' : '',
-  }),
+  },
 };
 
 export default RaydiantAppSimulator;

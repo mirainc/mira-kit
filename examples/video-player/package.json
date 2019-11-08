@@ -1,12 +1,12 @@
 {
   "name": "video-player",
-  "version": "4.0.4",
+  "version": "4.0.5",
   "private": true,
   "dependencies": {
     "netlify-cli": "^1.2.2",
     "prop-types": "^15.6.1",
-    "raydiant-kit": "^4.0.4",
-    "raydiant-scripts": "^4.0.4",
+    "raydiant-kit": "^4.0.5",
+    "raydiant-scripts": "^4.0.5",
     "react": "^16.4.0",
     "react-dom": "^16.4.0"
   },

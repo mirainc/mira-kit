@@ -20,6 +20,8 @@ export default function extractProperties(
       type: propType.type,
       optional: propType.optional,
       constraints: propType.constraints,
+      disable: propType.disable,
+      hide: propType.hide,
     };
 
     if (typeof propType.default !== 'undefined') {
@@ -39,9 +41,7 @@ export default function extractProperties(
 
       if (propType.optionsUrl && propType.options.length > 0) {
         throw new Error(
-          `Cannot set both an optionsUrl and options for selection '${
-            propType.label
-          }'`,
+          `Cannot set both an optionsUrl and options for selection '${propType.label}'`,
         );
       }
 

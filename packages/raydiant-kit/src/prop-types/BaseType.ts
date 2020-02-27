@@ -7,6 +7,8 @@ export interface PropType {
   constraints: { [key: string]: Constraint };
   helperText?: string;
   helperLink?: string;
+  hide?: boolean;
+  disable?: boolean;
 }
 
 export interface IBaseType {
@@ -46,6 +48,26 @@ export default class BaseType<P extends PropType> implements IBaseType {
 
   setConstraint(key: string, value: Constraint) {
     this.propType.constraints[key] = value;
+    return this;
+  }
+
+  hide(hide = true) {
+    this.propType.hide = hide;
+    return this;
+  }
+
+  show(show = true) {
+    this.propType.hide = !show;
+    return this;
+  }
+
+  disable(disable = true) {
+    this.propType.disable = disable;
+    return this;
+  }
+
+  enable(enable = true) {
+    this.propType.disable = !enable;
     return this;
   }
 

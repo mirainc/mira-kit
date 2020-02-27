@@ -16,8 +16,10 @@ class AppLoader extends Component {
       application_name: PropTypes.string,
     }).isRequired,
     theme: PropTypes.object,
+    selectedPaths: PropTypes.arrayOf(PropTypes.array),
     onLoad: PropTypes.func.isRequired,
-    onComplete: PropTypes.func,
+    onComplete: PropTypes.func.isRequired,
+    onPresentationProperties: PropTypes.func.isRequired,
     enableLogs: PropTypes.bool,
     isPresenting: PropTypes.bool,
     isFullscreen: PropTypes.bool,
@@ -58,7 +60,7 @@ class AppLoader extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { presentation, theme, auth } = this.props;
+    const { presentation, theme, auth, selectedPaths } = this.props;
     if (!this.checkPreviewErrors()) {
       // Send app vars if:
       //  - There are no errors.
@@ -72,6 +74,7 @@ class AppLoader extends Component {
         this.messenger.send('props', {
           presentation: { ...presentation, theme },
           auth,
+          selectedPaths,
         });
         this.hasSentInitialProps = true;
       }
@@ -81,10 +84,14 @@ class AppLoader extends Component {
         this.hasLoggedReady = true;
       }
     }
+
+    if (!deepEqual(selectedPaths, prevProps.selectedPaths)) {
+      this.messenger.send('selectedPaths', selectedPaths);
+    }
   }
 
   receiveMessage = (type, payload) => {
-    const { isPresenting, onComplete } = this.props;
+    const { isPresenting, onComplete, onPresentationProperties } = this.props;
 
     if (type === 'init') {
       this.hasSentInitialProps = false;
@@ -104,6 +111,8 @@ class AppLoader extends Component {
         this.logSuccess('onComplete received, play again.');
         setTimeout(() => this.messenger.send('play'));
       }
+    } else if (type === 'presentation_properties') {
+      onPresentationProperties(payload);
     }
   };
 

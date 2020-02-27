@@ -2,7 +2,10 @@
   "name": "raydiant-kit",
   "version": "0.0.0",
   "private": true,
-  "workspaces": ["packages/*", "examples/*"],
+  "workspaces": [
+    "packages/*",
+    "examples/*"
+  ],
   "main": "index.js",
   "repository": "git@github.com:mirainc/raydiant-kit.git",
   "scripts": {
@@ -18,10 +21,8 @@
     "deploy-docs": "netlify deploy -t $NETLIFY_TOKEN",
     "build-examples": "lerna run static",
     "deploy-examples": "lerna run deploy-static",
-    "encryptenv":
-      "jet encrypt docker/deploy.env docker/deploy.env.encrypted --key-path=mirainc_mira-kit.aes",
-    "decryptenv":
-      "jet decrypt docker/deploy.env.encrypted docker/deploy.env --key-path=mirainc_mira-kit.aes"
+    "encryptenv": "jet encrypt docker/deploy.env docker/deploy.env.encrypted --key-path=mirainc_mira-kit.aes",
+    "decryptenv": "jet decrypt docker/deploy.env.encrypted docker/deploy.env --key-path=mirainc_mira-kit.aes"
   },
   "devDependencies": {
     "@babel/core": "7.0.0-beta.42",
@@ -43,17 +44,22 @@
     "lerna": "^2.9.0",
     "lerna-changelog": "^0.7.0",
     "lint-staged": "^7.0.0",
-    "prettier": "1.11.1"
+    "prettier": "1.19.1"
   },
   "lint-staged": {
-    "*.{js,json,css,md}": ["prettier --write", "git add"]
+    "*.{js,json,css,md}": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "prettier": {
     "singleQuote": true,
     "trailingComma": "all"
   },
   "babel": {
-    "presets": ["react-app"]
+    "presets": [
+      "react-app"
+    ]
   },
   "env": {
     "browser": true,
@@ -61,8 +67,13 @@
   },
   "eslintConfig": {
     "parser": "babel-eslint",
-    "extends": ["react-app", "prettier"],
-    "plugins": ["prettier"]
+    "extends": [
+      "react-app",
+      "prettier"
+    ],
+    "plugins": [
+      "prettier"
+    ]
   },
   "dependencies": {
     "highlight.js": "^9.12.0"

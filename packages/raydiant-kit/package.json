@@ -1,6 +1,6 @@
 {
   "name": "raydiant-kit",
-  "version": "4.0.5",
+  "version": "4.1.0",
   "repository": "git@github.com:mirainc/raydiant-kit.git",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
@@ -9,7 +9,11 @@
     "test": "jest src --env=jsdom",
     "lint": "tslint --project ."
   },
-  "files": ["lib", "prop-types.js", "typings.d.ts"],
+  "files": [
+    "lib",
+    "prop-types.js",
+    "typings.d.ts"
+  ],
   "dependencies": {
     "prop-types": "^15.6.1",
     "react": "^16.4.0",
@@ -39,8 +43,17 @@
       "^.+\\.tsx?$": "ts-jest"
     },
     "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$",
-    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ],
     "rootDir": "src",
-    "setupFiles": ["<rootDir>/setupTests.ts"]
+    "setupFiles": [
+      "<rootDir>/setupTests.ts"
+    ]
   }
 }

@@ -10017,8 +10017,10 @@ raw-body@2.3.2:
     iconv-lite "0.4.19"
     unpipe "1.0.0"
 
-"raydiant-elements@file:../mira-elements/build/lib":
-  version "0.5.4"
+raydiant-elements@0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/raydiant-elements/-/raydiant-elements-0.6.0.tgz#43662ebc7c6e1c1d58917f05ae6588f6dee5862b"
+  integrity sha512-mVTb54ZUfl/92ddCMH0IRkLWCErYlEND6lDCYQsIoxlS2zMW3g3GAhT9QrRkTPaoBb5v6IcDSZZBacWtpGnSlA==
   dependencies:
     "@date-io/moment" "^1.3.5"
     "@material-ui/core" "~3.2.0"

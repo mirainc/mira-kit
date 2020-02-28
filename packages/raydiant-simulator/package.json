@@ -5,18 +5,22 @@
   "repository": "git@github.com:mirainc/raydiant-kit.git",
   "scripts": {
     "build": "yarn build:lib && yarn build:dist",
-    "build:lib":
-      "NODE_ENV=production BABEL_ENV=production babel src --out-dir lib",
+    "build:lib": "NODE_ENV=production BABEL_ENV=production babel src --out-dir lib",
     "build:dist": "NODE_ENV=production BABEL_ENV=production webpack"
   },
-  "files": ["lib", "dist", "preview.html", "preview.js"],
+  "files": [
+    "lib",
+    "dist",
+    "preview.html",
+    "preview.js"
+  ],
   "dependencies": {
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
     "eventemitter3": "^3.0.1",
     "fast-deep-equal": "^1.1.0",
     "prop-types": "^15.6.1",
     "querystring": "^0.2.0",
-    "raydiant-elements": "0.2.2",
+    "raydiant-elements": "0.6.0",
     "raydiant-kit": "^4.0.5",
     "raydiant-resources": "^4.0.5",
     "react": "^16.4.0",
@@ -35,7 +39,11 @@
     "webpack-dev-server": "2.11.0"
   },
   "babel": {
-    "presets": ["react-app"],
-    "plugins": ["transform-es2015-modules-commonjs"]
+    "presets": [
+      "react-app"
+    ],
+    "plugins": [
+      "transform-es2015-modules-commonjs"
+    ]
   }
 }

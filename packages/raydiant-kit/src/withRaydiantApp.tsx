@@ -1,7 +1,7 @@
 import * as EventEmitter from 'eventemitter3';
 import * as React from 'react';
 import ErrorMessage from './ErrorMessage';
-import frontpage from './themes/frontpage';
+import mapPresentationToProps from './mapPresentationToProps';
 
 export const ERROR_DISPLAY_TIME = 5000;
 export const RETRY_PRESENTATION_TIME = 15000;
@@ -135,37 +135,8 @@ export default function withRaydiantApp(
       );
     };
 
-    getPresentation() {
-      const { presentation } = this.props;
-      const theme = presentation.theme || {};
-      return {
-        name: presentation.name,
-        values: presentation.application_vars,
-        createdAt: presentation.created_at,
-        updatedAt: presentation.updated_at,
-        applicationId: presentation.application_id,
-        applicationDeploymentId: presentation.application_deployment_id,
-        applicationName: presentation.application_name,
-        theme: {
-          name: theme.name || frontpage.name,
-          backgroundColor: theme.background_color || frontpage.background_color,
-          bodyFont: theme.body_font || frontpage.body_font,
-          bodyTextColor: theme.body_text_color || frontpage.body_text_color,
-          headingFont: theme.heading_font || frontpage.heading_font,
-          headingTextColor:
-            theme.heading_text_color || frontpage.heading_text_color,
-          // These are optional fields and should not default to front page to allow
-          // apps to handle the default values if not set.
-          backgroundImage: theme.background_image,
-          backgroundImagePortrait: theme.background_image_portrait,
-          heading2Font: theme.heading_2_font,
-          heading2TextColor: theme.heading_2_text_color,
-          borderColor: theme.border_color,
-        },
-      };
-    }
-
     render() {
+      const { presentation } = this.props;
       const { error, isPlaying, playCount } = this.state;
 
       if (error) {
@@ -190,7 +161,7 @@ export default function withRaydiantApp(
       return (
         <App
           {...legacyApplicationVars}
-          presentation={this.getPresentation()}
+          presentation={mapPresentationToProps(presentation)}
           isPlaying={isPlaying}
           playCount={playCount}
           onReady={this.handlePresentationReady}

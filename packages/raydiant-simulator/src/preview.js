@@ -32,9 +32,7 @@ const requireConfig = () => {
 const config = requireConfig();
 if (!config) {
   throw new Error(
-    `Simulator failed to load config at path: ${
-      process.env.RAYDIANT_SIMULATOR_APP_CONFIG_PATH
-    }`,
+    `Simulator failed to load config at path: ${process.env.RAYDIANT_SIMULATOR_APP_CONFIG_PATH}`,
   );
 }
 
@@ -59,9 +57,7 @@ const requireApp = () => {
 const App = requireApp();
 if (!App) {
   throw new Error(
-    `Simulator failed to load app at path: ${
-      process.env.RAYDIANT_SIMULATOR_APP_INDEX_PATH
-    }`,
+    `Simulator failed to load app at path: ${process.env.RAYDIANT_SIMULATOR_APP_INDEX_PATH}`,
   );
 }
 
@@ -83,6 +79,22 @@ const requireIcon = () => {
 
 const icon = requireIcon();
 
+const requireGetProperties = () => {
+  try {
+    // For webpack dynamic require to work, we need to pass the env var directly to require.
+    const app = require(process.env.RAYDIANT_SIMULATOR_APP_INDEX_PATH);
+    // Support ES and CommonJS modules.
+    return app && typeof app === 'object' && app.getProperties
+      ? app.getProperties
+      : undefined;
+  } catch (err) {
+    console.error(err.message);
+    return false;
+  }
+};
+
+const getProperties = requireGetProperties();
+
 // Construct the application definition from the config file.
 const { properties, strings } = extractProperties(config.properties);
 const appVersion = {
@@ -103,6 +115,7 @@ ReactDOM.render(
     appVersion={appVersion}
     allowedRequestDomains={config.allowedRequestDomains}
     simulatorOptions={config.simulator}
+    getProperties={getProperties}
   >
     {props => <App {...props} />}
   </AppPreview>,

@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { Component } from 'react';
 import { createFileResource, createRequestResource } from 'raydiant-resources';
+import { mapPresentationToProps, extractProperties } from 'raydiant-kit';
 import createMessenger from './createMessenger';
 import { EventEmitter } from 'eventemitter3';
 
@@ -9,6 +10,7 @@ class AppPreview extends Component {
     appVersion: PropTypes.object.isRequired,
     allowedRequestDomains: PropTypes.arrayOf(PropTypes.string),
     simulatorOptions: PropTypes.object,
+    getProperties: PropTypes.func,
   };
 
   static defaultProps = {
@@ -18,6 +20,8 @@ class AppPreview extends Component {
 
   state = {
     presentation: null,
+    auth: null,
+    selectedPaths: [],
   };
 
   miraEvents = new EventEmitter();
@@ -60,16 +64,52 @@ class AppPreview extends Component {
     if (type === 'play') {
       this.miraEvents.emit('play');
     } else if (type === 'props') {
-      this.setState({
-        presentation: payload.presentation,
-        auth: payload.auth,
-      });
+      const { presentation, auth, selectedPaths } = payload;
+      this.setState(
+        { presentation, auth, selectedPaths },
+        this.runGetProperties,
+      );
+    } else if (type === 'selectedPaths') {
+      this.setState({ selectedPaths: payload }, this.runGetProperties);
     }
   };
 
+  async runGetProperties() {
+    const { presentation, selectedPaths } = this.state;
+    const { getProperties } = this.props;
+
+    if (typeof getProperties !== 'function') return;
+
+    const returnVal = getProperties({
+      presentation: mapPresentationToProps(presentation),
+      selectedPaths,
+    });
+
+    let properties;
+    if ('then' in returnVal) {
+      // returnVal is a promise
+      try {
+        // TODO: Handle canceling past promises
+        properties = await returnVal;
+      } catch (err) {
+        console.error(`Error occurred in getProperties: ${err.message}`);
+      }
+    } else {
+      // returnVal is new properties
+      properties = returnVal;
+    }
+
+    if (properties) {
+      this.messenger.send(
+        'presentation_properties',
+        extractProperties(properties),
+      );
+    }
+  }
+
   render() {
     const { allowedRequestDomains, children, simulatorOptions } = this.props;
-    const { presentation, auth } = this.state;
+    const { presentation, auth, selectedPaths } = this.state;
     // Don't render the app if we haven't received the presentation object yet.
     if (!presentation) return null;
     // Spreading app props will be deprecated. New apps should use the presentation
@@ -80,6 +120,7 @@ class AppPreview extends Component {
       ...legacyApplicationVars,
       presentation,
       auth,
+      selectedPaths,
       miraEvents: this.miraEvents,
       miraFileResource: createFileResource(this.privateFetch),
       // TODO: Remove config.allowedRequestDomains when miraRequestResource is finally removed.

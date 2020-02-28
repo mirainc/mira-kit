@@ -8,6 +8,7 @@ import PresentationBuilder from 'raydiant-elements/presentation/PresentationBuil
 import PresentationPreview from 'raydiant-elements/presentation/PresentationPreview';
 import theme from 'raydiant-elements/theme';
 import * as themes from 'raydiant-kit/themes';
+import { mapSelectedPathsToProps } from 'raydiant-kit';
 import React, { Component } from 'react';
 import AppLoader from './AppLoader';
 import logger from './logger';
@@ -26,6 +27,7 @@ class RaydiantAppSimulator extends Component {
     present: false,
     enableLogs: true,
     simulatorOptions: { presentations: [] },
+    selectedPaths: [],
   };
 
   componentWillMount() {
@@ -178,6 +180,23 @@ class RaydiantAppSimulator extends Component {
     this.setState(state);
   };
 
+  setPresentationProperties = ({ properties, strings }) => {
+    const { appVersion } = this.state;
+    this.setState({
+      appVersion: {
+        ...appVersion,
+        presentation_properties: properties,
+        strings,
+      },
+    });
+  };
+
+  setSelectedPaths = selectedPaths => {
+    this.setState({
+      selectedPaths: mapSelectedPathsToProps(selectedPaths),
+    });
+  };
+
   nextPresentation = () => {
     const { presentation, simulatorOptions } = this.state;
     const count = simulatorOptions.presentations.length;
@@ -194,7 +213,7 @@ class RaydiantAppSimulator extends Component {
     const count = simulatorOptions.presentations.length;
     let index = presentation.id;
     // Show the previous presentation in the list.
-    const previousIndex = ((index - 1) % count + count) % count;
+    const previousIndex = (((index - 1) % count) + count) % count;
     const previousPresentation = simulatorOptions.presentations[previousIndex];
 
     this.setState({ presentation: previousPresentation });
@@ -242,7 +261,13 @@ class RaydiantAppSimulator extends Component {
   }
 
   renderPreview(presentationPreview, errors, previewMode) {
-    const { enableLogs, present, fullScreen, simulatorOptions } = this.state;
+    const {
+      enableLogs,
+      present,
+      fullScreen,
+      simulatorOptions,
+      selectedPaths,
+    } = this.state;
 
     const presentation = {
       ...presentationPreview,
@@ -259,6 +284,7 @@ class RaydiantAppSimulator extends Component {
       <AppLoader
         presentation={presentation}
         theme={theme}
+        selectedPaths={selectedPaths}
         previewErrors={errors}
         enableLogs={enableLogs}
         isPresenting={present}
@@ -266,6 +292,7 @@ class RaydiantAppSimulator extends Component {
         auth={simulatorOptions.auth || {}}
         onLoad={this.setOptions}
         onComplete={this.nextPresentation}
+        onPresentationProperties={this.setPresentationProperties}
       />
     );
 
@@ -317,6 +344,7 @@ class RaydiantAppSimulator extends Component {
               soundZones={simulatorOptions.soundZones}
               playlists={simulatorOptions.playlists}
               minDuration={PRESENTATION_MIN_DURATION}
+              onSelectedPathChange={this.setSelectedPaths}
             >
               {(presentationPreview, errors, previewMode) =>
                 this.renderPreview(presentationPreview, errors, previewMode)

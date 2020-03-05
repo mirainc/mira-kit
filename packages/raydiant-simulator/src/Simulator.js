@@ -16,7 +16,6 @@ import mergeDefaultAppVars from './mergeDefaultAppVars';
 
 const PRESENTATION_MIN_DURATION = 5;
 const EMPTY_PRESENTATION = { name: 'New Presentation', application_vars: {} };
-const EMPTY_APP_VERSION = { icon_url: '', presentation_properties: [] };
 
 class RaydiantAppSimulator extends Component {
   initialState = {
@@ -312,7 +311,12 @@ class RaydiantAppSimulator extends Component {
     let { presentation, appVersion, simulatorOptions } = this.state;
 
     presentation = presentation || EMPTY_PRESENTATION;
-    appVersion = appVersion || EMPTY_APP_VERSION;
+
+    if (!appVersion) {
+      // rendering the preview also indirectly updates
+      // this.state.appVersion using the values defined in raydiant.config.js
+      return this.renderPreview(presentation, [], previewMode);
+    }
 
     presentation = {
       ...mergeDefaultAppVars(

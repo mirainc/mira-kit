@@ -312,7 +312,12 @@ class RaydiantAppSimulator extends Component {
     let { presentation, appVersion, simulatorOptions } = this.state;
 
     presentation = presentation || EMPTY_PRESENTATION;
-    appVersion = appVersion || EMPTY_APP_VERSION;
+
+    if (!appVersion) {
+      // rendering the preview also indirectly updates this.state.appVersion
+      // using the values defined in raydiant.config.js
+      return this.renderPreview(presentation, [], previewMode);
+    }
 
     presentation = {
       ...mergeDefaultAppVars(

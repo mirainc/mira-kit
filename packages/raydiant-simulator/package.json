@@ -21,8 +21,8 @@
     "prop-types": "^15.6.1",
     "querystring": "^0.2.0",
     "raydiant-elements": "0.6.0",
-    "raydiant-kit": "^4.1.0",
-    "raydiant-resources": "^4.1.0",
+    "raydiant-kit": "^4.1.1",
+    "raydiant-resources": "^4.1.1",
     "react": "^16.4.0",
     "react-dom": "^16.4.0"
   },

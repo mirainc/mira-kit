@@ -5,6 +5,7 @@ import {
   file,
   googleAuth,
   image,
+  imagePicker,
   number,
   oAuth,
   playlist,
@@ -344,7 +345,10 @@ test('Should extract properties from selection', () => {
       type: 'selection',
       name: 'options',
       optional: true,
-      options: [{ name: 'a', value: 'a' }, { name: 'b', value: 'b' }],
+      options: [
+        { name: 'a', value: 'a' },
+        { name: 'b', value: 'b' },
+      ],
       default: 'a',
       constraints: {},
     },
@@ -647,4 +651,27 @@ test('Should extract properties for playlist', () => {
       constraints: {},
     },
   ]);
+});
+
+test('Should extract properties for imagePicker', () => {
+  const images = [
+    {
+      id: 'id_1',
+      url:
+        'https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80',
+    },
+    {
+      id: 'id_2',
+      url:
+        'https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80',
+    },
+  ];
+  const propTypes = {
+    images: imagePicker().images(images),
+  };
+
+  const { properties, strings } = extractProperties(propTypes);
+  console.log('xxxxxxx');
+  console.log({ properties, strings });
+  console.log('xxxxxxx');
 });

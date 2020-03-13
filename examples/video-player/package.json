@@ -7,8 +7,8 @@
     "prop-types": "^15.6.1",
     "raydiant-kit": "^4.1.1",
     "raydiant-scripts": "^4.1.1",
-    "react": "^16.4.0",
-    "react-dom": "^16.4.0"
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0"
   },
   "scripts": {
     "start": "raydiant-scripts start",

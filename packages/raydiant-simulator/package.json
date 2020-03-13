@@ -23,8 +23,8 @@
     "raydiant-elements": "file:///Users/sebastiankey/github/mira-elements/build/lib",
     "raydiant-kit": "^4.1.1",
     "raydiant-resources": "^4.1.1",
-    "react": "^16.4.0",
-    "react-dom": "^16.4.0"
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0"
   },
   "devDependencies": {
     "@babel/cli": "7.0.0-beta.42",

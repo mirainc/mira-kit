@@ -55,7 +55,6 @@ export default function extractProperties(
     }
 
     if (propType.type === 'imagePicker') {
-      console.log('yyaaaaaaaaaaaaaaaaaaaahhh')
       prop.images = [];
 
       (propType as ImagePickerPropType).images.forEach(image => {

@@ -671,7 +671,4 @@ test('Should extract properties for imagePicker', () => {
   };
 
   const { properties, strings } = extractProperties(propTypes);
-  console.log('xxxxxxx');
-  console.log({ properties, strings });
-  console.log('xxxxxxx');
 });

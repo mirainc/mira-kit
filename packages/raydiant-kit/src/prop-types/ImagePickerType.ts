@@ -8,6 +8,7 @@ interface Image {
 export interface ImagePickerPropType extends PropType {
   images: Image[];
   value: string[];
+  imagesUrl: string;
 }
 
 export default class ImagePickerType extends BaseType<ImagePickerPropType> {
@@ -16,8 +17,8 @@ export default class ImagePickerType extends BaseType<ImagePickerPropType> {
     this.propType.images = [];
   }
 
-  images(images: Image[]) {
-    this.propType.images = images;
+  imagesUrl(url: string) {
+    this.propType.imagesUrl = url;
     return this;
   }
 }

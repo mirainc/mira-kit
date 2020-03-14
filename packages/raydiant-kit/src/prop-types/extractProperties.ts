@@ -56,6 +56,7 @@ export default function extractProperties(
 
     if (propType.type === 'imagePicker') {
       prop.images = [];
+      prop.images_url = propType.imagesUrl;
 
       (propType as ImagePickerPropType).images.forEach(image => {
         strings[image.id] = image.url;

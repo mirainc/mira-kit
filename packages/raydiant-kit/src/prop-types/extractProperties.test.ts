@@ -5,7 +5,7 @@ import {
   file,
   googleAuth,
   image,
-  imagePicker,
+  imagePickerField,
   number,
   oAuth,
   playlist,
@@ -653,22 +653,13 @@ test('Should extract properties for playlist', () => {
   ]);
 });
 
-test('Should extract properties for imagePicker', () => {
-  const images = [
-    {
-      id: 'id_1',
-      url:
-        'https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80',
-    },
-    {
-      id: 'id_2',
-      url:
-        'https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80',
-    },
-  ];
+test('Should extract properties from imagePickerField', () => {
   const propTypes = {
-    images: imagePicker().images(images),
+    imagesUrl: imagePickerField().imagesUrl('https://images.url'),
   };
 
   const { properties, strings } = extractProperties(propTypes);
+  expect(strings).toEqual({
+    imagesUrl: 'https://images.url',
+  });
 });

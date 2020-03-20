@@ -1,5 +1,5 @@
 import { IBaseType } from './BaseType';
-import { ImagePickerPropType } from './ImagePickerType';
+import { ImagePickerFieldPropType } from './ImagePickerFieldType';
 import { SelectionPropType } from './SelectionType';
 
 export default function extractProperties(
@@ -54,11 +54,11 @@ export default function extractProperties(
       });
     }
 
-    if (propType.type === 'imagePicker') {
+    if (propType.type === 'imagePickerField') {
       prop.images = [];
       prop.images_url = propType.imagesUrl;
 
-      (propType as ImagePickerPropType).images.forEach(image => {
+      (propType as ImagePickerFieldPropType).images.forEach(image => {
         strings[image.id] = image.url;
         prop.images.push(image);
       });

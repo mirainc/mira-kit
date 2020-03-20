@@ -3,7 +3,7 @@ import BooleanType from './BooleanType';
 import FacebookAuthType from './FacebookAuthType';
 import FileType from './FileType';
 import GoogleAuthType from './GoogleAuthType';
-import ImagePickerType from './ImagePickerType';
+import ImagePickerFieldType from './ImagePickerFieldType';
 import ImageType from './ImageType';
 import NumberType from './NumberType';
 import OAuthType from './OAuthType';
@@ -23,7 +23,7 @@ export const facebookAuth = () => new FacebookAuthType();
 export const file = (label: string) => new FileType(label);
 export const googleAuth = () => new GoogleAuthType();
 export const image = (label: string) => new ImageType(label);
-export const imagePicker = () => new ImagePickerType();
+export const imagePickerField = () => new ImagePickerFieldType();
 // tslint:disable-next-line
 export const number = (label: string) => new NumberType(label);
 export const oAuth = (label: string) => new OAuthType(label);

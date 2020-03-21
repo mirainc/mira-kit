@@ -660,6 +660,18 @@ test('Should extract properties from imagePickerField', () => {
 
   const { properties, strings } = extractProperties(propTypes);
   expect(strings).toEqual({
-    imagesUrl: 'https://images.url',
+    imagesUrl: 'Image Picker',
   });
+  expect(properties).toEqual([
+    {
+      name: 'imagesUrl',
+      type: 'imagePickerField',
+      optional: true,
+      constraints: {},
+      disable: undefined,
+      hide: undefined,
+      images: [],
+      images_url: 'https://images.url',
+    },
+  ]);
 });

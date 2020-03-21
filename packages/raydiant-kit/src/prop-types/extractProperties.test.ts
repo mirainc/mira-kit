@@ -1,21 +1,4 @@
-import {
-  array,
-  boolean,
-  facebookAuth,
-  file,
-  googleAuth,
-  image,
-  imagePickerField,
-  number,
-  oAuth,
-  playlist,
-  selection,
-  soundZone,
-  string,
-  text,
-  theme,
-  video,
-} from './';
+import { array, boolean, facebookAuth, file, googleAuth, image, imagePickerField, number, oAuth, playlist, selection, soundZone, string, text, theme, video } from './';
 import extractProperties from './extractProperties';
 import { defaultMaxSize } from './FileType';
 import { imageContentTypes } from './ImageType';
@@ -670,7 +653,6 @@ test('Should extract properties from imagePickerField', () => {
       constraints: {},
       disable: undefined,
       hide: undefined,
-      images: [],
       images_url: 'https://images.url',
     },
   ]);

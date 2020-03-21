@@ -6,7 +6,6 @@ interface Image {
 }
 
 export interface ImagePickerFieldPropType extends PropType {
-  images: Image[];
   value: string[];
   imagesUrl: string;
 }
@@ -16,7 +15,6 @@ export default class ImagePickerFieldType extends BaseType<
 > {
   constructor(label = 'Image Picker') {
     super(label, 'imagePickerField');
-    this.propType.images = [];
   }
 
   imagesUrl(url: string) {

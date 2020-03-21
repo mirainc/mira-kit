@@ -1,10 +1,5 @@
 import BaseType, { PropType } from './BaseType';
 
-interface Image {
-  id: string;
-  url: string;
-}
-
 export interface ImagePickerFieldPropType extends PropType {
   value: string[];
   imagesUrl: string;

@@ -9,7 +9,7 @@ import {
   oAuth,
   playlist,
   selection,
-  selectionWithImage,
+  selectionWithImages,
   soundZone,
   string,
   text,
@@ -653,9 +653,9 @@ test('Should extract properties for playlist', () => {
   ]);
 });
 
-test('Should extract properties from selectionWithImage', () => {
+test('Should extract properties from selectionWithImages', () => {
   const propTypes = {
-    imagesUrl: selectionWithImage().imagesUrl('https://images.url'),
+    imagesUrl: selectionWithImages().imagesUrl('https://images.url'),
   };
 
   const { properties, strings } = extractProperties(propTypes);
@@ -665,7 +665,7 @@ test('Should extract properties from selectionWithImage', () => {
   expect(properties).toEqual([
     {
       name: 'imagesUrl',
-      type: 'selectionWithImage',
+      type: 'selectionWithImages',
       optional: true,
       constraints: {},
       disable: undefined,

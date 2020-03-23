@@ -1,15 +1,15 @@
 import BaseType, { PropType } from './BaseType';
 
-export interface SelectionWithImagePropType extends PropType {
+export interface SelectionWithImagesPropType extends PropType {
   value: string[];
   imagesUrl: string;
 }
 
-export default class SelectionWithImageType extends BaseType<
-  SelectionWithImagePropType
+export default class SelectionWithImagesType extends BaseType<
+  SelectionWithImagesPropType
 > {
   constructor(label = 'Selection with image') {
-    super(label, 'selectionWithImage');
+    super(label, 'selectionWithImages');
   }
 
   imagesUrl(url: string) {

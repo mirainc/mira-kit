@@ -660,7 +660,7 @@ test('Should extract properties from selectionWithImages', () => {
 
   const { properties, strings } = extractProperties(propTypes);
   expect(strings).toEqual({
-    imagesUrl: 'Image Picker',
+    imagesUrl: 'Selection with images',
   });
   expect(properties).toEqual([
     {

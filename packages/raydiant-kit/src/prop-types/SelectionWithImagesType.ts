@@ -8,7 +8,7 @@ export interface SelectionWithImagesPropType extends PropType {
 export default class SelectionWithImagesType extends BaseType<
   SelectionWithImagesPropType
 > {
-  constructor(label = 'Selection with image') {
+  constructor(label = 'Selection with images') {
     super(label, 'selectionWithImages');
   }
 

@@ -1,4 +1,21 @@
-import { array, boolean, facebookAuth, file, googleAuth, image, imagePickerField, number, oAuth, playlist, selection, soundZone, string, text, theme, video } from './';
+import {
+  array,
+  boolean,
+  facebookAuth,
+  file,
+  googleAuth,
+  image,
+  number,
+  oAuth,
+  playlist,
+  selection,
+  selectionWithImage,
+  soundZone,
+  string,
+  text,
+  theme,
+  video,
+} from './';
 import extractProperties from './extractProperties';
 import { defaultMaxSize } from './FileType';
 import { imageContentTypes } from './ImageType';
@@ -636,9 +653,9 @@ test('Should extract properties for playlist', () => {
   ]);
 });
 
-test('Should extract properties from imagePickerField', () => {
+test('Should extract properties from selectionWithImage', () => {
   const propTypes = {
-    imagesUrl: imagePickerField().imagesUrl('https://images.url'),
+    imagesUrl: selectionWithImage().imagesUrl('https://images.url'),
   };
 
   const { properties, strings } = extractProperties(propTypes);
@@ -648,7 +665,7 @@ test('Should extract properties from imagePickerField', () => {
   expect(properties).toEqual([
     {
       name: 'imagesUrl',
-      type: 'imagePickerField',
+      type: 'selectionWithImage',
       optional: true,
       constraints: {},
       disable: undefined,

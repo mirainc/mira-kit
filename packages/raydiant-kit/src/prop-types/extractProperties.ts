@@ -53,7 +53,7 @@ export default function extractProperties(
       });
     }
 
-    if (propType.type === 'imagePickerField') {
+    if (propType.type === 'selectionWithImages') {
       prop.images_url = propType.imagesUrl;
     }
 

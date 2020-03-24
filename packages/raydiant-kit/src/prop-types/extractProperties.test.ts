@@ -380,6 +380,53 @@ test('Should extract properties from selection', () => {
   ]);
 });
 
+test('Should extract properties from selection with thumbnail', () => {
+  const propTypes = {
+    optional: selection('Selection'),
+    required: selection('Selection').required(),
+    options: selection('Selection')
+      .option('a', 'A', 'http://thumnbail.url.a')
+      .option('b', 'B', 'http://thumnbail.url.b')
+      .default('a'),
+  };
+
+  const { properties, strings } = extractProperties(propTypes);
+  expect(strings).toEqual({
+    optional: 'Selection',
+    required: 'Selection',
+    options: 'Selection',
+    a: 'A',
+    b: 'B',
+  });
+  expect(properties).toEqual([
+    {
+      type: 'selection',
+      name: 'optional',
+      optional: true,
+      options: [],
+      constraints: {},
+    },
+    {
+      type: 'selection',
+      name: 'required',
+      optional: false,
+      options: [],
+      constraints: {},
+    },
+    {
+      type: 'selection',
+      name: 'options',
+      optional: true,
+      options: [
+        { name: 'a', value: 'a', thumbnailUrl: 'http://thumnbail.url.a' },
+        { name: 'b', value: 'b', thumbnailUrl: 'http://thumnbail.url.b' },
+      ],
+      default: 'a',
+      constraints: {},
+    },
+  ]);
+});
+
 test('Should not allow selection types to specify options and optionUrl', () => {
   const propTypes = {
     selection: selection('Selection')

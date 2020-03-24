@@ -9,6 +9,7 @@ import {
   oAuth,
   playlist,
   selection,
+  selectionWithImages,
   soundZone,
   string,
   text,
@@ -344,7 +345,10 @@ test('Should extract properties from selection', () => {
       type: 'selection',
       name: 'options',
       optional: true,
-      options: [{ name: 'a', value: 'a' }, { name: 'b', value: 'b' }],
+      options: [
+        { name: 'a', value: 'a' },
+        { name: 'b', value: 'b' },
+      ],
       default: 'a',
       constraints: {},
     },
@@ -645,6 +649,28 @@ test('Should extract properties for playlist', () => {
       helper_text: 'playlist_helperText',
       helper_link: 'https://example.com/help',
       constraints: {},
+    },
+  ]);
+});
+
+test('Should extract properties from selectionWithImages', () => {
+  const propTypes = {
+    imagesUrl: selectionWithImages().imagesUrl('https://images.url'),
+  };
+
+  const { properties, strings } = extractProperties(propTypes);
+  expect(strings).toEqual({
+    imagesUrl: 'Selection with images',
+  });
+  expect(properties).toEqual([
+    {
+      name: 'imagesUrl',
+      type: 'selectionWithImages',
+      optional: true,
+      constraints: {},
+      disable: undefined,
+      hide: undefined,
+      images_url: 'https://images.url',
     },
   ]);
 });

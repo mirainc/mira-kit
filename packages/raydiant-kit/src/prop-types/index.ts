@@ -8,6 +8,7 @@ import NumberType from './NumberType';
 import OAuthType from './OAuthType';
 import PlaylistType from './PlaylistType';
 import SelectionType from './SelectionType';
+import SelectionWithImagesType from './SelectionWithImagesType';
 import SoundZoneType from './SoundZoneType';
 import StringType from './StringType';
 import TextType from './TextType';
@@ -22,6 +23,7 @@ export const facebookAuth = () => new FacebookAuthType();
 export const file = (label: string) => new FileType(label);
 export const googleAuth = () => new GoogleAuthType();
 export const image = (label: string) => new ImageType(label);
+export const selectionWithImages = () => new SelectionWithImagesType();
 // tslint:disable-next-line
 export const number = (label: string) => new NumberType(label);
 export const oAuth = (label: string) => new OAuthType(label);

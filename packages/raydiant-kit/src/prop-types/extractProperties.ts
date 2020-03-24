@@ -53,6 +53,10 @@ export default function extractProperties(
       });
     }
 
+    if (propType.type === 'selectionWithImages') {
+      prop.images_url = propType.imagesUrl;
+    }
+
     if (propType.type === 'array') {
       const singularStringKey = `${propName}_singular`;
       strings[singularStringKey] = propType.singularLabel;

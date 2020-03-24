@@ -49,7 +49,11 @@ export default function extractProperties(
 
       (propType as SelectionPropType).options.forEach(option => {
         strings[option.value] = option.label;
-        prop.options.push({ name: option.value, value: option.value });
+        prop.options.push({
+          name: option.value,
+          value: option.value,
+          thumbnailUrl: option.thumbnailUrl,
+        });
       });
     }
 

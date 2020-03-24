@@ -3,6 +3,7 @@ import BaseType, { PropType } from './BaseType';
 interface Option {
   label: string;
   value: string;
+  thumbnailUrl?: string;
 }
 
 export interface SelectionPropType extends PropType {
@@ -28,9 +29,9 @@ export default class SelectionType extends BaseType<SelectionPropType> {
     return this;
   }
 
-  option(value: string, label: string) {
+  option(value: string, label: string, thumbnailUrl?: string) {
     if (!label) label = value;
-    this.propType.options.push({ label, value });
+    this.propType.options.push({ label, value, thumbnailUrl });
     return this;
   }
 

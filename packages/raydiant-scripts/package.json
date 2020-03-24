@@ -1,6 +1,6 @@
 {
   "name": "raydiant-scripts",
-  "version": "4.1.1",
+  "version": "4.1.2",
   "repository": "git@github.com:mirainc/raydiant-kit.git",
   "bin": {
     "raydiant-scripts": "./bin/raydiant-scripts.js"
@@ -41,12 +41,12 @@
     "mime-types": "^2.1.18",
     "minimist": "^1.2.0",
     "node-fetch": "^2.1.2",
-    "object-assign": "^4.1.1",
+    "object-assign": "^4.1.2",
     "postcss-flexbugs-fixes": "3.2.0",
     "postcss-loader": "2.0.10",
     "promise": "^8.0.1",
     "raf": "^3.4.0",
-    "raydiant-simulator": "^4.1.1",
+    "raydiant-simulator": "^4.1.2",
     "react-dev-utils": "^5.0.0",
     "style-loader": "0.19.1",
     "uglifyjs-webpack-plugin": "1.1.6",

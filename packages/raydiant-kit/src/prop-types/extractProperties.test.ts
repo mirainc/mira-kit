@@ -19,6 +19,7 @@ import {
 import extractProperties from './extractProperties';
 import { defaultMaxSize } from './FileType';
 import { imageContentTypes } from './ImageType';
+import { radioSelection } from './index';
 import { videoContentTypes } from './VideoType';
 
 test('Should return empty properties and strings for empty propTypes', () => {
@@ -380,6 +381,53 @@ test('Should extract properties from selection', () => {
   ]);
 });
 
+test('Should extract properties from radio selection', () => {
+  const propTypes = {
+    optional: radioSelection('RadioSelection'),
+    required: radioSelection('RadioSelection').required(),
+    options: radioSelection('RadioSelection')
+      .option('a', 'A')
+      .option('b', 'B', 'lock')
+      .default('a'),
+  };
+
+  const { properties, strings } = extractProperties(propTypes);
+  expect(strings).toEqual({
+    optional: 'RadioSelection',
+    required: 'RadioSelection',
+    options: 'RadioSelection',
+    a: 'A',
+    b: 'B',
+  });
+  expect(properties).toEqual([
+    {
+      type: 'radioSelection',
+      name: 'optional',
+      optional: true,
+      options: [],
+      constraints: {},
+    },
+    {
+      type: 'radioSelection',
+      name: 'required',
+      optional: false,
+      options: [],
+      constraints: {},
+    },
+    {
+      type: 'radioSelection',
+      name: 'options',
+      optional: true,
+      options: [
+        { name: 'a', value: 'a' },
+        { name: 'b', value: 'b', iconName: 'lock' },
+      ],
+      default: 'a',
+      constraints: {},
+    },
+  ]);
+});
+
 test('Should extract properties from selection with thumbnail', () => {
   const propTypes = {
     optional: selection('Selection'),
@@ -715,8 +763,6 @@ test('Should extract properties from selectionWithImages', () => {
       type: 'selectionWithImages',
       optional: true,
       constraints: {},
-      disable: undefined,
-      hide: undefined,
       images_url: 'https://images.url',
     },
   ]);

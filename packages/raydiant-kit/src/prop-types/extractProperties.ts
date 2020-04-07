@@ -1,4 +1,5 @@
 import { IBaseType } from './BaseType';
+import { RadioSelectionPropType } from './RadioSelectionType';
 import { SelectionPropType } from './SelectionType';
 
 export default function extractProperties(
@@ -53,6 +54,19 @@ export default function extractProperties(
           name: option.value,
           value: option.value,
           thumbnailUrl: option.thumbnailUrl,
+        });
+      });
+    }
+
+    if (propType.type === 'radioSelection') {
+      prop.options = [];
+
+      (propType as RadioSelectionPropType).options.forEach(option => {
+        strings[option.value] = option.label;
+        prop.options.push({
+          name: option.value,
+          value: option.value,
+          iconName: option.iconName,
         });
       });
     }

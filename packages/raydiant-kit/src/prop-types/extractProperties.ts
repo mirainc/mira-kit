@@ -64,7 +64,7 @@ export default function extractProperties(
       (propType as RadioSelectionPropType).options.forEach(option => {
         strings[option.value] = option.label;
         prop.options.push({
-          name: option.value,
+          label: option.label,
           value: option.value,
           iconName: option.iconName,
         });

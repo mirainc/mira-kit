@@ -8,7 +8,6 @@ interface Option {
 
 export interface RadioSelectionPropType extends PropType {
   default: string;
-  multiple: string;
   options: Option[];
 }
 

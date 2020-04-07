@@ -19,7 +19,7 @@ import {
 import extractProperties from './extractProperties';
 import { defaultMaxSize } from './FileType';
 import { imageContentTypes } from './ImageType';
-import { radioSelection } from './index';
+import { radioSelection } from './RadioSelectionType';
 import { videoContentTypes } from './VideoType';
 
 test('Should return empty properties and strings for empty propTypes', () => {

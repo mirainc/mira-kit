@@ -3,7 +3,7 @@ import BaseType, { PropType } from './BaseType';
 interface Option {
   label: string;
   value: string;
-  iconName: string;
+  thumbnailUrl?: string;
 }
 
 export interface RadioSelectionPropType extends PropType {
@@ -22,9 +22,9 @@ export default class RadioSelection extends BaseType<RadioSelectionPropType> {
     return this;
   }
 
-  option(value: string, label: string, iconName?: string) {
+  option(value: string, label: string, thumbnailUrl?: string) {
     if (!label) label = value;
-    this.propType.options.push({ label, value, iconName });
+    this.propType.options.push({ label, value, thumbnailUrl });
     return this;
   }
 }

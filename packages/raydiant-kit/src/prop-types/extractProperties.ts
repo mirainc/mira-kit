@@ -66,7 +66,7 @@ export default function extractProperties(
         prop.options.push({
           label: option.label,
           value: option.value,
-          iconName: option.iconName,
+          thumbnailUrl: option.thumbnailUrl,
         });
       });
     }

@@ -8,6 +8,7 @@ import {
   number,
   oAuth,
   playlist,
+  radioSelection,
   selection,
   selectionWithImages,
   soundZone,
@@ -19,7 +20,6 @@ import {
 import extractProperties from './extractProperties';
 import { defaultMaxSize } from './FileType';
 import { imageContentTypes } from './ImageType';
-import { radioSelection } from './RadioSelectionType';
 import { videoContentTypes } from './VideoType';
 
 test('Should return empty properties and strings for empty propTypes', () => {
@@ -387,7 +387,7 @@ test('Should extract properties from radio selection', () => {
     required: radioSelection('RadioSelection').required(),
     options: radioSelection('RadioSelection')
       .option('a', 'A')
-      .option('b', 'B', 'lock')
+      .option('b', 'B', 'http://thumnbail.url.a')
       .default('a'),
   };
 
@@ -419,8 +419,8 @@ test('Should extract properties from radio selection', () => {
       name: 'options',
       optional: true,
       options: [
-        { name: 'a', value: 'a' },
-        { name: 'b', value: 'b', iconName: 'lock' },
+        { label: 'A', value: 'a' },
+        { label: 'B', value: 'b', thumbnailUrl: 'http://thumnbail.url.a' },
       ],
       default: 'a',
       constraints: {},

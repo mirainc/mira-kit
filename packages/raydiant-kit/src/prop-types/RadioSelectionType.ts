@@ -8,6 +8,7 @@ interface Option {
 
 export interface RadioSelectionPropType extends PropType {
   default: string;
+  exclusive: boolean;
   options: Option[];
 }
 
@@ -19,6 +20,11 @@ export default class RadioSelection extends BaseType<RadioSelectionPropType> {
 
   default(value: string) {
     this.propType.default = value;
+    return this;
+  }
+
+  exclusive(value = true) {
+    this.propType.exclusive = value;
     return this;
   }
 

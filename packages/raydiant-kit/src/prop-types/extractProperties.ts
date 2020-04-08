@@ -60,6 +60,7 @@ export default function extractProperties(
 
     if (propType.type === 'radioSelection') {
       prop.options = [];
+      prop.exclusive = propType.exclusive;
 
       (propType as RadioSelectionPropType).options.forEach(option => {
         strings[option.value] = option.label;

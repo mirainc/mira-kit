@@ -1,5 +1,6 @@
 import { IBaseType } from './BaseType';
 import { SelectionPropType } from './SelectionType';
+import { ToggleButtonGroupPropType } from './ToggleButtonGroupType';
 
 export default function extractProperties(
   propTypes?: { [key: string]: IBaseType },
@@ -51,6 +52,20 @@ export default function extractProperties(
         strings[option.value] = option.label;
         prop.options.push({
           name: option.value,
+          value: option.value,
+          thumbnailUrl: option.thumbnailUrl,
+        });
+      });
+    }
+
+    if (propType.type === 'toggleButtonGroup') {
+      prop.options = [];
+      prop.exclusive = propType.exclusive;
+
+      (propType as ToggleButtonGroupPropType).options.forEach(option => {
+        strings[option.value] = option.label;
+        prop.options.push({
+          label: option.label,
           value: option.value,
           thumbnailUrl: option.thumbnailUrl,
         });

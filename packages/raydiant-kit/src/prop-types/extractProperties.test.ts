@@ -14,6 +14,7 @@ import {
   string,
   text,
   theme,
+  toggleButtonGroup,
   video,
 } from './';
 import extractProperties from './extractProperties';
@@ -380,6 +381,55 @@ test('Should extract properties from selection', () => {
   ]);
 });
 
+test('Should extract properties from toggleButtonGroup', () => {
+  const propTypes = {
+    optional: toggleButtonGroup('ToggleButtonGroup'),
+    required: toggleButtonGroup('ToggleButtonGroup').required(),
+    options: toggleButtonGroup('ToggleButtonGroup')
+      .option('a', 'A')
+      .option('b', 'B', 'http://thumnbail.url.a')
+      .exclusive()
+      .default('a'),
+  };
+
+  const { properties, strings } = extractProperties(propTypes);
+  expect(strings).toEqual({
+    optional: 'ToggleButtonGroup',
+    required: 'ToggleButtonGroup',
+    options: 'ToggleButtonGroup',
+    a: 'A',
+    b: 'B',
+  });
+  expect(properties).toEqual([
+    {
+      type: 'toggleButtonGroup',
+      name: 'optional',
+      optional: true,
+      options: [],
+      constraints: {},
+    },
+    {
+      type: 'toggleButtonGroup',
+      name: 'required',
+      optional: false,
+      options: [],
+      constraints: {},
+    },
+    {
+      type: 'toggleButtonGroup',
+      name: 'options',
+      exclusive: true,
+      optional: true,
+      options: [
+        { label: 'A', value: 'a' },
+        { label: 'B', value: 'b', thumbnailUrl: 'http://thumnbail.url.a' },
+      ],
+      default: 'a',
+      constraints: {},
+    },
+  ]);
+});
+
 test('Should extract properties from selection with thumbnail', () => {
   const propTypes = {
     optional: selection('Selection'),
@@ -715,8 +765,6 @@ test('Should extract properties from selectionWithImages', () => {
       type: 'selectionWithImages',
       optional: true,
       constraints: {},
-      disable: undefined,
-      hide: undefined,
       images_url: 'https://images.url',
     },
   ]);

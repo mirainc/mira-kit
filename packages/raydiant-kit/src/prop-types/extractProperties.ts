@@ -1,6 +1,6 @@
 import { IBaseType } from './BaseType';
-import { RadioSelectionPropType } from './RadioSelectionType';
 import { SelectionPropType } from './SelectionType';
+import { ToggleButtonGroupPropType } from './ToggleButtonGroupType';
 
 export default function extractProperties(
   propTypes?: { [key: string]: IBaseType },
@@ -58,11 +58,11 @@ export default function extractProperties(
       });
     }
 
-    if (propType.type === 'radioSelection') {
+    if (propType.type === 'toggleButtonGroup') {
       prop.options = [];
       prop.exclusive = propType.exclusive;
 
-      (propType as RadioSelectionPropType).options.forEach(option => {
+      (propType as ToggleButtonGroupPropType).options.forEach(option => {
         strings[option.value] = option.label;
         prop.options.push({
           label: option.label,

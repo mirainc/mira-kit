@@ -6,15 +6,17 @@ interface Option {
   thumbnailUrl?: string;
 }
 
-export interface RadioSelectionPropType extends PropType {
+export interface ToggleButtonGroupPropType extends PropType {
   default: string;
   exclusive: boolean;
   options: Option[];
 }
 
-export default class RadioSelection extends BaseType<RadioSelectionPropType> {
+export default class ToggleButtonGroup extends BaseType<
+  ToggleButtonGroupPropType
+> {
   constructor(label: string) {
-    super(label, 'radioSelection');
+    super(label, 'toggleButtonGroup');
     this.propType.options = [];
   }
 

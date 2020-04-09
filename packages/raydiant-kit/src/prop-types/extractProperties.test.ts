@@ -8,13 +8,13 @@ import {
   number,
   oAuth,
   playlist,
-  radioSelection,
   selection,
   selectionWithImages,
   soundZone,
   string,
   text,
   theme,
+  toggleButtonGroup,
   video,
 } from './';
 import extractProperties from './extractProperties';
@@ -381,11 +381,11 @@ test('Should extract properties from selection', () => {
   ]);
 });
 
-test('Should extract properties from radio selection', () => {
+test('Should extract properties from toggleButtonGroup', () => {
   const propTypes = {
-    optional: radioSelection('RadioSelection'),
-    required: radioSelection('RadioSelection').required(),
-    options: radioSelection('RadioSelection')
+    optional: toggleButtonGroup('ToggleButtonGroup'),
+    required: toggleButtonGroup('ToggleButtonGroup').required(),
+    options: toggleButtonGroup('ToggleButtonGroup')
       .option('a', 'A')
       .option('b', 'B', 'http://thumnbail.url.a')
       .exclusive()
@@ -394,29 +394,29 @@ test('Should extract properties from radio selection', () => {
 
   const { properties, strings } = extractProperties(propTypes);
   expect(strings).toEqual({
-    optional: 'RadioSelection',
-    required: 'RadioSelection',
-    options: 'RadioSelection',
+    optional: 'ToggleButtonGroup',
+    required: 'ToggleButtonGroup',
+    options: 'ToggleButtonGroup',
     a: 'A',
     b: 'B',
   });
   expect(properties).toEqual([
     {
-      type: 'radioSelection',
+      type: 'toggleButtonGroup',
       name: 'optional',
       optional: true,
       options: [],
       constraints: {},
     },
     {
-      type: 'radioSelection',
+      type: 'toggleButtonGroup',
       name: 'required',
       optional: false,
       options: [],
       constraints: {},
     },
     {
-      type: 'radioSelection',
+      type: 'toggleButtonGroup',
       name: 'options',
       exclusive: true,
       optional: true,

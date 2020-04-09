@@ -7,13 +7,13 @@ import ImageType from './ImageType';
 import NumberType from './NumberType';
 import OAuthType from './OAuthType';
 import PlaylistType from './PlaylistType';
-import RadioSelectionType from './RadioSelectionType';
 import SelectionType from './SelectionType';
 import SelectionWithImagesType from './SelectionWithImagesType';
 import SoundZoneType from './SoundZoneType';
 import StringType from './StringType';
 import TextType from './TextType';
 import ThemeType from './ThemeType';
+import toggleButtonGroupType from './ToggleButtonGroupType';
 import VideoType from './VideoType';
 
 export const array = (label: string, singular: string) =>
@@ -31,7 +31,8 @@ export const oAuth = (label: string) => new OAuthType(label);
 export const playlist = (label: string) => new PlaylistType(label);
 export const soundZone = (label: string) => new SoundZoneType(label);
 export const selection = (label: string) => new SelectionType(label);
-export const radioSelection = (label: string) => new RadioSelectionType(label);
+export const toggleButtonGroup = (label: string) =>
+  new toggleButtonGroupType(label);
 // tslint:disable-next-line
 export const string = (label: string) => new StringType(label);
 export const text = (label: string) => new TextType(label);

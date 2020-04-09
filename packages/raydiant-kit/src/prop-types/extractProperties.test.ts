@@ -388,6 +388,7 @@ test('Should extract properties from radio selection', () => {
     options: radioSelection('RadioSelection')
       .option('a', 'A')
       .option('b', 'B', 'http://thumnbail.url.a')
+      .exclusive()
       .default('a'),
   };
 
@@ -417,6 +418,7 @@ test('Should extract properties from radio selection', () => {
     {
       type: 'radioSelection',
       name: 'options',
+      exclusive: true,
       optional: true,
       options: [
         { label: 'A', value: 'a' },

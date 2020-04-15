@@ -68,6 +68,7 @@ export default function extractProperties(
           label: option.label,
           value: option.value,
           thumbnailUrl: option.thumbnailUrl,
+          disabled: option.disabled,
         });
       });
     }

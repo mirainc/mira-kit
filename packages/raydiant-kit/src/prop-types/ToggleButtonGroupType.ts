@@ -4,6 +4,7 @@ interface Option {
   label: string;
   value: string;
   thumbnailUrl?: string;
+  disabled?: boolean;
 }
 
 export interface ToggleButtonGroupPropType extends PropType {
@@ -30,9 +31,14 @@ export default class ToggleButtonGroup extends BaseType<
     return this;
   }
 
-  option(value: string, label: string, thumbnailUrl?: string) {
+  option(
+    value: string,
+    label: string,
+    thumbnailUrl?: string,
+    disabled?: boolean,
+  ) {
     if (!label) label = value;
-    this.propType.options.push({ label, value, thumbnailUrl });
+    this.propType.options.push({ label, value, thumbnailUrl, disabled });
     return this;
   }
 }

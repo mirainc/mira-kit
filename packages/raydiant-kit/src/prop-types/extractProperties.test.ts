@@ -387,7 +387,7 @@ test('Should extract properties from toggleButtonGroup', () => {
     required: toggleButtonGroup('ToggleButtonGroup').required(),
     options: toggleButtonGroup('ToggleButtonGroup')
       .option('a', 'A')
-      .option('b', 'B', 'http://thumnbail.url.a')
+      .option('b', 'B', 'http://thumnbail.url.a', true)
       .exclusive()
       .default('a'),
   };
@@ -422,7 +422,12 @@ test('Should extract properties from toggleButtonGroup', () => {
       optional: true,
       options: [
         { label: 'A', value: 'a' },
-        { label: 'B', value: 'b', thumbnailUrl: 'http://thumnbail.url.a' },
+        {
+          label: 'B',
+          value: 'b',
+          thumbnailUrl: 'http://thumnbail.url.a',
+          disabled: true,
+        },
       ],
       default: 'a',
       constraints: {},

@@ -1,6 +1,6 @@
 {
   "name": "raydiant-resources",
-  "version": "4.1.5",
+  "version": "4.1.6",
   "repository": "git@github.com:mirainc/raydiant-kit.git",
   "main": "lib/index.js",
   "scripts": {

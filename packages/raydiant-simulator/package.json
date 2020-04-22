@@ -1,6 +1,6 @@
 {
   "name": "raydiant-simulator",
-  "version": "4.1.6",
+  "version": "4.1.7",
   "main": "lib/index.js",
   "repository": "git@github.com:mirainc/raydiant-kit.git",
   "scripts": {
@@ -21,8 +21,8 @@
     "prop-types": "^15.6.1",
     "querystring": "^0.2.0",
     "raydiant-elements": "0.7.8",
-    "raydiant-kit": "^4.1.5",
-    "raydiant-resources": "^4.1.6",
+    "raydiant-kit": "^4.1.7",
+    "raydiant-resources": "^4.1.7",
     "react": "^16.8.0",
     "react-dom": "^16.8.0"
   },

@@ -1,12 +1,12 @@
 {
   "name": "menu",
-  "version": "4.1.6",
+  "version": "4.1.7",
   "private": true,
   "dependencies": {
     "netlify-cli": "^1.2.2",
     "prop-types": "^15.6.1",
-    "raydiant-kit": "^4.1.5",
-    "raydiant-scripts": "^4.1.6",
+    "raydiant-kit": "^4.1.7",
+    "raydiant-scripts": "^4.1.7",
     "react": "^16.8.0",
     "react-dom": "^16.8.0"
   },

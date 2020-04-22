@@ -1,6 +1,6 @@
 {
   "name": "create-raydiant-app",
-  "version": "4.1.6",
+  "version": "4.1.7",
   "repository": "git@github.com:mirainc/raydiant-kit.git",
   "bin": {
     "create-raydiant-app": "./index.js"

@@ -6,6 +6,7 @@ import GoogleAuthType from './GoogleAuthType';
 import ImageType from './ImageType';
 import NumberType from './NumberType';
 import OAuthType from './OAuthType';
+import OneDriveAuthType from './OneDriveAuthType';
 import PlaylistType from './PlaylistType';
 import SelectionType from './SelectionType';
 import SelectionWithImagesType from './SelectionWithImagesType';
@@ -28,6 +29,7 @@ export const selectionWithImages = () => new SelectionWithImagesType();
 // tslint:disable-next-line
 export const number = (label: string) => new NumberType(label);
 export const oAuth = (label: string) => new OAuthType(label);
+export const onedriveAuth = () => new OneDriveAuthType();
 export const playlist = (label: string) => new PlaylistType(label);
 export const soundZone = (label: string) => new SoundZoneType(label);
 export const selection = (label: string) => new SelectionType(label);

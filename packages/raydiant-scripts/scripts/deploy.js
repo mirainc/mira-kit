@@ -83,6 +83,7 @@ async function deploy() {
         // These risk clobbering user defined strings, these should
         // be part of the main application object and have their own
         // db columns.
+        nameLabel: config.nameLabel,
         description: config.description,
         callToAction: config.callToAction,
       },

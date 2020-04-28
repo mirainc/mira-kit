@@ -185,7 +185,10 @@ class RaydiantAppSimulator extends Component {
       appVersion: {
         ...appVersion,
         presentation_properties: properties,
-        strings,
+        strings: {
+          ...appVersion.strings,
+          ...strings,
+        },
       },
     });
   };

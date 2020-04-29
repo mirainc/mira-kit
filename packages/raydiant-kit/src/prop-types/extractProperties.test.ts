@@ -16,6 +16,7 @@ import {
   text,
   theme,
   toggleButtonGroup,
+  userGoogleAuth,
   video,
 } from './';
 import extractProperties from './extractProperties';
@@ -697,6 +698,31 @@ test('Should extract properties for googleAuth', () => {
     {
       type: 'googleAuth',
       name: 'googleAuth',
+      optional: false,
+      auth_url: 'https://example.com/auth',
+      verify_url: 'https://example.com/verify',
+      verify_qs_param: 'accessToken',
+      logout_url: 'https://example.com/logout',
+      logout_qs_param: 'accessToken',
+      constraints: {},
+    },
+  ]);
+});
+
+test('Should extract properties for userGoogleAuth', () => {
+  const propTypes = {
+    userGoogleAuth: userGoogleAuth()
+      .authUrl('https://example.com/auth')
+      .verifyUrl('https://example.com/verify', 'accessToken')
+      .logoutUrl('https://example.com/logout', 'accessToken')
+      .required(),
+  };
+
+  const { properties } = extractProperties(propTypes);
+  expect(properties).toEqual([
+    {
+      type: 'userGoogleAuth',
+      name: 'userGoogleAuth',
       optional: false,
       auth_url: 'https://example.com/auth',
       verify_url: 'https://example.com/verify',

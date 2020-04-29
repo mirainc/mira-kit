@@ -102,6 +102,7 @@ export default function extractProperties(
       propType.type === 'oAuth' ||
       propType.type === 'facebookAuth' ||
       propType.type === 'googleAuth' ||
+      propType.type === 'userGoogleAuth' ||
       propType.type === 'onedriveAuth'
     ) {
       const {

@@ -15,6 +15,7 @@ import StringType from './StringType';
 import TextType from './TextType';
 import ThemeType from './ThemeType';
 import toggleButtonGroupType from './ToggleButtonGroupType';
+import UserGoogleAuthType from './UserGoogleAuthType';
 import VideoType from './VideoType';
 
 export const array = (label: string, singular: string) =>
@@ -39,6 +40,7 @@ export const toggleButtonGroup = (label: string) =>
 export const string = (label: string) => new StringType(label);
 export const text = (label: string) => new TextType(label);
 export const theme = (label?: string) => new ThemeType(label);
+export const userGoogleAuth = () => new UserGoogleAuthType();
 export const video = (label: string) => new VideoType(label);
 
 export { default as extractProperties } from './extractProperties';

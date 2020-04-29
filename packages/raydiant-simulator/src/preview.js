@@ -105,7 +105,6 @@ const appVersion = {
     ...strings,
     // This will clobber user-defined strings of the same name.
     // We should be storing these as their own db columns eventually.
-    nameLabel: config.nameLabel,
     description: config.description,
     callToAction: config.callToAction,
   },

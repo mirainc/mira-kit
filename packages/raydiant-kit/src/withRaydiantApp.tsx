@@ -21,6 +21,10 @@ interface RaydiantAppProps {
     application_deployment_id: string;
     application_name: string;
   };
+  device: {
+    id: string;
+    name: string;
+  };
   miraEvents: EventEmitter;
   strings: { [key: string]: string };
   isDashboard: boolean;
@@ -136,7 +140,6 @@ export default function withRaydiantApp(
     };
 
     render() {
-      const { presentation } = this.props;
       const { error, isPlaying, playCount } = this.state;
 
       if (error) {
@@ -149,6 +152,8 @@ export default function withRaydiantApp(
       }
 
       const {
+        presentation,
+        device,
         miraEvents,
         miraFileResource,
         miraRequestResource,
@@ -162,6 +167,7 @@ export default function withRaydiantApp(
         <App
           {...legacyApplicationVars}
           presentation={mapPresentationToProps(presentation)}
+          device={device}
           isPlaying={isPlaying}
           playCount={playCount}
           onReady={this.handlePresentationReady}

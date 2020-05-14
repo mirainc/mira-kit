@@ -15,6 +15,10 @@ class AppLoader extends Component {
       application_id: PropTypes.string,
       application_name: PropTypes.string,
     }).isRequired,
+    device: PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+    }),
     theme: PropTypes.object,
     selectedPaths: PropTypes.arrayOf(PropTypes.array),
     onLoad: PropTypes.func.isRequired,
@@ -60,7 +64,7 @@ class AppLoader extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { presentation, theme, auth, selectedPaths } = this.props;
+    const { presentation, device, theme, auth, selectedPaths } = this.props;
     if (!this.checkPreviewErrors()) {
       // Send app vars if:
       //  - There are no errors.
@@ -69,10 +73,12 @@ class AppLoader extends Component {
       if (
         !this.hasSentInitialProps ||
         !deepEqual(presentation, prevProps.presentation) ||
-        !deepEqual(auth, prevProps.auth)
+        !deepEqual(auth, prevProps.auth) ||
+        !deepEqual(device, prevProps.device)
       ) {
         this.messenger.send('props', {
           presentation: { ...presentation, theme },
+          device,
           auth,
           selectedPaths,
         });

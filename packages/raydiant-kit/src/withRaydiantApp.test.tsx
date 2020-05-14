@@ -39,6 +39,10 @@ const createProps = () => ({
   },
   isDashboard: false,
   isThumbnail: false,
+  device: {
+    id: 'my-device',
+    name: 'My Device',
+  },
 });
 
 const App: React.SFC<any> = () => <div />;
@@ -52,7 +56,7 @@ test('Should render app', () => {
   const app = wrapper.find(App);
   expect(app.length).toEqual(1);
   const appProps = app.props();
-  expect(Object.keys(appProps).length).toEqual(12);
+  expect(Object.keys(appProps).length).toEqual(13);
   expect(appProps.presentation.name).toEqual(props.presentation.name);
   expect(appProps.presentation.values).toEqual(
     props.presentation.application_vars,
@@ -94,6 +98,8 @@ test('Should render app', () => {
   expect(appProps.isDashboard).toEqual(true);
   expect(appProps.isThumbnail).toEqual(true);
   expect(appProps.miraEvents).toBeInstanceOf(EventEmitter);
+  expect(appProps.device.id).toEqual('my-device');
+  expect(appProps.device.name).toEqual('My Device');
 });
 
 test('Should render error', () => {

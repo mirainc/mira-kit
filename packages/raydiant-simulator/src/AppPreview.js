@@ -19,6 +19,7 @@ class AppPreview extends Component {
   };
 
   state = {
+    device: null,
     presentation: null,
     auth: null,
     selectedPaths: [],
@@ -64,9 +65,9 @@ class AppPreview extends Component {
     if (type === 'play') {
       this.miraEvents.emit('play');
     } else if (type === 'props') {
-      const { presentation, auth, selectedPaths } = payload;
+      const { presentation, device, auth, selectedPaths } = payload;
       this.setState(
-        { presentation, auth, selectedPaths },
+        { presentation, device, auth, selectedPaths },
         this.runGetProperties,
       );
     } else if (type === 'selectedPaths') {
@@ -109,7 +110,7 @@ class AppPreview extends Component {
 
   render() {
     const { allowedRequestDomains, children, simulatorOptions } = this.props;
-    const { presentation, auth, selectedPaths } = this.state;
+    const { presentation, device, auth, selectedPaths } = this.state;
     // Don't render the app if we haven't received the presentation object yet.
     if (!presentation) return null;
     // Spreading app props will be deprecated. New apps should use the presentation
@@ -119,6 +120,7 @@ class AppPreview extends Component {
     const props = {
       ...legacyApplicationVars,
       presentation,
+      device,
       auth,
       selectedPaths,
       miraEvents: this.miraEvents,

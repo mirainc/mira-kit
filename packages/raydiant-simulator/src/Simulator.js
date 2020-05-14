@@ -285,6 +285,7 @@ class RaydiantAppSimulator extends Component {
     const appLoader = (
       <AppLoader
         presentation={presentation}
+        device={simulatorOptions.device}
         theme={theme}
         selectedPaths={selectedPaths}
         previewErrors={errors}

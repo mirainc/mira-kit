@@ -8,6 +8,7 @@ import NumberType from './NumberType';
 import OAuthType from './OAuthType';
 import OneDriveAuthType from './OneDriveAuthType';
 import PlaylistType from './PlaylistType';
+import PosterMyWallAuthType from './PosterMyWallAuthType';
 import SelectionType from './SelectionType';
 import SelectionWithImagesType from './SelectionWithImagesType';
 import SoundZoneType from './SoundZoneType';
@@ -31,6 +32,7 @@ export const number = (label: string) => new NumberType(label);
 export const oAuth = (label: string) => new OAuthType(label);
 export const onedriveAuth = () => new OneDriveAuthType();
 export const playlist = (label: string) => new PlaylistType(label);
+export const postermywallAuth = () => new PosterMyWallAuthType();
 export const soundZone = (label: string) => new SoundZoneType(label);
 export const selection = (label: string) => new SelectionType(label);
 export const toggleButtonGroup = (label: string) =>

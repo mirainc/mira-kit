@@ -1,4 +1,4 @@
-type Constraint = string | number | Array<string | number>;
+type Constraint = string | number | Array<string | number> | { regex: string; errorMessage: string };
 
 export interface PropType {
   label: string;

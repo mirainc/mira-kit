@@ -18,4 +18,9 @@ export default class StringType extends BaseType<StringPropType> {
     this.setConstraint('maxlength', maxLength);
     return this;
   }
+
+  format(regex: string, errorMessage: string) {
+    this.setConstraint('format', { regex, errorMessage });
+    return this;
+  }
 }

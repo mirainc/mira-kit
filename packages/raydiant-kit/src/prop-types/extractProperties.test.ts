@@ -502,6 +502,7 @@ test('Should extract properties from string', () => {
     helper: string('String')
       .helperText('helperText')
       .helperLink('http://helper.link'),
+    formattedString: string('String').format('regex', 'error message'),
   };
 
   const { properties, strings } = extractProperties(propTypes);
@@ -510,6 +511,7 @@ test('Should extract properties from string', () => {
     required: 'String',
     default: 'String',
     helper: 'String',
+    formattedString: 'String',
     helper_helperText: 'helperText',
   });
   expect(properties).toEqual([
@@ -529,6 +531,14 @@ test('Should extract properties from string', () => {
       helper_text: 'helper_helperText',
       helper_link: 'http://helper.link',
       constraints: {},
+    },
+    {
+      type: 'string',
+      name: 'formattedString',
+      optional: true,
+      constraints: {
+        format: { regex: 'regex', errorMessage: 'error message' },
+      },
     },
   ]);
 });

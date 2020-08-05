@@ -131,6 +131,20 @@ export default function extractProperties(
       prop.logout_qs_param = logoutQsParam;
     }
 
+    if (propType.type === 'modal') {
+      prop.sourceUrl = propType.sourceUrl;
+
+      if (propType.backgroundColor !== undefined) {
+        prop.backgroundColor = propType.backgroundColor;
+      }
+      if (propType.hoveredBackgroundColor !== undefined) {
+        prop.hoveredBackgroundColor = propType.hoveredBackgroundColor;
+      }
+      if (propType.textColor !== undefined) {
+        prop.textColor = propType.textColor;
+      }
+    }
+
     properties.push(prop);
   });
 

@@ -5,6 +5,7 @@ import {
   file,
   googleAuth,
   image,
+  modal,
   number,
   oAuth,
   onedriveAuth,
@@ -432,6 +433,60 @@ test('Should extract properties from toggleButtonGroup', () => {
         },
       ],
       default: 'a',
+      constraints: {},
+    },
+  ]);
+});
+
+test('Should extract properties from modal', () => {
+  const propTypes = {
+    modalButton: modal('Open a modal', 'embeddable-URL'),
+    modalButtonWithBackgroundColor: modal('Modal button with custom background color', 'embeddable-URL')
+      .background('#AAAAAA'),
+    modalButtonWithHoveredColor: modal('Modal button with custom hovered color', 'embeddable-URL')
+      .background('#AAAAAA').hoveredBackground('#BBBBBB'),
+    modalButtonWithTextColor: modal('Modal button with custom text color', 'embeddable-URL')
+      .textColor('black'),
+  };
+
+  const { properties, strings } = extractProperties(propTypes);
+  expect(strings).toEqual({
+    modalButton: 'Open a modal',
+    modalButtonWithBackgroundColor: 'Modal button with custom background color',
+    modalButtonWithHoveredColor: 'Modal button with custom hovered color',
+    modalButtonWithTextColor: 'Modal button with custom text color',
+  });
+  expect(properties).toEqual([
+    {
+      type: 'modal',
+      name: 'modalButton',
+      optional: true,
+      sourceUrl: 'embeddable-URL',
+      constraints: {},
+    },
+    {
+      type: 'modal',
+      name: 'modalButtonWithBackgroundColor',
+      optional: true,
+      sourceUrl: 'embeddable-URL',
+      backgroundColor: '#AAAAAA',
+      constraints: {},
+    },
+    {
+      type: 'modal',
+      name: 'modalButtonWithHoveredColor',
+      optional: true,
+      sourceUrl: 'embeddable-URL',
+      backgroundColor: '#AAAAAA',
+      hoveredBackgroundColor: '#BBBBBB',
+      constraints: {},
+    },
+    {
+      type: 'modal',
+      name: 'modalButtonWithTextColor',
+      optional: true,
+      sourceUrl: 'embeddable-URL',
+      textColor: 'black',
       constraints: {},
     },
   ]);

@@ -20,7 +20,7 @@
     "fast-deep-equal": "^1.1.0",
     "prop-types": "^15.6.1",
     "querystring": "^0.2.0",
-    "raydiant-elements": "^0.8.13",
+    "raydiant-elements": "^0.8.14",
     "raydiant-kit": "^4.5.0",
     "raydiant-resources": "^4.5.0",
     "react": "^16.8.0",

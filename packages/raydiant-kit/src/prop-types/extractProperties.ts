@@ -1,3 +1,4 @@
+import { AutocompletePropType } from './AutocompleteType';
 import { IBaseType } from './BaseType';
 import { SelectionPropType } from './SelectionType';
 import { ToggleButtonGroupPropType } from './ToggleButtonGroupType';
@@ -54,6 +55,30 @@ export default function extractProperties(
           name: option.value,
           value: option.value,
           thumbnailUrl: option.thumbnailUrl,
+        });
+      });
+    }
+
+    if (propType.type === 'autocomplete') {
+      prop.options = [];
+      prop.multiple = propType.multiple;
+      prop.placeholder = propType.placeholder;
+      prop.limit_tags = propType.limitTags;
+
+      if (propType.optionsUrl && propType.options.length > 0) {
+        throw new Error(
+          `Cannot set both an optionsUrl and options for autocomplete '${propType.label}'`,
+        );
+      }
+
+      prop.options_url = propType.optionsUrl;
+      prop.query_param_name = propType.queryParamName;
+
+      (propType as AutocompletePropType).options.forEach(option => {
+        strings[option.value] = option.label;
+        prop.options.push({
+          name: option.value,
+          value: option.value,
         });
       });
     }

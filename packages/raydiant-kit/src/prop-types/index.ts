@@ -1,4 +1,5 @@
 import ArrayType from './ArrayType';
+import AutocompleteType from './AutocompleteType';
 import BooleanType from './BooleanType';
 import FacebookAuthType from './FacebookAuthType';
 import FileType from './FileType';
@@ -37,6 +38,7 @@ export const playlist = (label: string) => new PlaylistType(label);
 export const postermywallAuth = () => new PosterMyWallAuthType();
 export const soundZone = (label: string) => new SoundZoneType(label);
 export const selection = (label: string) => new SelectionType(label);
+export const autocomplete = (label: string) => new AutocompleteType(label);
 export const toggleButtonGroup = (label: string) =>
   new toggleButtonGroupType(label);
 // tslint:disable-next-line

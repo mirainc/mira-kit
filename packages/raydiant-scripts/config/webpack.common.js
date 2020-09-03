@@ -79,6 +79,13 @@ module.exports = {
               // that come with their own babel plugins. See NextJS for how we might to this.
               babelrc: false,
               presets: [require.resolve('babel-preset-react-app')],
+              plugins: [
+                [
+                  require.resolve(
+                    '@babel/plugin-proposal-async-generator-functions',
+                  ),
+                ],
+              ],
               // This is a feature of `babel-loader` for webpack (not Babel itself).
               // It enables caching results in ./node_modules/.cache/babel-loader/
               // directory for faster rebuilds.

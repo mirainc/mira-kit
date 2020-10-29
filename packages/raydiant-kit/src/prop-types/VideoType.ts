@@ -6,7 +6,7 @@ export const videoContentTypes = [
   'video/mpeg',
   'video/quicktime',
   'video/x-m4v',
-  '.webm',
+  'video/webm',
 ];
 export default class VideoType extends FileType {
   constructor(label: string) {

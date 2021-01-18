@@ -9,6 +9,7 @@ import {
   number,
   oAuth,
   onedriveAuth,
+  password,
   playlist,
   postermywallAuth,
   selection,
@@ -633,6 +634,53 @@ test('Should extract properties from text', () => {
       helper_text: 'helper_helperText',
       helper_link: 'http://helper.link',
       constraints: {},
+    },
+  ]);
+});
+
+test('Should extract properties from password', () => {
+  const propTypes = {
+    optional: password('String'),
+    required: password('String').required(),
+    default: password('String').default('default'),
+    helper: password('String')
+      .helperText('helperText')
+      .helperLink('http://helper.link'),
+    maxLength: password('String').maxLength(44),
+  };
+
+  const { properties, strings } = extractProperties(propTypes);
+  expect(strings).toEqual({
+    optional: 'String',
+    required: 'String',
+    default: 'String',
+    helper: 'String',
+    helper_helperText: 'helperText',
+    maxLength: 'String',
+  });
+  expect(properties).toEqual([
+    { type: 'password', name: 'optional', optional: true, constraints: {} },
+    { type: 'password', name: 'required', optional: false, constraints: {} },
+    {
+      type: 'password',
+      name: 'default',
+      optional: true,
+      default: 'default',
+      constraints: {},
+    },
+    {
+      type: 'password',
+      name: 'helper',
+      optional: true,
+      helper_text: 'helper_helperText',
+      helper_link: 'http://helper.link',
+      constraints: {},
+    },
+    {
+      type: 'password',
+      name: 'maxLength',
+      optional: true,
+      constraints: {maxlength: 44},
     },
   ]);
 });

@@ -318,12 +318,14 @@ test('Should extract properties from selection', () => {
     optionsUrl: selection('Selection').optionsUrl('https://options.url'),
     searchable: selection('Selection').multiple().searchable(),
     selectable: selection('Selection').multiple().selectable(),
-    sorting: selection('Selection')
+    sortable: selection('Selection')
       .multiple()
       .searchable()
-      .sortBy('default', 'Original')
-      .sortBy('label', 'Name')
-      .sortBy('rightLabel', 'Price', true),
+      .sortable([
+        { label: 'Original', by: 'default' },
+        { label: 'Name', by: 'label' },
+        { label: 'Price', by: 'rightLabel' },
+      ]),
   };
 
   const { properties, strings } = extractProperties(propTypes);
@@ -339,7 +341,7 @@ test('Should extract properties from selection', () => {
     optionsUrl: 'Selection',
     searchable: 'Selection',
     selectable: 'Selection',
-    sorting: 'Selection',
+    sortable: 'Selection',
   });
   expect(properties).toEqual([
     {
@@ -412,17 +414,17 @@ test('Should extract properties from selection', () => {
     },
     {
       type: 'selection',
-      name: 'sorting',
+      name: 'sortable',
       multiple: true,
       searchable: true,
       optional: true,
       constraints: {},
       options: [],
-      sorting: {
-        default: { name: 'Original', isNumeric: false },
-        label: { name: 'Name', isNumeric: false },
-        rightLabel: { name: 'Price', isNumeric: true },
-      },
+      sortable: [
+        { label: 'Original', by: 'default' },
+        { label: 'Name', by: 'label' },
+        { label: 'Price', by: 'rightLabel' },
+      ],
     },
   ]);
 });

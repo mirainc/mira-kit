@@ -7,15 +7,11 @@ interface Option {
   thumbnailUrl?: string;
 }
 
-type SortKey = 'default' | 'label' | 'rightLabel';
-
-interface SortConf {
-  name: string,
-  isNumeric?: boolean,
-}
-
-type Sorting = {
-  [K in SortKey]?: SortConf;
+interface SortOption {
+  label: string,
+  by: 'default' | 'label' | 'rightLabel',
+  type?: 'string' | 'number' | 'boolean',
+  defaultDirection?: 'asc' | 'desc',
 }
 
 export interface SelectionPropType extends PropType {
@@ -23,9 +19,9 @@ export interface SelectionPropType extends PropType {
   multiple: boolean;
   searchable: boolean;
   selectable: boolean;
+  sortable?: SortOption[];
   options: Option[];
   optionsUrl: string;
-  sorting?: Sorting;
 }
 
 export default class SelectionType extends BaseType<SelectionPropType> {
@@ -54,6 +50,11 @@ export default class SelectionType extends BaseType<SelectionPropType> {
     return this;
   }
 
+  sortable(sortOptions: SortOption[]) {
+    this.propType.sortable = sortOptions;
+    return this;
+  }
+
   option(value: string, label: string, thumbnailUrl?: string) {
     if (!label) label = value;
     this.propType.options.push({ label, value, thumbnailUrl });
@@ -62,14 +63,6 @@ export default class SelectionType extends BaseType<SelectionPropType> {
 
   optionsUrl(url: string) {
     this.propType.optionsUrl = url;
-    return this;
-  }
-
-  sortBy(key: SortKey, name: string, isNumeric = false) {
-    this.propType.sorting = {
-      ...this.propType.sorting,
-      [key]: {name, isNumeric},
-    };
     return this;
   }
 }

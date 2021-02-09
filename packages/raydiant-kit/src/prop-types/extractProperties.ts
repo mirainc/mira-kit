@@ -41,7 +41,7 @@ export default function extractProperties(
       prop.multiple = propType.multiple;
       prop.searchable = propType.searchable;
       prop.selectable = propType.selectable;
-      prop.sorting = propType.sorting;
+      prop.sortable = propType.sortable;
 
       if (propType.optionsUrl && propType.options.length > 0) {
         throw new Error(

@@ -316,6 +316,16 @@ test('Should extract properties from selection', () => {
       .helperLink('http://helper.link'),
     multiple: selection('Selection').multiple(),
     optionsUrl: selection('Selection').optionsUrl('https://options.url'),
+    searchable: selection('Selection').multiple().searchable(),
+    selectable: selection('Selection').multiple().selectable(),
+    sortable: selection('Selection')
+      .multiple()
+      .searchable()
+      .sortable([
+        { label: 'Original', by: 'default' },
+        { label: 'Name', by: 'label' },
+        { label: 'Price', by: 'rightLabel' },
+      ]),
   };
 
   const { properties, strings } = extractProperties(propTypes);
@@ -329,6 +339,9 @@ test('Should extract properties from selection', () => {
     helper_helperText: 'helperText',
     multiple: 'Selection',
     optionsUrl: 'Selection',
+    searchable: 'Selection',
+    selectable: 'Selection',
+    sortable: 'Selection',
   });
   expect(properties).toEqual([
     {
@@ -380,6 +393,38 @@ test('Should extract properties from selection', () => {
       constraints: {},
       options: [],
       options_url: 'https://options.url',
+    },
+    {
+      type: 'selection',
+      name: 'searchable',
+      multiple: true,
+      searchable: true,
+      optional: true,
+      constraints: {},
+      options: [],
+    },
+    {
+      type: 'selection',
+      name: 'selectable',
+      multiple: true,
+      selectable: true,
+      optional: true,
+      constraints: {},
+      options: [],
+    },
+    {
+      type: 'selection',
+      name: 'sortable',
+      multiple: true,
+      searchable: true,
+      optional: true,
+      constraints: {},
+      options: [],
+      sortable: [
+        { label: 'Original', by: 'default' },
+        { label: 'Name', by: 'label' },
+        { label: 'Price', by: 'rightLabel' },
+      ],
     },
   ]);
 });

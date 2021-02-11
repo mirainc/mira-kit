@@ -10429,10 +10429,10 @@ raw-body@2.3.2:
     iconv-lite "0.4.19"
     unpipe "1.0.0"
 
-raydiant-elements@^0.12.1:
-  version "0.12.2"
-  resolved "https://registry.yarnpkg.com/raydiant-elements/-/raydiant-elements-0.12.2.tgz#7ce2a7686c41a21c046dde4513582f66a1403720"
-  integrity sha512-R16U96kRb9F329HvXi5sy5CWCLFY655//3mk4ECe3+AQ9xTVxofldr7P/4mpi9dH20bY2sstQEeRJkBXkMFCCg==
+raydiant-elements@^0.12.3:
+  version "0.12.3"
+  resolved "https://registry.yarnpkg.com/raydiant-elements/-/raydiant-elements-0.12.3.tgz#c25c1ae3dbbe8a786b25184dd6980b7d82491104"
+  integrity sha512-xNla+nnhjUQVfAxl85YKAkmG+WMX6XxAexobAnpQGH1xrvWHDWl7u2/XgYZbX3qLh+B00hTd45YMPaGnglcTZA==
   dependencies:
     "@date-io/moment" "^1.3.5"
     "@material-ui/core" "4.9.5"
